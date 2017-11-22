@@ -28,7 +28,7 @@ while i < n:
 orderlist = sorted(numberdic.items(), key=lambda item:item[1], reverse=True)
 total = len(orderlist)
 i = 0;
-'''
+
 while i < total:
 	print orderlist[i][1]
 	fw = open(prefix+'single_user_post/'+str(i)+'_'+str(orderlist[i][0])+suffix, 'w')
@@ -36,7 +36,7 @@ while i < total:
 		fw.write(line)
 	fw.close()
 	i += 1
-'''
+
 fw = open(prefix+'posttimes'+suffix, 'w')
 for i in range(total):
 	fw.write(orderlist[i][0])
