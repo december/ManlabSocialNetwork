@@ -2,6 +2,8 @@ import scipy as sp
 import numpy as np
 
 users = 7268
+ts = 1321286400 #start timestamps
+te = 1322150400 #end timestamps
 uid = list();
 iddic = {};
 friend = {};
@@ -39,7 +41,8 @@ def MStep():
 
 
 def SingleObj(data, u):
-	
+	n = len(data)
+	for i in range(n):
 
 
 
