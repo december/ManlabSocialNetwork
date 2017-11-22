@@ -11,8 +11,8 @@ theta1 = np.zeros(users) #one of spherical coordinates of phi distribution
 theta2 = np.zeros(users) #one of spherical coordinates of phi distribution
 theta3 = np.zeros(users) #one of spherical coordinates of phi distribution
 theta4 = np.zeros(users) #one of spherical coordinates of phi distribution
-pi = np.zeros([users, users]) #parameter pi (based on edges), row is sender while col is receiver
-x = np.zeros([users, users]) #parameter x (based on edges), row is sender while col is receiver
+pi = sp.sparse.coo_matrix((users, users)) #parameter pi (based on edges), row is sender while col is receiver
+x = sp.sparse.coo_matrix((users, users)) #parameter x (based on edges), row is sender while col is receiver
 
 def EStep():
 
