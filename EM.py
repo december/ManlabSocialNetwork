@@ -46,7 +46,11 @@ def LnLc(c, tau): #ln fromulation of one cascades's likelihood on tau(do not inc
 		s += np.log(omega[u]) - omega[u] * item[1] + np.log(pi[uc, u]) - item[2] * np.log(x[uc, u]) + np.log(Phi(tau)[u])
 	for item in nrusc[c]:
 		u = iddic[author[item[0]]]
-		result = 1 + pi[uc, u] * x[uc, u] ** (-1 * item[2]) * Phi(tau)[u] * (np.exp(-1 * omega[u] * item[1]) - 1)
+		exponent = -1 * omega[u] * item[1]
+		estimate = -1
+		if exponent >= -100:
+			estimate = np.exp(exponent) - 1
+		result = 1 + pi[uc, u] * x[uc, u] ** (-1 * item[2]) * Phi(tau)[u] * estimate
 		s += np.log(result)
 	return s
 
