@@ -5,11 +5,18 @@ users = 7268
 ts = 1321286400 #start timestamps
 te = 1322150400 #end timestamps
 uid = list()
-iddic = {}
-friend = {}
-rusc = {}
-nrusc = {}
-depth = {}
+iddic = {} #from user id to user index
+friend = {} #from user id to its followers' user id
+rusc = {} #from cascade id to rusc sets and records
+nrusc = {} #from cascade id to nrusc sets and records
+depth = {} #from tweet id to depth
+author = {} #from tweet id to user id
+timestamp = {} #from tweet id to timestamp
+posts = {} #from user index to post times
+q = {} #from cascade id to q function
+lc = {} #from cascade id to log-likelihood function value
+
+gamma = 1.0 #log barrier
 
 lbd = np.zeros(users) #parameter lambda which have calculated before
 omega = np.zeros(users) #parameter omega
@@ -17,48 +24,96 @@ theta1 = np.zeros(users) #one of spherical coordinates of phi distribution
 theta2 = np.zeros(users) #one of spherical coordinates of phi distribution
 theta3 = np.zeros(users) #one of spherical coordinates of phi distribution
 theta4 = np.zeros(users) #one of spherical coordinates of phi distribution
-pi = sp.sparse.coo_matrix((users, users)) #parameter pi (based on edges), row is sender while col is receiver
-x = sp.sparse.coo_matrix((users, users)) #parameter x (based on edges), row is sender while col is receiver
+pi = sp.sparse.lil_matrix((users, users)) #parameter pi (based on edges), row is sender while col is receiver
+x = sp.sparse.lil_matrix((users, users)) #parameter x (based on edges), row is sender while col is receiver
 
-def Phi1():
-	return np.cos(theta1) * np.cos(theta1)
-
-def Phi2():
-	return np.sin(theta1) * np.sin(theta1) * np.cos(theta2) * np.cos(theta2)
-
-def Phi3():
-	return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.cos(theta3) * np.cos(theta3)
-
-def Phi4():
-	return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.cos(theta4) * np.cos(theta4)
-
-def Phi5():
+def Phi(idx):
+	if idx == 0:
+		return np.cos(theta1) * np.cos(theta1)
+	if idx == 1:
+		return np.sin(theta1) * np.sin(theta1) * np.cos(theta2) * np.cos(theta2)
+	if idx == 2:
+		return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.cos(theta3) * np.cos(theta3)
+	if idx == 3:
+		return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.cos(theta4) * np.cos(theta4)
 	return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.sin(theta4) * np.sin(theta4)
 
-def Q():
+def LnLc(c, tau): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
+	uc = iddic[author[c]]
+	s = np.log(lbd[uc]) + np.log(Phi(tau)[uc])
+	for item in rusc[c]:
+		u = iddic[author[item[0]]]
+		s += np.log(omega[u]) - omega[u] * item[1] + np.log(pi[uc, u]) - item[2] * np.log(x[uc, u]) + np.log(Phi(tau)[u])
+	for item in nrusc[c]:
+		u = iddic[author[item[0]]]
+		result = 1 + pi[uc, u] * x[uc, u] ** (-1 * item[2]) * Phi(tau)[u] * (np.exp(-1 * omega[u] * item[1]) - 1)
+		s += np.log(result)
+	return s
 
+def QF(c): #calculate q funciton with tricks
+	for i in range(5):
+		lc[c][i] = LnLc(c, i)
+	for i in range(5):
+		s = 0
+		for j in range(5):
+			s += np.exp(lc[c][j] - lc[c][i])
+		q[c][i] = 1 / s
 
-def EStep():
+def ObjF(): #formulation of objective function (include barrier) (the smaller the better)
+	obj = (np.log(omega).sum() + np.log((1-pi).toarray()).sum() + np.log(pi.toarray()).sum()) * gamma #need to be fixxed
+	for c in q:
+		for i in range(5):
+			obj -= q[c][i] * lc[c][i]
+			obj += q[c][i] * np.log(q[c][i])
+	return obj
 
+def EStep(): #renew q and lc
+	for c in q:
+		QF(c)
 
-def MStep():
+def MStep(): #optimize parameters to achieve smaller obj
 
 
 def SingleObj(data, u):
 	n = len(data)
 	last = int(data[1].split('\t')[2])
-	rusc[u] = list()
-	nrusc[u] = list()
+	i = 0
 	while i < n:
 		temp = data[i].split('\t')
 		tm = int(data[i+1].split('\t')[2])
 		number = int(temp[1]) + 1
-		casdic = {}
+		rusc[temp[0]] = list()
+		nrusc[temp[0]] = list()
+		q[temp[0]] = list()
+		lc[temp[0]] = list()
+		for j in range(5):
+			q[temp[0]].append(0)
+			lc[temp[0]].append(0)
+		casdic = {} #from tweet id to user id who replied it with which tweet id
 		for j in range(i+1, i+number):
 			tweet = data[i].split('\t')
-			
-			
-
+			author[tweet[0]] = tweet[1]
+			timestamp[tweet[0]] = int(tweet[2])
+			if tweet[3] == '-1':
+				depth[tweet[0]] = 0
+				casdic[tweet[0]] = {}
+			else:
+				depth[tweet[0]] = depth[tweet[3]] + 1
+				casdic[tweet[3]][tweet[1]] = tweet[0]
+		for item in casdic:
+			for f in friend[author[item]]:
+				info = list()
+				if f in casdic[item]: #this person retweeted it
+					info.append(iddic[f])
+					info.append(timestamp[casdic[item][f]] - timestamp[item])
+					info.append(depth[item])
+					rusc[temp[0]].append(info)
+				else: #this person did not retweet it
+					info.append(iddic[f])
+					info.append(te - timestamp[item])
+					info.append(depth[item])
+					nrusc[temp[0]].append(info)
+		i += number		
 
 
 #Get lambda value
@@ -74,12 +129,11 @@ for i in range(users):
 fr.close()
 
 #Get post times
-posts = {}
 fr = open(prefix+'posttimes'+suffix, 'r')
 post = fr.readlines()
 for i in range(users):
 	temp = post[i].split('\t')
-	posts[temp[0]] = int(temp[1])
+	posts[iddic[temp[0]]] = int(temp[1])
 fr.close()
 
 #Give initial value and construct relation
@@ -99,7 +153,7 @@ while i < n:
 	friend[temp[0]] = list()
 	for j in range(i+1, i+number):
 		fd = relation[j].split('\t')
-		pi[iddic[temp[0]], iddic[fd[1]]] = int(fd[2]) * 1.0 / posts[temp[0]]
+		pi[iddic[temp[0]], iddic[fd[1]]] = int(fd[2]) * 1.0 / posts[iddic[temp[0]]]
 		x[iddic[temp[0]], iddic[fd[1]]] = 1.0
 		friend[temp[0]].append(fd[1])
 	i += number
@@ -109,6 +163,7 @@ n = len(uid)
 for i in range(n):
 	fr = open(prefix+'single_user_post/'+str(i)+'_'+uid[i]+suffix, 'w')
 	single = fr.readlines()
+	SingleObj(single, i)
 
 
 
