@@ -4,9 +4,13 @@ import numpy as np
 users = 7268
 ts = 1321286400 #start timestamps
 te = 1322150400 #end timestamps
-uid = list();
-iddic = {};
-friend = {};
+uid = list()
+iddic = {}
+friend = {}
+rusc = {}
+nrusc = {}
+depth = {}
+
 lbd = np.zeros(users) #parameter lambda which have calculated before
 omega = np.zeros(users) #parameter omega
 theta1 = np.zeros(users) #one of spherical coordinates of phi distribution
@@ -42,8 +46,18 @@ def MStep():
 
 def SingleObj(data, u):
 	n = len(data)
-	for i in range(n):
-
+	last = int(data[1].split('\t')[2])
+	rusc[u] = list()
+	nrusc[u] = list()
+	while i < n:
+		temp = data[i].split('\t')
+		tm = int(data[i+1].split('\t')[2])
+		number = int(temp[1]) + 1
+		casdic = {}
+		for j in range(i+1, i+number):
+			tweet = data[i].split('\t')
+			
+			
 
 
 
