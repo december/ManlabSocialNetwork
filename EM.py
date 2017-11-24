@@ -15,6 +15,8 @@ timestamp = {} #from tweet id to timestamp
 posts = {} #from user index to post times
 q = {} #from cascade id to q function
 lc = {} #from cascade id to log-likelihood function value
+edgemap = {} #from relations to the index of parameter pi and x
+pos = 0
 
 gamma = 1.0 #log barrier
 
@@ -24,10 +26,13 @@ theta1 = np.zeros(users) #one of spherical coordinates of phi distribution
 theta2 = np.zeros(users) #one of spherical coordinates of phi distribution
 theta3 = np.zeros(users) #one of spherical coordinates of phi distribution
 theta4 = np.zeros(users) #one of spherical coordinates of phi distribution
-pi = sp.sparse.lil_matrix((users, users)) #parameter pi (based on edges), row is sender while col is receiver
-x = sp.sparse.lil_matrix((users, users)) #parameter x (based on edges), row is sender while col is receiver
+pi = list() #parameter pi (based on edges), row is sender while col is receiver
+x = list() #parameter x (based on edges), row is sender while col is receiver
 
-def Phi(idx):
+def Resolver(param):
+
+
+def Phi(theta1, theta2, theta3, theta4, idx):
 	if idx == 0:
 		return np.cos(theta1) * np.cos(theta1)
 	if idx == 1:
@@ -38,45 +43,45 @@ def Phi(idx):
 		return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.cos(theta4) * np.cos(theta4)
 	return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.sin(theta4) * np.sin(theta4)
 
-def LnLc(c, tau): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
+def LnLc(omega, pi, x, theta1, theta2, theta3, theta4, c, tau): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = iddic[author[c]]
-	s = np.log(lbd[uc]) + np.log(Phi(tau)[uc])
+	s = np.log(lbd[uc]) + np.log(Phi(theta1, theta2, theta3, theta4, tau)[uc])
 	for item in rusc[c]:
 		u = iddic[author[item[0]]]
-		s += np.log(omega[u]) - omega[u] * item[1] + np.log(pi[uc, u]) - item[2] * np.log(x[uc, u]) + np.log(Phi(tau)[u])
+		s += np.log(omega[u]) - omega[u] * item[1] + np.log(pi[edgemap[uc][u]]) - item[2] * np.log(x[edgemap[uc][u]]) + np.log(Phi(tau)[u])
 	for item in nrusc[c]:
 		u = iddic[author[item[0]]]
 		exponent = -1 * omega[u] * item[1]
 		estimate = -1
 		if exponent >= -100:
 			estimate = np.exp(exponent) - 1
-		result = 1 + pi[uc, u] * x[uc, u] ** (-1 * item[2]) * Phi(tau)[u] * estimate
+		result = 1 + pi[edgemap[uc][u]] * x[edgemap[uc][u]] ** (-1 * item[2]) * Phi(theta1, theta2, theta3, theta4, tau)[u] * estimate
 		s += np.log(result)
 	return s
 
-def QF(c): #calculate q funciton with tricks
+def QF(omega, pi, x, theta1, theta2, theta3, theta4, c): #calculate q funciton with tricks
 	for i in range(5):
-		lc[c][i] = LnLc(c, i)
+		lc[c][i] = LnLc(omega, pi, x, theta1, theta2, theta3, theta4, c, i)
 	for i in range(5):
 		s = 0
 		for j in range(5):
 			s += np.exp(lc[c][j] - lc[c][i])
 		q[c][i] = 1 / s
 
-def ObjF(): #formulation of objective function (include barrier) (the smaller the better)
-	obj = (np.log(omega).sum() + np.log((1-pi).toarray()).sum() + np.log(pi.toarray()).sum()) * gamma #need to be fixxed
+def ObjF(omega, pi, x, theta1, theta2, theta3, theta4): #formulation of objective function (include barrier) (the smaller the better)
+	obj = (np.log(omega).sum() + np.log(x).sum() + np.log(1-pi).sum() + np.log(pi).sum()) * gamma #need to be fixxed
 	for c in q:
 		for i in range(5):
-			obj -= q[c][i] * lc[c][i]
+			obj -= q[c][i] * LnLc(omega, pi, x, theta1, theta2, theta3, theta4, c, i)
 			obj += q[c][i] * np.log(q[c][i])
 	return obj
 
 def EStep(): #renew q and lc
 	for c in q:
-		QF(c)
+		QF(omega, pi, x, theta1, theta2, theta3, theta4, c)
 
 def MStep(): #optimize parameters to achieve smaller obj
-
+	
 
 def SingleObj(data, u):
 	n = len(data)
@@ -157,10 +162,16 @@ while i < n:
 	friend[temp[0]] = list()
 	for j in range(i+1, i+number):
 		fd = relation[j].split('\t')
-		pi[iddic[temp[0]], iddic[fd[1]]] = int(fd[2]) * 1.0 / posts[iddic[temp[0]]]
-		x[iddic[temp[0]], iddic[fd[1]]] = 1.0
+		if not edgemap.has_key(iddic[temp[0]]):
+			edgemap[iddic[temp[0]]] = {}
+		edgemap[iddic[temp[0]]][iddic[fd[1]]] = pos
+		pos += 1
+		pi.append(int(fd[2]) * 1.0 / posts[iddic[temp[0]]])
+		x.append(1.0)
 		friend[temp[0]].append(fd[1])
 	i += number
+pi = np.array(pi)
+x = np.array(x)
 
 #Read personal cascade file
 n = len(uid)
