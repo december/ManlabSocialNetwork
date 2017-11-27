@@ -1,6 +1,13 @@
+import sys
 import scipy as sp
 import numpy as np
 import scipy.optimize
+import numpy.random
+
+single = True
+filename = int(sys.argv[1])
+if filename < 0:
+	single = False
 
 users = 7268
 allusers = 7268
@@ -17,11 +24,18 @@ timestamp = {} #from tweet id to timestamp
 posts = {} #from user index to post times
 q = {} #from cascade id to q function
 lc = {} #from cascade id to log-likelihood function value
-edgemap = {} #from relations to the index of parameter pi and x
+edgemap = {} #from relations to the index of edge
+vdic = {} #from user index to the index of point parameter 
+edic = {} #from the index of edge to the index of edge parameter
+vlist = list() #from the index of point parameter to user index
+elist = list() #from the index of edge parameter to the index of edge
+vnum = 0
+enum = 0
 pos = 0
 poslist = list()
+total = 0
 
-gamma = 1.0 #log barrier
+gamma = -1.0 #log barrier
 epsilon = 0.1 #when will EM stop
 lbd = np.zeros(users) #parameter lambda which have calculated before
 
@@ -44,6 +58,23 @@ def Resolver(param):
 	theta4 = param[poslist[5]:]
 	return omega, pi, x, theta1, theta2, theta3, theta4
 
+def Select(omega, pi, x, theta1, theta2, theta3, theta4):
+	p = list()
+	for i in range(vnum):
+		p.append(omega[vlist[i]])
+	for i in range(enum):
+		p.append(pi[elist[i]])
+	for i in range(enum):
+		p.append(x[elist[i]])
+	for i in range(vnum):
+		p.append(theta1[vlist[i]])	
+	for i in range(vnum):
+		p.append(theta2[vlist[i]])
+	for i in range(vnum):
+		p.append(theta3[vlist[i]])
+	for i in range(vnum):
+		p.append(theta4[vlist[i]])
+	return Resolver(np.array(p))
 
 def Phi(theta1, theta2, theta3, theta4, idx):
 	if idx == 0:
@@ -57,8 +88,11 @@ def Phi(theta1, theta2, theta3, theta4, idx):
 	return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.sin(theta4) * np.sin(theta4)
 
 def LnLc(omega, pi, x, theta1, theta2, theta3, theta4, c, tau): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
-	uc = iddic[author[c]]
-	s = np.log(lbd[uc]) + np.log(Phi(theta1, theta2, theta3, theta4, tau)[uc])
+	omega = np.cos(omega) * np.cos(omega)
+	pi = np.cos(pi) * np.cos(pi)
+	x = x * x
+	uc = vdic[iddic[author[c]]]
+	s = np.log(lbd[vlist[uc]]) + np.log(Phi(theta1, theta2, theta3, theta4, tau)[uc])
 	for item in rusc[c]:
 		edge = item[0]
 		u = item[3]
@@ -86,11 +120,22 @@ def QF(omega, pi, x, theta1, theta2, theta3, theta4, c): #calculate q funciton w
 
 def ObjF(param): #formulation of objective function (include barrier) (the smaller the better)
 	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(param)
-	obj = (np.log(omega).sum() + np.log(x).sum() + np.log(1-pi).sum() + np.log(pi).sum()) * gamma #need to be fixxed
+	global total
+	total += 1
+	'''
+	print 'Begin'
+	print omega
+	print x
+	print pi
+	'''
+	#obj = (np.log(omega+10**-5).sum() + np.log(x+10**-5).sum() + np.log(1-pi+10**-5).sum() + np.log(pi+10**-5).sum()) * gamma #need to be fixxed
+	obj = 0
 	for c in q:
 		for i in range(5):
 			obj -= q[c][i] * LnLc(omega, pi, x, theta1, theta2, theta3, theta4, c, i)
 			obj += q[c][i] * np.log(q[c][i])
+	if total % 10000 == 0:
+		print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
 
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
@@ -99,10 +144,11 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	return Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 
 def MStep(param): #optimize parameters to achieve smaller obj
-	res = scipy.optimize.minimize(ObjF, param, method='BFGS', options={'disp': True})
+	res = scipy.optimize.minimize(ObjF, param, method='BFGS', options={'maxiter':100, 'disp': True})
 	return res	
 
 def SingleObj(data, u):
+	global vnum, enum
 	n = len(data)
 	#last = int(data[1].split('\t')[2])
 	i = 0
@@ -123,6 +169,10 @@ def SingleObj(data, u):
 			#print tweet
 			author[tweet[0]] = tweet[1]
 			timestamp[tweet[0]] = int(tweet[2])
+			if not vdic.has_key(iddic[tweet[1]]):
+				vdic[iddic[tweet[1]]] = vnum
+				vnum += 1
+				vlist.append(iddic[tweet[1]])
 			if not casdic.has_key(tweet[0]):
 				casdic[tweet[0]] = {}
 			if tweet[3] == '-1':
@@ -137,18 +187,26 @@ def SingleObj(data, u):
 			if not friend.has_key(author[item]):
 				continue
 			for f in friend[author[item]]:
+				if not edic.has_key(edgemap[iddic[author[item]]][iddic[f]]):
+					edic[edgemap[iddic[author[item]]][iddic[f]]] = enum
+					enum += 1
+					elist.append(edgemap[iddic[author[item]]][iddic[f]])
+				if not vdic.has_key(iddic[f]):
+					vdic[iddic[f]] = vnum
+					vnum += 1
+					vlist.append(iddic[f])
 				info = list()
 				if f in casdic[item]: #this person retweeted it
-					info.append(edgemap[iddic[author[item]]][iddic[f]])
+					info.append(edic[edgemap[iddic[author[item]]][iddic[f]]])
 					info.append(timestamp[casdic[item][f]] - timestamp[item])
 					info.append(depth[item])
-					info.append(iddic[f])
+					info.append(vdic[iddic[f]])
 					rusc[temp[0]].append(info)
 				else: #this person did not retweet it
-					info.append((edgemap[iddic[author[item]]][iddic[f]]))
+					info.append(edic[edgemap[iddic[author[item]]][iddic[f]]])
 					info.append(te - timestamp[item])
 					info.append(depth[item])
-					info.append(iddic[f])
+					info.append(vdic[iddic[f]])
 					nrusc[temp[0]].append(info)
 		i += number		
 
@@ -209,12 +267,8 @@ while i < n:
 		friend[temp[0]].append(fd[1])
 	i += number
 pi = np.array(pi)
+pi = np.arccos(np.sqrt(pi))
 x = np.array(x)
-poslist.append(allusers)
-poslist.append(allusers+pos)
-poslist.append(allusers+pos*2)
-for i in range(4):
-	poslist.append(allusers*(i+2)+pos*2)
 
 omega = np.zeros(allusers) #parameter omega
 theta1 = np.zeros(allusers) #one of spherical coordinates of phi distribution
@@ -223,21 +277,38 @@ theta3 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
 omega += sum(lbd) * 100 / users
+omega = np.arccos(np.sqrt(omega))
+'''
 theta1 += np.arccos(np.sqrt(0.2))
 theta2 += np.arccos(np.sqrt(0.25))
 theta3 += np.arccos(np.sqrt(1.0 / 3))
 theta4 += np.arccos(np.sqrt(0.5))
+'''
+tr = list()
+for i in range(4):
+	tr.append(np.random.rand())
+print tr
+theta1 += np.arccos(np.sqrt(tr[0]))
+theta2 += np.arccos(np.sqrt(tr[1]))
+theta3 += np.arccos(np.sqrt(tr[2]))
+theta4 += np.arccos(np.sqrt(tr[3]))
 
 #Read personal cascade file
 print 'Read behavior log...'
 for i in range(users):
-	if i != 25:
+	if single and i != filename:
 		continue
 	fr = open(prefix+'single_user_post/'+str(i)+'_'+uid[i]+suffix, 'r')
 	single = fr.readlines()
 	SingleObj(single, i)
 	fr.close()
-
+poslist.append(vnum)
+poslist.append(vnum+enum)
+poslist.append(vnum+enum*2)
+for i in range(4):
+	poslist.append(vnum*(i+2)+enum*2)
+omega, pi, x, theta1, theta2, theta3, theta4 = Select(omega, pi, x, theta1, theta2, theta3, theta4)
+print 'There are ' + str(vnum * 5) + ' point parameters and ' + str(enum * 2) + ' edge parameters to be learned...'
 #Conduct EM algorithm
 print 'EM algorithm begins...'
 #print min(omega)
@@ -251,18 +322,25 @@ while cnt < 100:
 	res = MStep(param)
 	print 'MStep ' + str(cnt+1) + ' finished...'
 	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(res.x)
-	if lastObj - res.func < epsilon:
+	if lastObj - res.fun < epsilon:
 		break
-	lastObj = res.func
+	lastObj = res.fun
 	print 'Objective function value: ' + str(lastObj)
 	cnt += 1
 	print 'Iteration ' + str(cnt) + ' finished...'
+omega = np.cos(omega) * np.cos(omega)
+pi = np.cos(pi) * np.cos(pi)
+x = x * x
 
 #Output parameters
+if single:
+	prefix = prefix + 'single_user_parameter/'
+	suffix = '_' + str(filename) + suffix
+
 print 'Output data files...'
 fw = open(prefix+'omega_Poisson'+suffix, 'w')
-for i in range(users):
-	fw.write(uid[i])
+for i in range(vnum):
+	fw.write(uid[vlist[i]])
 	fw.write('\t')
 	fw.write(str(omega[i]))
 	fw.write('\n')
@@ -271,30 +349,34 @@ fw.close()
 fw = open(prefix+'pi_Poisson'+suffix, 'w')
 for item in edgemap:
 	for fd in edgemap[item]:
+		if not edgemap[item][fd] in edic:
+			continue
 		fw.write(uid[item])
 		fw.write('\t')
 		fw.write(uid[fd])
 		fw.write('\t')
-		fw.write(str(pi[edgemap[item][fd]]))
+		fw.write(str(pi[edic[edgemap[item][fd]]]))
 		fw.write('\n')
 fw.close()
 
 fw = open(prefix+'x_Poisson'+suffix, 'w')
 for item in edgemap:
 	for fd in edgemap[item]:
+		if not edgemap[item][fd] in edic:
+			continue
 		fw.write(uid[item])
 		fw.write('\t')
 		fw.write(uid[fd])
 		fw.write('\t')
-		fw.write(str(x[edgemap[item][fd]]))
+		fw.write(str(x[edic[edgemap[item][fd]]]))
 		fw.write('\n')
 fw.close()
 
 for i in range(5):
 	fw = open(prefix+'phi'+str(i)+'_Poisson'+suffix, 'w')
 	phi = Phi(theta1, theta2, theta3, theta4, i)
-	for j in range(users):
-		fw.write(uid[j])
+	for j in range(vnum):
+		fw.write(uid[vlist[j]])
 		fw.write('\t')
 		fw.write(str(phi[j]))
 		fw.write('\n')
