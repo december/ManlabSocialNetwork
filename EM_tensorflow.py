@@ -35,6 +35,8 @@ enum = 0
 pos = 0
 poslist = list()
 total = 0
+iters = 10 #iteration times in each M-steps
+alpha = 0.1 #learning rate for optimizer
 
 gamma = -1.0 #log barrier
 epsilon = 0.1 #when will EM stop
@@ -79,35 +81,35 @@ def Select(omega, pi, x, theta1, theta2, theta3, theta4):
 
 def Phi(theta1, theta2, theta3, theta4, idx):
 	if idx == 0:
-		return np.cos(theta1) * np.cos(theta1)
+		return tf.cos(theta1) * tf.cos(theta1)
 	if idx == 1:
-		return np.sin(theta1) * np.sin(theta1) * np.cos(theta2) * np.cos(theta2)
+		return tf.sin(theta1) * tf.sin(theta1) * tf.cos(theta2) * tf.cos(theta2)
 	if idx == 2:
-		return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.cos(theta3) * np.cos(theta3)
+		return tf.sin(theta1) * tf.sin(theta1) * tf.sin(theta2) * tf.sin(theta2) * tf.cos(theta3) * tf.cos(theta3)
 	if idx == 3:
-		return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.cos(theta4) * np.cos(theta4)
-	return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.sin(theta4) * np.sin(theta4)
+		return tf.sin(theta1) * tf.sin(theta1) * tf.sin(theta2) * tf.sin(theta2) * tf.sin(theta3) * tf.sin(theta3) * tf.cos(theta4) * tf.cos(theta4)
+	return tf.sin(theta1) * tf.sin(theta1) * tf.sin(theta2) * tf.sin(theta2) * tf.sin(theta3) * tf.sin(theta3) * tf.sin(theta4) * tf.sin(theta4)
 
 def LnLc(omega, pi, x, theta1, theta2, theta3, theta4, c, tau): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
-	omega = np.cos(omega) * np.cos(omega)
-	pi = np.cos(pi) * np.cos(pi)
+	omega = tf.cos(omega) * tf.cos(omega)
+	pi = tf.cos(pi) * tf.cos(pi)
 	x = x * x
 	uc = vdic[iddic[author[c]]]
-	s = np.log(lbd[vlist[uc]]) + np.log(Phi(theta1, theta2, theta3, theta4, tau)[uc])
+	s = tf.log(lbd[vlist[uc]]) + tf.log(Phi(theta1, theta2, theta3, theta4, tau)[uc])
 	for item in rusc[c]:
 		edge = item[0]
 		u = item[3]
-		s += np.log(omega[u]) - omega[u] * item[1] + np.log(pi[edge]) - item[2] * np.log(x[edge]) + np.log(Phi(theta1, theta2, theta3, theta4, tau)[u])
+		s += tf.log(omega[u]) - omega[u] * item[1] + tf.log(pi[edge]) - item[2] * tf.log(x[edge]) + tf.log(Phi(theta1, theta2, theta3, theta4, tau)[u])
 	for item in nrusc[c]:
 		edge = item[0]
 		u = item[3]
 		exponent = -1 * omega[u] * item[1]
 		estimate = -1
 		if exponent >= -100:
-			estimate = np.exp(exponent) - 1
+			estimate = tf.exp(exponent) - 1
 		#print edgemap[uc][u]
 		result = 1 + pi[edge] * x[edge] ** (-1 * item[2]) * Phi(theta1, theta2, theta3, theta4, tau)[u] * estimate
-		s += np.log(result)
+		s += tf.log(result)
 	return s
 
 def QF(omega, pi, x, theta1, theta2, theta3, theta4, c): #calculate q funciton with tricks
@@ -116,7 +118,7 @@ def QF(omega, pi, x, theta1, theta2, theta3, theta4, c): #calculate q funciton w
 	for i in range(5):
 		s = 0
 		for j in range(5):
-			s += np.exp(lc[c][j] - lc[c][i])
+			s += tf.exp(lc[c][j] - lc[c][i])
 		q[c][i] = 1 / s
 
 def ObjF(param): #formulation of objective function (include barrier) (the smaller the better)
@@ -135,8 +137,8 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 		for i in range(5):
 			obj -= q[c][i] * LnLc(omega, pi, x, theta1, theta2, theta3, theta4, c, i)
 			obj += q[c][i] * np.log(q[c][i])
-	if total % 10000 == 0:
-		print 'No.' + str(total) + ' times: ' + str(obj)
+	#if total % 10000 == 0:
+	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
 
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
@@ -145,8 +147,17 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	return Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 
 def MStep(param): #optimize parameters to achieve smaller obj
-	res = scipy.optimize.minimize(ObjF, param, method='BFGS', options={'maxiter':100, 'disp': True})
-	return res	
+	#res = scipy.optimize.minimize(ObjF, param, method='BFGS', options={'maxiter':100, 'disp': True})
+	global alpha
+	p = tf.Variable(param, name='p')
+	optimizer = tf.train.GradientDescentOptimizer(alpha)
+	train = optimizer.minimize(ObjF)
+	init = tf.global_variables_initializer()
+	with tf.Session() as session:
+		session.run(init)
+		for step in range(iters):
+			session.run(train)
+		return session.run(p), session.run(ObjF)	
 
 def SingleObj(data, u):
 	global vnum, enum
@@ -320,13 +331,13 @@ lastObj = np.exp(100)
 while cnt < 100:
 	param = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
 	print 'EStep ' + str(cnt+1) + ' finished...'
-	res = MStep(param)
+	res, nextObj = MStep(param)
 	print 'MStep ' + str(cnt+1) + ' finished...'
-	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(res.x)
-	if lastObj - res.fun < epsilon:
-		break
-	lastObj = res.fun
 	print 'Objective function value: ' + str(lastObj)
+	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(res)
+	if lastObj - nextObj < epsilon:
+		break
+	lastObj = nextObj	
 	cnt += 1
 	print 'Iteration ' + str(cnt) + ' finished...'
 omega = np.cos(omega) * np.cos(omega)
