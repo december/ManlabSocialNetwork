@@ -103,10 +103,8 @@ def LnLc(omega, pi, x, theta1, theta2, theta3, theta4, c, tau): #ln fromulation 
 	for item in nrusc[c]:
 		edge = item[0]
 		u = item[3]
-		exponent = -1 * omega[u] * item[1]
-		estimate = -1
-		if exponent >= -100:
-			estimate = tf.exp(exponent) - 1
+		exponent = max(-1 * omega[u] * item[1], -100)
+		estimate = tf.exp(exponent) - 1
 		#print edgemap[uc][u]
 		result = 1 + pi[edge] * x[edge] ** (-1 * item[2]) * Phi(theta1, theta2, theta3, theta4, tau)[u] * estimate
 		s += tf.log(result)
