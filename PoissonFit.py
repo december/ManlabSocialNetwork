@@ -1,5 +1,6 @@
 import scipy as sp
 import numpy as np
+import tensorflow as tf
 
 users = 7268 #total number of users 
 ts = 1321286400 #starting timestamps
@@ -9,11 +10,12 @@ sum_iet = np.zeros(users) #sum of inter envet time
 posts = np.zeros(users) #total posts of users
 ptdic = {} #post time list
 delta = 0.000000001 #when will the algorithm stop
-alpha = 0.00000000001 #learning rate
+alpha = 0.000000000002 #learning rate
 gamma = 1 #log barrier function
 
-def ObjLnPiQ():
-	return lbd * sum_iet - posts * np.log(lbd) - gamma * (np.log(lbd) + np.log(1 - lbd))
+def ObjLnPiQ(lbd):
+	global gamma
+	return lbd * sum_iet - posts * tf.log(lbd) - gamma * (tf.log(lbd) + tf.log(1 - lbd))
 
 def Derivative():
 	return sum_iet - posts / lbd - gamma / lbd + gamma / (1 - lbd)
@@ -57,18 +59,45 @@ i = 0
 for i in range(users):
 	sum_iet[i] = DeltaSum(ptdic[uid[i]])
 
+'''
+#Optimize manually
 cnt = 0
 lastobj = np.zeros(users) + 10000
 while cnt < 100000:
 	gd = Derivative()
 	lbd = lbd - alpha * gd
-	obj = ObjLnPiQ()
+	obj = ObjLnPiQ(lbd)
 	if sum(lastobj - obj) < delta * users:
 		break
 	cnt += 1
 	print sum(lastobj - obj) / users
 	print cnt
 	lastobj = obj
+print lastobj
+'''
+#Optimize with tensorflow
+cnt = 0
+lastobj = np.zeros(users) + 10000
+l = tf.Variable(lbd, name='l')
+optimizer = tf.train.GradientDescentOptimizer(alpha)
+target = ObjLnPiQ(l)
+train = optimizer.minimize(target)
+init = tf.global_variables_initializer()
+with tf.Session() as session:
+	session.run(init)
+	while cnt < 1000000:
+		obj, lbd, _ = session.run([target, l, train])
+		#lbd = session.run(l)
+		#obj = session.run(train)
+		if sum(lastobj - obj) < delta * users:
+			break
+		cnt += 1
+		if cnt % 10000 == 0:
+			print sum(obj)
+		lastobj = obj
+	print sum(lastobj - obj) / users
+	print cnt
+
 print lastobj
 
 fw = open(prefix+'lambda_Poisson'+suffix, 'w')

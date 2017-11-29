@@ -149,13 +149,15 @@ def MStep(param): #optimize parameters to achieve smaller obj
 	global alpha
 	p = tf.Variable(param, name='p')
 	optimizer = tf.train.GradientDescentOptimizer(alpha)
-	train = optimizer.minimize(ObjF)
+	target = ObjF(p)
+	train = optimizer.minimize(target)
 	init = tf.global_variables_initializer()
 	with tf.Session() as session:
 		session.run(init)
 		for step in range(iters):
-			session.run(train)
-		return session.run(p), session.run(ObjF)	
+			obj, newp, _ = session.run([target, l, train])
+			#session.run(train)
+		return newp, obj	
 
 def SingleObj(data, u):
 	global vnum, enum
@@ -164,7 +166,6 @@ def SingleObj(data, u):
 	i = 0
 	while i < n:
 		temp = data[i].split('\t')
-		tm = int(data[i+1].split('\t')[2])
 		number = int(temp[1]) + 1
 		rusc[temp[0]] = list()
 		nrusc[temp[0]] = list()
