@@ -90,29 +90,32 @@ def Phi(theta1, theta2, theta3, theta4, idx):
 		return tf.sin(theta1) * tf.sin(theta1) * tf.sin(theta2) * tf.sin(theta2) * tf.sin(theta3) * tf.sin(theta3) * tf.cos(theta4) * tf.cos(theta4)
 	return tf.sin(theta1) * tf.sin(theta1) * tf.sin(theta2) * tf.sin(theta2) * tf.sin(theta3) * tf.sin(theta3) * tf.sin(theta4) * tf.sin(theta4)
 
-def LnLc(omega, pi, x, theta1, theta2, theta3, theta4, c, tau): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
-	omega = tf.cos(omega) * tf.cos(omega)
-	pi = tf.cos(pi) * tf.cos(pi)
-	x = x * x
+def LnLc(omega, pi, x, philist, c, tau): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = vdic[iddic[author[c]]]
-	s = tf.log(lbd[vlist[uc]]) + tf.log(Phi(theta1, theta2, theta3, theta4, tau)[uc])
+	s = tf.log(lbd[vlist[uc]]) + tf.log(philist[tau][uc])
 	for item in rusc[c]:
 		edge = item[0]
 		u = item[3]
-		s += tf.log(omega[u]) - omega[u] * item[1] + tf.log(pi[edge]) - item[2] * tf.log(x[edge]) + tf.log(Phi(theta1, theta2, theta3, theta4, tau)[u])
+		s += tf.log(omega[u]) - omega[u] * item[1] + tf.log(pi[edge]) - item[2] * tf.log(x[edge]) + tf.log(philist[tau][u])
 	for item in nrusc[c]:
 		edge = item[0]
 		u = item[3]
 		exponent = tf.maximum(-1 * omega[u] * item[1], -100)
 		estimate = tf.exp(exponent) - 1
 		#print edgemap[uc][u]
-		result = 1 + pi[edge] * x[edge] ** (-1 * item[2]) * Phi(theta1, theta2, theta3, theta4, tau)[u] * estimate
+		result = 1 + pi[edge] * x[edge] ** (-1 * item[2]) * philist[tau][u] * estimate
 		s += tf.log(result)
 	return s
 
 def QF(omega, pi, x, theta1, theta2, theta3, theta4, c): #calculate q funciton with tricks
+	omega = tf.cos(omega) * tf.cos(omega)
+	pi = tf.cos(pi) * tf.cos(pi)
+	x = x * x
+	philist = list()
 	for i in range(5):
-		lc[c][i] = LnLc(omega, pi, x, theta1, theta2, theta3, theta4, c, i)
+		philist.append(Phi(theta1, theta2, theta3, theta4, i))
+	for i in range(5):
+		lc[c][i] = LnLc(omega, pi, x, philist, c, i)
 	for i in range(5):
 		s = 0
 		for j in range(5):
@@ -121,6 +124,12 @@ def QF(omega, pi, x, theta1, theta2, theta3, theta4, c): #calculate q funciton w
 
 def ObjF(param): #formulation of objective function (include barrier) (the smaller the better)
 	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(param)
+	omega = tf.cos(omega) * tf.cos(omega)
+	pi = tf.cos(pi) * tf.cos(pi)
+	x = x * x
+	philist = list()
+	for i in range(5):
+		philist.append(Phi(theta1, theta2, theta3, theta4, i))
 	global total
 	total += 1
 	'''
@@ -133,7 +142,7 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	obj = 0
 	for c in q:
 		for i in range(5):
-			obj -= q[c][i] * LnLc(omega, pi, x, theta1, theta2, theta3, theta4, c, i)
+			obj -= q[c][i] * LnLc(omega, pi, x, philist, c, i)
 			obj += q[c][i] * tf.log(q[c][i])
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
