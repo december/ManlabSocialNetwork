@@ -134,7 +134,7 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	for c in q:
 		for i in range(5):
 			obj -= q[c][i] * LnLc(omega, pi, x, theta1, theta2, theta3, theta4, c, i)
-			obj += q[c][i] * np.log(q[c][i])
+			obj += q[c][i] * tf.log(q[c][i])
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
@@ -289,7 +289,7 @@ theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
 omega += sum(lbd) * 100 / users
 omega = np.arccos(np.sqrt(omega))
-'''
+
 theta1 += np.arccos(np.sqrt(0.2))
 theta2 += np.arccos(np.sqrt(0.25))
 theta3 += np.arccos(np.sqrt(1.0 / 3))
@@ -303,7 +303,7 @@ theta1 += np.arccos(np.sqrt(tr[0]))
 theta2 += np.arccos(np.sqrt(tr[1]))
 theta3 += np.arccos(np.sqrt(tr[2]))
 theta4 += np.arccos(np.sqrt(tr[3]))
-
+'''
 #Read personal cascade file
 print 'Read behavior log...'
 for i in range(users):
