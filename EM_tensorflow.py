@@ -35,7 +35,7 @@ enum = 0
 pos = 0
 poslist = list()
 total = 0
-iters = 10 #iteration times in each M-steps
+iters = 1 #iteration times in each M-steps
 alpha = 0.1 #learning rate for optimizer
 
 gamma = -1.0 #log barrier
@@ -107,13 +107,7 @@ def LnLc(omega, pi, x, philist, c, tau): #ln fromulation of one cascades's likel
 		s += tf.log(result)
 	return s
 
-def QF(omega, pi, x, theta1, theta2, theta3, theta4, c): #calculate q funciton with tricks
-	omega = tf.cos(omega) * tf.cos(omega)
-	pi = tf.cos(pi) * tf.cos(pi)
-	x = x * x
-	philist = list()
-	for i in range(5):
-		philist.append(Phi(theta1, theta2, theta3, theta4, i))
+def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 	for i in range(5):
 		lc[c][i] = LnLc(omega, pi, x, philist, c, i)
 	for i in range(5):
@@ -149,18 +143,36 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	return obj
 
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
+	print [len(omega), len(pi), len(x)]
+	oc = tf.cos(omega) * tf.cos(omega)
+	pc = tf.cos(pi) * tf.cos(pi)
+	xc = x * x
+	#print [len(oc), len(pc), len(xc)]
+	philist = list()
+	for i in range(5):
+		philist.append(Phi(theta1, theta2, theta3, theta4, i))
+	#count = 0
 	for c in q:
-		QF(omega, pi, x, theta1, theta2, theta3, theta4, c)
+		QF(oc, pc, xc, philist, c)
+		#count += 1
+		#print count
 	return Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 
 def MStep(param): #optimize parameters to achieve smaller obj
 	#res = scipy.optimize.minimize(ObjF, param, method='BFGS', options={'maxiter':100, 'disp': True})
+	print len(param)
 	global alpha
 	p = tf.Variable(param, name='p')
-	optimizer = tf.train.GradientDescentOptimizer(alpha)
+	print 'Variable'
+	#optimizer = tf.train.GradientDescentOptimizer(alpha)
+	optimizer = tf.train.AdamOptimizer(alpha)
+	print 'Optimizer'
 	target = ObjF(p)
+	print 'Target'
 	train = optimizer.minimize(target)
+	print 'Train'
 	init = tf.global_variables_initializer()
+	print 'Session begins'
 	with tf.Session() as session:
 		session.run(init)
 		for step in range(iters):
