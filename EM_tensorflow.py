@@ -4,6 +4,7 @@ import numpy as np
 import tensorflow as tf
 import scipy.optimize
 import numpy.random
+import datetime
 
 single = True
 filename = int(sys.argv[1])
@@ -124,8 +125,9 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	philist = list()
 	for i in range(5):
 		philist.append(Phi(theta1, theta2, theta3, theta4, i))
-	global total
-	total += 1
+	#global total
+	#total += 1
+	noreply = 0
 	'''
 	print 'Begin'
 	print omega
@@ -135,15 +137,24 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	#obj = (np.log(omega+10**-5).sum() + np.log(x+10**-5).sum() + np.log(1-pi+10**-5).sum() + np.log(pi+10**-5).sum()) * gamma #need to be fixxed
 	obj = 0
 	for c in q:
+		if len(rusc[c]) == 0:
+			if noreply == 0:
+				for i in range(5):
+					noreply -= q[c][i] * LnLc(omega, pi, x, philist, c, i)
+					tmp = q[c][i] * tf.log(q[c][i])
+					noreply += tf.cast(tmp, dtype=tf.float64)
+			obj += noreply
+			continue
 		for i in range(5):
 			obj -= q[c][i] * LnLc(omega, pi, x, philist, c, i)
-			obj += q[c][i] * tf.log(q[c][i])
+			tmp = q[c][i] * tf.log(q[c][i])
+			obj = obj + tf.cast(tmp, dtype=tf.float64)
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
 
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
-	print [len(omega), len(pi), len(x)]
+	#print [len(omega), len(pi), len(x)]
 	oc = tf.cos(omega) * tf.cos(omega)
 	pc = tf.cos(pi) * tf.cos(pi)
 	xc = x * x
@@ -160,7 +171,7 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 
 def MStep(param): #optimize parameters to achieve smaller obj
 	#res = scipy.optimize.minimize(ObjF, param, method='BFGS', options={'maxiter':100, 'disp': True})
-	print len(param)
+	#print len(param)
 	global alpha
 	p = tf.Variable(param, name='p')
 	print 'Variable'
@@ -176,7 +187,7 @@ def MStep(param): #optimize parameters to achieve smaller obj
 	with tf.Session() as session:
 		session.run(init)
 		for step in range(iters):
-			obj, newp, _ = session.run([target, l, train])
+			obj, newp, _ = session.run([target, p, train])
 			#session.run(train)
 		return newp, obj	
 
@@ -193,7 +204,7 @@ def SingleObj(data, u):
 		q[temp[0]] = list()
 		lc[temp[0]] = list()
 		for j in range(5):
-			q[temp[0]].append(0)
+			q[temp[0]].append(0.2)
 			lc[temp[0]].append(0)
 		casdic = {} #from tweet id to user id who replied it with which tweet id
 		for j in range(i+1, i+number):
@@ -349,11 +360,16 @@ print 'EM algorithm begins...'
 cnt = 0
 lastObj = np.exp(100)
 while cnt < 100:
+	#param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
+	#start = datetime.datetime.now()
+	#obj = ObjF(param)
+	#end = datetime.datetime.now()
+	#print (end - start).seconds
 	param = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
 	print 'EStep ' + str(cnt+1) + ' finished...'
 	res, nextObj = MStep(param)
 	print 'MStep ' + str(cnt+1) + ' finished...'
-	print 'Objective function value: ' + str(lastObj)
+	print 'Objective function value: ' + str(nextObj)
 	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(res)
 	if lastObj - nextObj < epsilon:
 		break
