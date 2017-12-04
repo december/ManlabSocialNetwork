@@ -48,6 +48,7 @@ for name in namelist:
 		else:
 			sim[number] = 1
 		i += number + 1
+	fr.close()
 
 realsize = sorted(real.keys())
 realnum = list()
@@ -66,8 +67,8 @@ rs = np.array(realsize)
 rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
-plt.plot(rs, rn, 'r', label='Real')
-plt.plot(ss, sn, 'b', label='Sim')
+plt.plot(rs, rn, 'ro', label='Real')
+plt.plot(ss, sn, 'bo', label='Sim')
 plt.xlabel(u'Size')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  

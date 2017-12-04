@@ -313,6 +313,7 @@ while i < n:
 		x.append(1.0)
 		friend[temp[0]].append(fd[1])
 	i += number
+fr.close()
 pi = np.array(pi)
 pi = np.arccos(np.sqrt(pi))
 x = np.array(x)
