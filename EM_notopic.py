@@ -142,9 +142,9 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 
 def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
 	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(param)
-	omega = tf.cos(omega) * tf.cos(omega)
-	pi = tf.cos(pi) * tf.cos(pi)
-	x = x * x
+	#omega = tf.cos(omega) * tf.cos(omega)
+	#pi = tf.cos(pi) * tf.cos(pi)
+	#x = x * x
 	philist = list()
 	for i in range(5):
 		philist.append(Phi(theta1, theta2, theta3, theta4, i))
@@ -178,16 +178,16 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	#print [len(omega), len(pi), len(x)]
-	oc = tf.cos(omega) * tf.cos(omega)
-	pc = tf.cos(pi) * tf.cos(pi)
-	xc = x * x
+	#oc = tf.cos(omega) * tf.cos(omega)
+	#pc = tf.cos(pi) * tf.cos(pi)
+	#xc = x * x
 	#print [len(oc), len(pc), len(xc)]
 	philist = list()
 	for i in range(5):
 		philist.append(Phi(theta1, theta2, theta3, theta4, i))
 	#count = 0
 	for c in q:
-		QF(oc, pc, xc, philist, c)
+		QF(omega, pi, x, philist, c)
 		#count += 1
 		#print count
 	return QMatrix()
@@ -313,8 +313,9 @@ while i < n:
 		x.append(1.0)
 		friend[temp[0]].append(fd[1])
 	i += number
+fr.close()
 pi = np.array(pi)
-pi = np.arccos(np.sqrt(pi))
+#pi = np.arccos(np.sqrt(pi))
 x = np.array(x)
 
 omega = np.zeros(allusers) #parameter omega
@@ -324,7 +325,7 @@ theta3 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
 omega += sum(lbd) * 100 / users
-omega = np.arccos(np.sqrt(omega))
+#omega = np.arccos(np.sqrt(omega))
 
 theta1 += np.arccos(np.sqrt(0.2))
 theta2 += np.arccos(np.sqrt(0.25))
@@ -396,9 +397,9 @@ with tf.Session() as session:
 		lastObj = obj	
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
-omega = np.cos(omega) * np.cos(omega)
-pi = np.cos(pi) * np.cos(pi)
-x = x * x
+#omega = np.cos(omega) * np.cos(omega)
+#pi = np.cos(pi) * np.cos(pi)
+#x = x * x
 
 #Output parameters
 if single:

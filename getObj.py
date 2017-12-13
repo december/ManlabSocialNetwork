@@ -88,7 +88,7 @@ def LnLc(omega, pi, x, philist, c, tau): #ln fromulation of one cascades's likel
 	for item in rusc[c]:
 		edge = item[0]
 		u = item[3]
-		s += np.log(omega[u]) - omega[u] * item[1] + tf.log(pi[edge]) - item[2] * np.log(x[edge]) + np.log(philist[tau][u])
+		s += np.log(omega[u]) - omega[u] * item[1] + np.log(pi[edge]) - item[2] * np.log(x[edge]) + np.log(philist[tau][u])
 	for item in nrusc[c]:
 		edge = item[0]
 		u = item[3]
@@ -105,7 +105,7 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 	for i in range(5):
 		s = 0
 		for j in range(5):
-			s += tf.exp(lc[c][j] - lc[c][i])
+			s += np.exp(lc[c][j] - lc[c][i])
 		q[c][i] = 1 / s
 
 def ObjF(omega, pi, x, philist): #formulation of objective function (include barrier) (the smaller the better)
@@ -125,14 +125,12 @@ def ObjF(omega, pi, x, philist): #formulation of objective function (include bar
 			if noreply == 0:
 				for i in range(5):
 					noreply -= q[c][i] * LnLc(omega, pi, x, philist, c, i)
-					tmp = q[c][i] * tf.log(q[c][i])
-					noreply += tf.cast(tmp, dtype=tf.float64)
+					noreply += q[c][i] * np.log(q[c][i])
 			obj += noreply
 			continue
 		for i in range(5):
 			obj -= q[c][i] * LnLc(omega, pi, x, philist, c, i)
-			tmp = q[c][i] * tf.log(q[c][i])
-			obj = obj + tf.cast(tmp, dtype=tf.float64)
+			obj += q[c][i] * np.log(q[c][i])
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
@@ -142,7 +140,7 @@ def EStep(omega, pi, x, philist): #renew q and lc
 	#print [len(oc), len(pc), len(xc)]
 	#count = 0
 	for c in q:
-		QF(oc, pc, xc, philist, c)
+		QF(omega, pi, x, philist, c)
 		#count += 1
 		#print count
 
@@ -336,8 +334,8 @@ epnum = len(pilist)
 
 for i in range(enum):
 	temp = pilist[i].split('\t')
-	row = iddic[int(temp[0])]
-	col = iddic[int(temp[1])]
+	row = iddic[temp[0]]
+	col = iddic[temp[1]]
 	egidx = edgemap[row][col]
 	if not edic.has_key(egidx):
 		continue
@@ -348,8 +346,8 @@ fr = open(prefix+'x_Poisson'+suffix, 'r')
 xlist = fr.readlines()
 for i in range(enum):
 	temp = xlist[i].split('\t')
-	row = iddic[int(temp[0])]
-	col = iddic[int(temp[1])]
+	row = iddic[temp[0]]
+	col = iddic[temp[1]]
 	egidx = edgemap[row][col]
 	if not edic.has_key(egidx):
 		continue
