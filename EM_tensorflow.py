@@ -369,12 +369,12 @@ param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
 p = tf.Variable(param, name='p')
 qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
-optimizer = tf.train.GradientDescentOptimizer(alpha)
+optimizer = tf.train.AdamOptimizer(alpha)
 #optimizer = tf.train.AdamOptimizer(alpha)
 target = ObjF(p, qm)
 train = optimizer.minimize(target)
 init = tf.global_variables_initializer()
-with tf.Session() as session:
+with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	session.run(init)
 	while cnt < 100:
 	#param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
