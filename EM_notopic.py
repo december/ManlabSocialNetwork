@@ -39,33 +39,25 @@ cnum = 0
 pos = 0
 poslist = list()
 total = 0
-iters = 1 #iteration times in each M-steps
+iters = 1000 #iteration times in each M-steps
 alpha = 0.00001 #learning rate for optimizer
 
 gamma = -1.0 #log barrier
 epsilon = 1.0 #when will EM stop
 lbd = np.zeros(users) #parameter lambda which have calculated before
 
-def Joint(omega, pi, x, theta1, theta2, theta3, theta4):
+def Joint(omega, pi, x):
 	param = np.append(omega, pi)
 	param = np.append(param, x)
-	param = np.append(param, theta1)
-	param = np.append(param, theta2)
-	param = np.append(param, theta3)
-	param = np.append(param, theta4)
 	return param
 
 def Resolver(param):
 	omega = param[:poslist[0]]
 	pi = param[poslist[0]:poslist[1]]
 	x = param[poslist[1]:poslist[2]]
-	theta1 = param[poslist[2]:poslist[3]]
-	theta2 = param[poslist[3]:poslist[4]]
-	theta3 = param[poslist[4]:poslist[5]]
-	theta4 = param[poslist[5]:]
-	return omega, pi, x, theta1, theta2, theta3, theta4
+	return omega, pi, x
 
-def Select(omega, pi, x, theta1, theta2, theta3, theta4):
+def Select(omega, pi, x):
 	p = list()
 	for i in range(vnum):
 		p.append(omega[vlist[i]])
@@ -73,81 +65,31 @@ def Select(omega, pi, x, theta1, theta2, theta3, theta4):
 		p.append(pi[elist[i]])
 	for i in range(enum):
 		p.append(x[elist[i]])
-	for i in range(vnum):
-		p.append(theta1[vlist[i]])	
-	for i in range(vnum):
-		p.append(theta2[vlist[i]])
-	for i in range(vnum):
-		p.append(theta3[vlist[i]])
-	for i in range(vnum):
-		p.append(theta4[vlist[i]])
 	return Resolver(np.array(p))
 
-def Phi(theta1, theta2, theta3, theta4, idx):
-	if idx == 0:
-		return tf.cos(theta1) * tf.cos(theta1)
-	if idx == 1:
-		return tf.sin(theta1) * tf.sin(theta1) * tf.cos(theta2) * tf.cos(theta2)
-	if idx == 2:
-		return tf.sin(theta1) * tf.sin(theta1) * tf.sin(theta2) * tf.sin(theta2) * tf.cos(theta3) * tf.cos(theta3)
-	if idx == 3:
-		return tf.sin(theta1) * tf.sin(theta1) * tf.sin(theta2) * tf.sin(theta2) * tf.sin(theta3) * tf.sin(theta3) * tf.cos(theta4) * tf.cos(theta4)
-	return tf.sin(theta1) * tf.sin(theta1) * tf.sin(theta2) * tf.sin(theta2) * tf.sin(theta3) * tf.sin(theta3) * tf.sin(theta4) * tf.sin(theta4)
-
-def Phi_np(theta1, theta2, theta3, theta4, idx):
-	if idx == 0:
-		return np.cos(theta1) * np.cos(theta1)
-	if idx == 1:
-		return np.sin(theta1) * np.sin(theta1) * np.cos(theta2) * np.cos(theta2)
-	if idx == 2:
-		return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.cos(theta3) * np.cos(theta3)
-	if idx == 3:
-		return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.cos(theta4) * np.cos(theta4)
-	return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.sin(theta4) * np.sin(theta4)
-
-def LnLc(omega, pi, x, philist, c, tau): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
+def LnLc(omega, pi, x, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = vdic[iddic[author[c]]]
-	s = tf.log(lbd[vlist[uc]]) + tf.log(philist[tau][uc])
+	s = tf.log(lbd[vlist[uc]])
 	for item in rusc[c]:
 		edge = item[0]
 		u = item[3]
-		s += tf.log(omega[u]) - omega[u] * item[1] + tf.log(pi[edge]) - item[2] * tf.log(x[edge]) + tf.log(philist[tau][u])
+		s += tf.log(omega[u]) - omega[u] * item[1] + tf.log(pi[edge]) - item[2] * tf.log(x[edge])
 	for item in nrusc[c]:
 		edge = item[0]
 		u = item[3]
 		exponent = tf.maximum(-1 * omega[u] * item[1], -100)
 		estimate = tf.exp(exponent) - 1
 		#print edgemap[uc][u]
-		result = 1 + pi[edge] * x[edge] ** (-1 * item[2]) * philist[tau][u] * estimate
+		result = 1 + pi[edge] * x[edge] ** (-1 * item[2]) * estimate
 		s += tf.log(result)
 	return s
 
-def QMatrix():
-	n = len(q)
-	qmx = list()
-	for i in range(n):
-		for j in range(5):
-			qmx.append(q[clist[i]][j])
-	qmx = tf.stack(qmx, 0)
-	return tf.reshape(qmx, shape=(n, 5))
-
-def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
-	for i in range(5):
-		lc[c][i] = LnLc(omega, pi, x, philist, c, i)
-	for i in range(5):
-		s = 0
-		for j in range(5):
-			s += tf.exp(lc[c][j] - lc[c][i])
-		q[c][i] = 1 / s
-
-def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
-	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(param)
+def ObjF(param): #formulation of objective function (include barrier) (the smaller the better)
+	omega, pi, x = Resolver(param)
 	#omega = tf.cos(omega) * tf.cos(omega)
 	#pi = tf.cos(pi) * tf.cos(pi)
 	#x = x * x
-	philist = list()
-	for i in range(5):
-		philist.append(Phi(theta1, theta2, theta3, theta4, i))
+
 	#global total
 	#total += 1
 	noreply = 0
@@ -162,35 +104,17 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	for c in q:
 		if len(rusc[c]) == 0:
 			if noreply == 0:
-				for i in range(5):
-					noreply -= qm[cdic[c]][i] * LnLc(omega, pi, x, philist, c, i)
-					tmp = qm[cdic[c]][i] * tf.log(qm[cdic[c]][i])
-					noreply += tf.cast(tmp, dtype=tf.float64)
+				noreply -= LnLc(omega, pi, x, philist, c, i)
+				tmp = tf.log(qm[cdic[c]][i])
+				noreply += tf.cast(tmp, dtype=tf.float64)
 			obj += noreply
 			continue
-		for i in range(5):
-			obj -= qm[cdic[c]][i] * LnLc(omega, pi, x, philist, c, i)
-			tmp = qm[cdic[c]][i] * tf.log(qm[cdic[c]][i])
-			obj = obj + tf.cast(tmp, dtype=tf.float64)
+		obj -= LnLc(omega, pi, x, philist, c, i)
+		tmp = tf.log(qm[cdic[c]][i])
+		obj = obj + tf.cast(tmp, dtype=tf.float64)
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
-
-def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
-	#print [len(omega), len(pi), len(x)]
-	#oc = tf.cos(omega) * tf.cos(omega)
-	#pc = tf.cos(pi) * tf.cos(pi)
-	#xc = x * x
-	#print [len(oc), len(pc), len(xc)]
-	philist = list()
-	for i in range(5):
-		philist.append(Phi(theta1, theta2, theta3, theta4, i))
-	#count = 0
-	for c in q:
-		QF(omega, pi, x, philist, c)
-		#count += 1
-		#print count
-	return QMatrix()
 
 def SingleObj(data, u):
 	global vnum, enum, cnum
@@ -327,20 +251,6 @@ theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 omega += sum(lbd) * 100 / users
 #omega = np.arccos(np.sqrt(omega))
 
-theta1 += np.arccos(np.sqrt(0.2))
-theta2 += np.arccos(np.sqrt(0.25))
-theta3 += np.arccos(np.sqrt(1.0 / 3))
-theta4 += np.arccos(np.sqrt(0.5))
-'''
-tr = list()
-for i in range(4):
-	tr.append(np.random.rand())
-print tr
-theta1 += np.arccos(np.sqrt(tr[0]))
-theta2 += np.arccos(np.sqrt(tr[1]))
-theta3 += np.arccos(np.sqrt(tr[2]))
-theta4 += np.arccos(np.sqrt(tr[3]))
-'''
 #Read personal cascade file
 print 'Read behavior log...'
 for i in range(users):
@@ -355,8 +265,8 @@ poslist.append(vnum+enum)
 poslist.append(vnum+enum*2)
 for i in range(4):
 	poslist.append(vnum*(i+2)+enum*2)
-omega, pi, x, theta1, theta2, theta3, theta4 = Select(omega, pi, x, theta1, theta2, theta3, theta4)
-print 'There are ' + str(vnum * 5) + ' point parameters and ' + str(enum * 2) + ' edge parameters to be learned...'
+omega, pi, x = Select(omega, pi, x)
+print 'There are ' + str(vnum) + ' point parameters and ' + str(enum * 2) + ' edge parameters to be learned...'
 #Conduct EM algorithm
 #QMatrix(q)
 print 'EM algorithm begins...'
@@ -368,35 +278,28 @@ lastObj = np.exp(100)
 param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
 p = tf.Variable(param, name='p')
-qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
 optimizer = tf.train.GradientDescentOptimizer(alpha)
 #optimizer = tf.train.AdamOptimizer(alpha)
-target = ObjF(p, qm)
+target = ObjF(p)
 train = optimizer.minimize(target)
 init = tf.global_variables_initializer()
 with tf.Session() as session:
 	session.run(init)
-	while cnt < 100:
 	#param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 	#start = datetime.datetime.now()
 	#obj = ObjF(param)
 	#end = datetime.datetime.now()
 	#print (end - start).seconds
-		qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
-		qf = session.run(qf)
-		print 'EStep ' + str(cnt+1) + ' finished...'
-		for step in range(iters):
-			session.run(train, feed_dict={qm:qf})
-			newp = session.run(p, feed_dict={qm:qf})
-			obj = session.run(target, feed_dict={qm:qf})
-		print 'MStep ' + str(cnt+1) + ' finished...'
-		print 'Objective function value: ' + str(obj)
-		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
+	for step in range(iters):
+		session.run(train)
+		newp = session.run(p)
+		obj = session.run(target)
+		print 'Iteration ' + str(cnt+1) + ' finished...'
 		if abs(lastObj) - obj < epsilon:
 			break
-		lastObj = obj	
-		cnt += 1
-		print 'Iteration ' + str(cnt) + ' finished...'
+		lastObj = obj
+	print 'Objective function value: ' + str(obj)
+	omega, pi, x = Resolver(newp)
 #omega = np.cos(omega) * np.cos(omega)
 #pi = np.cos(pi) * np.cos(pi)
 #x = x * x
