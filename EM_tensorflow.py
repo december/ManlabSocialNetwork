@@ -43,7 +43,7 @@ iters = 1 #iteration times in each M-steps
 alpha = 0.000001 #learning rate for optimizer
 
 gamma = -1.0 #log barrier
-epsilon = 1.0 #when will EM stop
+epsilon = 10.0 #when will EM stop
 lbd = np.zeros(users) #parameter lambda which have calculated before
 
 def Joint(omega, pi, x, theta1, theta2, theta3, theta4):
