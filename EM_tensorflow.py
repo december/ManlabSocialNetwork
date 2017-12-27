@@ -376,19 +376,19 @@ train = optimizer.minimize(target)
 init = tf.global_variables_initializer()
 with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	session.run(init)
+	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
 	while cnt < 100:
 	#param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 	#start = datetime.datetime.now()
 	#obj = ObjF(param)
 	#end = datetime.datetime.now()
 	#print (end - start).seconds
-		qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
-		qf = session.run(qf)
+		out_qf = session.run(qf)
 		print 'EStep ' + str(cnt+1) + ' finished...'
 		for step in range(iters):
-			session.run(train, feed_dict={qm:qf})
-			newp = session.run(p, feed_dict={qm:qf})
-			obj = session.run(target, feed_dict={qm:qf})
+			session.run(train, feed_dict={qm:out_qf})
+			newp = session.run(p, feed_dict={qm:out_qf})
+			obj = session.run(target, feed_dict={qm:out_qf})
 		print 'MStep ' + str(cnt+1) + ' finished...'
 		print 'Objective function value: ' + str(obj)
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
