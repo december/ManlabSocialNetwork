@@ -40,7 +40,7 @@ pos = 0
 poslist = list()
 total = 0
 iters = 1 #iteration times in each M-steps
-alpha = 0.00001 #learning rate for optimizer
+alpha = 0.000001 #learning rate for optimizer
 
 gamma = -1.0 #log barrier
 epsilon = 1.0 #when will EM stop
@@ -142,9 +142,9 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 
 def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
 	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(param)
-	#omega = tf.cos(omega) * tf.cos(omega)
-	#pi = tf.cos(pi) * tf.cos(pi)
-	#x = x * x
+	omega = tf.cos(omega) * tf.cos(omega)
+	pi = tf.cos(pi) * tf.cos(pi)
+	x = x * x
 	philist = list()
 	for i in range(5):
 		philist.append(Phi(theta1, theta2, theta3, theta4, i))
@@ -157,7 +157,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	print x
 	print pi
 	'''
-	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
+	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
 	for c in q:
 		if len(rusc[c]) == 0:
@@ -178,9 +178,9 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	#print [len(omega), len(pi), len(x)]
-	#oc = tf.cos(omega) * tf.cos(omega)
-	#pc = tf.cos(pi) * tf.cos(pi)
-	#xc = x * x
+	omega = tf.cos(omega) * tf.cos(omega)
+	pi = tf.cos(pi) * tf.cos(pi)
+	x = x * x
 	#print [len(oc), len(pc), len(xc)]
 	philist = list()
 	for i in range(5):
@@ -315,7 +315,7 @@ while i < n:
 	i += number
 fr.close()
 pi = np.array(pi)
-#pi = np.arccos(np.sqrt(pi))
+pi = np.arccos(np.sqrt(pi))
 x = np.array(x)
 
 omega = np.zeros(allusers) #parameter omega
@@ -325,8 +325,8 @@ theta3 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
 omega += sum(lbd) * 100 / users
-#omega = np.arccos(np.sqrt(omega))
-
+omega = np.arccos(np.sqrt(omega))
+'''
 theta1 += np.arccos(np.sqrt(0.2))
 theta2 += np.arccos(np.sqrt(0.25))
 theta3 += np.arccos(np.sqrt(1.0 / 3))
@@ -340,7 +340,7 @@ theta1 += np.arccos(np.sqrt(tr[0]))
 theta2 += np.arccos(np.sqrt(tr[1]))
 theta3 += np.arccos(np.sqrt(tr[2]))
 theta4 += np.arccos(np.sqrt(tr[3]))
-'''
+
 #Read personal cascade file
 print 'Read behavior log...'
 for i in range(users):
@@ -369,7 +369,7 @@ param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
 p = tf.Variable(param, name='p')
 qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
-optimizer = tf.train.AdamOptimizer(alpha)
+optimizer = tf.train.GradientDescentOptimizer(alpha)
 #optimizer = tf.train.AdamOptimizer(alpha)
 target = ObjF(p, qm)
 train = optimizer.minimize(target)
@@ -397,9 +397,9 @@ with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 		lastObj = obj	
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
-#omega = np.cos(omega) * np.cos(omega)
-#pi = np.cos(pi) * np.cos(pi)
-#x = x * x
+omega = np.cos(omega) * np.cos(omega)
+pi = np.cos(pi) * np.cos(pi)
+x = x * x
 
 #Output parameters
 if single:
