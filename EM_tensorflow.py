@@ -40,7 +40,7 @@ pos = 0
 poslist = list()
 total = 0
 iters = 1 #iteration times in each M-steps
-alpha = 0.000001 #learning rate for optimizer
+alpha = 0.0000001 #learning rate for optimizer
 
 gamma = -1.0 #log barrier
 epsilon = 10.0 #when will EM stop
