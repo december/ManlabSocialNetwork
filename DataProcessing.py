@@ -14,6 +14,7 @@ for name in namelist:
 		data = fr.readlines()
 		fr.close()
 		n = len(data)
+		i = 0
 		while i < n:
 			if i + 12 >= n:
 				break
