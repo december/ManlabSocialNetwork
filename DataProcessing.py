@@ -25,6 +25,7 @@ for name in namelist:
 			ru = data[i+10][2:-1]
 			pt = data[i+11][2:-1]
 			pu = data[i+12][2:-1]
+			print str(tid) + ' ' + str(tm) + ' ' + str(tu) + ' ' + str(rt) + ' ' + str(ru) + ' ' + str(pt) + ' ' + str(pu)
 			if tweetdic.has_key(tid):
 				tid = tweetdic[tid]
 			else:
