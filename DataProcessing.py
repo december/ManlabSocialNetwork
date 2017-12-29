@@ -76,7 +76,8 @@ for name in namelist:
 			infodic[tid].append(pu)			
 			infodic[tid].append(rt)
 			infodic[tid].append(ru)
-			i += 21
+			while i < n and data[i][0] != '!':
+				i += 1
 
 infolist = sorted(infodic.items(), key=lambda d:d[1][1])
 for info in infolist:
