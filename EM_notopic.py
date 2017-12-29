@@ -306,7 +306,7 @@ with tf.Session() as session:
 
 #Output parameters
 if single:
-	prefix = prefix + 'single_user_parameter/'
+	prefix = prefix + 'single_user_parameter_notopic/'
 	suffix = '_' + str(filename) + suffix
 
 print 'Output data files...'
@@ -343,14 +343,4 @@ for item in edgemap:
 		fw.write(str(x[edic[edgemap[item][fd]]]))
 		fw.write('\n')
 fw.close()
-
-for i in range(5):
-	fw = open(prefix+'phi'+str(i)+'_Poisson'+suffix, 'w')
-	phi = Phi_np(theta1, theta2, theta3, theta4, i)
-	for j in range(vnum):
-		fw.write(uid[vlist[j]])
-		fw.write('\t')
-		fw.write(str(phi[j]))
-		fw.write('\n')
-	fw.close()
 
