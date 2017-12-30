@@ -8,14 +8,13 @@ prefix = '../../dataset/tencent_weibo_2011_11/'
 namelist = os.listdir(prefix)
 tweet_cnt = 0
 user_cnt = 0
-cnt = 0
 for name in namelist:
 	if name.startswith('2011_'):
-		print name
 		fr = open(prefix+name, 'r')
 		data = fr.readlines()
 		fr.close()
 		n = len(data)
+		print name + ' ' + str(n)
 		i = 0
 		while i < n:
 			if i + 12 >= n:
@@ -78,9 +77,8 @@ for name in namelist:
 			infodic[tid].append(pu)			
 			infodic[tid].append(rt)
 			infodic[tid].append(ru)
-			cnt += 1
-			if cnt % 100000000 == 0:
-				print cnt
+			if i % 100000000 == 0:
+				print name + ' ' + str(i * 1.0 / n * 100) + '%'
 			while i < n and data[i][0] != '!':
 				i += 1
 
