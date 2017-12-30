@@ -78,8 +78,8 @@ for name in namelist:
 			infodic[tid].append(rt)
 			infodic[tid].append(ru)
 			if i % 10000000 == 0:
-				print i
 				print name + ' ' + str(i * 1.0 / n * 100) + '%'
+			i += 1
 			while i < n and data[i][0] != '!':
 				i += 1
 
