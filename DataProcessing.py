@@ -10,6 +10,7 @@ tweet_cnt = 0
 user_cnt = 0
 for name in namelist:
 	if name.startswith('2011_'):
+		print name
 		fr = open(prefix+name, 'r')
 		data = fr.readlines()
 		fr.close()
