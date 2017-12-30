@@ -79,7 +79,7 @@ for name in namelist:
 			infodic[tid].append(rt)
 			infodic[tid].append(ru)
 			cnt += 1
-			if cnt % 10000 == 0:
+			if cnt % 100000000 == 0:
 				print cnt
 			while i < n and data[i][0] != '!':
 				i += 1
