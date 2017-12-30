@@ -19,6 +19,11 @@ for name in namelist:
 		while i < n:
 			if i + 12 >= n:
 				break
+			if i + 21 < n and data[i+21][0] != '!':
+				while i < n and data[i][0] != '!':
+					i += 1
+				if i >= n:
+					break
 			tid = data[i+1][2:-1]
 			tm = data[i+2][2:-1]
 			tu = data[i+3][2:-1]
@@ -26,7 +31,7 @@ for name in namelist:
 			ru = data[i+10][2:-1]
 			pt = data[i+11][2:-1]
 			pu = data[i+12][2:-1]
-			print str(tid) + ' ' + str(tm) + ' ' + str(tu) + ' ' + str(rt) + ' ' + str(ru) + ' ' + str(pt) + ' ' + str(pu)
+			#print str(tid) + ' ' + str(tm) + ' ' + str(tu) + ' ' + str(rt) + ' ' + str(ru) + ' ' + str(pt) + ' ' + str(pu)
 			if tweetdic.has_key(tid):
 				tid = tweetdic[tid]
 			else:
