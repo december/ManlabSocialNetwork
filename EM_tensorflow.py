@@ -347,8 +347,8 @@ for i in range(users):
 	if single and i != filename:
 		continue
 	fr = open(prefix+'single_user_post/'+str(i)+'_'+uid[i]+suffix, 'r')
-	single = fr.readlines()
-	SingleObj(single, i)
+	singlefile = fr.readlines()
+	SingleObj(singlefile, i)
 	fr.close()
 poslist.append(vnum)
 poslist.append(vnum+enum)
