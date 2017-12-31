@@ -2,6 +2,7 @@ import os
 
 def isLegal(md, tm, us, ri, ru, pi, pd):
 	if md == 'MD' and tm == 'TM' and us == "US" and ri == 'RI' and ru == 'RU' and pi == 'PI' and pd == 'PD':
+		print 'Yes'
 		return True
 	return False
 
