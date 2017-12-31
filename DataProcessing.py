@@ -89,7 +89,7 @@ for name in namelist:
 			infodic[tid].append(rt)
 			infodic[tid].append(ru)
 			cnt += 1
-			if cnt % 1000000 == 0:
+			if cnt % 10000 == 0:
 				print cnt
 			if data[i+21][0] == '!':
 				i += 21
