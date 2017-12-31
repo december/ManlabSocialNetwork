@@ -2,7 +2,6 @@ import os
 
 def isLegal(md, tm, us, ri, ru, pi, pd):
 	if md == 'MD' and tm == 'TM' and us == "US" and ri == 'RI' and ru == 'RU' and pi == 'PI' and pd == 'PD':
-		print 'Yes'
 		return True
 	return False
 
@@ -29,6 +28,8 @@ for name in namelist:
 			while i < n:
 				if not isLegal(data[i+1][:2], data[i+2][:2], data[i+3][:2], data[i+9][:2], data[i+10][:2], data[i+11][:2], data[i+12][:2]):
 					i += 1
+				else:
+					break
 			if i >= n:
 				break
 			tid = data[i+1][2:-1]
