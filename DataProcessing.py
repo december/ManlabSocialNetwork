@@ -15,12 +15,13 @@ tweet_cnt = 0
 user_cnt = 0
 cnt = 0
 for name in namelist:
-	if name.startswith('2011_'):
+	if name.startswith('2011_11'):
 		fr = open(prefix+name, 'r')
 		data = fr.readlines()
 		fr.close()
 		n = len(data)
-		print name + ' ' + str(n)
+		cnt += 1
+		print str(cnt) + ': ' + name
 		i = 0
 		while i < n:
 			if i + 12 >= n:
@@ -90,9 +91,6 @@ for name in namelist:
 			infodic[tid].append(pu)			
 			infodic[tid].append(rt)
 			infodic[tid].append(ru)
-			cnt += 1
-			if cnt % 1000000 == 0:
-				print cnt
 			if i + 21 < n and data[i+21][0] == '!':
 				i += 21
 			else:
@@ -115,7 +113,7 @@ for info in infolist:
 		cascade[info[1][4]].append(temp)
 print len(cascade)
 caslist = sorted(cascade.items(), key=lambda d:d[1][0][1])
-fw = open('../../cascading_generation_model/all/all.detail', 'w')
+fw = open('../../cascading_generation_model/all/all_11.detail', 'w')
 for cas in caslist:
 	fw.write(str(cas[0]))
 	fw.write('\t')
