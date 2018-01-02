@@ -1,5 +1,10 @@
 import os
 
+def isLegal(md, tm, us, ri, ru, pi, pd):
+	if md == 'MD' and tm == 'TM' and us == "US" and ri == 'RI' and ru == 'RU' and pi == 'PI' and pd == 'PD':
+		return True
+	return False
+
 infodic = {} #form tweet id to the info of it(user_id, tweet_time, reply_tweet_id, reply_user_id, root_tweet_id, root_user_id)
 cascade = {} #from root id to the info of tweets in cascade(tweet_id, user_id, tweet_time, reply_tweet_id, reply_user_id)
 tweetdic = {} #from real tweet id to our tweet id
@@ -8,6 +13,7 @@ prefix = '../../dataset/tencent_weibo_2011_11/'
 namelist = os.listdir(prefix)
 tweet_cnt = 0
 user_cnt = 0
+cnt = 0
 for name in namelist:
 	if name.startswith('2011_'):
 		fr = open(prefix+name, 'r')
@@ -19,11 +25,13 @@ for name in namelist:
 		while i < n:
 			if i + 12 >= n:
 				break
-			if i + 21 < n and data[i+21][0] != '!':
-				while i < n and data[i][0] != '!':
+			while i < n:
+				if not isLegal(data[i+1][:2], data[i+2][:2], data[i+3][:2], data[i+9][:2], data[i+10][:2], data[i+11][:2], data[i+12][:2]):
 					i += 1
-				if i >= n:
+				else:
 					break
+			if i >= n:
+				break
 			tid = data[i+1][2:-1]
 			tm = data[i+2][2:-1]
 			tu = data[i+3][2:-1]
@@ -82,11 +90,13 @@ for name in namelist:
 			infodic[tid].append(pu)			
 			infodic[tid].append(rt)
 			infodic[tid].append(ru)
-			if i % 10000000 == 0:
-				print name + ' ' + str(i * 1.0 / n * 100) + '%'
-			i += 1
-			while i < n and data[i][0] != '!':
-				i += 1
+			cnt += 1
+			if cnt % 1000000 == 0:
+				print cnt
+			if i + 21 < n and data[i+21][0] == '!':
+				i += 21
+			else:
+				i += 13
 
 infolist = sorted(infodic.items(), key=lambda d:d[1][1])
 for info in infolist:
