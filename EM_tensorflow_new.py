@@ -200,7 +200,7 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	return QMatrix()
 
 def SingleObj(data, u):
-	global vnum, enum, cnum
+	global vnum, enum, cnum, rusc_num, nrusc_num
 	n = len(data)
 	#last = int(data[1].split('\t')[2])
 	i = 0
