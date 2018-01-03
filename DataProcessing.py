@@ -95,7 +95,7 @@ for name in namelist:
 				i += 21
 			else:
 				i += 13
-
+print 'Finish Reading.'
 infolist = sorted(infodic.items(), key=lambda d:d[1][1])
 for info in infolist:
 	if info[1][2] == -1:
@@ -111,9 +111,10 @@ for info in infolist:
 		temp.append(info[0])
 		temp.extend(info[1][:4])
 		cascade[info[1][4]].append(temp)
-print len(cascade)
+print 'Get ' + str(len(cascade)) + ' cascades.'
 caslist = sorted(cascade.items(), key=lambda d:d[1][0][1])
 fw = open('../../cascading_generation_model/all/all_11.detail', 'w')
+print 'Begin writing file.'
 for cas in caslist:
 	fw.write(str(cas[0]))
 	fw.write('\t')
