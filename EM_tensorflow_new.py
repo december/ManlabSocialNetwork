@@ -20,7 +20,7 @@ iddic = {} #from user id to user index
 friend = {} #from user id to its followers' user id
 rusc = list() #info of rusc sets and records
 nrusc = list() #info of nrusc sets and records
-rusc_dic = {} #from cascade id to index list of rusc info
+sa = {} #from cascade id to index list of rusc info
 nrusc_dic = {} #from cascade id to index list of nrusc info
 depth = {} #from tweet id to depth
 author = {} #from tweet id to user id
@@ -169,7 +169,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
 	for c in q:
-		if len(rusc_dic[c]) == 0:
+		if tf.shape(rusc_dic[c])[0] == 0:
 			if noreply == 0:
 				noreply += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
 				for i in range(5):
