@@ -169,7 +169,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
 	for c in q:
-		if len(rusc[c]) == 0:
+		if tf.shape(rusc[c])[0] == 0:
 			if noreply == 0:
 				noreply += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
 				for i in range(5):
