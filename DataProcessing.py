@@ -15,7 +15,7 @@ tweet_cnt = 0
 user_cnt = 0
 cnt = 0
 for name in namelist:
-	if name.startswith('2011_11'):
+	if name.startswith('2011_12'):
 		fr = open(prefix+name, 'r')
 		data = fr.readlines()
 		fr.close()
@@ -113,7 +113,7 @@ for info in infolist:
 		cascade[info[1][4]].append(temp)
 print 'Get ' + str(len(cascade)) + ' cascades.'
 caslist = sorted(cascade.items(), key=lambda d:d[1][0][1])
-fw = open('../../cascading_generation_model/all/all_11.detail', 'w')
+fw = open('../../cascading_generation_model/all/all_12.detail', 'w')
 print 'Begin writing file.'
 for cas in caslist:
 	fw.write(str(cas[0]))
