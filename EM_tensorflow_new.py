@@ -380,8 +380,8 @@ cnt = 0
 lastObj = np.exp(100)
 param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
-rusc = tf.constant(rusc)
-nrusc = tf.constant(nrusc)
+rusc = tf.constant(rusc, dtype=tf.float64)
+nrusc = tf.constant(nrusc, dtype=tf.float64)
 for key in rusc_dic:
 	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
 	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
