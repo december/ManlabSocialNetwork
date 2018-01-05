@@ -18,8 +18,10 @@ te = 1322150400 #end timestamps
 uid = list() #from user index to user id
 iddic = {} #from user id to user index
 friend = {} #from user id to its followers' user id
-rusc = list() #info of rusc sets and records
-nrusc = list() #info of nrusc sets and records
+rusc = list() #info part of rusc sets and records
+nrusc = list() #info part of nrusc sets and records
+rusc_id = list() #id part of rusc sets and records
+nrusc_id = list() #id part of nrusc sets and records
 rusc_dic = {} #from cascade id to index list of rusc info
 nrusc_dic = {} #from cascade id to index list of nrusc info
 depth = {} #from tweet id to depth
@@ -114,19 +116,21 @@ def LnLc(omega, pi, x, philist, c, tau): #ln fromulation of one cascades's likel
 	s = tf.log(lbd[vlist[uc]]) + tf.log(philist[tau][uc])
 	rc = tf.gather(rusc, rusc_dic[c], axis=0)
 	nc = tf.gather(nrusc, nrusc_dic[c], axis=0)
-	omega_rc = tf.gather(omega, tf.cast(rc[:, 3], dtype=tf.int64), axis=0)
-	pi_rc = tf.gather(pi, tf.cast(rc[:, 0], dtype=tf.int64), axis=0)
-	x_rc = tf.gather(x, tf.cast(rc[:, 0], dtype=tf.int64), axis=0)
-	phi_rc = tf.gather(philist[tau], tf.cast(rc[:, 3], dtype=tf.int64), axis=0)
-	s += tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 1] + tf.log(pi_rc) - rc[:, 2] * tf.log(x_rc) + tf.log(phi_rc))
+	rc_id = tf.gather(rusc_id, rusc_dic[c], axis=0)
+	nc_id = tf.gather(nrusc_id, nrusc_dic[c], axis=0)
+	omega_rc = tf.gather(omega, rc_id[:, 1], axis=0)
+	pi_rc = tf.gather(pi, rc_id[:, 0], axis=0)
+	x_rc = tf.gather(x, rc_id[:, 0], axis=0)
+	phi_rc = tf.gather(philist[tau], rc_id[:, 1], axis=0)
+	s += tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - rc[:, 1] * tf.log(x_rc) + tf.log(phi_rc))
 
-	omega_nc = tf.gather(omega, tf.cast(nc[:, 3], dtype=tf.int64), axis=0)
-	pi_nc = tf.gather(pi, tf.cast(nc[:, 0], dtype=tf.int64), axis=0)
-	x_nc = tf.gather(x, tf.cast(nc[:, 0], dtype=tf.int64), axis=0)
-	phi_nc = tf.gather(philist[tau], tf.cast(nc[:, 3], dtype=tf.int64), axis=0)
-	exponent = tf.maximum(-1 * omega_nc * nc[:, 1], -100)
+	omega_nc = tf.gather(omega, nc_id[:, 1], axis=0)
+	pi_nc = tf.gather(pi, nc_id[:, 0], axis=0)
+	x_nc = tf.gather(x, nc_id[:, 0], axis=0)
+	phi_nc = tf.gather(philist[tau], nc_id[:, 1], axis=0)
+	exponent = tf.maximum(-1 * omega_nc * nc[:, 0], -100)
 	estimate = tf.exp(exponent) - 1
-	result = 1 + pi_nc * x_nc ** (-1 * nc[:, 2]) * phi_nc * estimate
+	result = 1 + pi_nc * x_nc ** (-1 * nc[:, 1]) * phi_nc * estimate
 	s += tf.reduce_sum(tf.log(result))
 
 	return s
@@ -251,20 +255,23 @@ def SingleObj(data, u):
 					vnum += 1
 					vlist.append(iddic[f])
 				info = list()
+				info_id = list()
 				if f in casdic[item]: #this person retweeted it
-					info.append(edic[edgemap[iddic[author[item]]][iddic[f]]])
+					info_id.append(edic[edgemap[iddic[author[item]]][iddic[f]]])
 					info.append(timestamp[casdic[item][f]] - timestamp[item])
 					info.append(depth[item])
-					info.append(vdic[iddic[f]])
+					info_id.append(vdic[iddic[f]])
 					rusc.append(info)
+					rusc_id.append(info_id)
 					rusc_dic[temp[0]].append(rusc_num)
 					rusc_num += 1
 				else: #this person did not retweet it
-					info.append(edic[edgemap[iddic[author[item]]][iddic[f]]])
+					info_id.append(edic[edgemap[iddic[author[item]]][iddic[f]]])
 					info.append(te - timestamp[item])
 					info.append(depth[item])
-					info.append(vdic[iddic[f]])
+					info_id.append(vdic[iddic[f]])
 					nrusc.append(info)
+					nrusc_id.append(info_id)
 					nrusc_dic[temp[0]].append(nrusc_num)
 					nrusc_num += 1
 		cnum += 1
@@ -382,6 +389,8 @@ param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
 rusc = tf.constant(rusc, dtype=tf.float64)
 nrusc = tf.constant(nrusc, dtype=tf.float64)
+rusc_id = tf.constant(rusc_id, dtype=tf.int64)
+nrusc_id = tf.constant(nrusc_id, dtype=tf.int64)
 for key in rusc_dic:
 	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
 	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
@@ -392,6 +401,7 @@ optimizer = tf.train.GradientDescentOptimizer(alpha)
 target = ObjF(p, qm)
 train = optimizer.minimize(target)
 init = tf.global_variables_initializer()
+print 'Graph construction completed.'
 with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	session.run(init)
 	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)

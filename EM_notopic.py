@@ -18,8 +18,10 @@ te = 1322150400 #end timestamps
 uid = list() #from user index to user id
 iddic = {} #from user id to user index
 friend = {} #from user id to its followers' user id
-rusc = {} #from cascade id to rusc sets and records
-nrusc = {} #from cascade id to nrusc sets and records
+rusc = list() #info of rusc sets and records
+nrusc = list() #info of nrusc sets and records
+rusc_dic = {} #from cascade id to index list of rusc info
+nrusc_dic = {} #from cascade id to index list of nrusc info
 depth = {} #from tweet id to depth
 author = {} #from tweet id to user id
 timestamp = {} #from tweet id to timestamp
@@ -70,18 +72,19 @@ def Select(omega, pi, x):
 def LnLc(omega, pi, x, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = vdic[iddic[author[c]]]
 	s = tf.log(lbd[vlist[uc]])
-	for item in rusc[c]:
-		edge = item[0]
-		u = item[3]
-		s += tf.log(omega[u]) - omega[u] * item[1] + tf.log(pi[edge]) - item[2] * tf.log(x[edge])
-	for item in nrusc[c]:
-		edge = item[0]
-		u = item[3]
-		exponent = tf.maximum(-1 * omega[u] * item[1], -100)
-		estimate = tf.exp(exponent) - 1
-		#print edgemap[uc][u]
-		result = 1 + pi[edge] * x[edge] ** (-1 * item[2]) * estimate
-		s += tf.log(result)
+	rc = tf.gather(rusc, rusc_dic[c], axis=0)
+	nc = tf.gather(nrusc, nrusc_dic[c], axis=0)
+	omega_rc = tf.gather(omega, tf.cast(rc[:, 3], dtype=tf.int64), axis=0)
+	pi_rc = tf.gather(pi, tf.cast(rc[:, 0], dtype=tf.int64), axis=0)
+	x_rc = tf.gather(x, tf.cast(rc[:, 0], dtype=tf.int64), axis=0)
+	s += tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 1] + tf.log(pi_rc) - rc[:, 2] * tf.log(x_rc))
+	omega_nc = tf.gather(omega, tf.cast(nc[:, 3], dtype=tf.int64), axis=0)
+	pi_nc = tf.gather(pi, tf.cast(nc[:, 0], dtype=tf.int64), axis=0)
+	x_nc = tf.gather(x, tf.cast(nc[:, 0], dtype=tf.int64), axis=0)
+	exponent = tf.maximum(-1 * omega_nc * nc[:, 1], -100)
+	estimate = tf.exp(exponent) - 1
+	result = 1 + pi_nc * x_nc ** (-1 * nc[:, 2]) * estimate
+	s += tf.reduce_sum(tf.log(result))
 	return s
 
 def ObjF(param): #formulation of objective function (include barrier) (the smaller the better)
@@ -117,7 +120,7 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	return obj
 
 def SingleObj(data, u):
-	global vnum, enum, cnum
+	global vnum, enum, cnum, rusc_num, nrusc_num
 	n = len(data)
 	#last = int(data[1].split('\t')[2])
 	i = 0
@@ -128,12 +131,13 @@ def SingleObj(data, u):
 		nrusc[temp[0]] = list()
 		clist.append(temp[0])
 		cdic[temp[0]] = cnum
-		cnum += 1
 		q[temp[0]] = list()
 		lc[temp[0]] = list()
 		for j in range(5):
 			q[temp[0]].append(0.2)
 			lc[temp[0]].append(0.0)
+		lc[temp[0]] = np.array(lc[temp[0]])
+		q[temp[0]] = np.array(q[temp[0]])
 		casdic = {} #from tweet id to user id who replied it with which tweet id
 		for j in range(i+1, i+number):
 			tweet = data[j].split('\t')
@@ -172,13 +176,18 @@ def SingleObj(data, u):
 					info.append(timestamp[casdic[item][f]] - timestamp[item])
 					info.append(depth[item])
 					info.append(vdic[iddic[f]])
-					rusc[temp[0]].append(info)
+					rusc.append(info)
+					rusc_dic[temp[0]].append(rusc_num)
+					rusc_num += 1
 				else: #this person did not retweet it
 					info.append(edic[edgemap[iddic[author[item]]][iddic[f]]])
 					info.append(te - timestamp[item])
 					info.append(depth[item])
 					info.append(vdic[iddic[f]])
-					nrusc[temp[0]].append(info)
+					nrusc.append(info)
+					nrusc_dic[temp[0]].append(nrusc_num)
+					nrusc_num += 1
+		cnum += 1
 		i += number		
 
 
@@ -277,6 +286,11 @@ cnt = 0
 lastObj = np.exp(100)
 param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
+rusc = tf.constant(rusc, dtype=tf.float64)
+nrusc = tf.constant(nrusc, dtype=tf.float64)
+for key in rusc_dic:
+	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
+	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
 p = tf.Variable(param, name='p')
 optimizer = tf.train.GradientDescentOptimizer(alpha)
 #optimizer = tf.train.AdamOptimizer(alpha)
