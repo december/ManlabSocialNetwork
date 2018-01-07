@@ -13,12 +13,12 @@ while i < n:
 	number = int(temp[1]) + 1
 	root = temp[0]
 	for j in range(i+1, number):
-		temp = data[j].split('\t')
+		temp = data[j][:-1].split('\t')
 		uid = temp[1]
 		pid = temp[4]
 		if not info_dic.has_key(uid):
 			info_dic[uid] = [0, 0, 0]
-		if pid == '-1\n':
+		if pid == '-1':
 			info_dic[uid][0] += 1
 		else:
 			if not info_dic.has_key(pid):
