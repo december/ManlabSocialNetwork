@@ -12,7 +12,7 @@ while i < n:
 	temp = data[i].split('\t')
 	number = int(temp[1]) + 1
 	root = temp[0]
-	for j in range(i, number):
+	for j in range(i+1, number):
 		temp = data[j].split('\t')
 		uid = temp[1]
 		pid = temp[4]
