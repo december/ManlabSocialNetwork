@@ -47,7 +47,7 @@ for key in friend:
 		fw.write('\n')
 fw.close()
 
-fw = open'../../cascading_generation_model/all/all_info.detail', 'w')	
+fw = open('../../cascading_generation_model/all/all_info.detail', 'w')	
 for key in info_dic:
 	fw.write(key)
 	fw.write('\t')
