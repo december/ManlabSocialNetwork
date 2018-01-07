@@ -18,7 +18,7 @@ while i < n:
 		pid = temp[4]
 		if not info_dic.has_key(uid):
 			info_dic[uid] = [0, 0, 0]
-		if pid == '-1':
+		if pid == '-1\n':
 			info_dic[uid][0] += 1
 		else:
 			if not info_dic.has_key(pid):
