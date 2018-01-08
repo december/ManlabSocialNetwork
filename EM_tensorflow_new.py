@@ -6,6 +6,12 @@ import scipy.optimize
 import numpy.random
 import datetime
 
+def debug_signal_handler(signal, frame):
+    import pdb
+    pdb.set_trace()
+import signal
+signal.signal(signal.SIGINT, debug_signal_handler)
+
 single = True
 filename = int(sys.argv[1])
 if filename < 0:
