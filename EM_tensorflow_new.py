@@ -176,6 +176,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	philist = list()
 	for i in range(5):
 		philist.append(Phi(theta1, theta2, theta3, theta4, i))
+	print philist.shape
 	philist = np.transpose(np.array(philist))
 	print philist.shape
 	#global total
