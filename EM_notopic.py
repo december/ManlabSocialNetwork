@@ -109,14 +109,14 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	for c in q:
 		if tf.shape(rusc_dic[c])[0] == 0:
 			if noreply == 0:
-				noreply -= LnLc(omega, pi, x, philist, c, i)
-				tmp = tf.log(qm[cdic[c]][i])
-				noreply += tf.cast(tmp, dtype=tf.float64)
+				noreply -= LnLc(omega, pi, x, c)
+				#tmp = tf.log(qm[cdic[c]][i])
+				#noreply += tf.cast(tmp, dtype=tf.float64)
 			obj += noreply
 			continue
-		obj -= LnLc(omega, pi, x, philist, c, i)
-		tmp = tf.log(qm[cdic[c]][i])
-		obj = obj + tf.cast(tmp, dtype=tf.float64)
+		obj -= LnLc(omega, pi, x, c)
+		#tmp = tf.log(qm[cdic[c]][i])
+		#obj = obj + tf.cast(tmp, dtype=tf.float64)
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
