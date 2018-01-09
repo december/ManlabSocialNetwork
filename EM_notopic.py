@@ -127,8 +127,8 @@ def SingleObj(data, u):
 	while i < n:
 		temp = data[i].split('\t')
 		number = int(temp[1]) + 1
-		rusc[temp[0]] = list()
-		nrusc[temp[0]] = list()
+		rusc_dic[temp[0]] = list()
+		nrusc_dic[temp[0]] = list()
 		clist.append(temp[0])
 		cdic[temp[0]] = cnum
 		q[temp[0]] = list()
