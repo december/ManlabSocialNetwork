@@ -5,6 +5,7 @@ import tensorflow as tf
 import scipy.optimize
 import numpy.random
 import datetime
+from memory_profiler import profile
 
 def debug_signal_handler(signal, frame):
     import pdb
@@ -117,6 +118,7 @@ def Phi_np(theta1, theta2, theta3, theta4, idx):
 		return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.cos(theta4) * np.cos(theta4)
 	return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.sin(theta4) * np.sin(theta4)
 
+@profile
 def LnLc(omega, pi, x, philist, c, tau): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = vdic[iddic[author[c]]]
 	s = tf.log(lbd[vlist[uc]]) + tf.log(philist[tau][uc])
