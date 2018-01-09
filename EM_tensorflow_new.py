@@ -118,27 +118,38 @@ def Phi_np(theta1, theta2, theta3, theta4, idx):
 		return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.cos(theta4) * np.cos(theta4)
 	return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.sin(theta4) * np.sin(theta4)
 
-def LnLc(omega, pi, x, philist, c, tau): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
+
+
+def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = vdic[iddic[author[c]]]
-	s = tf.log(lbd[vlist[uc]]) + tf.log(philist[tau][uc])
+	s = np.array([0, 0, 0, 0, 0]) + tf.log(lbd[vlist[uc]])
+	for i in range(5):
+		s[i] += tf.log(philist[i][uc])
 	rc = tf.gather(rusc, rusc_dic[c], axis=0)
 	nc = tf.gather(nrusc, nrusc_dic[c], axis=0)
 	rc_id = tf.gather(rusc_id, rusc_dic[c], axis=0)
 	nc_id = tf.gather(nrusc_id, nrusc_dic[c], axis=0)
+
 	omega_rc = tf.gather(omega, rc_id[:, 1], axis=0)
 	pi_rc = tf.gather(pi, rc_id[:, 0], axis=0)
 	x_rc = tf.gather(x, rc_id[:, 0], axis=0)
-	phi_rc = tf.gather(philist[tau], rc_id[:, 1], axis=0)
-	s += tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - rc[:, 1] * tf.log(x_rc) + tf.log(phi_rc))
+	
+	s += tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - rc[:, 1] * tf.log(x_rc))
+	for i in range(5):
+		phi_rc = tf.gather(philist[i], rc_id[:, 1], axis=0)
+		s[i] += tf.reduce_sum(tf.log(phi_rc))
+
+	
 
 	omega_nc = tf.gather(omega, nc_id[:, 1], axis=0)
 	pi_nc = tf.gather(pi, nc_id[:, 0], axis=0)
 	x_nc = tf.gather(x, nc_id[:, 0], axis=0)
-	phi_nc = tf.gather(philist[tau], nc_id[:, 1], axis=0)
 	exponent = tf.maximum(-1 * omega_nc * nc[:, 0], -100)
 	estimate = tf.exp(exponent) - 1
-	result = 1 + pi_nc * x_nc ** (-1 * nc[:, 1]) * phi_nc * estimate
-	s += tf.reduce_sum(tf.log(result))
+	tmp = pi_nc * x_nc ** (-1 * nc[:, 1]) * estimate
+	for i in range(5):
+		phi_nc = tf.gather(philist[i], nc_id[:, 1], axis=0)
+		s[i] += tf.reduce_sum(tf.log(1 + tmp * phi_nc))
 
 	return s
 
@@ -183,13 +194,12 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 		if tf.shape(rusc_dic[c])[0] == 0:
 			if noreply == 0:
 				noreply += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
-				for i in range(5):
-					noreply -= qm[cdic[c]][i] * LnLc(omega, pi, x, philist, c, i)
+				noreply -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
 			obj += noreply
 			continue
 		obj += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
 		for i in range(5):
-			obj -= qm[cdic[c]][i] * LnLc(omega, pi, x, philist, c, i)
+			obj -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
