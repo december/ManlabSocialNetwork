@@ -107,7 +107,7 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	#obj = (np.log(omega+10**-5).sum() + np.log(x+10**-5).sum() + np.log(1-pi+10**-5).sum() + np.log(pi+10**-5).sum()) * gamma #need to be fixxed
 	obj = 0
 	for c in q:
-		if len(rusc[c]) == 0:
+		if tf.shape(rusc_dic[c])[0] == 0:
 			if noreply == 0:
 				noreply -= LnLc(omega, pi, x, philist, c, i)
 				tmp = tf.log(qm[cdic[c]][i])
