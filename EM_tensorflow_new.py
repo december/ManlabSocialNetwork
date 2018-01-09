@@ -122,9 +122,10 @@ def Phi_np(theta1, theta2, theta3, theta4, idx):
 
 def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = vdic[iddic[author[c]]]
-	s = np.array([0, 0, 0, 0, 0]) + tf.log(lbd[vlist[uc]])
+	tmplbd = tf.log(lbd[vlist[uc]])
+	s = [0, 0, 0, 0, 0]
 	for i in range(5):
-		s[i] += tf.log(philist[i][uc])
+		s[i] += tf.log(philist[i][uc]) + tmplbd
 	rc = tf.gather(rusc, rusc_dic[c], axis=0)
 	nc = tf.gather(nrusc, nrusc_dic[c], axis=0)
 	rc_id = tf.gather(rusc_id, rusc_dic[c], axis=0)
