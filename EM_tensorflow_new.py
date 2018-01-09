@@ -400,6 +400,7 @@ nrusc_id = tf.constant(nrusc_id, dtype=tf.int64)
 for key in rusc_dic:
 	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
 	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
+print 'Graph construction completed.'
 p = tf.Variable(param, name='p')
 qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
 optimizer = tf.train.GradientDescentOptimizer(alpha)
@@ -407,7 +408,7 @@ optimizer = tf.train.GradientDescentOptimizer(alpha)
 target = ObjF(p, qm)
 train = optimizer.minimize(target)
 init = tf.global_variables_initializer()
-print 'Graph construction completed.'
+print 'Ready to calculate.'
 with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	session.run(init)
 	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
