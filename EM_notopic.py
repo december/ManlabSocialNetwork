@@ -286,7 +286,7 @@ print 'EM algorithm begins...'
 #print pi
 cnt = 0
 lastObj = np.exp(100)
-param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
+param = Joint(omega, pi, x)
 n = len(q)
 rusc = tf.constant(rusc, dtype=tf.float64)
 nrusc = tf.constant(nrusc, dtype=tf.float64)
