@@ -123,9 +123,9 @@ def Phi_np(theta1, theta2, theta3, theta4, idx):
 def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = vdic[iddic[author[c]]]
 	tmplbd = tf.log(lbd[vlist[uc]])
-	s = [0, 0, 0, 0, 0]
-	for i in range(5):
-		s[i] += tf.log(philist[i][uc]) + tmplbd
+	tmpphi = philist[uc]
+	s = tf.log(tmpphi) + tmplbd
+
 	rc = tf.gather(rusc, rusc_dic[c], axis=0)
 	nc = tf.gather(nrusc, nrusc_dic[c], axis=0)
 	rc_id = tf.gather(rusc_id, rusc_dic[c], axis=0)
@@ -134,13 +134,10 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	omega_rc = tf.gather(omega, rc_id[:, 1], axis=0)
 	pi_rc = tf.gather(pi, rc_id[:, 0], axis=0)
 	x_rc = tf.gather(x, rc_id[:, 0], axis=0)
+	phi_rc = tf.gather(philist, rc_id[:, 1], axis=0)
 	
 	s += tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - rc[:, 1] * tf.log(x_rc))
-	for i in range(5):
-		phi_rc = tf.gather(philist[i], rc_id[:, 1], axis=0)
-		s[i] += tf.reduce_sum(tf.log(phi_rc))
-
-	
+	s += tf.reduce_sum(tf.log(phi_rc), 0)	
 
 	omega_nc = tf.gather(omega, nc_id[:, 1], axis=0)
 	pi_nc = tf.gather(pi, nc_id[:, 0], axis=0)
@@ -148,9 +145,8 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	exponent = tf.maximum(-1 * omega_nc * nc[:, 0], -100)
 	estimate = tf.exp(exponent) - 1
 	tmp = pi_nc * x_nc ** (-1 * nc[:, 1]) * estimate
-	for i in range(5):
-		phi_nc = tf.gather(philist[i], nc_id[:, 1], axis=0)
-		s[i] += tf.reduce_sum(tf.log(1 + tmp * phi_nc))
+	phi_nc = tf.gather(philist, nc_id[:, 1], axis=0)
+	s += tf.reduce_sum(tf.log(1 + tmp * phi_nc), 0)
 
 	return s
 
@@ -180,6 +176,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	philist = list()
 	for i in range(5):
 		philist.append(Phi(theta1, theta2, theta3, theta4, i))
+	philist = np.transpose(np.array(philist))
 	#global total
 	#total += 1
 	noreply = 0
