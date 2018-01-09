@@ -125,7 +125,7 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	tmplbd = tf.log(lbd[vlist[uc]])
 	tmpphi = philist[uc]
 	s = tf.log(tmpphi) + tmplbd
-	print tf.shape(s)
+	#print tf.shape(s)
 
 	rc = tf.gather(rusc, rusc_dic[c], axis=0)
 	nc = tf.gather(nrusc, nrusc_dic[c], axis=0)
@@ -138,9 +138,7 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	phi_rc = tf.gather(philist, rc_id[:, 1], axis=0)
 	
 	s += tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - rc[:, 1] * tf.log(x_rc))
-	print tf.shape(s)
 	s += tf.reduce_sum(tf.log(phi_rc), 0)	
-	print tf.shape(s)
 
 	omega_nc = tf.gather(omega, nc_id[:, 1], axis=0)
 	pi_nc = tf.gather(pi, nc_id[:, 0], axis=0)
@@ -149,8 +147,7 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	estimate = tf.exp(exponent) - 1
 	tmp = pi_nc * x_nc ** (-1 * nc[:, 1]) * estimate
 	phi_nc = tf.gather(philist, nc_id[:, 1], axis=0)
-	s += tf.reduce_sum(tf.log(1 + tmp * phi_nc), 0)
-	print tf.shape(s)
+	s += tf.reduce_sum(tf.log(1 + tf.transpose(tmp) * phi_nc), 0)
 
 	return s
 
