@@ -188,6 +188,8 @@ for name in namelist:
 				continue
 			keylist = rtdic[key].keys()
 			m = len(keylist)
+			print rtdic[key]
+			print relation[authordic[key]]
 			for j in range(m):
 				for k in range(j+1, m):
 					rr_sim += calcPearson(rtdic[key][keylist[j]], rtdic[key][keylist[k]])
