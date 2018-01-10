@@ -119,6 +119,9 @@ while i < n:
 	cnt += 1
 	i += number
 
+for k in realdic:
+	print len(realdic[k])
+
 fr = open(relation_prefix+'pi_Poisson_'+str(filename)+suffix, 'r')
 pilist = fr.readlines()
 enum = len(pilist)
@@ -136,7 +139,7 @@ while i < n:
 	rtdic = {}
 	for j in range(i+1, i+number):
 		data = realdata[j][:-1].split('\t')
-		print data
+		#print data
 		if data[3] != '-1':
 			authordic[data[3]] = data[4]
 			if not rtdic.has_key(data[3]):
