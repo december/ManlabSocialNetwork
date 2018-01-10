@@ -71,6 +71,7 @@ def chooseTwo(person):
 	f1 = random.choice(friend)
 	friend.remove(f1)
 	f2 = random.choice(friend)
+	friend.append(f1)
 	return calcPearson(f1, f2)
 
 filename = int(sys.argv[1])
@@ -187,9 +188,9 @@ for name in namelist:
 				continue
 			keylist = rtdic[key].keys()
 			m = len(keylist)
-			print rtdic[key]
-			print relation[authordic[key]]
-			print authordic[key]
+			#print rtdic[key]
+			#print relation[authordic[key]]
+			#print authordic[key]
 			for j in range(m):
 				for k in range(j+1, m):
 					rr_sim += calcPearson(rtdic[key][keylist[j]], rtdic[key][keylist[k]])
