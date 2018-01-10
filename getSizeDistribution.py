@@ -56,21 +56,33 @@ for name in namelist:
 
 realsize = sorted(real.keys())
 realnum = list()
+realcum = list()
 for size in realsize:
 	realnum.append(real[size])
+n = len(realnum)
+s = sum(realnum)
+for i in range(n):
+	s -= realnum[i]
+	realcum.append(s)
 
 simsize = sorted(sim.keys())
 simnum = list()
+simcum = list()
 for size in simsize:
 	simnum.append(sim[size] * 1.0 / m)
+n = len(simnum)
+s = sum(simnum)
+for i in range(n):
+	s -= simnum[i]
+	simcum.append(s)
 
 realsum = sum(realnum)
 simsum = sum(simnum)
 
 rs = np.array(realsize)
-rn = np.array(realnum) * 1.0 / realsum
+rn = np.array(realcum) * 1.0 / realsum
 ss = np.array(simsize)
-sn = np.array(simnum) * 1.0 / simsum
+sn = np.array(simcum) * 1.0 / simsum
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
@@ -78,5 +90,5 @@ plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'Size')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'.png')
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png')
 plt.cla()
