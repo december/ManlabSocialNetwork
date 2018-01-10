@@ -108,6 +108,7 @@ while i < n:
 	for j in range(i+1, i+number):
 		data = realdata[j].split('\t')
 		if rdic.has_key(data[1]):
+			print data[1]
 			continue
 		if not realdic.has_key(data[1]):
 			realdic[data[1]] = list()
