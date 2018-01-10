@@ -107,7 +107,7 @@ while i < n:
 			for k in range(cnt):
 				realdic[data[1]].append(0)
 		realdic[data[1]].append(1)
-	i += number + 1
+	i += number
 
 fr = open(relation_prefix+'pi_Poisson'+suffix, 'r')
 pilist = fr.readlines()
@@ -147,7 +147,7 @@ while i < n:
 					rr_real += calcPearson(rtdic[key][keylist[j]], rtdic[key][keylist[k]])
 					rr_rd += chooseTwo(authordic[key])
 					rr_real_sum += 1
-	i += number + 1
+	i += number
 
 namelist = os.listdir(prefix+str(filename)+'/')
 m = len(namelist)
@@ -184,7 +184,7 @@ for name in namelist:
 					rr_sim += calcPearson(rtdic[key][keylist[j]], rtdic[key][keylist[k]])
 					rr_random += chooseTwo(authordic[key])
 					rr_sim_sum += 1
-		i += number + 1
+		i += number
 	cnt += 1
 	print cnt
 	fr.close()
