@@ -44,14 +44,14 @@ def calcPearson(x, y):
 	x = realdic[x]
 	y = realdic[y]
 	x_mean, y_mean = calcMean(x,y)
-	n = len(x)  
-	print n
+	n = len(x)
 	sumTop = 0.0  
 	sumBottom = 0.0  
 	x_pow = 0.0  
 	y_pow = 0.0  
 	for i in range(n):
 		print i
+		print n
 		sumTop += (x[i] - x_mean) * (y[i] - y_mean)  
 	for i in range(n):
 		x_pow += math.pow(x[i]-x_mean, 2)  
