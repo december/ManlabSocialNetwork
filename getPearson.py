@@ -43,7 +43,7 @@ def calcPearson(x, y):
 		return 0
 	x = realdic[x]
 	y = realdic[y]
-	print str(len(x)) + ' ' + str(len(y)) 
+	#print str(len(x)) + ' ' + str(len(y)) 
 	x_mean, y_mean = calcMean(x,y)
 	n = len(x)
 	sumTop = 0.0  
