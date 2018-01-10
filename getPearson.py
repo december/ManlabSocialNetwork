@@ -199,7 +199,7 @@ for name in namelist:
 					rr_sim_sum += 1
 		i += number
 	cnt += 1
-	print cnt
+	#print cnt
 	fr.close()
 
 all_real = (rr_real + pr_real) / (rr_real_sum + pr_real_sum)
