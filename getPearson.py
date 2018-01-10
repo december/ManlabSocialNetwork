@@ -3,6 +3,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import random
+import sys
 import os
 
 realdic = {} #from id to cascade 0-1 list
