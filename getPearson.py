@@ -71,7 +71,7 @@ def chooseTwo(person):
 	f1 = random.choice(friend)
 	friend.remove(f1)
 	f2 = random.choice(friend)
-	return chooseTwo(f1, f2)
+	return calcPearson(f1, f2)
 
 filename = int(sys.argv[1])
 single = True
