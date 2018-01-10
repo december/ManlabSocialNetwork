@@ -100,6 +100,7 @@ for name in namelist:
 fr.close()
 
 n = len(realdata)
+print n
 i = 0
 cnt = 0
 while i < n:
@@ -141,7 +142,7 @@ while i < n:
 	rtdic = {}
 	for j in range(i+1, i+number):
 		data = realdata[j][:-1].split('\t')
-		print data
+		#print data
 		if data[3] != '-1':
 			authordic[data[3]] = data[4]
 			if not rtdic.has_key(data[3]):
