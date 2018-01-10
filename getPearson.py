@@ -15,6 +15,13 @@ rr_random = 0
 all_sim = 0
 all_random = 0
 
+pr_real = 0
+pr_rd = 0
+rr_real = 0
+rr_rd = 0
+all_real = 0
+all_rd = 0
+
 def calcMean(x, y):  
    sum_x = sum(x)  
    sum_y = sum(y)  
@@ -106,6 +113,34 @@ for i in range(enum):
 	relation[temp[0]].append(temp[1])
 fr.close()
 
+i = 0
+while i < n:
+	temp = realdata[i].split('\t')
+	number = int(temp[1]) + 1
+	rtdic = {}
+	for j in range(i+1, i+number):
+		data = realdata[j][:-1].split('\t')
+		if data[3] != '-1':
+			author[data[3]] = data[4]
+			if not rtdic.has_key(data[3]):
+				rtdic[data[3]] = {}
+			if not rtdic[data[3]].has_key(data[1]):
+				rtdic[data[3]][data[1]] = 1
+			else:
+				rtdic[data[3]][data[1]] += 1
+			pr_real += calcPearson(data[1], data[4])
+			pr_rd += randomSelect(data[4])
+		for key in rtdic:
+			if len(rtdic[key]) <= 1:
+				continue
+			keylist = rtdic[key].keys()
+			m = len(keylist)
+			for j in range(m):
+				for k in range(j+1, m):
+					rr_real += calcPearson(rtdic[key][keylist[j]], rtdic[key][keylist[k]])
+					rr_rd += chooseTwo(authordic[key])
+	i += number + 1
+
 namelist = os.listdir(prefix+str(filename)+'/')
 m = len(namelist)
 cnt = 0
@@ -144,12 +179,14 @@ for name in namelist:
 	print cnt
 	fr.close()
 
+all_real = (rr_real + pr_real) / 2
+all_rd = (rr_rd + pr_rd) / 2
 all_sim = (rr_sim + pr_sim) / 2
 all_random = (rr_random + pr_random) / 2
 
-y_sim = [rr_sim, pr_sim, all_sim]
-y_random = [rr_random, pr_random, all_random]
-x = np.arange(3)
+y_sim = [rr_real * 100, pr_real * 100, all_real * 100, rr_sim, pr_sim, all_sim]
+y_random = [rr_rd * 100, pr_rd * 100, all_rd * 100, rr_random, pr_random, all_random]
+x = np.arange(6)
 
 plt.bar(x , y_sim, width=0.3 , color='y')
 plt.bar(x+0.3, y_random, width=0.3 , color='b')
