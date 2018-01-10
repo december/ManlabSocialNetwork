@@ -43,7 +43,7 @@ def calcPearson(x, y):
 		return 0
 	x = realdic[x]
 	y = realdic[y]
-	print str(len(x)) + ' ' + str(len(y)) 
+	#print str(len(x)) + ' ' + str(len(y)) 
 	x_mean, y_mean = calcMean(x,y)
 	n = len(x)
 	sumTop = 0.0  
@@ -100,7 +100,6 @@ i = 0
 cnt = 0
 while i < n:
 	temp = realdata[i].split('\t')
-	cnt += 1
 	number = int(temp[1]) + 1
 	for j in range(i+1, i+number):
 		data = realdata[j].split('\t')
@@ -113,6 +112,7 @@ while i < n:
 				realdic[key].append(1)
 			else:
 				realdic[key].append(0)
+	cnt += 1
 	i += number
 
 fr = open(relation_prefix+'pi_Poisson_'+str(filename)+suffix, 'r')
