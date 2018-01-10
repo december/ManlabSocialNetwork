@@ -417,7 +417,7 @@ for key in rusc_dic:
 		zero_before += 1
 	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
 	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
-	if tf.shape(rusc_dic[key])[0] == 0:
+	if rusc_dic[key].get_shape()[0] == 0:
 		zero_after += 1
 print zero_before
 print zero_after
