@@ -93,14 +93,12 @@ real = {}
 sim = {}
 for name in namelist:
 	if name.startswith(str(filename) + '_'):
-		print name
 		fr = open(path+name, 'r')
 		realdata = fr.readlines()
 		break
 fr.close()
 
 n = len(realdata)
-print n
 i = 0
 cnt = 0
 while i < n:
@@ -123,7 +121,7 @@ while i < n:
 	cnt += 1
 	i += number
 
-#print cnt
+print cnt
 
 fr = open(relation_prefix+'pi_Poisson_'+str(filename)+suffix, 'r')
 pilist = fr.readlines()
