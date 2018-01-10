@@ -109,7 +109,7 @@ while i < n:
 		realdic[data[1]].append(1)
 	i += number
 
-fr = open(relation_prefix+'pi_Poisson'+suffix, 'r')
+fr = open(relation_prefix+'pi_Poisson_'+str(filename)+suffix, 'r')
 pilist = fr.readlines()
 enum = len(pilist)
 for i in range(enum):
