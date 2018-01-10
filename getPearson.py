@@ -70,6 +70,7 @@ def chooseTwo(person):
 	return chooseTwo(f1, f2)
 
 filename = int(sys.argv[1])
+single = True
 if filename < 0:
 	single = False
 
