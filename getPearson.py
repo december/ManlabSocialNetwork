@@ -93,6 +93,7 @@ real = {}
 sim = {}
 for name in namelist:
 	if name.startswith(str(filename) + '_'):
+		print name
 		fr = open(path+name, 'r')
 		realdata = fr.readlines()
 		break
@@ -203,7 +204,7 @@ for name in namelist:
 					rr_sim_sum += 1
 		i += number
 	cnt += 1
-	print cnt
+	#print cnt
 	fr.close()
 
 all_real = (rr_real + pr_real) / (rr_real_sum + pr_real_sum)
