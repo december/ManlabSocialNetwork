@@ -173,6 +173,7 @@ def cond(obj, i, noreply):
 	return i < len(q)
 
 def body(obj, i, noreply):
+	a = 0
 	c = q.keys()[i]
 	if rusc_dic[c].get_shape()[0] == 0:
 		if noreply == 0:
