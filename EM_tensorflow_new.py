@@ -58,6 +58,7 @@ alpha = 0.0000001 #learning rate for optimizer
 gamma = -1.0 #log barrier
 epsilon = 10.0 #when will EM stop
 lbd = np.zeros(users) #parameter lambda which have calculated before
+count = 0
 
 def Joint(omega, pi, x, theta1, theta2, theta3, theta4):
 	param = np.append(omega, pi)
@@ -170,11 +171,11 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 		q[c][i] = 1 / s
 
 def cond(obj, i, noreply):
-	return i < len(q)
+	return i
 
 def body(obj, i, noreply):
-	a = 0
-	c = q.keys()[i]
+	global count
+	c = q.keys()[count]
 	if rusc_dic[c].get_shape()[0] == 0:
 		if noreply == 0:
 			noreply += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
@@ -183,10 +184,14 @@ def body(obj, i, noreply):
 	else:
 		obj += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
 		obj -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
-	i += 1
+	count += 1
+	if count == len(q):
+		i = False
 	return obj, i, noreply
 
 def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
+	global count
+	count = 0
 	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(param)
 	omega = tf.cos(omega) * tf.cos(omega)
 	pi = tf.cos(pi) * tf.cos(pi)
@@ -208,7 +213,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	'''
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
-	tf.while_loop(cond, body, (obj, 0, noreply))
+	tf.while_loop(cond, body, (obj, True, noreply))
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
