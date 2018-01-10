@@ -119,8 +119,7 @@ while i < n:
 	cnt += 1
 	i += number
 
-for k in realdic:
-	print len(realdic[k])
+print cnt
 
 fr = open(relation_prefix+'pi_Poisson_'+str(filename)+suffix, 'r')
 pilist = fr.readlines()
