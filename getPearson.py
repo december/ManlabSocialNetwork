@@ -10,15 +10,19 @@ relation = {} #from id to follower id
 authordic = {} #from tweet id to author id
 pr_sim = 0
 pr_random = 0
+pr_sim_sum = 0
 rr_sim = 0
 rr_random = 0
+rr_sim_sum = 0
 all_sim = 0
 all_random = 0
 
 pr_real = 0
 pr_rd = 0
+pr_real_sum = 0
 rr_real = 0
 rr_rd = 0
+rr_real_sum = 0
 all_real = 0
 all_rd = 0
 
@@ -130,6 +134,7 @@ while i < n:
 				rtdic[data[3]][data[1]] += 1
 			pr_real += calcPearson(data[1], data[4])
 			pr_rd += randomSelect(data[4])
+			pr_real_sum += 1
 		for key in rtdic:
 			if len(rtdic[key]) <= 1:
 				continue
@@ -139,6 +144,7 @@ while i < n:
 				for k in range(j+1, m):
 					rr_real += calcPearson(rtdic[key][keylist[j]], rtdic[key][keylist[k]])
 					rr_rd += chooseTwo(authordic[key])
+					rr_real_sum += 1
 	i += number + 1
 
 namelist = os.listdir(prefix+str(filename)+'/')
@@ -165,6 +171,7 @@ for name in namelist:
 					rtdic[data[3]][data[1]] += 1
 				pr_sim += calcPearson(data[1], data[4])
 				pr_random += randomSelect(data[4])
+				pr_sim_sum += 1
 		for key in rtdic:
 			if len(rtdic[key]) <= 1:
 				continue
@@ -174,18 +181,27 @@ for name in namelist:
 				for k in range(j+1, m):
 					rr_sim += calcPearson(rtdic[key][keylist[j]], rtdic[key][keylist[k]])
 					rr_random += chooseTwo(authordic[key])
+					rr_sim_sum += 1
 		i += number + 1
 	cnt += 1
 	print cnt
 	fr.close()
 
-all_real = (rr_real + pr_real) / 2
-all_rd = (rr_rd + pr_rd) / 2
-all_sim = (rr_sim + pr_sim) / 2
-all_random = (rr_random + pr_random) / 2
+all_real = (rr_real + pr_real) / (rr_real_sum + pr_real_sum)
+all_rd = (rr_rd + pr_rd) / (rr_real_sum + pr_real_sum)
+all_sim = (rr_sim + pr_sim) / (rr_sim_sum + pr_sim_sum)
+all_random = (rr_random + pr_random) / (rr_sim_sum + pr_sim_sum)
+rr_real = rr_real / rr_real_sum
+rr_rd = rr_rd / rr_real_sum
+pr_real = pr_real / pr_real_sum
+pr_rd = pr_rd / pr_real_sum
+pr_sim = pr_sim / pr_sim_sum
+pr_random = pr_random / pr_sim_sum
+rr_sim = rr_sim / rr_sim_sum
+rr_random = rr_random / rr_sim_sum
 
-y_sim = [rr_real * 100, pr_real * 100, all_real * 100, rr_sim, pr_sim, all_sim]
-y_random = [rr_rd * 100, pr_rd * 100, all_rd * 100, rr_random, pr_random, all_random]
+y_sim = [rr_real, pr_real, all_real, rr_sim, pr_sim, all_sim]
+y_random = [rr_rd, pr_rd, all_rd, rr_random, pr_random, all_random]
 x = np.arange(6)
 
 plt.bar(x , y_sim, width=0.3 , color='y')
