@@ -173,7 +173,7 @@ for name in namelist:
 		for j in range(i+1, i+number):
 			data = simdata[j][:-1].split('\t')
 			if data[3] != '-1':
-				author[data[3]] = data[4]
+				authordic[data[3]] = data[4]
 				if not rtdic.has_key(data[3]):
 					rtdic[data[3]] = {}
 				if not rtdic[data[3]].has_key(data[1]):
