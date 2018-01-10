@@ -159,7 +159,6 @@ while i < n:
 	i += number
 
 namelist = os.listdir(prefix+str(filename)+'/')
-m = len(namelist)
 cnt = 0
 for name in namelist:
 	fr = open(prefix+str(filename)+'/'+name, 'r')
@@ -190,6 +189,7 @@ for name in namelist:
 			m = len(keylist)
 			print rtdic[key]
 			print relation[authordic[key]]
+			print authordic[key]
 			for j in range(m):
 				for k in range(j+1, m):
 					rr_sim += calcPearson(rtdic[key][keylist[j]], rtdic[key][keylist[k]])
