@@ -179,9 +179,9 @@ def body(obj, i, noreply):
 			noreply += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
 			noreply -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
 		obj += noreply
-		continue
-	obj += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
-	obj -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
+	else:
+		obj += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
+		obj -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
 	i += 1
 	return obj, i, noreply
 
