@@ -169,6 +169,22 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 			s += tf.exp(lc[c][j] - lc[c][i])
 		q[c][i] = 1 / s
 
+def cond(obj, i, noreply):
+	return i < len(q)
+
+def body(obj, i, noreply):
+	c = q.keys()[i]
+	if rusc_dic[c].get_shape()[0] == 0:
+		if noreply == 0:
+			noreply += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
+			noreply -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
+		obj += noreply
+		continue
+	obj += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
+	obj -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
+	i += 1
+	return obj, i, noreply
+
 def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
 	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(param)
 	omega = tf.cos(omega) * tf.cos(omega)
@@ -191,17 +207,8 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	'''
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
-	zero = 0
-	for c in q:
-		if rusc_dic[c].get_shape()[0] == 0:
-			if noreply == 0:
-				noreply += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
-				noreply -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
-			obj += noreply
-			zero += 1
-			continue
-		obj += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
-		obj -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
+	tf.while_loop(cond, body, (obj, 0, noreply))
+		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
