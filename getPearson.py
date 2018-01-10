@@ -40,22 +40,22 @@ def calcPearson(x, y):
 	if not realdic.has_key(y):
 		return 0
 	x = realdic[x]
-	y = realdic[y]  
-    x_mean, y_mean = calcMean(x,y)
+	y = realdic[y]
+	x_mean, y_mean = calcMean(x,y)
 	n = len(x)  
-    sumTop = 0.0  
-    sumBottom = 0.0  
-    x_pow = 0.0  
-    y_pow = 0.0  
-    for i in range(n):  
-        sumTop += (x[i] - x_mean) * (y[i] - y_mean)  
-    for i in range(n):  
-        x_pow += math.pow(x[i]-x_mean, 2)  
-    for i in range(n):  
-        y_pow += math.pow(y[i]-y_mean, 2)  
-    sumBottom = math.sqrt(x_pow * y_pow)  
-    p = sumTop / sumBottom  
-    return p  
+	sumTop = 0.0  
+	sumBottom = 0.0  
+	x_pow = 0.0  
+	y_pow = 0.0  
+	for i in range(n):  
+		sumTop += (x[i] - x_mean) * (y[i] - y_mean)  
+	for i in range(n):  
+		x_pow += math.pow(x[i]-x_mean, 2)  
+	for i in range(n):  
+		y_pow += math.pow(y[i]-y_mean, 2)  
+	sumBottom = math.sqrt(x_pow * y_pow)  
+	p = sumTop / sumBottom  
+	return p  
 
 def randomSelect(person):
 	friend = random.choice(relation[person])
