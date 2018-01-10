@@ -56,9 +56,11 @@ def calcPearson(x, y):
 		x_pow += math.pow(x[i]-x_mean, 2)  
 	for i in range(n):
 		y_pow += math.pow(y[i]-y_mean, 2)  
-	sumBottom = math.sqrt(x_pow * y_pow)  
+	sumBottom = math.sqrt(x_pow * y_pow) 
+	if sumBottom == 0:
+		return 0 
 	p = sumTop / sumBottom  
-	return p  
+	return abs(p)  
 
 def randomSelect(person):
 	friend = random.choice(relation[person])
