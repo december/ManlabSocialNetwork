@@ -92,7 +92,7 @@ namelist = os.listdir(path)
 real = {}
 sim = {}
 for name in namelist:
-	if name.startswith(str(filename)):
+	if name.startswith(str(filename) + '_'):
 		fr = open(path+name, 'r')
 		realdata = fr.readlines()
 		break
