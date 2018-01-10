@@ -201,8 +201,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 			zero += 1
 			continue
 		obj += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
-		for i in range(5):
-			obj -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
+		obj -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
@@ -411,9 +410,17 @@ rusc = tf.constant(rusc, dtype=tf.float64)
 nrusc = tf.constant(nrusc, dtype=tf.float64)
 rusc_id = tf.constant(rusc_id, dtype=tf.int64)
 nrusc_id = tf.constant(nrusc_id, dtype=tf.int64)
+zero_before = 0
+zero_after = 0
 for key in rusc_dic:
+	if len(rusc_dic[key]) == 0:
+		zero_before += 1
 	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
 	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
+	if tf.shape(rusc_dic[key])[0] == 0:
+		zero_after += 1
+print zero_before
+print zero_after
 print 'Graph construction completed.'
 p = tf.Variable(param, name='p')
 qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
