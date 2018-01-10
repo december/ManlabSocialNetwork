@@ -107,6 +107,8 @@ while i < n:
 	rdic = {}
 	for j in range(i+1, i+number):
 		data = realdata[j].split('\t')
+		if rdic.has_key(data[1]):
+			continue
 		if not realdic.has_key(data[1]):
 			realdic[data[1]] = list()
 			for k in range(cnt):
@@ -119,7 +121,7 @@ while i < n:
 	cnt += 1
 	i += number
 
-print cnt
+#print cnt
 
 fr = open(relation_prefix+'pi_Poisson_'+str(filename)+suffix, 'r')
 pilist = fr.readlines()
@@ -201,7 +203,7 @@ for name in namelist:
 					rr_sim_sum += 1
 		i += number
 	cnt += 1
-	#print cnt
+	print cnt
 	fr.close()
 
 all_real = (rr_real + pr_real) / (rr_real_sum + pr_real_sum)
