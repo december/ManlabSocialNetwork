@@ -43,7 +43,7 @@ def calcPearson(x, y):
 		return 0
 	x = realdic[x]
 	y = realdic[y]
-	print str(len(x)) + ' ' + str(len(y)) 
+	#print str(len(x)) + ' ' + str(len(y)) 
 	x_mean, y_mean = calcMean(x,y)
 	n = len(x)
 	sumTop = 0.0  
@@ -101,17 +101,18 @@ cnt = 0
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
+	rdic = {}
 	for j in range(i+1, i+number):
 		data = realdata[j].split('\t')
 		if not realdic.has_key(data[1]):
 			realdic[data[1]] = list()
 			for k in range(cnt):
 				realdic[data[1]].append(0)
-		for key in realdic:
-			if key == data[1]:
-				realdic[key].append(1)
-			else:
-				realdic[key].append(0)
+		realdic[data[1]].append(1)
+		rdic[data[1]] = 1
+	for key in realdic:
+		if not rdic.has_key(key):
+			realdic[key].append(0)
 	cnt += 1
 	i += number
 
