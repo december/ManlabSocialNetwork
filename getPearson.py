@@ -41,8 +41,8 @@ def calcPearson(x, y):
 		return 0
 	x = realdic[x]
 	y = realdic[y]  
-    x_mean, y_mean = calcMean(x,y)   #计算x,y向量平均值  
-    n = len(x)  
+    x_mean, y_mean = calcMean(x,y)
+	n = len(x)  
     sumTop = 0.0  
     sumBottom = 0.0  
     x_pow = 0.0  
