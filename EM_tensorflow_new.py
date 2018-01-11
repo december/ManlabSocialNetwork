@@ -163,11 +163,13 @@ def QMatrix():
 
 def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 	lc[c] = LnLc(omega, pi, x, philist, c)
-	s = np.array([0, 0, 0, 0, 0])
+	s = list()
 	for i in range(5):
+		temps = 0
 		for j in range(5):
-			s[i] += tf.exp(lc[c][j] - lc[c][i])
-	q[c] = 1 / s
+			temps += tf.exp(lc[c][j] - lc[c][i])
+		s.append(temps)
+	q[c] = np.array(s)
 
 def cond(obj, i, noreply, omega, pi, x, philist):
 	return i < len(q)
