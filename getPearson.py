@@ -156,13 +156,13 @@ while i < n:
 		for key in rtdic:
 			if len(rtdic[key]) <= 1:
 				continue
-			print rtdic[key]
+			#print rtdic[key]
 			keylist = rtdic[key].keys()
 			m = len(keylist)
 			for l in range(m):
 				for k in range(l+1, m):
-					print keylist[l] + ' ' + keylist[k]
-					rr_real += calcPearson(rtdic[key][keylist[l]], rtdic[key][keylist[k]])
+					#print keylist[l] + ' ' + keylist[k]
+					rr_real += calcPearson(keylist[l], keylist[k])
 					rr_rd += chooseTwo(authordic[key])
 					rr_real_sum += 1
 	i += number
@@ -201,7 +201,7 @@ for name in namelist:
 			#print authordic[key]
 			for l in range(m):
 				for k in range(l+1, m):
-					rr_sim += calcPearson(rtdic[key][keylist[l]], rtdic[key][keylist[k]])
+					rr_sim += calcPearson(keylist[l], keylist[k])
 					rr_random += chooseTwo(authordic[key])
 					rr_sim_sum += 1
 		i += number
