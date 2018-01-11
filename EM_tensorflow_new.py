@@ -125,7 +125,7 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	uc = vdic[iddic[author[c]]]
 	tmplbd = tf.log(lbd[vlist[uc]])
 	tmpphi = philist[uc]
-	s = tf.log(tmpphi) + tmplbd
+	s = tf.cast(tf.log(tmpphi) + tmplbd, dtype=tf.float64)
 	#print tf.shape(s)
 
 	rc = tf.gather(rusc, rusc_dic[c], axis=0)
@@ -204,7 +204,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	philist = tf.transpose(philist)
 	#global total
 	#total += 1
-	noreply = 0.0
+	noreply = tf.cast(0.0, dtype=tf.float64)
 	'''
 	print 'Begin'
 	print omega
