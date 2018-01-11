@@ -223,6 +223,8 @@ rr_random = rr_random / rr_sim_sum
 
 y_sim = [rr_real, pr_real, all_real, rr_sim, pr_sim, all_sim]
 y_random = [rr_rd, pr_rd, all_rd, rr_random, pr_random, all_random]
+print y_sim
+print y_random
 x = np.arange(6)
 
 plt.bar(x , y_sim, width=0.3 , color='y')
