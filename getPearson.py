@@ -156,11 +156,12 @@ while i < n:
 		for key in rtdic:
 			if len(rtdic[key]) <= 1:
 				continue
-			#print rtdic[key]
+			print rtdic[key]
 			keylist = rtdic[key].keys()
 			m = len(keylist)
 			for l in range(m):
 				for k in range(l+1, m):
+					print rtdic[key][keylist[l]] + ' ' + rtdic[key][keylist[k]]
 					rr_real += calcPearson(rtdic[key][keylist[l]], rtdic[key][keylist[k]])
 					rr_rd += chooseTwo(authordic[key])
 					rr_real_sum += 1
