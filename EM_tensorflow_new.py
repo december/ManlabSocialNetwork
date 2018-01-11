@@ -202,7 +202,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	philist = tf.transpose(philist)
 	#global total
 	#total += 1
-	noreply = 0.0
+	noreply = tf.cast(0.0, dtype=tf.float64)
 	'''
 	print 'Begin'
 	print omega
