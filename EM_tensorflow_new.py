@@ -202,7 +202,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	philist = tf.transpose(philist)
 	#global total
 	#total += 1
-	noreply = tf.cast(0.0, dtype=tf.float64)
+	noreply = 0.0
 	'''
 	print 'Begin'
 	print omega
@@ -211,7 +211,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	'''
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
-	tf.while_loop(cond, body, (obj, 0, noreply))
+	tf.while_loop(cond, body, [obj, 0, noreply])
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
@@ -242,7 +242,7 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	philist = tf.reshape(philist, (5, -1))
 	philist = tf.transpose(philist)
 	#count = 0
-	tf.while_loop(cond_e, body_e, (0))
+	tf.while_loop(cond_e, body_e, [0])
 	#for c in q:
 		#QF(omega, pi, x, philist, c)
 		#count += 1
