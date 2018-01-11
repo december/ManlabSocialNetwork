@@ -169,10 +169,10 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 			s += tf.exp(lc[c][j] - lc[c][i])
 		q[c][i] = 1 / s
 
-def cond(obj, i, noreply):
+def cond(obj, i, noreply, omega, pi, x, philist):
 	return i < len(q)
 
-def body(obj, i, noreply):
+def body(obj, i, noreply, omega, pi, x, philist):
 	global count
 	c = q.keys()[count]
 	if rusc_dic[c].get_shape()[0] == 0:
@@ -185,7 +185,7 @@ def body(obj, i, noreply):
 		obj -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
 	count += 1
 	i += 1
-	return obj, i, noreply
+	return obj, i, noreply, omega, pi, x, philist
 
 def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
 	global count
@@ -211,21 +211,22 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	'''
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
-	tf.while_loop(cond, body, [obj, 0, noreply])
+	tf.while_loop(cond, body, [obj, 0, noreply, omega, pi, x, philist])
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
 
-def cond_e(i):
+def cond_e(i, omega, pi, x, philist):
 	return i < len(q)
 
-def body_e(i):
+def body_e(i, omega, pi, x, philist):
 	global count
+	c = q.keys()[count]
 	QF(omega, pi, x, philist, c)
 	count += 1
 	i += 1
-	return i
+	return i, omega, pi, x, philist
 
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	#print [len(omega), len(pi), len(x)]
@@ -242,7 +243,7 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	philist = tf.reshape(philist, (5, -1))
 	philist = tf.transpose(philist)
 	#count = 0
-	tf.while_loop(cond_e, body_e, [0])
+	tf.while_loop(cond_e, body_e, [0, omega, pi, x, philist])
 	#for c in q:
 		#QF(omega, pi, x, philist, c)
 		#count += 1
@@ -452,6 +453,7 @@ print 'Ready to calculate.'
 with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	session.run(init)
 	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
+	print 'EStep part construction finished.'
 	while cnt < 100:
 	#param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 	#start = datetime.datetime.now()
