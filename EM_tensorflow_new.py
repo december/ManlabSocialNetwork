@@ -218,8 +218,21 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
 
+def cond_e(i):
+	return i
+
+def body_e(i):
+	global count
+	QF(omega, pi, x, philist, c)
+	count += 1
+	if count == len(q):
+		i = False
+	return i
+
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	#print [len(omega), len(pi), len(x)]
+	global count
+	count = 0
 	omega = tf.cos(omega) * tf.cos(omega)
 	pi = tf.cos(pi) * tf.cos(pi)
 	x = x * x
@@ -227,9 +240,13 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	philist = list()
 	for i in range(5):
 		philist.append(Phi(theta1, theta2, theta3, theta4, i))
+	philist = tf.stack(philist)
+	philist = tf.reshape(philist, (5, -1))
+	philist = tf.transpose(philist)
 	#count = 0
-	for c in q:
-		QF(omega, pi, x, philist, c)
+	tf.while_loop(cond_e, body_e, (True))
+	#for c in q:
+		#QF(omega, pi, x, philist, c)
 		#count += 1
 		#print count
 	return QMatrix()
