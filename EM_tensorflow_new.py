@@ -170,7 +170,7 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 		q[c][i] = 1 / s
 
 def cond(obj, i, noreply):
-	return i
+	return i < len(q)
 
 def body(obj, i, noreply):
 	global count
@@ -184,8 +184,7 @@ def body(obj, i, noreply):
 		obj += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
 		obj -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
 	count += 1
-	if count == len(q):
-		i = False
+	i += 1
 	return obj, i, noreply
 
 def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
@@ -212,21 +211,20 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	'''
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
-	tf.while_loop(cond, body, (obj, True, noreply))
+	tf.while_loop(cond, body, (obj, tf.cast(0.0, dtype=float64), noreply))
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return obj
 
 def cond_e(i):
-	return i
+	return i < len(q)
 
 def body_e(i):
 	global count
 	QF(omega, pi, x, philist, c)
 	count += 1
-	if count == len(q):
-		i = False
+	i += 1
 	return i
 
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
@@ -244,7 +242,8 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	philist = tf.reshape(philist, (5, -1))
 	philist = tf.transpose(philist)
 	#count = 0
-	tf.while_loop(cond_e, body_e, (True))
+	i = tf.cast(0.0, dtype=tf.float64)
+	tf.while_loop(cond_e, body_e, (i))
 	#for c in q:
 		#QF(omega, pi, x, philist, c)
 		#count += 1
