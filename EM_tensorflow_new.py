@@ -162,8 +162,7 @@ def QMatrix():
 	return tf.reshape(qmx, shape=(n, 5))
 
 def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
-	for i in range(5):
-		lc[c][i] = LnLc(omega, pi, x, philist, c, i)
+	lc[c] = LnLc(omega, pi, x, philist, c)
 	for i in range(5):
 		s = 0
 		for j in range(5):
