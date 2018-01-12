@@ -33,6 +33,7 @@ rusc_dic = {} #from cascade id to index list of rusc info
 nrusc_dic = {} #from cascade id to index list of nrusc info
 depth = {} #from tweet id to depth
 author = {} #from tweet id to user id
+cascade_author = list()
 timestamp = {} #from tweet id to timestamp
 posts = {} #from user index to post times
 q = {} #from cascade id to q function
@@ -122,7 +123,7 @@ def Phi_np(theta1, theta2, theta3, theta4, idx):
 
 
 def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
-	uc = vdic[iddic[author[c]]]
+	uc = vdic[iddic[cascade_author[c]]]
 	tmplbd = tf.log(lbd[vlist[uc]])
 	tmpphi = philist[uc]
 	s = tf.cast(tf.log(tmpphi) + tmplbd, dtype=tf.float64)
@@ -175,17 +176,14 @@ def cond(obj, i, noreply, omega, pi, x, philist):
 	return i < len(q)
 
 def body(obj, i, noreply, omega, pi, x, philist):
-	global count
-	c = q.keys()[count]
 	if rusc_dic[c].get_shape()[0] == 0:
 		if noreply == 0:
-			noreply += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
-			noreply -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
+			noreply += tf.reduce_sum(qm[i] * tf.log(qm[i]))
+			noreply -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
 		obj += noreply
 	else:
-		obj += tf.reduce_sum(qm[cdic[c]] * tf.log(qm[cdic[c]]))
-		obj -= tf.reduce_sum(qm[cdic[c]] * LnLc(omega, pi, x, philist, c))
-	count += 1
+		obj += tf.reduce_sum(qm[i] * tf.log(qm[i]))
+		obj -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
 	i += 1
 	return obj, i, noreply, omega, pi, x, philist
 
@@ -223,12 +221,8 @@ def cond_e(i, omega, pi, x, philist):
 	return i < len(q)
 
 def body_e(i, omega, pi, x, philist):
-	global count
-	c = q.keys()[count]
-	QF(omega, pi, x, philist, c)
-	count += 1
+	QF(omega, pi, x, philist, i)
 	i += 1
-	print i
 	return i, omega, pi, x, philist
 
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
@@ -429,6 +423,8 @@ omega, pi, x, theta1, theta2, theta3, theta4 = Select(omega, pi, x, theta1, thet
 print 'There are ' + str(vnum * 5) + ' point parameters and ' + str(enum * 2) + ' edge parameters to be learned...'
 #Conduct EM algorithm
 #QMatrix(q)
+for c in clist:
+	cascade_author.append(author[c])
 print 'EM algorithm begins...'
 #print min(omega)
 #print max(omega)
@@ -437,13 +433,17 @@ cnt = 0
 lastObj = np.exp(100)
 param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
+lc = lc.values()
+q = q.values()
 rusc = tf.constant(rusc, dtype=tf.float64)
 nrusc = tf.constant(nrusc, dtype=tf.float64)
 rusc_id = tf.constant(rusc_id, dtype=tf.int64)
 nrusc_id = tf.constant(nrusc_id, dtype=tf.int64)
-for key in rusc_dic:
-	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
-	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
+rusc_dic = tf.constant(rusc_dic.values(), dtype=tf.int64)
+nrusc_dic = tf.constant(nrusc_dic.values(), dtype=tf.int64)
+#for key in rusc_dic:
+#	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
+#	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
 print 'Graph construction completed.'
 p = tf.Variable(param, name='p')
 qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
