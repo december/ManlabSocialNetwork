@@ -168,7 +168,7 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 		temps = 0
 		for j in range(5):
 			temps += tf.exp(lc[c][j] - lc[c][i])
-		s.append(temps)
+		s.append(1 / temps)
 	q[c] = np.array(s)
 
 def cond(obj, i, noreply, omega, pi, x, philist):
