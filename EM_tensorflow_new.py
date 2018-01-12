@@ -211,7 +211,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	'''
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
-	tf.while_loop(cond, body, [obj, 0, noreply, omega, pi, x, philist], parallel_iterations=50)
+	tf.while_loop(cond, body, [obj, 0, noreply, omega, pi, x, philist], parallel_iterations=80)
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
@@ -240,7 +240,7 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	philist = tf.reshape(philist, (5, -1))
 	philist = tf.transpose(philist)
 	#count = 0
-	tf.while_loop(cond_e, body_e, [0, omega, pi, x, philist], parallel_iterations=50)
+	tf.while_loop(cond_e, body_e, [0, omega, pi, x, philist], parallel_iterations=80)
 	#for c in q:
 		#QF(omega, pi, x, philist, c)
 		#count += 1
@@ -435,12 +435,14 @@ param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
 lc = lc.values()
 q = q.values()
+rusc_dic = rusc_dic.values()
+nrusc_dic = nrusc_dic.values()
 rusc = tf.constant(rusc, dtype=tf.float64)
 nrusc = tf.constant(nrusc, dtype=tf.float64)
 rusc_id = tf.constant(rusc_id, dtype=tf.int64)
 nrusc_id = tf.constant(nrusc_id, dtype=tf.int64)
-rusc_dic = tf.constant(rusc_dic.values(), dtype=tf.int64)
-nrusc_dic = tf.constant(nrusc_dic.values(), dtype=tf.int64)
+rusc_dic = tf.constant(rusc_dic, dtype=tf.int64)
+nrusc_dic = tf.constant(nrusc_dic, dtype=tf.int64)
 #for key in rusc_dic:
 #	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
 #	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
