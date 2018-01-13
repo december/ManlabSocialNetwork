@@ -27,6 +27,7 @@ for key in cascade:
 	if size > 100 and number > 300:
 		cnt += 1
 		select.append(key)
+print cnt
 fw.close()
 
 fw = open('../../ascading_generation_model/all/select.detail', 'w')
