@@ -29,8 +29,12 @@ rusc = list() #info part of rusc sets and records
 nrusc = list() #info part of nrusc sets and records
 rusc_id = list() #id part of rusc sets and records
 nrusc_id = list() #id part of nrusc sets and records
-rusc_dic = {} #from cascade id to index list of rusc info
-nrusc_dic = {} #from cascade id to index list of nrusc info
+rusc_dic = list() #from cascade id to index list of rusc info
+nrusc_dic = list() #from cascade id to index list of nrusc info
+begin_rusc = list()
+end_rusc = list()
+begin_nrusc = list()
+end_nrusc = list()
 depth = {} #from tweet id to depth
 author = {} #from tweet id to user id
 cascade_author = list()
@@ -129,12 +133,14 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	s = tf.cast(tf.log(tmpphi) + tmplbd, dtype=tf.float64)
 	#print tf.shape(s)
 
-	rnum = rusc_dic[c][0]
-	nnum = nrusc_dic[c][0]
-	rc = tf.gather(rusc, rusc_dic[c][1:1+rnum], axis=0)
-	nc = tf.gather(nrusc, nrusc_dic[c][1:1+nnum], axis=0)
-	rc_id = tf.gather(rusc_id, rusc_dic[c][1:1+rnum], axis=0)
-	nc_id = tf.gather(nrusc_id, nrusc_dic[c][1:1+nnum], axis=0)
+	br = begin_rusc[c]
+	bn = begin_nrusc[c]
+	er = end_rusc[c]
+	en = end_nrusc[c]
+	rc = tf.gather(rusc, rusc_dic[br:er], axis=0)
+	nc = tf.gather(nrusc, nrusc_dic[bn:en], axis=0)
+	rc_id = tf.gather(rusc_id, rusc_dic[br:er], axis=0)
+	nc_id = tf.gather(nrusc_id, nrusc_dic[bn:en], axis=0)
 
 	omega_rc = tf.gather(omega, rc_id[:, 1], axis=0)
 	pi_rc = tf.gather(pi, rc_id[:, 0], axis=0)
@@ -179,7 +185,7 @@ def cond(obj, i, noreply, omega, pi, x, philist):
 
 def body(obj, i, noreply, omega, pi, x, philist):
 	#if rusc_dic[i].get_shape()[0] == 0:
-	if rusc_dic[i][0] == 0:
+	if begin_rusc[i] == end_rusc[i]:
 		if noreply == 0:
 			noreply += tf.reduce_sum(qm[i] * tf.log(qm[i]))
 			noreply -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
@@ -258,8 +264,8 @@ def SingleObj(data, u):
 	while i < n:
 		temp = data[i].split('\t')
 		number = int(temp[1]) + 1
-		rusc_dic[temp[0]] = list()
-		nrusc_dic[temp[0]] = list()
+		rusc_dic.append(list())
+		nrusc_dic.append(list())
 		clist.append(temp[0])
 		cdic[temp[0]] = cnum
 		q[temp[0]] = list()
@@ -310,7 +316,7 @@ def SingleObj(data, u):
 					info_id.append(vdic[iddic[f]])
 					rusc.append(info)
 					rusc_id.append(info_id)
-					rusc_dic[temp[0]].append(rusc_num)
+					rusc_dic[cdic[temp[0]]].append(rusc_num)
 					rusc_num += 1
 				else: #this person did not retweet it
 					info_id.append(edic[edgemap[iddic[author[item]]][iddic[f]]])
@@ -319,7 +325,7 @@ def SingleObj(data, u):
 					info_id.append(vdic[iddic[f]])
 					nrusc.append(info)
 					nrusc_id.append(info_id)
-					nrusc_dic[temp[0]].append(nrusc_num)
+					nrusc_dic[cdic[temp[0]]].append(nrusc_num)
 					nrusc_num += 1
 		cnum += 1
 		i += number		
@@ -438,28 +444,22 @@ param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
 lc = np.array(lc.values())
 q = np.array(q.values())
-maxr = 0
-maxn = 0
+
 temp_rusc = list()
+temp_pos = 0
+for l in rusc_dic:
+	begin_rusc.append(temp_pos)
+	temp_pos += len(l)
+	end_rusc.append(temp_pos)
+	temp_rusc.extend(l)
+
 temp_nrusc = list()
-for key in rusc_dic:
-	maxr = max(maxr, len(rusc_dic[key]) + 1)
-	maxn = max(maxn, len(nrusc_dic[key]) + 1)
-	temp = [len(rusc_dic[key])]
-	temp_rusc.append(temp.extend(rusc_dic[key]))
-	temp = [len(nrusc_dic[key])]
-	temp_nrusc.append(temp.extend(nrusc_dic[key]))
-
-for l in temp_rusc:
-	print l
-	delta = maxr - len(l)
-	for i in range(delta):
-		l.append(-1)
-
-for l in temp_nrusc:
-	delta = maxr - len(l)
-	for i in range(delta):
-		l.append(-1)
+temp_pos = 0
+for l in nrusc_dic:
+	begin_nrusc.append(temp_pos)
+	temp_pos += len(l)
+	end_nrusc.append(temp_pos)
+	temp_nrusc.extend(l)
 
 #rusc_dic = np.array(rusc_dic.values())
 #nrusc_dic = np.array(nrusc_dic.values())
@@ -469,6 +469,10 @@ rusc_id = tf.constant(rusc_id, dtype=tf.int64)
 nrusc_id = tf.constant(nrusc_id, dtype=tf.int64)
 rusc_dic = tf.constant(temp_rusc, dtype=tf.int64)
 nrusc_dic = tf.constant(temp_nrusc, dtype=tf.int64)
+begin_rusc = tf.constant(begin_rusc, dtype=tf.int64)
+begin_nrusc = tf.constant(begin_nrusc, dtype=tf.int64)
+end_rusc = tf.constant(end_rusc, dtype=tf.int64)
+end_nrusc = tf.constant(end_nrusc, dtype=tf.int64)
 #for key in rusc_dic:
 #	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
 #	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
