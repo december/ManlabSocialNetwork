@@ -40,7 +40,6 @@ author = {} #from tweet id to user id
 cascade_author = list()
 timestamp = {} #from tweet id to timestamp
 posts = {} #from user index to post times
-qv = tf.Variable()
 q = list() #from cascade id to q function
 lc = list() #from cascade id to log-likelihood function value
 cdic = {} #from cascade id to cascade index
@@ -173,13 +172,13 @@ def QMatrix():
 
 def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 	lc = LnLc(omega, pi, x, philist, c)
-	#s = list()
+	s = list()
 	for i in range(5):
 		temps = 0
 		for j in range(5):
 			temps += tf.exp(lc[j] - lc[i])
-		#s.append(1 / temps)
-		tf.assign(q[c][i],  1 / temps)
+		s.append(1 / temps)
+	tf.assign(q[c],  s)
 
 def cond(obj, i, noreply, omega, pi, x, philist):
 	return i < q.get_shape()[0]
