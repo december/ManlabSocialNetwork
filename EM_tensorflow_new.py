@@ -442,8 +442,8 @@ cnt = 0
 lastObj = np.exp(100)
 param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
-lc = np.array(lc.values())
-q = np.array(q.values())
+lc = tf.convert_to_tensor(np.array(lc.values()), dtype=tf.float64)
+q = tf.convert_to_tensor(np.array(q.values()), dtype=tf.float64)
 
 temp_rusc = list()
 temp_pos = 0
