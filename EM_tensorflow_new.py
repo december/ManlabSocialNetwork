@@ -162,7 +162,7 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	return s
 
 def QMatrix():
-	n = len(q)
+	n = q.get_shape()[0]
 	qmx = list()
 	for i in range(n):
 		for j in range(5):
@@ -181,7 +181,7 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 	q[c] = np.array(s)
 
 def cond(obj, i, noreply, omega, pi, x, philist):
-	return i < len(q)
+	return i < q.get_shape()[0]
 
 def body(obj, i, noreply, omega, pi, x, philist):
 	#if rusc_dic[i].get_shape()[0] == 0:
@@ -227,7 +227,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	return obj
 
 def cond_e(i, omega, pi, x, philist):
-	return i < len(q)
+	return i < q.get_shape()[0]
 
 def body_e(i, omega, pi, x, philist):
 	QF(omega, pi, x, philist, i)
