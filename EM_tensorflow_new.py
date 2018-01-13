@@ -129,10 +129,12 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	s = tf.cast(tf.log(tmpphi) + tmplbd, dtype=tf.float64)
 	#print tf.shape(s)
 
-	rc = tf.gather(rusc, rusc_dic[clist[c]], axis=0)
-	nc = tf.gather(nrusc, nrusc_dic[clist[c]], axis=0)
-	rc_id = tf.gather(rusc_id, rusc_dic[clist[c]], axis=0)
-	nc_id = tf.gather(nrusc_id, nrusc_dic[clist[c]], axis=0)
+	rnum = rusc_dic[c][0]
+	nnum = nrusc_dic[c][0]
+	rc = tf.gather(rusc, rusc_dic[c][1:1+rnum], axis=0)
+	nc = tf.gather(nrusc, nrusc_dic[c][1:1+nnum], axis=0)
+	rc_id = tf.gather(rusc_id, rusc_dic[c][1:1+rnum], axis=0)
+	nc_id = tf.gather(nrusc_id, nrusc_dic[c][1:1+nnum], axis=0)
 
 	omega_rc = tf.gather(omega, rc_id[:, 1], axis=0)
 	pi_rc = tf.gather(pi, rc_id[:, 0], axis=0)
@@ -177,7 +179,7 @@ def cond(obj, i, noreply, omega, pi, x, philist):
 
 def body(obj, i, noreply, omega, pi, x, philist):
 	#if rusc_dic[i].get_shape()[0] == 0:
-	if len(rusc_dic[clist[i]]) == 0:
+	if rusc_dic[i][0] == 0:
 		if noreply == 0:
 			noreply += tf.reduce_sum(qm[i] * tf.log(qm[i]))
 			noreply -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
@@ -436,14 +438,36 @@ param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
 lc = np.array(lc.values())
 q = np.array(q.values())
+maxr = 0
+maxn = 0
+temp_rusc = list()
+temp_nrusc = list()
+for key in rusc_dic:
+	maxr = max(maxr, len(rusc_dic[key]) + 1)
+	maxn = max(maxn, len(nrusc_dic[key]) + 1)
+	temp = [len(rusc_dic[key])]
+	temp_rusc.append(temp.extend(rusc_dic[key]))
+	temp = [len(nrusc_dic[key])]
+	temp_nrusc.append(temp.extend(nrusc_dic[key]))
+
+for l in temp_rusc:
+	delta = maxr - len(l)
+	for i in range(delta):
+		l.append(-1)
+
+for l in temp_nrusc:
+	delta = maxr - len(l)
+	for i in range(delta):
+		l.append(-1)
+
 #rusc_dic = np.array(rusc_dic.values())
 #nrusc_dic = np.array(nrusc_dic.values())
 rusc = tf.constant(rusc, dtype=tf.float64)
 nrusc = tf.constant(nrusc, dtype=tf.float64)
 rusc_id = tf.constant(rusc_id, dtype=tf.int64)
 nrusc_id = tf.constant(nrusc_id, dtype=tf.int64)
-#rusc_dic = tf.constant(rusc_dic, dtype=tf.int64)
-#nrusc_dic = tf.constant(nrusc_dic, dtype=tf.int64)
+rusc_dic = tf.constant(temp_rusc, dtype=tf.int64)
+nrusc_dic = tf.constant(temp_nrusc, dtype=tf.int64)
 #for key in rusc_dic:
 #	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
 #	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
