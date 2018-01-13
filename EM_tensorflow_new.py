@@ -166,19 +166,19 @@ def QMatrix():
 	qmx = list()
 	for i in range(n):
 		for j in range(5):
-			qmx.append(q[clist[i]][j])
+			qmx.append(q[i][j])
 	qmx = tf.stack(qmx, 0)
 	return tf.reshape(qmx, shape=(n, 5))
 
 def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 	lc = LnLc(omega, pi, x, philist, c)
-	s = list()
+	#s = list()
 	for i in range(5):
 		temps = 0
 		for j in range(5):
 			temps += tf.exp(lc[j] - lc[i])
-		s.append(1 / temps)
-	q[c] = np.array(s)
+		#s.append(1 / temps)
+		tf.assign(q[c][i],  1 / temps)
 
 def cond(obj, i, noreply, omega, pi, x, philist):
 	return i < len(q)
@@ -254,7 +254,8 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 		#QF(omega, pi, x, philist, c)
 		#count += 1
 		#print count
-	return QMatrix()
+	#return QMatrix()
+	return q
 
 def SingleObj(data, u):
 	global vnum, enum, cnum, rusc_num, nrusc_num
@@ -440,9 +441,9 @@ lastObj = np.exp(100)
 param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
 #lc = np.array(lc)
-q = np.array(q)
+#q = np.array(q)
 #lc = tf.convert_to_tensor(np.array(lc.values()), dtype=tf.float64)
-#q = tf.convert_to_tensor(np.array(q.values()), dtype=tf.float64)
+q = tf.convert_to_tensor(np.array(q), dtype=tf.float64)
 
 temp_rusc = list()
 temp_pos = 0
