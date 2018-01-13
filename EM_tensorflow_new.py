@@ -212,7 +212,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	'''
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
-	tf.while_loop(cond, body, [obj, 0, noreply, omega, pi, x, philist], parallel_iterations=80)
+	tf.while_loop(cond, body, [obj, tf.cast(0, tf.int64), noreply, omega, pi, x, philist], parallel_iterations=80)
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
@@ -442,8 +442,8 @@ rusc = tf.constant(rusc, dtype=tf.float64)
 nrusc = tf.constant(nrusc, dtype=tf.float64)
 rusc_id = tf.constant(rusc_id, dtype=tf.int64)
 nrusc_id = tf.constant(nrusc_id, dtype=tf.int64)
-rusc_dic = tf.constant(rusc_dic, dtype=tf.int64)
-nrusc_dic = tf.constant(nrusc_dic, dtype=tf.int64)
+#rusc_dic = tf.constant(rusc_dic, dtype=tf.int64)
+#nrusc_dic = tf.constant(nrusc_dic, dtype=tf.int64)
 #for key in rusc_dic:
 #	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
 #	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
