@@ -171,12 +171,12 @@ def QMatrix():
 	return tf.reshape(qmx, shape=(n, 5))
 
 def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
-	lc[c] = LnLc(omega, pi, x, philist, c)
+	lc = LnLc(omega, pi, x, philist, c)
 	s = list()
 	for i in range(5):
 		temps = 0
 		for j in range(5):
-			temps += tf.exp(lc[c][j] - lc[c][i])
+			temps += tf.exp(lc[j] - lc[i])
 		s.append(1 / temps)
 	q[c] = np.array(s)
 
@@ -269,7 +269,7 @@ def SingleObj(data, u):
 		clist.append(temp[0])
 		cdic[temp[0]] = cnum
 		q.append([0.2, 0.2, 0.2, 0.2, 0.2])
-		lc.append([0.0, 0.0, 0.0, 0.0, 0.0])
+		#lc.append([0.0, 0.0, 0.0, 0.0, 0.0])
 		#lc[temp[0]] = np.array(lc[temp[0]])
 		#q[temp[0]] = np.array(q[temp[0]])
 		casdic = {} #from tweet id to user id who replied it with which tweet id
@@ -439,7 +439,7 @@ cnt = 0
 lastObj = np.exp(100)
 param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
-lc = np.array(lc)
+#lc = np.array(lc)
 q = np.array(q)
 #lc = tf.convert_to_tensor(np.array(lc.values()), dtype=tf.float64)
 #q = tf.convert_to_tensor(np.array(q.values()), dtype=tf.float64)
