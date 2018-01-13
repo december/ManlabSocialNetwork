@@ -48,6 +48,7 @@ edgemap = {} #from relations to the index of edge
 vdic = {} #from user index to the index of point parameter 
 edic = {} #from the index of edge to the index of edge parameter
 vlist = list() #from the index of point parameter to user index
+vlist_tf = list()
 elist = list() #from the index of edge parameter to the index of edge
 vnum = 0
 enum = 0
@@ -58,7 +59,7 @@ pos = 0
 poslist = list()
 total = 0
 iters = 1 #iteration times in each M-steps
-alpha = 0.0000001 #learning rate for optimizer
+alpha = 0.0001 #learning rate for optimizer
 
 gamma = -1.0 #log barrier
 epsilon = 10.0 #when will EM stop
@@ -128,7 +129,7 @@ def Phi_np(theta1, theta2, theta3, theta4, idx):
 
 def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = cascade_author[c]
-	tmplbd = tf.log(lbd[vlist[uc]])
+	tmplbd = tf.log(lbd[vlist_tf[uc]])
 	tmpphi = philist[uc]
 	s = tf.cast(tf.log(tmpphi) + tmplbd, dtype=tf.float64)
 	#print tf.shape(s)
@@ -465,7 +466,7 @@ for l in nrusc_dic:
 #rusc_dic = np.array(rusc_dic.values())
 #nrusc_dic = np.array(nrusc_dic.values())
 cascade_author = tf.constant(cascade_author, dtype=tf.int64)
-vlist = tf.constant(vlist, dtype=tf.int64)
+vlist_tf = tf.constant(vlist, dtype=tf.int64)
 lbd = tf.constant(lbd, dtype=tf.float64)
 rusc = tf.constant(rusc, dtype=tf.float64)
 nrusc = tf.constant(nrusc, dtype=tf.float64)
