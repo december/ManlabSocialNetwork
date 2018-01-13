@@ -176,8 +176,8 @@ def cond(obj, i, noreply, omega, pi, x, philist):
 	return i < len(q)
 
 def body(obj, i, noreply, omega, pi, x, philist):
-	#if rusc_dic[c].get_shape()[0] == 0:
-	if len(rusc_dic[i]) == 0:
+	if rusc_dic[i].get_shape()[0] == 0:
+	#if len(rusc_dic[i]) == 0:
 		if noreply == 0:
 			noreply += tf.reduce_sum(qm[i] * tf.log(qm[i]))
 			noreply -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
@@ -442,8 +442,8 @@ rusc = tf.constant(rusc, dtype=tf.float64)
 nrusc = tf.constant(nrusc, dtype=tf.float64)
 rusc_id = tf.constant(rusc_id, dtype=tf.int64)
 nrusc_id = tf.constant(nrusc_id, dtype=tf.int64)
-#rusc_dic = tf.constant(rusc_dic, dtype=tf.int64)
-#nrusc_dic = tf.constant(nrusc_dic, dtype=tf.int64)
+rusc_dic = tf.constant(rusc_dic, dtype=tf.int64)
+nrusc_dic = tf.constant(nrusc_dic, dtype=tf.int64)
 #for key in rusc_dic:
 #	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
 #	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
