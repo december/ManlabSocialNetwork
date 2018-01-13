@@ -451,6 +451,7 @@ for key in rusc_dic:
 	temp_nrusc.append(temp.extend(nrusc_dic[key]))
 
 for l in temp_rusc:
+	print l
 	delta = maxr - len(l)
 	for i in range(delta):
 		l.append(-1)
