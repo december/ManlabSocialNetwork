@@ -40,6 +40,7 @@ author = {} #from tweet id to user id
 cascade_author = list()
 timestamp = {} #from tweet id to timestamp
 posts = {} #from user index to post times
+qv = tf.Variable()
 q = list() #from cascade id to q function
 lc = list() #from cascade id to log-likelihood function value
 cdic = {} #from cascade id to cascade index
