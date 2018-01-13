@@ -40,8 +40,8 @@ author = {} #from tweet id to user id
 cascade_author = list()
 timestamp = {} #from tweet id to timestamp
 posts = {} #from user index to post times
-q = {} #from cascade id to q function
-lc = {} #from cascade id to log-likelihood function value
+q = list() #from cascade id to q function
+lc = list() #from cascade id to log-likelihood function value
 cdic = {} #from cascade id to cascade index
 clist = list() #from cascade index to cascade id
 edgemap = {} #from relations to the index of edge
@@ -268,13 +268,10 @@ def SingleObj(data, u):
 		nrusc_dic.append(list())
 		clist.append(temp[0])
 		cdic[temp[0]] = cnum
-		q[temp[0]] = list()
-		lc[temp[0]] = list()
-		for j in range(5):
-			q[temp[0]].append(0.2)
-			lc[temp[0]].append(0.0)
-		lc[temp[0]] = np.array(lc[temp[0]])
-		q[temp[0]] = np.array(q[temp[0]])
+		q.append([0.2, 0.2, 0.2, 0.2, 0.2])
+		lc.append([0.0, 0.0, 0.0, 0.0, 0.0])
+		#lc[temp[0]] = np.array(lc[temp[0]])
+		#q[temp[0]] = np.array(q[temp[0]])
 		casdic = {} #from tweet id to user id who replied it with which tweet id
 		for j in range(i+1, i+number):
 			tweet = data[j].split('\t')
@@ -442,8 +439,8 @@ cnt = 0
 lastObj = np.exp(100)
 param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 n = len(q)
-lc = np.array(lc.values())
-q = np.array(q.values())
+lc = np.array(lc)
+q = np.array(q)
 #lc = tf.convert_to_tensor(np.array(lc.values()), dtype=tf.float64)
 #q = tf.convert_to_tensor(np.array(q.values()), dtype=tf.float64)
 
