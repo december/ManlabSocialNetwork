@@ -181,7 +181,7 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 	q[c] = np.array(s)
 
 def cond(obj, i, noreply, omega, pi, x, philist):
-	return i < q.get_shape()[0]
+	return i < len(q)
 
 def body(obj, i, noreply, omega, pi, x, philist):
 	#if rusc_dic[i].get_shape()[0] == 0:
@@ -227,7 +227,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	return obj
 
 def cond_e(i, omega, pi, x, philist):
-	return i < q.get_shape()[0]
+	return i < len(q)
 
 def body_e(i, omega, pi, x, philist):
 	QF(omega, pi, x, philist, i)
