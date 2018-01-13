@@ -127,7 +127,7 @@ def Phi_np(theta1, theta2, theta3, theta4, idx):
 
 
 def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
-	uc = vdic[iddic[cascade_author[c]]]
+	uc = cascade_author[c]
 	tmplbd = tf.log(lbd[vlist[uc]])
 	tmpphi = philist[uc]
 	s = tf.cast(tf.log(tmpphi) + tmplbd, dtype=tf.float64)
@@ -433,7 +433,7 @@ print 'There are ' + str(vnum * 5) + ' point parameters and ' + str(enum * 2) + 
 #Conduct EM algorithm
 #QMatrix(q)
 for c in clist:
-	cascade_author.append(author[c])
+	cascade_author.append(vdic[iddic[author[c]]])
 print 'EM algorithm begins...'
 #print min(omega)
 #print max(omega)
@@ -463,6 +463,7 @@ for l in nrusc_dic:
 
 #rusc_dic = np.array(rusc_dic.values())
 #nrusc_dic = np.array(nrusc_dic.values())
+cascade_author = tf.constant(cascade_author, dtype=tf.int64)
 rusc = tf.constant(rusc, dtype=tf.float64)
 nrusc = tf.constant(nrusc, dtype=tf.float64)
 rusc_id = tf.constant(rusc_id, dtype=tf.int64)
