@@ -176,7 +176,8 @@ def cond(obj, i, noreply, omega, pi, x, philist):
 	return i < len(q)
 
 def body(obj, i, noreply, omega, pi, x, philist):
-	if rusc_dic[c].get_shape()[0] == 0:
+	#if rusc_dic[c].get_shape()[0] == 0:
+	if len(rusc_dic[c]) == 0:
 		if noreply == 0:
 			noreply += tf.reduce_sum(qm[i] * tf.log(qm[i]))
 			noreply -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
