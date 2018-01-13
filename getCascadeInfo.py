@@ -18,7 +18,7 @@ while i < n:
 		cascade[user][number] += 1
 	i += number + 1
 
-fw = open('../../ascading_generation_model/all/all_cascade.detail', 'w')
+fw = open('../../cascading_generation_model/all/all_cascade.detail', 'w')
 cnt = 0
 for key in cascade:
 	number = sum(cascade[key].values())
@@ -30,7 +30,7 @@ for key in cascade:
 print cnt
 fw.close()
 
-fw = open('../../ascading_generation_model/all/select.detail', 'w')
+fw = open('../../cascading_generation_model/all/select.detail', 'w')
 for point in select:
 	fw.write(point)
 	fw.write('\n')
