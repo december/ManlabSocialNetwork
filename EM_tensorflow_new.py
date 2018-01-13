@@ -465,6 +465,7 @@ for l in nrusc_dic:
 #nrusc_dic = np.array(nrusc_dic.values())
 cascade_author = tf.constant(cascade_author, dtype=tf.int64)
 vlist = tf.constant(vlist, dtype=tf.int64)
+lbd = tf.constant(lbd, dtype=tf.float64)
 rusc = tf.constant(rusc, dtype=tf.float64)
 nrusc = tf.constant(nrusc, dtype=tf.float64)
 rusc_id = tf.constant(rusc_id, dtype=tf.int64)
