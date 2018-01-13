@@ -443,7 +443,8 @@ n = len(q)
 #lc = np.array(lc)
 #q = np.array(q)
 #lc = tf.convert_to_tensor(np.array(lc.values()), dtype=tf.float64)
-q = tf.convert_to_tensor(np.array(q), dtype=tf.float64)
+#q = tf.convert_to_tensor(np.array(q), dtype=tf.float64)
+
 
 temp_rusc = list()
 temp_pos = 0
@@ -481,6 +482,7 @@ end_nrusc = tf.constant(end_nrusc, dtype=tf.int64)
 #	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
 print 'Graph construction completed.'
 p = tf.Variable(param, name='p')
+q = tf.Variable(np.array(q), dtype=tf.float64)
 qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
 optimizer = tf.train.GradientDescentOptimizer(alpha)
 #optimizer = tf.train.AdamOptimizer(alpha)
