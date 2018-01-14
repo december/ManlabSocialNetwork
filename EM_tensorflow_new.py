@@ -503,6 +503,7 @@ with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	#end = datetime.datetime.now()
 	#print (end - start).seconds
 		out_qf = session.run(qf)
+		print q.get_shape()[0]
 		print 'EStep ' + str(cnt+1) + ' finished...'
 		for step in range(iters):
 			session.run(train, feed_dict={qm:out_qf})
