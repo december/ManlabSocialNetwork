@@ -503,7 +503,7 @@ with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	#end = datetime.datetime.now()
 	#print (end - start).seconds
 		out_qf = session.run(qf)
-		print q.get_shape()[0]
+		#print q.get_shape()[0]
 		print 'EStep ' + str(cnt+1) + ' finished...'
 		for step in range(iters):
 			session.run(train, feed_dict={qm:out_qf})
@@ -512,6 +512,7 @@ with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 		print 'MStep ' + str(cnt+1) + ' finished...'
 		print 'Objective function value: ' + str(obj)
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
+		print omega[:10]
 		if abs(lastObj) - obj < epsilon:
 			break
 		lastObj = obj	
