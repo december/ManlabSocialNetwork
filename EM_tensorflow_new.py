@@ -17,6 +17,7 @@ single = True
 filename = int(sys.argv[1])
 if filename < 0:
 	single = False
+alpha = float(sys.argv[2]) #learning rate for optimizer
 
 users = 7268
 allusers = 7268
@@ -59,7 +60,6 @@ pos = 0
 poslist = list()
 total = 0
 iters = 1 #iteration times in each M-steps
-alpha = 0.0001 #learning rate for optimizer
 
 gamma = -1.0 #log barrier
 epsilon = 10.0 #when will EM stop
@@ -331,6 +331,7 @@ def SingleObj(data, u):
 
 
 #Get lambda value
+starttime = datetime.datetime.now()
 print 'Preparatory work begins...'
 prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 suffix = '.detail'
@@ -569,3 +570,5 @@ for i in range(5):
 		fw.write('\n')
 	fw.close()
 
+endtime = datetime.datetime.now()
+print 'Time consumed: ' + str(endtime - starttime) + ' (' + str(alpha) + ')'
