@@ -42,6 +42,7 @@ cascade_author = list()
 timestamp = {} #from tweet id to timestamp
 posts = {} #from user index to post times
 q = list() #from cascade id to q function
+tempq = list()
 lc = list() #from cascade id to log-likelihood function value
 cdic = {} #from cascade id to cascade index
 clist = list() #from cascade index to cascade id
@@ -237,7 +238,9 @@ def cond_e(i, omega, pi, x, philist):
 
 def body_e(i, omega, pi, x, philist):
 	s = QF(omega, pi, x, philist, i)
-	q = q[i].assign(s)
+	tf.assign(q[i], s)
+	#q = q[i].assign(s)
+	#q.append(s)
 	i += 1
 	return i, omega, pi, x, philist
 
@@ -255,6 +258,7 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	philist = tf.transpose(philist)
 	#count = 0
 	it = 0
+	#q = list()
 	newit, _, _, _, _ = tf.while_loop(cond_e, body_e, [it, omega, pi, x, philist], parallel_iterations=80)
 	#for c in q:
 		#QF(omega, pi, x, philist, c)
