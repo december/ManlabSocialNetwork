@@ -181,6 +181,9 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 		s.append(1 / temps)
 	tf.assign(q[c],  s)
 
+def printInfo(obj, i, noreply):
+	print str(i) + ' ' + str(obj) + str(noreply)
+
 def cond(obj, i, noreply, omega, pi, x, philist, qm):
 	return i < q.get_shape()[0]
 
@@ -195,6 +198,7 @@ def body(obj, i, noreply, omega, pi, x, philist, qm):
 		obj += tf.reduce_sum(qm[i] * tf.log(qm[i]))
 		obj -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
 	i += 1
+	tf.py_func(printInfo, [obj, i, noreply])
 	return obj, i, noreply, omega, pi, x, philist, qm
 
 def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
