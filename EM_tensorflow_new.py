@@ -498,7 +498,7 @@ with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	print 'EStep part construction finished.'
 	total = begin_rusc.get_shape()[0]
 	same = 0
-	for i in total:
+	for i in range(total):
 		if session.run(begin_rusc[i]) == session.run(end_rusc[i]):
 			same += 1
 	print same
