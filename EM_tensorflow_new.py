@@ -513,10 +513,10 @@ with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 		for step in range(iters):
 			session.run(train, feed_dict={qm:out_qf})
 			newp = session.run(p, feed_dict={qm:out_qf})
-			obj, it, noreply = session.run(target, feed_dict={qm:out_qf})
+			obj = session.run(target, feed_dict={qm:out_qf})
 		print 'MStep ' + str(cnt+1) + ' finished...'
 		print 'Objective function value: ' + str(obj)
-		print str(it) + ' ' + str(noreply)
+		#print str(it) + ' ' + str(noreply)
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
 		#print omega[:10]
 		if abs(lastObj) - obj < epsilon:
