@@ -198,8 +198,6 @@ def body(obj, i, noreply, omega, pi, x, philist):
 	return obj, i, noreply, omega, pi, x, philist
 
 def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
-	global count
-	count = 0
 	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(param)
 	omega = tf.cos(omega) * tf.cos(omega)
 	pi = tf.cos(pi) * tf.cos(pi)
@@ -221,7 +219,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	'''
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
-	tf.while_loop(cond, body, [obj, tf.cast(0, tf.int64), noreply, omega, pi, x, philist], parallel_iterations=80)
+	#tf.while_loop(cond, body, [obj, tf.cast(0, tf.int64), noreply, omega, pi, x, philist], parallel_iterations=80)
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
@@ -237,8 +235,6 @@ def body_e(i, omega, pi, x, philist):
 
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	#print [len(omega), len(pi), len(x)]
-	global count
-	count = 0
 	omega = tf.cos(omega) * tf.cos(omega)
 	pi = tf.cos(pi) * tf.cos(pi)
 	x = x * x
@@ -496,12 +492,12 @@ with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	session.run(init)
 	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
 	print 'EStep part construction finished.'
-	total = begin_rusc.get_shape()[0]
-	same = 0
-	for i in range(total):
-		if session.run(begin_rusc[i]) == session.run(end_rusc[i]):
-			same += 1
-	print same
+	#total = begin_rusc.get_shape()[0]
+	#same = 0
+	#for i in range(total):
+	#	if session.run(begin_rusc[i]) == session.run(end_rusc[i]):
+	#		same += 1
+	#print same
 	while cnt < 100:
 	#param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 	#start = datetime.datetime.now()
