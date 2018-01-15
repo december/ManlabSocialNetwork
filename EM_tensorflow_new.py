@@ -499,7 +499,7 @@ with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	total = begin_rusc.get_shape()[0]
 	same = 0
 	for i in total:
-		if session.run(begin_rusc[i]) == session.run(end_rusc[i])
+		if session.run(begin_rusc[i]) == session.run(end_rusc[i]):
 			same += 1
 	print same
 	while cnt < 100:
