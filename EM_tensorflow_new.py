@@ -198,7 +198,7 @@ def body(obj, i, noreply, omega, pi, x, philist, qm):
 		obj += tf.reduce_sum(qm[i] * tf.log(qm[i]))
 		obj -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
 	i += 1
-	tf.py_func(printInfo, [obj, i, noreply])
+	tf.py_func(printInfo, [obj, i, noreply], tf.float64)
 	return obj, i, noreply, omega, pi, x, philist, qm
 
 def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
