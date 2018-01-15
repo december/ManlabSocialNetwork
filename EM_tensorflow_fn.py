@@ -180,7 +180,7 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 		for j in range(5):
 			temps += tf.exp(lc[j] - lc[i])
 		s.append(1 / temps)
-	return tf.cast(s, dtype=tf.float64)
+	return s
 
 def printInfo(obj, i, noreply):
 	print str(i) + ' ' + str(obj) + ' ' + str(noreply)
@@ -209,7 +209,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
 	def fn(i):
-		tmp = tf.cast(tf.reduce_sum(qm[i] * tf.log(qm[i])) - tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i)), dtype=tf.float64)
+		tmp = tf.reduce_sum(qm[i] * tf.log(qm[i])) - tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
 		return tmp
 	#a = np.linspace(0, q.get_shape()[0] - 1, q.get_shape()[0] - 1)
 	newobj = tf.map_fn(fn, iter_array, parallel_iterations=80)
@@ -473,7 +473,8 @@ end_nrusc = tf.constant(end_nrusc, dtype=tf.int32)
 print 'Graph construction completed.'
 n = len(q)
 p = tf.Variable(param, name='p')
-q = tf.Variable(np.array(q), dtype=tf.float64)
+#q = tf.Variable(np.array(q), dtype=tf.float64)
+q = np.array(q)
 iter_array = np.linspace(0, n-1, n, dtype=np.int32)
 qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
 optimizer = tf.train.GradientDescentOptimizer(alpha)
