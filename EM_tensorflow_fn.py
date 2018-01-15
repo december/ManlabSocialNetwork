@@ -235,7 +235,7 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	#q = list()
 	def fn_e(i):
 		s = QF(omega, pi, x, philist, i)
-		return s
+		return tf.stack(s)
 
 	newq = tf.map_fn(fn_e, iter_array, parallel_iterations=80)
 	q = tf.stack(newq)
