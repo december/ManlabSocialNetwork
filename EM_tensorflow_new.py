@@ -5,7 +5,6 @@ import tensorflow as tf
 import scipy.optimize
 import numpy.random
 import datetime
-from memory_profiler import profile
 
 def debug_signal_handler(signal, frame):
     import pdb
