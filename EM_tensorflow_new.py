@@ -232,16 +232,16 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return newobj
 
-def cond_e(q, i, omega, pi, x, philist):
+def cond_e(i, omega, pi, x, philist):
 	return i < q.get_shape()[0]
 
-def body_e(q, i, omega, pi, x, philist):
-	q[i] = QF(omega, pi, x, philist, i)
-	#q[i] = tf.assign(q[i], s)
+def body_e(i, omega, pi, x, philist):
+	s = QF(omega, pi, x, philist, i)
+	q[i] = tf.assign(q[i], s)
 	i += 1
-	return q, i, omega, pi, x, philist
+	return i, omega, pi, x, philist
 
-def EStep(omega, pi, x, theta1, theta2, theta3, theta4, q): #renew q and lc
+def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	#print [len(omega), len(pi), len(x)]
 	omega = tf.cos(omega) * tf.cos(omega)
 	pi = tf.cos(pi) * tf.cos(pi)
@@ -255,13 +255,13 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4, q): #renew q and lc
 	philist = tf.transpose(philist)
 	#count = 0
 	it = 0
-	newq, _, _, _, _, _ = tf.while_loop(cond_e, body_e, [q, it, omega, pi, x, philist], parallel_iterations=80)
+	newit, _, _, _, _ = tf.while_loop(cond_e, body_e, [it, omega, pi, x, philist], parallel_iterations=80)
 	#for c in q:
 		#QF(omega, pi, x, philist, c)
 		#count += 1
 		#print count
 	#return QMatrix()
-	return newq
+	return q
 
 def SingleObj(data, u):
 	global vnum, enum, cnum, rusc_num, nrusc_num
@@ -499,7 +499,7 @@ init = tf.global_variables_initializer()
 print 'Ready to calculate.'
 with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	session.run(init)
-	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4, q)
+	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
 	print 'EStep part construction finished.'
 	#total = begin_rusc.get_shape()[0]
 	#same = 0
