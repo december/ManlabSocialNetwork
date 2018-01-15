@@ -223,8 +223,9 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
 	tf.while_loop(cond, body, [obj, it, noreply, omega, pi, x, philist, qm], parallel_iterations=80)
-	print session.run(it)
-	print session.run(noreply)
+	with tf.Session() as session:
+		print session.run(it)
+		print session.run(noreply)
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
