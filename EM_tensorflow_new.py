@@ -179,10 +179,10 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 		for j in range(5):
 			temps += tf.exp(lc[j] - lc[i])
 		s.append(1 / temps)
-	tf.assign(q[c],  s)
+	return s
 
 def printInfo(obj, i, noreply):
-	print str(i) + ' ' + str(obj) + str(noreply)
+	print str(i) + ' ' + str(obj) + ' ' + str(noreply)
 
 def cond(obj, i, noreply, omega, pi, x, philist, qm):
 	return i < q.get_shape()[0]
@@ -198,7 +198,7 @@ def body(obj, i, noreply, omega, pi, x, philist, qm):
 		obj += tf.reduce_sum(qm[i] * tf.log(qm[i]))
 		obj -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
 	i += 1
-	tf.py_func(printInfo, [obj, i, noreply], tf.float64)
+	#tf.py_func(printInfo, [obj, i, noreply], tf.float64)
 	return obj, i, noreply, omega, pi, x, philist, qm
 
 def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
@@ -226,21 +226,22 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	'''
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
-	tf.while_loop(cond, body, [obj, it, noreply, omega, pi, x, philist, qm], parallel_iterations=80)
+	newobj, _, _, _, _, _, _, _ = tf.while_loop(cond, body, [obj, it, noreply, omega, pi, x, philist, qm], parallel_iterations=80)
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
-	return obj
+	return newobj
 
-def cond_e(i, omega, pi, x, philist):
+def cond_e(q, i, omega, pi, x, philist):
 	return i < q.get_shape()[0]
 
-def body_e(i, omega, pi, x, philist):
-	QF(omega, pi, x, philist, i)
+def body_e(q, i, omega, pi, x, philist):
+	s = QF(omega, pi, x, philist, i)
+	tf.assign(q[i], s)
 	i += 1
-	return i, omega, pi, x, philist
+	return q, i, omega, pi, x, philist
 
-def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
+def EStep(omega, pi, x, theta1, theta2, theta3, theta4, q): #renew q and lc
 	#print [len(omega), len(pi), len(x)]
 	omega = tf.cos(omega) * tf.cos(omega)
 	pi = tf.cos(pi) * tf.cos(pi)
@@ -254,13 +255,13 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	philist = tf.transpose(philist)
 	#count = 0
 	it = 0
-	tf.while_loop(cond_e, body_e, [it, omega, pi, x, philist], parallel_iterations=80)
+	newq, _, _, _, _, _ = tf.while_loop(cond_e, body_e, [q, it, omega, pi, x, philist], parallel_iterations=80)
 	#for c in q:
 		#QF(omega, pi, x, philist, c)
 		#count += 1
 		#print count
 	#return QMatrix()
-	return q
+	return newq
 
 def SingleObj(data, u):
 	global vnum, enum, cnum, rusc_num, nrusc_num
@@ -498,7 +499,7 @@ init = tf.global_variables_initializer()
 print 'Ready to calculate.'
 with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	session.run(init)
-	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
+	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4, q)
 	print 'EStep part construction finished.'
 	#total = begin_rusc.get_shape()[0]
 	#same = 0
