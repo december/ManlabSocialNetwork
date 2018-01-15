@@ -214,7 +214,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	philist = tf.transpose(philist)
 	#global total
 	#total += 1
-	it = tf.cast(0, tf.int64)
+	it = tf.cast(0, tf.int32)
 	noreply = tf.cast(0.0, tf.float64)
 	#it = tf.Variable(0)
 	#noreply = tf.Variable(0.0)
