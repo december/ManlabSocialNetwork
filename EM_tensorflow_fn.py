@@ -176,11 +176,11 @@ def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
 	lc = LnLc(omega, pi, x, philist, c)
 	s = list()
 	for i in range(5):
-		temps = 0
+		temps = 0.0
 		for j in range(5):
 			temps += tf.exp(lc[j] - lc[i])
 		s.append(1 / temps)
-	return s
+	return tf.cast(s, dtype=tf.float64)
 
 def printInfo(obj, i, noreply):
 	print str(i) + ' ' + str(obj) + ' ' + str(noreply)
@@ -198,8 +198,6 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	philist = tf.transpose(philist)
 	#global total
 	#total += 1
-	it = tf.cast(0, tf.int32)
-	noreply = tf.cast(0.0, tf.float64)
 	#it = tf.Variable(0)
 	#noreply = tf.Variable(0.0)
 	'''
@@ -211,7 +209,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
 	def fn(i):
-		tmp = tf.reduce_sum(qm[i] * tf.log(qm[i])) - tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
+		tmp = tf.cast(tf.reduce_sum(qm[i] * tf.log(qm[i])) - tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i)), dtype=tf.float64)
 		return tmp
 	#a = np.linspace(0, q.get_shape()[0] - 1, q.get_shape()[0] - 1)
 	newobj = tf.map_fn(fn, iter_array, parallel_iterations=80)
