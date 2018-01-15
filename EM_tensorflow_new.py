@@ -210,10 +210,10 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	philist = tf.transpose(philist)
 	#global total
 	#total += 1
-	#it = tf.cast(0, tf.int64)
-	#noreply = tf.cast(0.0, tf.float64)
-	it = tf.Variable(0)
-	noreply = tf.Variable(0.0)
+	it = tf.cast(0, tf.int64)
+	noreply = tf.cast(0.0, tf.float64)
+	#it = tf.Variable(0)
+	#noreply = tf.Variable(0.0)
 	'''
 	print 'Begin'
 	print omega
@@ -223,8 +223,8 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
 	tf.while_loop(cond, body, [obj, it, noreply, omega, pi, x, philist, qm], parallel_iterations=80)
-	print it.eval()
-	print noreply.eval()
+	print it
+	print noreply
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
