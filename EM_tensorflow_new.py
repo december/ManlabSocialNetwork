@@ -237,7 +237,7 @@ def cond_e(i, omega, pi, x, philist):
 
 def body_e(i, omega, pi, x, philist):
 	s = QF(omega, pi, x, philist, i)
-	q[i] = tf.assign(q[i], s)
+	q = q[i].assign(s)
 	i += 1
 	return i, omega, pi, x, philist
 
