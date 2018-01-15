@@ -210,6 +210,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	philist = tf.transpose(philist)
 	#global total
 	#total += 1
+	it = 0
 	noreply = tf.cast(0.0, dtype=tf.float64)
 	'''
 	print 'Begin'
@@ -219,11 +220,11 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	'''
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
-	tf.while_loop(cond, body, [obj, tf.cast(0, tf.int64), noreply, omega, pi, x, philist], parallel_iterations=80)
+	tf.while_loop(cond, body, [obj, it, noreply, omega, pi, x, philist], parallel_iterations=80)
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
-	return obj
+	return obj, it, noreply
 
 def cond_e(i, omega, pi, x, philist):
 	return i < q.get_shape()[0]
@@ -246,7 +247,8 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	philist = tf.reshape(philist, (5, -1))
 	philist = tf.transpose(philist)
 	#count = 0
-	tf.while_loop(cond_e, body_e, [0, omega, pi, x, philist], parallel_iterations=80)
+	it = 0
+	tf.while_loop(cond_e, body_e, [it, omega, pi, x, philist], parallel_iterations=80)
 	#for c in q:
 		#QF(omega, pi, x, philist, c)
 		#count += 1
@@ -509,9 +511,10 @@ with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 		for step in range(iters):
 			session.run(train, feed_dict={qm:out_qf})
 			newp = session.run(p, feed_dict={qm:out_qf})
-			obj = session.run(target, feed_dict={qm:out_qf})
+			obj, it, noreply = session.run(target, feed_dict={qm:out_qf})
 		print 'MStep ' + str(cnt+1) + ' finished...'
 		print 'Objective function value: ' + str(obj)
+		print str(it) + ' ' + str(noreply)
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
 		#print omega[:10]
 		if abs(lastObj) - obj < epsilon:
