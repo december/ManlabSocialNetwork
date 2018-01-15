@@ -236,8 +236,8 @@ def cond_e(q, i, omega, pi, x, philist):
 	return i < q.get_shape()[0]
 
 def body_e(q, i, omega, pi, x, philist):
-	s = QF(omega, pi, x, philist, i)
-	tf.assign(q[i], s)
+	q[i] = QF(omega, pi, x, philist, i)
+	#q[i] = tf.assign(q[i], s)
 	i += 1
 	return q, i, omega, pi, x, philist
 
