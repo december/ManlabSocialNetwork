@@ -226,7 +226,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
-	return obj, it, noreply
+	return obj
 
 def cond_e(i, omega, pi, x, philist):
 	return i < q.get_shape()[0]
