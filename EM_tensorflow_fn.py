@@ -476,7 +476,7 @@ print 'Graph construction completed.'
 n = len(q)
 p = tf.Variable(param, name='p')
 q = tf.Variable(np.array(q), dtype=tf.float64)
-iter_array = np.linspace(0, n-1, n)
+iter_array = np.linspace(0, n-1, n, dtype=np.int32)
 qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
 optimizer = tf.train.GradientDescentOptimizer(alpha)
 #optimizer = tf.train.AdamOptimizer(alpha)
