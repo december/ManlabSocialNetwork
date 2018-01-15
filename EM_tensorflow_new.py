@@ -496,6 +496,12 @@ with tf.Session(config=tf.ConfigProto(device_count={"CPU":76})) as session:
 	session.run(init)
 	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
 	print 'EStep part construction finished.'
+	total = begin_rusc.get_shape()[0]
+	same = 0
+	for i in total:
+		if session.run(begin_rusc[i]) == session.run(end_rusc[i])
+			same += 1
+	print same
 	while cnt < 100:
 	#param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 	#start = datetime.datetime.now()
