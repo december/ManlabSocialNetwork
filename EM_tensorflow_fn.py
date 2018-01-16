@@ -212,7 +212,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 		tmp = tf.reduce_sum(qm[i] * tf.log(qm[i])) - tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
 		return tmp
 	#a = np.linspace(0, q.get_shape()[0] - 1, q.get_shape()[0] - 1)
-	newobj = tf.map_fn(fn, iter_array, parallel_iterations=80)
+	newobj = tf.map_fn(fn, iter_array, dtype=tf.float64, parallel_iterations=80)
 	obj += tf.cast(tf.reduce_sum(newobj), dtype=tf.float64)	
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
@@ -237,7 +237,7 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 		s = QF(omega, pi, x, philist, i)
 		return tf.stack(s)
 
-	newq = tf.map_fn(fn_e, iter_array, parallel_iterations=80)
+	newq = tf.map_fn(fn_e, iter_array, dtype=tf.float64, parallel_iterations=80)
 	q = tf.stack(newq)
 	#for c in q:
 		#QF(omega, pi, x, philist, c)
