@@ -503,7 +503,7 @@ target = ObjF(p, qm)
 train = optimizer.minimize(target)
 init = tf.global_variables_initializer()
 print 'Ready to calculate.'
-with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as session:
+with tf.Session() as session:
 	session.run(init)
 	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
 	print 'EStep part construction finished.'
@@ -527,6 +527,8 @@ with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as session:
 			obj = session.run(target, feed_dict={qm:out_qf})
 		print 'MStep ' + str(cnt+1) + ' finished...'
 		print 'Objective function value: ' + str(obj)
+		if str(obj) == 'nan':
+			break
 		#print str(it) + ' ' + str(noreply)
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
 		#print omega[:10]
