@@ -483,7 +483,7 @@ target = ObjF(p, qm)
 train = optimizer.minimize(target)
 init = tf.global_variables_initializer()
 print 'Ready to calculate.'
-with tf.Session() as session:
+with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as session:
 	session.run(init)
 	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
 	print 'EStep part construction finished.'
