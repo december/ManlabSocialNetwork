@@ -494,7 +494,10 @@ print 'Graph construction completed.'
 p = tf.Variable(param, name='p')
 q = tf.Variable(np.array(q), dtype=tf.float64)
 qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
-optimizer = tf.train.GradientDescentOptimizer(alpha)
+if alpha > 0:
+	optimizer = tf.train.GradientDescentOptimizer(alpha)
+else:
+	optimizer = tf.train.AdamOptimizer()
 #optimizer = tf.train.AdamOptimizer(alpha)
 target = ObjF(p, qm)
 train = optimizer.minimize(target)
