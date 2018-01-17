@@ -99,6 +99,8 @@ rs = np.array(realsize)
 rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
+plt.xscale('log')
+plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'bo', label='Sim')
 plt.xlabel(u'Depth')
@@ -106,5 +108,5 @@ plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');
 if not single:
 	filename = 'all' 
-plt.savefig(prefix+'DepthDistribution/'+str(filename)+'.png')
+plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_depth.png')
 plt.cla()
