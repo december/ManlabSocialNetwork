@@ -3,6 +3,12 @@ import scipy as sp
 import numpy as np
 import numpy.random
 
+def debug_signal_handler(signal, frame):
+    import pdb
+    pdb.set_trace()
+import signal
+signal.signal(signal.SIGINT, debug_signal_handler)
+
 single = True
 filename = int(sys.argv[1])
 ts = 0
