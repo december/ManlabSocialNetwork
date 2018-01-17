@@ -146,5 +146,5 @@ plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'WienerIndexDistribution/'+str(filename)+'.png')
+plt.savefig(prefix+'WienerDistribution/'+str(filename)+'.png')
 plt.cla()
