@@ -1,4 +1,5 @@
-import sys
+import sys     
+sys.setrecursionlimit(1000000)
 import scipy as sp
 import numpy as np
 import numpy.random
