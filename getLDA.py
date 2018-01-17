@@ -46,7 +46,7 @@ while i < n:
 	number = int(temp[1]) + 1
 	for j in range(i+1, i+number):
 		data = realdata[j].split('\t')
-		info[cdoc][iddic(data[1])] += 1
+		info[cdoc][iddic[data[1]]] += 1
 	i += number
 	cdoc += 1
 model = lda.LDA(n_topics=5, n_iter=1500, random_state=1)
