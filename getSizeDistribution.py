@@ -98,5 +98,7 @@ plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'Size')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
+if not single:
+	filename = 'all'
 plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png')
 plt.cla()
