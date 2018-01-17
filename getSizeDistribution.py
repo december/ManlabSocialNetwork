@@ -43,14 +43,15 @@ while i < n:
 	i += number + 1
 if single:
 	namelist = os.listdir(prefix+str(filename)+'/')
+	position = prefix+str(filename)+'/'
 else:
-	filename = ''
+	position = prefix
 
 m = len(namelist)
 for name in namelist:
 	if not name.endswith('.detail'):
 		continue
-	fr = open(prefix+str(filename)+'/'+name, 'r')
+	fr = open(position+name, 'r')
 	simdata = fr.readlines()
 	n = len(simdata)
 	i = 0
