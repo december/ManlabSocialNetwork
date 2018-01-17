@@ -45,6 +45,7 @@ if single:
 	namelist = os.listdir(prefix+str(filename)+'/')
 	position = prefix+str(filename)+'/'
 else:
+	namelist = os.listdir(prefix)
 	position = prefix
 
 m = len(namelist)
