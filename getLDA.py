@@ -60,6 +60,7 @@ for i in range(n):
 	for j in range(5):
 		fw.write('\t')
 		fw.write(str(topic[i][j]))
+	fw.write('\n')
 fw.close()		
 
 print 'Finish writing.'
