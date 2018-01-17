@@ -515,7 +515,7 @@ qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
 if alpha > 0:
 	optimizer = tf.train.GradientDescentOptimizer(alpha)
 else:
-	optimizer = tf.train.AdamOptimizer(learning_rate=1e-4)
+	optimizer = tf.train.AdamOptimizer(learning_rate=-alpha)
 #optimizer = tf.train.AdamOptimizer(alpha)d
 target = ObjF(p, qm)
 train = optimizer.minimize(target)
