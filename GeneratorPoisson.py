@@ -12,7 +12,7 @@ signal.signal(signal.SIGINT, debug_signal_handler)
 single = True
 filename = int(sys.argv[1])
 ts = 0
-te = int(sys.argv[2]) * 86400
+te = float(sys.argv[2]) * 86400
 sims = int(sys.argv[3])
 if filename < 0:
 	single = False
@@ -164,6 +164,7 @@ if single:
 	prefix += str(filename) + '/'
 
 for j in range(sims):
+	casnum = 0
 	number = 0
 	behavior = list()
 	print 'Generation ' + str(j+1) + ' begins...'
@@ -196,6 +197,7 @@ for j in range(sims):
 			behavior.extend(cascade)
 			iet = GetIET(l)
 			ts += iet
+			casnum += 1
 	print number
 	fw = open(prefix+str(j)+suffix, 'w')
 	for item in behavior:
