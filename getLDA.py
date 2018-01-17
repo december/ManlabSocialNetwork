@@ -37,7 +37,7 @@ while i < n:
 			users += 1
 	i += number
 
-info = np.zeros((docs, users))
+info = np.zeros((docs, users), dtype=np.int64)
 print 'Finish reading. ' + str(info.shape)
 i = 0
 cdoc = 0
