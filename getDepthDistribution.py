@@ -64,7 +64,7 @@ for name in namelist:
 	i = 0
 	while i < n:
 		temp = simdata[i].split('\t')
-		number = int(temp[1])
+		number = int(temp[1]) + 1
 		depdic = {}
 		for j in range(i+1, i+number):
 			info = simdata[j].split('\t')
