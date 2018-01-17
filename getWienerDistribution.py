@@ -7,14 +7,14 @@ import os
 
 def WienerIndex(gdic, j, k):
 	wi = 0
-	if gdic[j][1] < gdic[k][1]:
-		while gdic[j][1] < gdic[k][1]:
+	if gdic[j][1] > gdic[k][1]:
+		while gdic[j][1] > gdic[k][1]:
 			j = gdic[j][0]
 			wi += 1
 		if j == k:
 			return wi
-	if gdic[j][1] > gdic[k][1]:
-		while gdic[j][1] > gdic[k][1]:
+	if gdic[j][1] < gdic[k][1]:
+		while gdic[j][1] < gdic[k][1]:
 			k = gdic[k][0]
 			wi += 1
 		if j == k:
