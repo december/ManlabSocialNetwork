@@ -162,6 +162,7 @@ for j in range(sims):
 	behavior = list()
 	print 'Generation ' + str(j+1) + ' begins...'
 	for i in range(users):
+		print i
 		if single and i != 0:
 			continue
 		ts = 0
@@ -189,6 +190,7 @@ for j in range(sims):
 			behavior.extend(cascade)
 			iet = GetIET(l)
 			ts += iet
+	print number
 	fw = open(prefix+str(j)+suffix, 'w')
 	for item in behavior:
 		fw.write(str(item[0]))

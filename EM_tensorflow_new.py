@@ -148,7 +148,7 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	x_rc = tf.gather(x, rc_id[:, 0], axis=0)
 	phi_rc = tf.gather(philist, rc_id[:, 1], axis=0)
 	oldtmp = tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - rc[:, 1] * tf.log(x_rc))
-	print oldtmp.get_shape()
+	#print oldtmp.get_shape()
 
 	s += oldtmp
 	s += tf.reduce_sum(tf.log(phi_rc), 0)	
@@ -515,7 +515,7 @@ qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
 if alpha > 0:
 	optimizer = tf.train.GradientDescentOptimizer(alpha)
 else:
-	optimizer = tf.train.AdamOptimizer(learning_rate=1e-3)
+	optimizer = tf.train.AdamOptimizer(learning_rate=1e-4)
 #optimizer = tf.train.AdamOptimizer(alpha)d
 target = ObjF(p, qm)
 train = optimizer.minimize(target)
