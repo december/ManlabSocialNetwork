@@ -415,10 +415,10 @@ ldainfo = fr.readlines()
 for i in range(users):
 	temp = ldainfo[i].split('\t')
 	idx = iddic[temp[0]]
-	theta1 = float(temp[1])
-	theta2 = float(temp[2])
-	theta3 = float(temp[3])
-	theta4 = float(temp[4])
+	theta1[i] = float(temp[1])
+	theta2[i] = float(temp[2])
+	theta3[i] = float(temp[3])
+	theta4[i] = float(temp[4])
 fr.close()
 
 
