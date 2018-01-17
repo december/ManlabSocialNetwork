@@ -66,7 +66,7 @@ for name in namelist:
 		number = int(temp[1])
 		widdic = {}
 		for j in range(i+1, i+number):
-			info = realdata[j].split('\t')
+			info = simdata[j].split('\t')
 			if widdic.has_key(info[3]):
 				widdic[info[3]] += 1
 			else:

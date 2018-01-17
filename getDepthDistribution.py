@@ -67,7 +67,7 @@ for name in namelist:
 		number = int(temp[1])
 		depdic = {}
 		for j in range(i+1, i+number):
-			info = realdata[j].split('\t')
+			info = simdata[j].split('\t')
 			if info[3] == '-1':
 				depdic[info[0]] = 0
 			else:

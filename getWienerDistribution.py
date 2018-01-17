@@ -98,7 +98,7 @@ for name in namelist:
 		graphdic = {}
 		keylist = list()
 		for j in range(i+1, i+number):
-			info = realdata[j].split('\t')
+			info = simdata[j].split('\t')
 			keylist.append(info[0])
 			graphdic[info[0]] = list()
 			graphdic[info[0]].append(info[3])
