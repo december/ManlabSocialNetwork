@@ -198,6 +198,7 @@ for j in range(sims):
 			iet = GetIET(l)
 			ts += iet
 			casnum += 1
+	print casnum
 	print number
 	fw = open(prefix+str(j)+suffix, 'w')
 	for item in behavior:
