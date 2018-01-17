@@ -43,6 +43,8 @@ while i < n:
 	i += number + 1
 if single:
 	namelist = os.listdir(prefix+str(filename)+'/')
+else:
+	filename = ''
 
 m = len(namelist)
 for name in namelist:
