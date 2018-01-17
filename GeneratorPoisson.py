@@ -155,7 +155,7 @@ xlist = fr.readlines()
 for i in range(enum):
 	temp = xlist[i].split('\t')
 	x[i] = float(temp[2])
-x += 1.8
+x += 1.9
 fr.close()
 
 print 'Finished reading..'
