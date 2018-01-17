@@ -40,11 +40,15 @@ namelist = os.listdir(path)
 real = {}
 sim = {}
 for name in namelist:
-	if name.startswith(str(filename) + '_'):
+	if single and name.startswith(str(filename) + '_'):
 		fr = open(path+name, 'r')
 		realdata = fr.readlines()
+		fr.close()
 		break
-fr.close()
+	if not single:
+		fr = open(path+name, 'r')
+		realdata.extend(fr.readlines())
+		fr.close()
 
 n = len(realdata)
 i = 0
@@ -75,10 +79,15 @@ while i < n:
 		real[wi] = 1
 	i += number
 
-namelist = os.listdir(prefix+str(filename)+'/')
+if single:
+	namelist = os.listdir(prefix+str(filename)+'/')
+	position = prefix+str(filename)+'/'
+else:
+	namelist = os.listdir(prefix)
+	position = prefix
 m = len(namelist)
 for name in namelist:
-	fr = open(prefix+str(filename)+'/'+name, 'r')
+	fr = open(position+name, 'r')
 	simdata = fr.readlines()
 	n = len(simdata)
 	i = 0
@@ -132,5 +141,7 @@ plt.plot(ss, sn, 'bo', label='Sim')
 plt.xlabel(u'Wiener Index')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
+if not single:
+	filename = 'all'
 plt.savefig(prefix+'WienerIndexDistribution/'+str(filename)+'.png')
 plt.cla()
