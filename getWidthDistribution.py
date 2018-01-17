@@ -19,6 +19,7 @@ users = 7268
 namelist = os.listdir(path)
 real = {}
 sim = {}
+realdata = list()
 for name in namelist:
 	if single and name.startswith(str(filename) + '_'):
 		fr = open(path+name, 'r')
