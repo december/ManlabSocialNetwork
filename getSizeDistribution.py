@@ -19,12 +19,17 @@ users = 7268
 namelist = os.listdir(path)
 real = {}
 sim = {}
+realdata = list()
 for name in namelist:
-	if name.startswith(str(filename) + '_'):
+	if single and name.startswith(str(filename) + '_'):
 		fr = open(path+name, 'r')
 		realdata = fr.readlines()
+		fr.close()
 		break
-fr.close()
+	if not single:
+		fr = open(path+name, 'r')
+		realdata.extend(fr.readlines())
+		fr.close()
 
 n = len(realdata)
 i = 0
