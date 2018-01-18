@@ -415,7 +415,7 @@ omega = np.arccos(np.sqrt(omega))
 
 fr = open(prefix+'lda'+suffix, 'r')
 ldainfo = fr.readlines()
-for i in range(users):
+for i in range(allusers):
 	temp = ldainfo[i].split('\t')
 	idx = iddic[temp[0]]
 	theta1[idx] = float(temp[1])
