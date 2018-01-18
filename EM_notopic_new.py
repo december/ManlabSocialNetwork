@@ -66,65 +66,27 @@ epsilon = 10.0 #when will EM stop
 lbd = np.zeros(users) #parameter lambda which have calculated before
 count = 0
 
-def Joint(omega, pi, x, theta1, theta2, theta3, theta4):
+def Joint(omega, pi, x):
 	param = np.append(omega, pi)
 	param = np.append(param, x)
-	param = np.append(param, theta1)
-	param = np.append(param, theta2)
-	param = np.append(param, theta3)
-	param = np.append(param, theta4)
 	return param
 
 def Resolver(param):
 	omega = param[:poslist[0]]
 	pi = param[poslist[0]:poslist[1]]
 	x = param[poslist[1]:poslist[2]]
-	theta1 = param[poslist[2]:poslist[3]]
-	theta2 = param[poslist[3]:poslist[4]]
-	theta3 = param[poslist[4]:poslist[5]]
-	theta4 = param[poslist[5]:]
-	return omega, pi, x, theta1, theta2, theta3, theta4
+	return omega, pi, x
 
-def Select(omega, pi, x, theta1, theta2, theta3, theta4):
+def Select(omega, pi, x):
 	p = list()
 	for i in range(vnum):
 		p.append(omega[vlist[i]])
 	for i in range(enum):
 		p.append(pi[elist[i]])
 	p.append(x[0])
-	for i in range(vnum):
-		p.append(theta1[vlist[i]])	
-	for i in range(vnum):
-		p.append(theta2[vlist[i]])
-	for i in range(vnum):
-		p.append(theta3[vlist[i]])
-	for i in range(vnum):
-		p.append(theta4[vlist[i]])
 	return Resolver(np.array(p))
 
-def Phi(theta1, theta2, theta3, theta4, idx):
-	if idx == 0:
-		return tf.cos(theta1) * tf.cos(theta1)
-	if idx == 1:
-		return tf.sin(theta1) * tf.sin(theta1) * tf.cos(theta2) * tf.cos(theta2)
-	if idx == 2:
-		return tf.sin(theta1) * tf.sin(theta1) * tf.sin(theta2) * tf.sin(theta2) * tf.cos(theta3) * tf.cos(theta3)
-	if idx == 3:
-		return tf.sin(theta1) * tf.sin(theta1) * tf.sin(theta2) * tf.sin(theta2) * tf.sin(theta3) * tf.sin(theta3) * tf.cos(theta4) * tf.cos(theta4)
-	return tf.sin(theta1) * tf.sin(theta1) * tf.sin(theta2) * tf.sin(theta2) * tf.sin(theta3) * tf.sin(theta3) * tf.sin(theta4) * tf.sin(theta4)
-
-def Phi_np(theta1, theta2, theta3, theta4, idx):
-	if idx == 0:
-		return np.cos(theta1) * np.cos(theta1)
-	if idx == 1:
-		return np.sin(theta1) * np.sin(theta1) * np.cos(theta2) * np.cos(theta2)
-	if idx == 2:
-		return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.cos(theta3) * np.cos(theta3)
-	if idx == 3:
-		return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.cos(theta4) * np.cos(theta4)
-	return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.sin(theta4) * np.sin(theta4)
-
-def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
+def LnLc(omega, pi, x, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = cascade_author[c]
 	tmplbd = tf.log(lbd[vlist_tf[uc]])
 	tmpphi = philist[uc]
@@ -143,12 +105,12 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	omega_rc = tf.gather(omega, rc_id[:, 1], axis=0)
 	pi_rc = tf.gather(pi, rc_id[:, 0], axis=0)
 	#x_rc = tf.gather(x, rc_id[:, 0], axis=0)
-	phi_rc = tf.gather(philist, rc_id[:, 1], axis=0)
+	#phi_rc = tf.gather(philist, rc_id[:, 1], axis=0)
 	oldtmp = tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - tf.log(rc[:, 1]) * x)
 	#print oldtmp.get_shape()
 
 	s += oldtmp
-	s += tf.reduce_sum(tf.log(phi_rc), 0)	
+	#s += tf.reduce_sum(tf.log(phi_rc), 0)	
 
 	omega_nc = tf.gather(omega, nc_id[:, 1], axis=0)
 	pi_nc = tf.gather(pi, nc_id[:, 0], axis=0)
@@ -156,64 +118,38 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	exponent = tf.maximum(-1 * omega_nc * nc[:, 0], -100)
 	estimate = tf.exp(exponent) - 1
 	tmp = pi_nc * nc[:, 1] ** (-1 * x) * estimate
-	phi_nc = tf.gather(philist, nc_id[:, 1], axis=0)
-	newtmp = tf.log(1 + tf.reshape(tmp, (-1, 1)) * phi_nc)
-	print newtmp.get_shape()
-	print s.get_shape()
+	newtmp = tf.log(1 + tf.reshape(tmp, (-1, 1)))
+	#print newtmp.get_shape()
+	#print s.get_shape()
 	s += tf.reduce_sum(newtmp, 0)
 
-	return s
-
-def QMatrix():
-	n = q.get_shape()[0]
-	qmx = list()
-	for i in range(n):
-		for j in range(5):
-			qmx.append(q[i][j])
-	qmx = tf.stack(qmx, 0)
-	return tf.reshape(qmx, shape=(n, 5))
-
-def QF(omega, pi, x, philist, c): #calculate q funciton with tricks
-	lc = LnLc(omega, pi, x, philist, c)
-	s = list()
-	for i in range(5):
-		temps = 0
-		for j in range(5):
-			temps += tf.exp(lc[j] - lc[i])
-		s.append(1 / temps)
 	return s
 
 def printInfo(obj, i, noreply):
 	print str(i) + ' ' + str(obj) + ' ' + str(noreply)
 
-def cond(obj, i, noreply, omega, pi, x, philist, qm):
+def cond(obj, i, noreply, omega, pi, x):
 	return i < q.get_shape()[0]
 
-def body(obj, i, noreply, omega, pi, x, philist, qm):
+def body(obj, i, noreply, omega, pi, x):
 	#if rusc_dic[i].get_shape()[0] == 0:
 	if begin_rusc[i] == end_rusc[i]:
 		if noreply == 0:
-			noreply += tf.reduce_sum(qm[i] * tf.log(qm[i]))
-			noreply -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
+			#noreply += tf.reduce_sum(qm[i] * tf.log(qm[i]))
+			noreply -= tf.reduce_sum(LnLc(omega, pi, x, i))
 		obj += noreply
 	else:
-		obj += tf.reduce_sum(qm[i] * tf.log(qm[i]))
-		obj -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
+		#obj += tf.reduce_sum(qm[i] * tf.log(qm[i]))
+		obj -= tf.reduce_sum(LnLc(omega, pi, x, i))
 	i += 1
 	#tf.py_func(printInfo, [obj, i, noreply], tf.float64)
-	return obj, i, noreply, omega, pi, x, philist, qm
+	return obj, i, noreply, omega, pi, x
 
-def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
-	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(param)
+def ObjF(param): #formulation of objective function (include barrier) (the smaller the better)
+	omega, pi, x = Resolver(param)
 	omega = tf.cos(omega) * tf.cos(omega)
 	pi = tf.cos(pi) * tf.cos(pi)
 	#x = x * x
-	philist = list()
-	for i in range(5):
-		philist.append(Phi(theta1, theta2, theta3, theta4, i))
-	philist = tf.stack(philist)
-	philist = tf.reshape(philist, (5, -1))
-	philist = tf.transpose(philist)
 	#global total
 	#total += 1
 	it = tf.cast(0, tf.int32)
@@ -228,45 +164,11 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	'''
 	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	#obj = 0
-	newobj, _, _, _, _, _, _, _ = tf.while_loop(cond, body, [obj, it, noreply, omega, pi, x, philist, qm], parallel_iterations=80)
+	newobj, _, _, _, _, _, _, _ = tf.while_loop(cond, body, [obj, it, noreply, omega, pi, x], parallel_iterations=80)
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
 	return newobj
-
-def cond_e(i, omega, pi, x, philist):
-	return i < q.get_shape()[0]
-
-def body_e(i, omega, pi, x, philist):
-	s = QF(omega, pi, x, philist, i)
-	tf.assign(q[i], s)
-	#q = q[i].assign(s)
-	#q.append(s)
-	i += 1
-	return i, omega, pi, x, philist
-
-def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
-	#print [len(omega), len(pi), len(x)]
-	omega = tf.cos(omega) * tf.cos(omega)
-	pi = tf.cos(pi) * tf.cos(pi)
-	#x = x * x
-	#print [len(oc), len(pc), len(xc)]
-	philist = list()
-	for i in range(5):
-		philist.append(Phi(theta1, theta2, theta3, theta4, i))
-	philist = tf.stack(philist)
-	philist = tf.reshape(philist, (5, -1))
-	philist = tf.transpose(philist)
-	#count = 0
-	it = 0
-	#q = list()
-	newit, _, _, _, _ = tf.while_loop(cond_e, body_e, [it, omega, pi, x, philist], parallel_iterations=80)
-	#for c in q:
-		#QF(omega, pi, x, philist, c)
-		#count += 1
-		#print count
-	#return QMatrix()
-	return q
 
 def SingleObj(data, u):
 	global vnum, enum, cnum, rusc_num, nrusc_num
@@ -410,18 +312,6 @@ theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 omega += sum(lbd) * 100 / users
 omega = np.arccos(np.sqrt(omega))
 
-fr = open(prefix+'lda'+suffix, 'r')
-ldainfo = fr.readlines()
-for i in range(allusers):
-	temp = ldainfo[i].split('\t')
-	idx = iddic[temp[0]]
-	theta1[idx] = float(temp[1])
-	theta2[idx] = float(temp[2])
-	theta3[idx] = float(temp[3])
-	theta4[idx] = float(temp[4])
-fr.close()
-
-
 '''
 theta1 += np.arccos(np.sqrt(0.2))
 theta2 += np.arccos(np.sqrt(0.25))
@@ -451,8 +341,8 @@ poslist.append(vnum+enum)
 poslist.append(vnum+enum+1)
 for i in range(4):
 	poslist.append(vnum*(i+2)+enum+1)
-omega, pi, x, theta1, theta2, theta3, theta4 = Select(omega, pi, x, theta1, theta2, theta3, theta4)
-print 'There are ' + str(vnum * 5) + ' point parameters and ' + str(enum + 1) + ' edge parameters to be learned...'
+omega, pi, x = Select(omega, pi, x)
+print 'There are ' + str(vnum) + ' point parameters and ' + str(enum + 1) + ' edge parameters to be learned...'
 #Conduct EM algorithm
 #QMatrix(q)
 for c in clist:
@@ -463,7 +353,7 @@ print 'EM algorithm begins...'
 #print pi
 cnt = 0
 lastObj = np.exp(100)
-param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
+param = Joint(omega, pi, x)
 n = len(q)
 #lc = np.array(lc)
 #q = np.array(q)
@@ -523,9 +413,9 @@ if single:
 	prefix = prefix + 'single_user_parameter/'
 	suffix = '_' + str(filename) + suffix
 
-def Output(omega, pi, x, theta1, theta2, theta3, theta4):
+def Output(omega, pi, x):
 	print 'Output data files...'
-	fw = open(prefix+'omega_Poisson'+suffix, 'w')
+	fw = open(prefix+'omega_Poisson_notopic'+suffix, 'w')
 	for i in range(vnum):
 		fw.write(uid[vlist[i]])
 		fw.write('\t')
@@ -533,7 +423,7 @@ def Output(omega, pi, x, theta1, theta2, theta3, theta4):
 		fw.write('\n')
 	fw.close()
 
-	fw = open(prefix+'pi_Poisson'+suffix, 'w')
+	fw = open(prefix+'pi_Poisson_notopic'+suffix, 'w')
 	for item in edgemap:
 		for fd in edgemap[item]:
 			if not edgemap[item][fd] in edic:
@@ -547,7 +437,7 @@ def Output(omega, pi, x, theta1, theta2, theta3, theta4):
 	fw.close()
 
 	x = np.zeros(len(pi)) + x
-	fw = open(prefix+'x_Poisson'+suffix, 'w')
+	fw = open(prefix+'x_Poisson_notopic'+suffix, 'w')
 	for item in edgemap:
 		for fd in edgemap[item]:
 			if not edgemap[item][fd] in edic:
@@ -560,19 +450,9 @@ def Output(omega, pi, x, theta1, theta2, theta3, theta4):
 			fw.write('\n')
 	fw.close()
 
-	for i in range(5):
-		fw = open(prefix+'phi'+str(i)+'_Poisson'+suffix, 'w')
-		phi = Phi_np(theta1, theta2, theta3, theta4, i)
-		for j in range(vnum):
-			fw.write(uid[vlist[j]])
-			fw.write('\t')
-			fw.write(str(phi[j]))
-			fw.write('\n')
-		fw.close()
-
 with tf.Session() as session:
 	session.run(init)
-	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
+	#qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
 	print 'EStep part construction finished.'
 	#total = begin_rusc.get_shape()[0]
 	#same = 0
@@ -586,19 +466,19 @@ with tf.Session() as session:
 	#obj = ObjF(param)
 	#end = datetime.datetime.now()
 	#print (end - start).seconds
-		out_qf = session.run(qf)
-		print 'EStep ' + str(cnt+1) + ' finished...'
+		#out_qf = session.run(qf)
+		#print 'EStep ' + str(cnt+1) + ' finished...'
 		for step in range(iters):
-			session.run(train, feed_dict={qm:out_qf})
-			newp = session.run(p, feed_dict={qm:out_qf})
-			obj = session.run(target, feed_dict={qm:out_qf})
-		print 'MStep ' + str(cnt+1) + ' finished...'
+			session.run(train)
+			newp = session.run(p)
+			obj = session.run(target)
+		#print 'MStep ' + str(cnt+1) + ' finished...'
 		print 'Objective function value: ' + str(obj)
 		if str(obj) == 'nan':
 			break
 		#print str(it) + ' ' + str(noreply)
-		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
-		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
+		omega, pi, x = Resolver(newp)
+		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x)
 		#print omega[:10]
 		if abs(lastObj) - obj < epsilon:
 			break
@@ -610,7 +490,7 @@ pi = np.cos(pi) * np.cos(pi)
 x = x
 
 #Output parameters
-Output(omega, pi, x, theta1, theta2, theta3, theta4)
+Output(omega, pi, x)
 
 endtime = datetime.datetime.now()
 print 'Time consumed: ' + str(endtime - starttime) + ' (' + str(alpha) + ')'
