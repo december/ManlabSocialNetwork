@@ -415,10 +415,10 @@ ldainfo = fr.readlines()
 for i in range(allusers):
 	temp = ldainfo[i].split('\t')
 	idx = iddic[temp[0]]
-	theta1[idx] = float(temp[1])
-	theta2[idx] = float(temp[2])
-	theta3[idx] = float(temp[3])
-	theta4[idx] = float(temp[4])
+	theta1[idx] = np.arccos(np.sqrt(float(temp[1])))
+	theta2[idx] = np.arccos(np.sqrt(float(temp[2])))
+	theta3[idx] = np.arccos(np.sqrt(float(temp[3])))
+	theta4[idx] = np.arccos(np.sqrt(float(temp[4])))
 fr.close()
 
 

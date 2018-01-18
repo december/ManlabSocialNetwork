@@ -412,16 +412,16 @@ theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
 omega += sum(lbd) * 100 / users
 omega = np.arccos(np.sqrt(omega))
-'''
+
 fr = open(prefix+'lda'+suffix, 'r')
 ldainfo = fr.readlines()
 for i in range(allusers):
 	temp = ldainfo[i].split('\t')
 	idx = iddic[temp[0]]
-	theta1[idx] = float(temp[1])
-	theta2[idx] = float(temp[2])
-	theta3[idx] = float(temp[3])
-	theta4[idx] = float(temp[4])
+	theta1[idx] = np.arccos(np.sqrt(float(temp[1])))
+	theta2[idx] = np.arccos(np.sqrt(float(temp[2])))
+	theta3[idx] = np.arccos(np.sqrt(float(temp[3])))
+	theta4[idx] = np.arccos(np.sqrt(float(temp[4])))
 fr.close()
 
 
@@ -430,7 +430,7 @@ theta1 += np.arccos(np.sqrt(0.2))
 theta2 += np.arccos(np.sqrt(0.25))
 theta3 += np.arccos(np.sqrt(1.0 / 3))
 theta4 += np.arccos(np.sqrt(0.5))
-'''
+
 tr = list()
 for i in range(4):
 	tr.append(np.random.rand())
