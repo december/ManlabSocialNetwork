@@ -91,8 +91,7 @@ def Select(omega, pi, x, theta1, theta2, theta3, theta4):
 		p.append(omega[vlist[i]])
 	for i in range(enum):
 		p.append(pi[elist[i]])
-	for i in range(enum):
-		p.append(x[elist[i]])
+	p.append(x[0])
 	for i in range(vnum):
 		p.append(theta1[vlist[i]])	
 	for i in range(vnum):
@@ -125,8 +124,6 @@ def Phi_np(theta1, theta2, theta3, theta4, idx):
 		return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.cos(theta4) * np.cos(theta4)
 	return np.sin(theta1) * np.sin(theta1) * np.sin(theta2) * np.sin(theta2) * np.sin(theta3) * np.sin(theta3) * np.sin(theta4) * np.sin(theta4)
 
-
-
 def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = cascade_author[c]
 	tmplbd = tf.log(lbd[vlist_tf[uc]])
@@ -145,9 +142,9 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 
 	omega_rc = tf.gather(omega, rc_id[:, 1], axis=0)
 	pi_rc = tf.gather(pi, rc_id[:, 0], axis=0)
-	x_rc = tf.gather(x, rc_id[:, 0], axis=0)
+	#x_rc = tf.gather(x, rc_id[:, 0], axis=0)
 	phi_rc = tf.gather(philist, rc_id[:, 1], axis=0)
-	oldtmp = tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - rc[:, 1] * tf.log(x_rc))
+	oldtmp = tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - tf.log(rc[:, 1]) * x)
 	#print oldtmp.get_shape()
 
 	s += oldtmp
@@ -155,10 +152,10 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 
 	omega_nc = tf.gather(omega, nc_id[:, 1], axis=0)
 	pi_nc = tf.gather(pi, nc_id[:, 0], axis=0)
-	x_nc = tf.gather(x, nc_id[:, 0], axis=0)
+	#x_nc = tf.gather(x, nc_id[:, 0], axis=0)
 	exponent = tf.maximum(-1 * omega_nc * nc[:, 0], -100)
 	estimate = tf.exp(exponent) - 1
-	tmp = pi_nc * x_nc ** (-1 * nc[:, 1]) * estimate
+	tmp = pi_nc * nc[:, 1] ** (-1 * x) * estimate
 	phi_nc = tf.gather(philist, nc_id[:, 1], axis=0)
 	newtmp = tf.log(1 + tf.reshape(tmp, (-1, 1)) * phi_nc)
 	print newtmp.get_shape()
@@ -210,7 +207,7 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(param)
 	omega = tf.cos(omega) * tf.cos(omega)
 	pi = tf.cos(pi) * tf.cos(pi)
-	x = x * x
+	#x = x * x
 	philist = list()
 	for i in range(5):
 		philist.append(Phi(theta1, theta2, theta3, theta4, i))
@@ -252,7 +249,7 @@ def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	#print [len(omega), len(pi), len(x)]
 	omega = tf.cos(omega) * tf.cos(omega)
 	pi = tf.cos(pi) * tf.cos(pi)
-	x = x * x
+	#x = x * x
 	#print [len(oc), len(pc), len(xc)]
 	philist = list()
 	for i in range(5):
@@ -396,13 +393,13 @@ while i < n:
 			pi.append(10 ** -5)
 		else:
 			pi.append(min(1-10**-5, int(fd[2]) * 1.0 / posts[iddic[temp[0]]]))
-		x.append(1.0)
+		#x.append(1.0)
 		friend[temp[0]].append(fd[1])
 	i += number
 fr.close()
 pi = np.array(pi)
 pi = np.arccos(np.sqrt(pi))
-x = np.array(x)
+x = np.array([3])
 
 omega = np.zeros(allusers) #parameter omega
 theta1 = np.zeros(allusers) #one of spherical coordinates of phi distribution
@@ -451,11 +448,11 @@ for i in range(users):
 	fr.close()
 poslist.append(vnum)
 poslist.append(vnum+enum)
-poslist.append(vnum+enum*2)
+poslist.append(vnum+enum+1)
 for i in range(4):
-	poslist.append(vnum*(i+2)+enum*2)
+	poslist.append(vnum*(i+2)+enum+1)
 omega, pi, x, theta1, theta2, theta3, theta4 = Select(omega, pi, x, theta1, theta2, theta3, theta4)
-print 'There are ' + str(vnum * 5) + ' point parameters and ' + str(enum * 2) + ' edge parameters to be learned...'
+print 'There are ' + str(vnum * 5) + ' point parameters and ' + str(enum + 1) + ' edge parameters to be learned...'
 #Conduct EM algorithm
 #QMatrix(q)
 for c in clist:
@@ -549,6 +546,7 @@ def Output(omega, pi, x, theta1, theta2, theta3, theta4):
 			fw.write('\n')
 	fw.close()
 
+	x = np.zeros(len(pi)) + x
 	fw = open(prefix+'x_Poisson'+suffix, 'w')
 	for item in edgemap:
 		for fd in edgemap[item]:
@@ -600,7 +598,7 @@ with tf.Session() as session:
 			break
 		#print str(it) + ' ' + str(noreply)
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
-		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x * x, theta1, theta2, theta3, theta4)
+		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
 		#print omega[:10]
 		if abs(lastObj) - obj < epsilon:
 			break
