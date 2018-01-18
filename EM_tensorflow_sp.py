@@ -158,8 +158,8 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	tmp = pi_nc * nc[:, 1] ** (-1 * x) * estimate
 	phi_nc = tf.gather(philist, nc_id[:, 1], axis=0)
 	newtmp = tf.log(1 + tf.reshape(tmp, (-1, 1)) * phi_nc)
-	print newtmp.get_shape()
-	print s.get_shape()
+	#print newtmp.get_shape()
+	#print s.get_shape()
 	s += tf.reduce_sum(newtmp, 0)
 
 	return s
