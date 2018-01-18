@@ -134,7 +134,7 @@ def cond(obj, i, noreply, omega, pi, x):
 def body(obj, i, noreply, omega, pi, x):
 	#if rusc_dic[i].get_shape()[0] == 0:
 	if begin_rusc[i] == end_rusc[i]:
-		if noreply == 0:
+		if noreply == 1:
 			#noreply += tf.reduce_sum(qm[i] * tf.log(qm[i]))
 			noreply -= tf.reduce_sum(LnLc(omega, pi, x, i))
 		obj += noreply

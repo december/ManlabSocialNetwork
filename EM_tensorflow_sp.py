@@ -297,7 +297,7 @@ def SingleObj(data, u):
 			if not casdic.has_key(tweet[0]):
 				casdic[tweet[0]] = {}
 			if tweet[3] == '-1':
-				depth[tweet[0]] = 0
+				depth[tweet[0]] = 1
 			else:
 				depth[tweet[0]] = depth[tweet[3]] + 1
 				casdic[tweet[3]][tweet[1]] = tweet[0]
