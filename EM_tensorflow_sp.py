@@ -409,7 +409,7 @@ theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
 omega += sum(lbd) * 100 / users
 omega = np.arccos(np.sqrt(omega))
-
+'''
 fr = open(prefix+'lda'+suffix, 'r')
 ldainfo = fr.readlines()
 for i in range(allusers):
@@ -422,12 +422,12 @@ for i in range(allusers):
 fr.close()
 
 
-'''
+
 theta1 += np.arccos(np.sqrt(0.2))
 theta2 += np.arccos(np.sqrt(0.25))
 theta3 += np.arccos(np.sqrt(1.0 / 3))
 theta4 += np.arccos(np.sqrt(0.5))
-
+'''
 tr = list()
 for i in range(4):
 	tr.append(np.random.rand())
@@ -436,7 +436,7 @@ theta1 += np.arccos(np.sqrt(tr[0]))
 theta2 += np.arccos(np.sqrt(tr[1]))
 theta3 += np.arccos(np.sqrt(tr[2]))
 theta4 += np.arccos(np.sqrt(tr[3]))
-'''
+
 #Read personal cascade file
 print 'Read behavior log...'
 for i in range(users):
