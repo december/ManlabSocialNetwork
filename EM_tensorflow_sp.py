@@ -412,6 +412,7 @@ omega = np.arccos(np.sqrt(omega))
 
 fr = open(prefix+'lda'+suffix, 'r')
 ldainfo = fr.readlines()
+print 'Use lda result as initial distribution...'
 for i in range(allusers):
 	temp = ldainfo[i].split('\t')
 	idx = iddic[temp[0]]
@@ -423,6 +424,7 @@ fr.close()
 
 
 '''
+print 'Use equal value as initial distribution...'
 theta1 += np.arccos(np.sqrt(0.2))
 theta2 += np.arccos(np.sqrt(0.25))
 theta3 += np.arccos(np.sqrt(1.0 / 3))
@@ -431,6 +433,7 @@ theta4 += np.arccos(np.sqrt(0.5))
 tr = list()
 for i in range(4):
 	tr.append(np.random.rand())
+print 'Use random value as initial distribution...'
 print tr
 theta1 += np.arccos(np.sqrt(tr[0]))
 theta2 += np.arccos(np.sqrt(tr[1]))
