@@ -98,6 +98,9 @@ if single:
 	suffix = '_' + str(filename) + suffix
 if int(sys.argv[4]) == 0:
 	suffix = '_notopic.detail'
+if len(sys.argv) > 5:
+	suffix = '_' + sys.argv[5] + suffix
+
 
 fr = open(prefix+'omega_Poisson'+suffix, 'r')
 omglist = fr.readlines()
@@ -157,7 +160,6 @@ xlist = fr.readlines()
 for i in range(enum):
 	temp = xlist[i].split('\t')
 	x[i] = float(temp[2])
-x += 1.9
 fr.close()
 
 print 'Finished reading..'
