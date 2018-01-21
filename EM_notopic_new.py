@@ -88,9 +88,9 @@ def Select(omega, pi, x):
 
 def LnLc(omega, pi, x, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = cascade_author[c]
-	tmplbd = tf.log(lbd[vlist_tf[uc]])
-	tmpphi = philist[uc]
-	s = tf.cast(tf.log(tmpphi) + tmplbd, dtype=tf.float64)
+	s = tf.log(lbd[vlist_tf[uc]])
+	#tmpphi = philist[uc]
+	#s = tf.cast(tf.log(tmpphi) + tmplbd, dtype=tf.float64)
 	#print tf.shape(s)
 
 	br = begin_rusc[c]
