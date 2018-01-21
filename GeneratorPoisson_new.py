@@ -99,7 +99,7 @@ if single:
 if int(sys.argv[4]) == 0:
 	suffix = '_notopic.detail'
 if len(sys.argv) > 5:
-	suffix = '_' + sys.argv[5] + suffix
+	prefix += sys.argv[5] + '/'
 
 fr = open(prefix+'omega_Poisson'+suffix, 'r')
 omglist = fr.readlines()
