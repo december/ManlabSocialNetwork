@@ -404,7 +404,7 @@ if alpha > 0:
 else:
 	optimizer = tf.train.AdamOptimizer(learning_rate=-alpha)
 #optimizer = tf.train.AdamOptimizer(alpha)d
-target = ObjF(p, qm)
+target = ObjF(p)
 train = optimizer.minimize(target)
 init = tf.global_variables_initializer()
 print 'Ready to calculate.'
