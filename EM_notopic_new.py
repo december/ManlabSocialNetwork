@@ -133,7 +133,7 @@ def cond(obj, i, noreply, omega, pi, x):
 
 def body(obj, i, noreply, omega, pi, x):
 	#if rusc_dic[i].get_shape()[0] == 0:
-	fakeq = [0.2, 0.2, 0.2, 0.2, 0.2]
+
 	if begin_rusc[i] == end_rusc[i]:
 		if noreply == 1:
 			noreply += tf.reduce_sum(fakeq * tf.log(fakeq))
@@ -393,6 +393,7 @@ begin_rusc = tf.constant(begin_rusc, dtype=tf.int32)
 begin_nrusc = tf.constant(begin_nrusc, dtype=tf.int32)
 end_rusc = tf.constant(end_rusc, dtype=tf.int32)
 end_nrusc = tf.constant(end_nrusc, dtype=tf.int32)
+fakeq = tf.constant([0.2, 0.2, 0.2, 0.2, 0.2], dtype=tf.float64)
 #for key in rusc_dic:
 #	rusc_dic[key] = tf.constant(rusc_dic[key], dtype=tf.int64)
 #	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
