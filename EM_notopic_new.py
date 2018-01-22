@@ -90,7 +90,7 @@ def LnLc(omega, pi, x, c): #ln fromulation of one cascades's likelihood on tau(d
 	uc = cascade_author[c]
 	#s = tf.log(lbd[vlist_tf[uc]])
 	#tmpphi = philist[uc]
-	s = tf.cast(tf.log([0.2, 0.2, 0.2, 0.2, 0.2]) + tmplbd, dtype=tf.float64)
+	s = tf.cast(tf.log([0.2, 0.2, 0.2, 0.2, 0.2]) + tf.log(lbd[vlist_tf[uc]]), dtype=tf.float64)
 	#print tf.shape(s)
 
 	br = begin_rusc[c]
