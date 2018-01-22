@@ -133,13 +133,14 @@ def cond(obj, i, noreply, omega, pi, x):
 
 def body(obj, i, noreply, omega, pi, x):
 	#if rusc_dic[i].get_shape()[0] == 0:
+	fakeq = [0.2, 0.2, 0.2, 0.2, 0.2]
 	if begin_rusc[i] == end_rusc[i]:
 		if noreply == 1:
-			#noreply += tf.reduce_sum(qm[i] * tf.log(qm[i]))
+			noreply += tf.reduce_sum(fakeq * tf.log(fakeq))
 			noreply -= tf.reduce_sum(LnLc(omega, pi, x, i))
 		obj += noreply
 	else:
-		#obj += tf.reduce_sum(qm[i] * tf.log(qm[i]))
+		obj += tf.reduce_sum(fakeq * tf.log(fakeq))
 		obj -= tf.reduce_sum(LnLc(omega, pi, x, i))
 	i += 1
 	#tf.py_func(printInfo, [obj, i, noreply], tf.float64)
