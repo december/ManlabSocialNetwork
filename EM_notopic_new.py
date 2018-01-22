@@ -88,9 +88,9 @@ def Select(omega, pi, x):
 
 def LnLc(omega, pi, x, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = cascade_author[c]
-	s = tf.log(lbd[vlist_tf[uc]])
+	#s = tf.log(lbd[vlist_tf[uc]])
 	#tmpphi = philist[uc]
-	#s = tf.cast(tf.log(tmpphi) + tmplbd, dtype=tf.float64)
+	s = tf.cast(tf.log([0.2, 0.2, 0.2, 0.2, 0.2]) + tmplbd, dtype=tf.float64)
 	#print tf.shape(s)
 
 	br = begin_rusc[c]
@@ -105,22 +105,23 @@ def LnLc(omega, pi, x, c): #ln fromulation of one cascades's likelihood on tau(d
 	omega_rc = tf.gather(omega, rc_id[:, 1], axis=0)
 	pi_rc = tf.gather(pi, rc_id[:, 0], axis=0)
 	#x_rc = tf.gather(x, rc_id[:, 0], axis=0)
-	#phi_rc = tf.gather(philist, rc_id[:, 1], axis=0)
+	phi_rc = tf.gather(q, rc_id[:, 1], axis=0)
 	oldtmp = tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - tf.log(rc[:, 1]) * x)
 	#print oldtmp.get_shape()
 
 	s += oldtmp
-	#s += tf.reduce_sum(tf.log(phi_rc), 0)	
+	s += tf.reduce_sum(tf.log(phi_rc), 0)	
 
 	omega_nc = tf.gather(omega, nc_id[:, 1], axis=0)
 	pi_nc = tf.gather(pi, nc_id[:, 0], axis=0)
+	phi_nc = tf.gather(q, nc_id[:, 1], axis=0)
 	#x_nc = tf.gather(x, nc_id[:, 0], axis=0)
 	exponent = tf.maximum(-1 * omega_nc * nc[:, 0], -100)
 	estimate = tf.exp(exponent) - 1
 	tmp = pi_nc * nc[:, 1] ** (-1 * x) * estimate
-	newtmp = tf.log(1 + tf.reshape(tmp, (-1, 1)))
-	#print newtmp.get_shape()
-	#print s.get_shape()
+	newtmp = tf.log(1 + tf.reshape(tmp, (-1, 1)) * phi_nc)
+	print newtmp.get_shape()
+	print s.get_shape()
 	s += tf.reduce_sum(newtmp, 0)
 
 	return s
@@ -137,11 +138,11 @@ def body(obj, i, noreply, omega, pi, x):
 	if begin_rusc[i] == end_rusc[i]:
 		if noreply == 1:
 			noreply += tf.reduce_sum(fakeq * tf.log(fakeq))
-			noreply -= tf.reduce_sum(LnLc(omega, pi, x, i))
+			noreply -= tf.reduce_sum(fakeq * LnLc(omega, pi, x, i))
 		obj += noreply
 	else:
 		obj += tf.reduce_sum(fakeq * tf.log(fakeq))
-		obj -= tf.reduce_sum(LnLc(omega, pi, x, i))
+		obj -= tf.reduce_sum(fakeq * LnLc(omega, pi, x, i))
 	i += 1
 	#tf.py_func(printInfo, [obj, i, noreply], tf.float64)
 	return obj, i, noreply, omega, pi, x
