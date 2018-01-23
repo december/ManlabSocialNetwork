@@ -87,7 +87,7 @@ print lastobj
 '''
 #Optimize with tensorflow
 cnt = 0
-lastobj = 100000000
+lastobj = 10000000000
 l = tf.Variable(lbd, name='l')
 #alpha = tf.Variable(alpha, dtype=tf.float64)
 optimizer = tf.train.GradientDescentOptimizer(alpha)
@@ -100,7 +100,7 @@ with tf.Session() as session:
 		obj, lbd, _ = session.run([target, l, train])
 		#lbd = session.run(l)
 		#obj = session.run(train)
-		if lastobj - obj < 1:
+		if lastobj - obj < 0.0001:
 			break
 		cnt += 1
 		if cnt % 10000 == 0:
