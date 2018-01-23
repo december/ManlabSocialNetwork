@@ -601,11 +601,13 @@ with tf.Session() as session:
 		if str(obj) == 'nan':
 			break
 		#print str(it) + ' ' + str(noreply)
-		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
-		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
 		#print omega[:10]
 		if abs(lastObj) - obj < epsilon:
+			if abs(lastObj) - obj > 0:
+				omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
 			break
+		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
+		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
 		lastObj = obj	
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'

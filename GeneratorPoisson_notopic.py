@@ -59,7 +59,7 @@ def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, paren
 		see = t + GetIET(omega[f])
 		if see > te:
 			continue
-		thres = x[edgemap[u][f]] ** -d * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
+		thres = d ** -x[edgemap[u][f]] * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
 		if np.random.rand() <= thres:
 			current = number
 			tweetdic[current] = number
@@ -88,6 +88,8 @@ fr.close()
 if single:
 	prefix = prefix + 'single_user_parameter_notopic/'
 	suffix = '_' + str(filename) + suffix
+else:
+	suffix = '_notopic' + suffix
 
 fr = open(prefix+'omega_Poisson'+suffix, 'r')
 omglist = fr.readlines()
@@ -160,7 +162,7 @@ for j in range(sims):
 			temp.append(-1)
 			cascade.append(temp)
 			tau = GetTau(phi1, phi2, phi3, phi4, phi5, i)
-			cascade = GetLog(root, root, i, ts, tau, cascade, 0)
+			cascade = GetLog(root, root, i, ts, tau, cascade, 1)
 			cascade = sorted(cascade, key=lambda c:c[2])
 			size = len(cascade)
 			temp = list()
