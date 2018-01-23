@@ -98,7 +98,7 @@ sn = np.array(simcum) * 1.0 / simsum
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'b', label='Sim')
+plt.plot(ss, sn, 'bo', label='Sim')
 plt.xlabel(u'Size')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
