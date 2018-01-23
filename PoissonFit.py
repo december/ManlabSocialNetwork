@@ -67,7 +67,7 @@ while i < n:
 i = 0
 for i in range(users):
 	sum_iet[i] = DeltaSum(ptdic[uid[i]])
-print min(sum_iet)
+#print min(sum_iet)
 
 '''
 #Optimize manually
@@ -102,8 +102,8 @@ with tf.Session() as session:
 		if lastobj - obj < delta * users:
 			break
 		cnt += 1
-		if cnt % 10000 == 0:
-			print obj
+		#if cnt % 10000 == 0:
+		print obj
 		lastobj = obj
 	print lastobj - obj / users
 	print cnt
