@@ -399,7 +399,7 @@ while i < n:
 fr.close()
 pi = np.array(pi)
 pi = np.arccos(np.sqrt(pi))
-x = np.array([3])
+x = np.array([1.5])
 
 omega = np.zeros(allusers) #parameter omega
 theta1 = np.zeros(allusers) #one of spherical coordinates of phi distribution
@@ -513,8 +513,10 @@ p = tf.Variable(param, name='p')
 q = tf.Variable(np.array(q), dtype=tf.float64)
 qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
 if alpha > 0:
+	alpha = tf.Variable(alpha, dtype=tf.float64)
 	optimizer = tf.train.GradientDescentOptimizer(alpha)
 else:
+	alpha = tf.Variable(alpha, dtype=tf.float64)
 	optimizer = tf.train.AdamOptimizer(learning_rate=-alpha)
 #optimizer = tf.train.AdamOptimizer(alpha)d
 target = ObjF(p, qm)
@@ -608,7 +610,9 @@ with tf.Session() as session:
 			break
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
 		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
-		lastObj = obj	
+		lastObj = obj
+		if cnt == 40:
+			alpha = alpha / 2	
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
 omega = np.cos(omega) * np.cos(omega)
