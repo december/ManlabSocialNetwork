@@ -40,7 +40,8 @@ for i in range(users):
 fr.close()
 lbd += sum(posts) * 1.0 / 7268 / 86400
 for i in range(users):
-	for j in range(2, posts[i]+1):
+	pos = int(posts[i] + 1)
+	for j in range(2, pos):
 		lnorder[i] += np.log(j)
 
 cascades = list()
