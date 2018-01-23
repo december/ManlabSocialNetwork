@@ -8,14 +8,16 @@ uid = list() #id of the user
 lbd = np.zeros(users) #parameter lambda list
 sum_iet = np.zeros(users) #sum of inter envet time
 posts = np.zeros(users) #total posts of users
+lnorder = np.zeros(users) #ln result of order to posts
 ptdic = {} #post time list
 delta = 0.000000001 #when will the algorithm stop
-alpha = 0.000000000002 #learning rate
+alpha = 0.1 #learning rate
 gamma = 1 #log barrier function
 
 def ObjLnPiQ(lbd):
 	global gamma
-	return lbd * sum_iet - posts * tf.log(lbd) - gamma * (tf.log(lbd) + tf.log(1 - lbd))
+	r = lbd * sum_iet + lnorder - posts * tf.log(lbd) - posts * tf.log(sum_iet) - gamma * (tf.log(lbd) + tf.log(1 - lbd))
+	return tf.reduce_sum(r)
 
 def Derivative():
 	return sum_iet - posts / lbd - gamma / lbd + gamma / (1 - lbd)
@@ -37,6 +39,9 @@ for i in range(users):
 	posts[i] = int(temp[1])
 fr.close()
 lbd += sum(posts) * 1.0 / 7268 / 86400
+for i in range(users):
+	for j in range(2, posts[i]+1):
+		lnorder[i] += np.log(j)
 
 cascades = list()
 for i in range(100):
