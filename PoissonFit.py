@@ -89,6 +89,7 @@ print lastobj
 cnt = 0
 lastobj = 100000000
 l = tf.Variable(lbd, name='l')
+#alpha = tf.Variable(alpha, dtype=tf.float64)
 optimizer = tf.train.GradientDescentOptimizer(alpha)
 target = ObjLnPiQ(l)
 train = optimizer.minimize(target)
@@ -99,7 +100,7 @@ with tf.Session() as session:
 		obj, lbd, _ = session.run([target, l, train])
 		#lbd = session.run(l)
 		#obj = session.run(train)
-		if lastobj - obj < delta * users:
+		if lastobj - obj < 1:
 			break
 		cnt += 1
 		if cnt % 10000 == 0:
