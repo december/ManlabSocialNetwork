@@ -100,7 +100,7 @@ with tf.Session() as session:
 		obj, lbd, _ = session.run([target, l, train])
 		#lbd = session.run(l)
 		#obj = session.run(train)
-		if lastobj - obj < 0.000001:
+		if lastobj - obj < 0.0000001:
 			break
 		cnt += 1
 		if cnt % 10000 == 0:
