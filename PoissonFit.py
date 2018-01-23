@@ -1,3 +1,4 @@
+import sys
 import scipy as sp
 import numpy as np
 import tensorflow as tf
@@ -11,7 +12,7 @@ posts = np.zeros(users) #total posts of users
 lnorder = np.zeros(users) #ln result of order to posts
 ptdic = {} #post time list
 delta = 0.000000001 #when will the algorithm stop
-alpha = 0.1 #learning rate
+alpha = float(sys.argv[1]) #learning rate
 gamma = 1 #log barrier function
 
 def ObjLnPiQ(lbd):
