@@ -95,15 +95,15 @@ train = optimizer.minimize(target)
 init = tf.global_variables_initializer()
 with tf.Session() as session:
 	session.run(init)
-	while cnt < 1000000:
+	while cnt < 100000000:
 		obj, lbd, _ = session.run([target, l, train])
 		#lbd = session.run(l)
 		#obj = session.run(train)
 		if lastobj - obj < delta * users:
 			break
 		cnt += 1
-		#if cnt % 10000 == 0:
-		print obj
+		if cnt % 10000 == 0:
+			print obj
 		lastobj = obj
 	print lastobj - obj / users
 	print cnt
