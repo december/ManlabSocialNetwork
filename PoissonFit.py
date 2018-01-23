@@ -40,6 +40,7 @@ for i in range(users):
 	posts[i] = int(temp[1])
 fr.close()
 lbd += sum(posts) * 1.0 / 7268 / 86400
+print lbd
 for i in range(users):
 	pos = int(posts[i] + 1)
 	for j in range(2, pos):
