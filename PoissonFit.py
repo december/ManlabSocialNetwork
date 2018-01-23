@@ -83,7 +83,7 @@ print lastobj
 '''
 #Optimize with tensorflow
 cnt = 0
-lastobj = np.zeros(users) + 10000
+lastobj = 100000000
 l = tf.Variable(lbd, name='l')
 optimizer = tf.train.GradientDescentOptimizer(alpha)
 target = ObjLnPiQ(l)
@@ -95,13 +95,13 @@ with tf.Session() as session:
 		obj, lbd, _ = session.run([target, l, train])
 		#lbd = session.run(l)
 		#obj = session.run(train)
-		if sum(lastobj - obj) < delta * users:
+		if lastobj - obj < delta * users:
 			break
 		cnt += 1
 		if cnt % 10000 == 0:
-			print sum(obj)
+			print obj
 		lastobj = obj
-	print sum(lastobj - obj) / users
+	print lastobj - obj / users
 	print cnt
 
 print lastobj
