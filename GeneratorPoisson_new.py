@@ -96,10 +96,10 @@ fr.close()
 if single:
 	prefix = prefix + 'single_user_parameter/'
 	suffix = '_' + str(filename) + suffix
-if int(sys.argv[4]) == 0:
-	suffix = '_notopic.detail'
-if len(sys.argv) > 5:
-	prefix += sys.argv[5] + '/'
+#if int(sys.argv[4]) == 0:
+#	suffix = '_notopic.detail'
+if len(sys.argv) > 4:
+	prefix += sys.argv[4] + '/'
 
 fr = open(prefix+'omega_Poisson'+suffix, 'r')
 omglist = fr.readlines()
