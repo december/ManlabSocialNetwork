@@ -90,7 +90,7 @@ def LnLc(omega, pi, x, c): #ln fromulation of one cascades's likelihood on tau(d
 	uc = cascade_author[c]
 	#s = tf.log(lbd[vlist_tf[uc]])
 	#tmpphi = philist[uc]
-	s = tf.cast(tf.log([0.2, 0.2, 0.2, 0.2, 0.2]) + tmplbd, dtype=tf.float64)
+	s = tf.cast(tf.log(fakeq) + tf.log(lbd[vlist_tf[uc]]), dtype=tf.float64)
 	#print tf.shape(s)
 
 	br = begin_rusc[c]
@@ -136,7 +136,7 @@ def body(obj, i, noreply, omega, pi, x):
 	#if rusc_dic[i].get_shape()[0] == 0:
 
 	if begin_rusc[i] == end_rusc[i]:
-		if noreply == 1:
+		if noreply == 0:
 			noreply += tf.reduce_sum(fakeq * tf.log(fakeq))
 			noreply -= tf.reduce_sum(fakeq * LnLc(omega, pi, x, i))
 		obj += noreply
@@ -400,7 +400,7 @@ fakeq = tf.constant([0.2, 0.2, 0.2, 0.2, 0.2], dtype=tf.float64)
 #	nrusc_dic[key] = tf.constant(nrusc_dic[key], dtype=tf.int64)
 print 'Graph construction completed.'
 p = tf.Variable(param, name='p')
-q = tf.Variable(np.array(q), dtype=tf.float64)
+q = tf.constant(np.array(q), dtype=tf.float64)
 qm = tf.placeholder(tf.float64, name='qm', shape=(n, 5))
 if alpha > 0:
 	optimizer = tf.train.GradientDescentOptimizer(alpha)
