@@ -90,7 +90,7 @@ fr = open(prefix+'lambda_Poisson'+suffix, 'r')
 lbdlist = fr.readlines()
 for i in range(users):
 	temp = lbdlist[i].split('\t')
-	lbd[i] = float(temp[1])
+	lbd[i] = float(temp[1]) * 2
 fr.close()
 
 if single:
