@@ -44,6 +44,7 @@ for i in range(users):
 	pos = int(posts[i] + 1)
 	for j in range(2, pos):
 		lnorder[i] += np.log(j)
+print lnorder
 
 cascades = list()
 for i in range(100):
