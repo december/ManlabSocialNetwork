@@ -103,10 +103,10 @@ plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'bo', label='Sim')
-plt.xlabel(u'Inter Event Time')
+plt.xlabel(u'Response Time')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');
 if not single:
 	filename = 'all' 
-plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_IET.png')
+plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_RT.png')
 plt.cla()
