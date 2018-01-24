@@ -39,10 +39,11 @@ while i < n:
 	timedic = {}
 	for j in range(i+1, i+number):
 		info = realdata[j].split('\t')
-		timedic[info[0]] = int(info[2])
+		tp = int(float(info[2]))
+		timedic[info[0]] = tp
 		if info[3] != '-1':
-			timedic[info[0]] = int(info[2])
-			tempiet = int(info[2]) - timedic[info[3]]
+			timedic[info[0]] = tp
+			tempiet = tp - timedic[info[3]]
 			if real.has_key(tempiet):
 				real[tempiet] += 1
 			else:
@@ -66,13 +67,14 @@ for name in namelist:
 	while i < n:
 		temp = simdata[i].split('\t')
 		number = int(temp[1]) + 1
-		depdic = {}
+		timedic = {}
 		for j in range(i+1, i+number):
 			info = realdata[j].split('\t')
-			timedic[info[0]] = int(info[2])
+			tp = int(float(info[2]))
+			timedic[info[0]] = tp
 			if info[3] != '-1':
-				timedic[info[0]] = int(info[2])
-				tempiet = int(info[2]) - timedic[info[3]]
+				timedic[info[0]] = tp
+				tempiet = tp - timedic[info[3]]
 				if sim.has_key(tempiet):
 					sim[tempiet] += 1
 				else:
@@ -101,7 +103,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'bo', label='Sim')
-plt.xlabel(u'Depth')
+plt.xlabel(u'Inter Event Time')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');
 if not single:
