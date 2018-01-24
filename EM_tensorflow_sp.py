@@ -399,7 +399,7 @@ while i < n:
 fr.close()
 pi = np.array(pi)
 pi = np.arccos(np.sqrt(pi))
-x = np.array([1.5])
+x = np.array([1.0])
 
 omega = np.zeros(allusers) #parameter omega
 theta1 = np.zeros(allusers) #one of spherical coordinates of phi distribution
@@ -576,6 +576,7 @@ def Output(omega, pi, x, theta1, theta2, theta3, theta4):
 			fw.write('\n')
 		fw.close()
 
+changed = False
 with tf.Session() as session:
 	session.run(init)
 	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
@@ -611,8 +612,9 @@ with tf.Session() as session:
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
 		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
 		lastObj = obj
-		if cnt == 40:
-			alpha = alpha / 2	
+		if !changed and obj <= 25000000:
+			alpha = alpha / 2
+			changed = True		
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
 omega = np.cos(omega) * np.cos(omega)
