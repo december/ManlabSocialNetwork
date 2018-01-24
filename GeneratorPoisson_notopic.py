@@ -90,6 +90,8 @@ if single:
 	suffix = '_' + str(filename) + suffix
 else:
 	suffix = '_notopic' + suffix
+if len(sys.argv) > 4:
+	prefix += sys.argv[4] + '/'
 
 fr = open(prefix+'omega_Poisson'+suffix, 'r')
 omglist = fr.readlines()
