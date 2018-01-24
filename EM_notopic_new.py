@@ -303,7 +303,7 @@ while i < n:
 fr.close()
 pi = np.array(pi)
 pi = np.arccos(np.sqrt(pi))
-x = np.array([1.5])
+x = np.array([1.0])
 
 omega = np.zeros(allusers) #parameter omega
 theta1 = np.zeros(allusers) #one of spherical coordinates of phi distribution
@@ -441,6 +441,7 @@ def Output(omega, pi, x):
 			fw.write('\n')
 	fw.close()
 
+	print x
 	x = np.zeros(len(pi)) + x
 	fw = open(prefix+'x_Poisson_notopic'+suffix, 'w')
 	for item in edgemap:
@@ -491,7 +492,7 @@ with tf.Session() as session:
 		omega, pi, x = Resolver(newp)
 		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x)
 		lastObj = obj
-		if !changed and obj <= 25000000:
+		if !changed and obj <= 22000000:
 			alpha = alpha / 2
 			changed = True		
 		cnt += 1
