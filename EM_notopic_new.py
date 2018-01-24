@@ -492,7 +492,7 @@ with tf.Session() as session:
 		omega, pi, x = Resolver(newp)
 		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x)
 		lastObj = obj
-		if !changed and obj <= 22000000:
+		if not changed and obj <= 22000000:
 			alpha = alpha / 2
 			changed = True		
 		cnt += 1
