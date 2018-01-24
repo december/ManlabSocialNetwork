@@ -69,7 +69,7 @@ for name in namelist:
 		number = int(temp[1]) + 1
 		timedic = {}
 		for j in range(i+1, i+number):
-			info = realdata[j].split('\t')
+			info = simdata[j].split('\t')
 			tp = int(float(info[2]))
 			timedic[info[0]] = tp
 			if info[3] != '-1':
