@@ -73,6 +73,8 @@ for name in namelist:
 						reflectdic[info[3]] = prdic[prdic[info[3]]]
 						reflectdic[info[0]] = prdic[prdic[info[0]]]
 		l = len(tempdata)
+		if temp[0] == '418065':
+			print 'arrive'
 		for j in range(l):
 			info = tempdata[j].split('\t')
 			if reflectdic.has_key(info[3]):
