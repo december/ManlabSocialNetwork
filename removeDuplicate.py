@@ -54,10 +54,10 @@ for name in namelist:
 			if info[3] == '-1':
 				depdic[info[0]] = 0
 			else:
-				if reflectdic.has_key(info[3]):
-					info[3] = reflectdic[info[3]]
-					tempdata.pop()
-					tempdata.append(Connect(info))
+				#if reflectdic.has_key(info[3]):
+				#	info[3] = reflectdic[info[3]]
+				#	tempdata.pop()
+				#	tempdata.append(Connect(info))
 				prdic[info[0]] = info[3]
 				tempdep = depdic[info[3]] + 1
 				depdic[info[0]] = tempdep
@@ -72,6 +72,12 @@ for name in namelist:
 							l -= 1
 						reflectdic[info[3]] = prdic[prdic[info[3]]]
 						reflectdic[info[0]] = prdic[prdic[info[0]]]
+		l = len(tempdata)
+		for j in range(l):
+			info = tempdata[j].split('\t')
+			if reflectdic.has_key(info[3]):
+				info[3] = reflectdic[info[3]]
+				tempdata[j] = Connect(info)
 		newdata.append(temp[0]+'\t'+str(len(tempdata))+'\n')
 		newdata.extend(tempdata)
 		i += number
