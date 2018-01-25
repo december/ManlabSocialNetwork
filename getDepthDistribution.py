@@ -18,9 +18,11 @@ users = 7268
 
 def isRepeat(tid, pr, author):
 	pid = pr[tid]
-	author1 = author[pr[pid]]
-	author2 = author[pr[pr[pid]]]
-	return author1 == author2
+	author1 = author[pr[pr[pid]]]
+	author2 = author[pr[pid]]
+	author3 = author[pid]
+	author4 = author[tid]
+	return (author1 == author3 and auhtor2 == author4)
 
 namelist = os.listdir(path)
 real = {}
@@ -53,7 +55,7 @@ while i < n:
 		else:
 			prdic[info[0]] = info[3]
 			tempdep = depdic[info[3]] + 1
-			depdic[info[0]] = depdic[info[3]] + 1
+			depdic[info[0]] = tempdep
 			if tempdep >= 3:
 				if isRepeat(info[0], prdic, authordic):
 					depdic[prdic[info[0]]] -= 2
