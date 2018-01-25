@@ -54,7 +54,7 @@ for name in namelist:
 			if info[3] == '-1':
 				depdic[info[0]] = 0
 			else:
-				if reflectdic.has_key[info[3]]:
+				if reflectdic.has_key(info[3]):
 					info[3] = reflectdic[info[3]]
 					tempdata.pop()
 					tempdata.append(Connect(info))
