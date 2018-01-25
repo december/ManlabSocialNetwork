@@ -51,7 +51,7 @@ def GetTau(p1, p2, p3, p4, p5, v):
 		return 3
 	return 4	
 
-def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
+def GetLog(r, p, u, t, c, d): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
 	global number
 	if not edgemap.has_key(u):
 		return c
@@ -59,7 +59,7 @@ def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, paren
 		see = t + GetIET(omega[f])
 		if see > te:
 			continue
-		thres = d ** -x[edgemap[u][f]] * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
+		thres = d ** -x[edgemap[u][f]] * pi[edgemap[u][f]]
 		if np.random.rand() <= thres:
 			current = number
 			tweetdic[current] = number
@@ -71,7 +71,7 @@ def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, paren
 			temp.append(p)
 			temp.append(uid[u])
 			c.append(temp)
-			c = GetLog(r, current, f, see, tau, c, d+1)
+			c = GetLog(r, current, f, see, c, d+1)
 	return c
 
 prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
@@ -98,11 +98,11 @@ omglist = fr.readlines()
 vnum = len(omglist)
 
 omega = np.zeros(vnum) #parameter omega
-phi1 = np.zeros(vnum) + 0.2 #one of topic distribution
-phi2 = np.zeros(vnum) + 0.2 #one of topic distribution
-phi3 = np.zeros(vnum) + 0.2 #one of topic distribution
-phi4 = np.zeros(vnum) + 0.2 #one of topic distribution
-phi5 = np.zeros(vnum) + 0.2 #one of topic distribution
+#phi1 = np.zeros(vnum) + 0.2 #one of topic distribution
+#phi2 = np.zeros(vnum) + 0.2 #one of topic distribution
+#phi3 = np.zeros(vnum) + 0.2 #one of topic distribution
+#phi4 = np.zeros(vnum) + 0.2 #one of topic distribution
+#phi5 = np.zeros(vnum) + 0.2 #one of topic distribution
 
 for i in range(vnum):
 	temp = omglist[i].split('\t')
@@ -164,8 +164,8 @@ for j in range(sims):
 			temp.append(-1)
 			temp.append(-1)
 			cascade.append(temp)
-			tau = GetTau(phi1, phi2, phi3, phi4, phi5, i)
-			cascade = GetLog(root, root, i, ts, tau, cascade, 1)
+			#tau = GetTau(phi1, phi2, phi3, phi4, phi5, i)
+			cascade = GetLog(root, root, i, ts, cascade, 1)
 			cascade = sorted(cascade, key=lambda c:c[2])
 			size = len(cascade)
 			temp = list()
