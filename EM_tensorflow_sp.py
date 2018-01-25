@@ -399,7 +399,7 @@ while i < n:
 fr.close()
 pi = np.array(pi)
 pi = np.arccos(np.sqrt(pi))
-x = np.array([1.0])
+x = np.array([1.5])
 
 omega = np.zeros(allusers) #parameter omega
 theta1 = np.zeros(allusers) #one of spherical coordinates of phi distribution
@@ -613,7 +613,7 @@ with tf.Session() as session:
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
 		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
 		lastObj = obj
-		if not changed and obj <= 30000000:
+		if not changed and obj <= 20000000:
 			alpha = alpha / 2
 			changed = True		
 		cnt += 1
