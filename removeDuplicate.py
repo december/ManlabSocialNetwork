@@ -7,8 +7,8 @@ import os
 
 prefix = '../../cascading_generation_model/simulation/'
 suffix = '.detail'
-path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post/'
-newpath = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post_removed/'
+path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post_origin/'
+newpath = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post/'
 
 def isRepeat(tid, pr, author):
 	pid = pr[tid]
