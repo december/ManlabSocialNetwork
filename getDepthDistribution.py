@@ -16,6 +16,12 @@ suffix = '.detail'
 path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post/'
 users = 7268
 
+def isRepeat(tid, pr, author):
+	pid = pr[tid]
+	author1 = author[pr[pid]]
+	author2 = author[pr[pr[pid]]]
+	return author1 == author2
+
 namelist = os.listdir(path)
 real = {}
 sim = {}
@@ -37,12 +43,21 @@ while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
 	depdic = {}
+	prdic = {}
+	authordic = {}
 	for j in range(i+1, i+number):
 		info = realdata[j].split('\t')
+		authordic[info[0]] = info[1]
 		if info[3] == '-1':
 			depdic[info[0]] = 0
 		else:
+			prdic[info[0]] = info[3]
+			tempdep = depdic[info[3]] + 1
 			depdic[info[0]] = depdic[info[3]] + 1
+			if tempdep >= 3:
+				if isRepeat(info[0], prdic, authordic):
+					depdic[prdic[info[0]]] -= 2
+					depdic[info[0]] -= 2
 	dep = max(depdic.values())
 	if real.has_key(dep):
 		real[dep] += 1
