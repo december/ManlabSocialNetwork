@@ -39,7 +39,7 @@ for name in namelist:
 	i = 0
 	newdata = list()
 	while i < n:
-		newdata.append(realdata[i])
+		#newdata.append(realdata[i])
 		temp = realdata[i].split('\t')
 		number = int(temp[1]) + 1
 		tempdata = list()
@@ -72,6 +72,7 @@ for name in namelist:
 							l -= 1
 						reflectdic[info[3]] = prdic[prdic[info[3]]]
 						reflectdic[info[0]] = prdic[prdic[info[0]]]
+		newdata.append(temp[0]+'\t'+str(len(tempdata))+'\n')
 		newdata.extend(tempdata)
 		i += number
 	print name + ': ' + str(len(realdata)) + ' to ' + str(len(newdata))
