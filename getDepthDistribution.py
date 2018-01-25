@@ -47,6 +47,7 @@ while i < n:
 	depdic = {}
 	prdic = {}
 	authordic = {}
+	reflectdic = {}
 	for j in range(i+1, i+number):
 		info = realdata[j].split('\t')
 		authordic[info[0]] = info[1]
@@ -56,10 +57,12 @@ while i < n:
 			prdic[info[0]] = info[3]
 			tempdep = depdic[info[3]] + 1
 			depdic[info[0]] = tempdep
-			if tempdep >= 3:
+			if not reflectdic.has_key(info[3]) and tempdep >= 3:
 				if isRepeat(info[0], prdic, authordic):
 					depdic[prdic[info[0]]] -= 2
 					depdic[info[0]] -= 2
+					reflectdic[info[3]] = prdic[prdic[info[3]]]
+					reflectdic[info[0]] = prdic[prdic[info[0]]]
 	dep = max(depdic.values())
 	if real.has_key(dep):
 		real[dep] += 1
