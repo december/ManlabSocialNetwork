@@ -22,7 +22,7 @@ def isRepeat(tid, pr, author):
 	author2 = author[pr[pid]]
 	author3 = author[pid]
 	author4 = author[tid]
-	return (author1 == author3 and auhtor2 == author4)
+	return (author1 == author3 and author2 == author4)
 
 namelist = os.listdir(path)
 real = {}
