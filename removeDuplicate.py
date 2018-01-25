@@ -6,8 +6,6 @@ import sys
 import os
 
 prefix = '../../cascading_generation_model/simulation/'
-if int(sys.argv[2]) == 0:
-	prefix = '../../cascading_generation_model/simulation_notopic/'
 suffix = '.detail'
 path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post/'
 newpath = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post_removed/'
