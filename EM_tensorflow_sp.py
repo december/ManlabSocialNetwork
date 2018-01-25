@@ -594,6 +594,7 @@ with tf.Session() as session:
 	#end = datetime.datetime.now()
 	#print (end - start).seconds
 		out_qf = session.run(qf)
+		a = session.run(alpha)
 		print 'EStep ' + str(cnt+1) + ' finished...'
 		for step in range(iters):
 			session.run(train, feed_dict={qm:out_qf})
@@ -612,7 +613,7 @@ with tf.Session() as session:
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
 		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
 		lastObj = obj
-		if not changed and obj <= 25000000:
+		if not changed and obj <= 26000000:
 			alpha = alpha / 2
 			changed = True		
 		cnt += 1
@@ -625,4 +626,4 @@ x = x
 Output(omega, pi, x, theta1, theta2, theta3, theta4)
 
 endtime = datetime.datetime.now()
-print 'Time consumed: ' + str(endtime - starttime) + ' (' + str(alpha) + ')'
+print 'Time consumed: ' + str(endtime - starttime) + ' (' + str(a) + ')'
