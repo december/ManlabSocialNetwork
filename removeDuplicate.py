@@ -18,6 +18,14 @@ def isRepeat(tid, pr, author):
 	author4 = author[tid]
 	return (author1 == author3 and author2 == author4)
 
+def Connect(info):
+	s = info[0]
+	m = len(info)
+	for i in range(1, m):
+		s += '\t'
+		s += info[i]
+	return s
+
 namelist = os.listdir(path)
 real = {}
 sim = {}
@@ -46,6 +54,10 @@ for name in namelist:
 			if info[3] == '-1':
 				depdic[info[0]] = 0
 			else:
+				if reflectdic.has_key[info[3]]:
+					info[3] = reflectdic[info[3]]
+					tempdata.pop()
+					tempdata.append(Connect(info))
 				prdic[info[0]] = info[3]
 				tempdep = depdic[info[3]] + 1
 				depdic[info[0]] = tempdep
