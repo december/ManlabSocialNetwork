@@ -135,7 +135,7 @@ for i in range(enum):
 	temp = xlist[i].split('\t')
 	x[i] = float(temp[2])
 fr.close()
-x -= 1.5
+x += 1.0
 
 print 'Finished reading..'
 prefix = '../../cascading_generation_model/simulation_notopic/'
@@ -147,12 +147,16 @@ for j in range(sims):
 	number = 0
 	behavior = list()
 	print 'Generation ' + str(j+1) + ' begins...'
+	casnum = 0
+	totalnum = 0
 	for i in range(users):
 		if single and i != 0:
 			continue
 		ts = 0
 		l = lbd[i]
+		print i
 		while ts < te:
+			casnum += 1
 			tweetdic[number] = i
 			root = number
 			number += 1
@@ -173,8 +177,11 @@ for j in range(sims):
 			temp.append(size)
 			behavior.append(temp)
 			behavior.extend(cascade)
+			totalnum += size
 			iet = GetIET(l)
 			ts += iet
+	print casnum
+	print totalnum
 	fw = open(prefix+str(j)+suffix, 'w')
 	for item in behavior:
 		fw.write(str(item[0]))
