@@ -76,12 +76,13 @@ if single:
 else:
 	namelist = os.listdir(prefix)
 	position = prefix
-m = len(namelist)
+m = 0
 for name in namelist:
 	if not name.endswith('.detail'):
 		continue
 	fr = open(position+name, 'r')
 	simdata = fr.readlines()
+	m += 1
 	n = len(simdata)
 	i = 0
 	while i < n:

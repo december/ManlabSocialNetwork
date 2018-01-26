@@ -86,7 +86,7 @@ if single:
 else:
 	namelist = os.listdir(prefix)
 	position = prefix
-m = len(namelist)
+m = 0
 for name in namelist:
 	if not name.endswith('.detail'):
 		continue
@@ -94,6 +94,7 @@ for name in namelist:
 	simdata = fr.readlines()
 	n = len(simdata)
 	i = 0
+	m += 1
 	while i < n:
 		temp = simdata[i].split('\t')
 		number = int(temp[1]) + 1

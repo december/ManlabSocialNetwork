@@ -48,10 +48,11 @@ else:
 	namelist = os.listdir(prefix)
 	position = prefix
 
-m = len(namelist)
+m = 0
 for name in namelist:
 	if not name.endswith('.detail'):
 		continue
+	m += 1
 	fr = open(position+name, 'r')
 	simdata = fr.readlines()
 	n = len(simdata)
@@ -67,6 +68,7 @@ for name in namelist:
 	fr.close()
 
 realsize = sorted(real.keys())
+print realsize
 realnum = list()
 realcum = list()
 for size in realsize:
