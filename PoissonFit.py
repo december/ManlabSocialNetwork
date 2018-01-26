@@ -17,7 +17,7 @@ gamma = 1 #log barrier function
 
 def ObjLnPiQ(lbd):
 	global gamma
-	r = lbd * sum_iet + lnorder - posts * tf.log(lbd) - posts * tf.log(sum_iet) - gamma * (tf.log(lbd) + tf.log(1 - lbd))
+	r = lbd * sum_iet + lnorder - posts * tf.log(lbd) - posts * tf.log(sum_iet)
 	return tf.reduce_sum(r)
 
 def Derivative():
