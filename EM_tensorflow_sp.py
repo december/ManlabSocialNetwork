@@ -409,7 +409,7 @@ theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
 omega += sum(lbd) * 100 / users
 omega = np.arccos(np.sqrt(omega))
-
+'''
 fr = open(prefix+'lda'+suffix, 'r')
 ldainfo = fr.readlines()
 print 'Use lda result as initial distribution...'
@@ -429,7 +429,7 @@ theta1 += np.arccos(np.sqrt(0.2))
 theta2 += np.arccos(np.sqrt(0.25))
 theta3 += np.arccos(np.sqrt(1.0 / 3))
 theta4 += np.arccos(np.sqrt(0.5))
-
+'''
 tr = list()
 for i in range(4):
 	tr.append(np.random.rand())
@@ -576,7 +576,8 @@ def Output(omega, pi, x, theta1, theta2, theta3, theta4):
 			fw.write('\n')
 		fw.close()
 
-changed = False
+changed1 = False
+changed2 = False
 with tf.Session() as session:
 	session.run(init)
 	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
@@ -613,9 +614,12 @@ with tf.Session() as session:
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
 		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
 		lastObj = obj
-		if not changed and obj <= 20000000:
+		if not changed1 and obj <= 20000000:
 			alpha = alpha / 2
-			changed = True		
+			changed1 = True
+		if not changed2 and obj <= 15000000:
+			alpha = alpha / 2
+			changed2 = True
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
 omega = np.cos(omega) * np.cos(omega)
