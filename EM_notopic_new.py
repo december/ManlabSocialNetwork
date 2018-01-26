@@ -303,7 +303,7 @@ while i < n:
 fr.close()
 pi = np.array(pi)
 pi = np.arccos(np.sqrt(pi))
-x = np.array([1.0])
+x = np.array([3])
 
 omega = np.zeros(allusers) #parameter omega
 theta1 = np.zeros(allusers) #one of spherical coordinates of phi distribution
