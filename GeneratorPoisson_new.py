@@ -177,8 +177,8 @@ for j in range(sims):
 		print i
 		if single and i != 0:
 			continue
-		ts = 0
 		l = lbd[i]
+		ts = GetIET(l)
 		while ts < te:
 			tweetdic[number] = i
 			root = number

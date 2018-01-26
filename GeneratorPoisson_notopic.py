@@ -153,8 +153,8 @@ for j in range(sims):
 	for i in range(users):
 		if single and i != 0:
 			continue
-		ts = 0
 		l = lbd[i]
+		ts = GetIET(l)
 		print i
 		while ts < te:
 			casnum += 1
