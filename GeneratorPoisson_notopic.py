@@ -78,13 +78,13 @@ prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 suffix = '.detail'
 
 lbd = np.zeros(users) #parameter lambda which have calculated before
+lbddic = {}
 fr = open(prefix+'lambda_Poisson'+suffix, 'r')
 lbdlist = fr.readlines()
 for i in range(users):
 	temp = lbdlist[i].split('\t')
-	lbd[i] = float(temp[1])
+	lbddic[int(temp[0])] = float(temp[1])
 fr.close()
-#lbd = lbd / 4
 
 if single:
 	prefix = prefix + 'single_user_parameter_notopic/'
@@ -112,6 +112,9 @@ for i in range(vnum):
 	omega[i] = float(temp[1])
 fr.close()
 #print iddic
+
+for key in lbddic:
+	lbd[iddic[key]] = lbddic[key]
 
 fr = open(prefix+'pi_Poisson'+suffix, 'r')
 pilist = fr.readlines()
