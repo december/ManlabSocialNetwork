@@ -85,7 +85,6 @@ def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, paren
 prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 suffix = '.detail'
 
-lbd = np.zeros(users) #parameter lambda which have calculated before
 lbddic = {}
 fr = open(prefix+'lambda_Poisson'+suffix, 'r')
 lbdlist = fr.readlines()
@@ -106,6 +105,7 @@ fr = open(prefix+'omega_Poisson'+suffix, 'r')
 omglist = fr.readlines()
 vnum = len(omglist)
 
+lbd = np.zeros(users) #parameter lambda which have calculated before
 omega = np.zeros(vnum) #parameter omega
 phi1 = np.zeros(vnum) #one of topic distribution
 phi2 = np.zeros(vnum) #one of topic distribution
