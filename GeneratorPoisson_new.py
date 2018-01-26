@@ -178,7 +178,7 @@ for j in range(sims):
 		if single and i != 0:
 			continue
 		ts = 0
-		l = lbd[filename]
+		l = lbd[i]
 		while ts < te:
 			tweetdic[number] = i
 			root = number
