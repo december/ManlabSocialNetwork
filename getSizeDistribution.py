@@ -80,6 +80,7 @@ for i in range(n):
 	realcum.append(s)
 
 simsize = sorted(sim.keys())
+print simsize
 simnum = list()
 simcum = list()
 for size in simsize:
@@ -92,6 +93,8 @@ for i in range(n):
 
 realsum = sum(realnum)
 simsum = sum(simnum)
+print sim
+print real
 
 rs = np.array(realsize)
 rn = np.array(realcum) * 1.0 / realsum
