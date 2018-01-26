@@ -40,6 +40,8 @@ while i < n:
 			tweets[info[1]] += 1
 		if not info[3] == '-1':
 			if not relation.has_key(info[4]):
+				if info[4][-1] == '\n':
+					print info
 				relation[info[4]] = {}
 				relation[info[4]][info[1]] = 1
 			else:
