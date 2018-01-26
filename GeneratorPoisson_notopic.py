@@ -6,7 +6,7 @@ import numpy.random
 single = True
 filename = int(sys.argv[1])
 ts = 0
-te = int(sys.argv[2]) * 86400
+te = int(float(sys.argv[2])) * 86400
 sims = int(sys.argv[3])
 if filename < 0:
 	single = False
@@ -135,7 +135,7 @@ for i in range(enum):
 	temp = xlist[i].split('\t')
 	x[i] = float(temp[2])
 fr.close()
-x += 1.0
+x += 1.5
 
 print 'Finished reading..'
 prefix = '../../cascading_generation_model/simulation_notopic/'
