@@ -359,6 +359,10 @@ fr = open(prefix+'tweettimes'+suffix, 'r')
 post = fr.readlines()
 for i in range(users):
 	temp = post[i].split('\t')
+	if not iddic.has_key(temp[0]):
+		iddic[temp[0]] = allusers
+		uid.append(temp[0])
+		allusers += 1
 	posts[iddic[temp[0]]] = int(temp[1])
 fr.close()
 
@@ -376,9 +380,9 @@ while i < n:
 	number = int(temp[1]) + 1
 	friend[temp[0]] = list()
 	if not iddic.has_key(temp[0]):
-			iddic[temp[0]] = allusers
-			uid.append(temp[0])
-			allusers += 1
+		iddic[temp[0]] = allusers
+		uid.append(temp[0])
+		allusers += 1
 	for j in range(i+1, i+number):
 		fd = relation[j].split('\t')
 		if not iddic.has_key(fd[1]):
