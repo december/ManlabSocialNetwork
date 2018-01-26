@@ -70,7 +70,7 @@ def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, paren
 		thres = d ** -x[edgemap[u][f]] * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
 		if np.random.rand() <= thres:
 			current = number
-			tweetdic[current] = number
+			tweetdic[current] = f
 			number += 1
 			temp = list()
 			temp.append(current)
@@ -88,9 +88,11 @@ suffix = '.detail'
 lbddic = {}
 fr = open(prefix+'lambda_Poisson'+suffix, 'r')
 lbdlist = fr.readlines()
+postlist = list()
 for i in range(users):
 	temp = lbdlist[i].split('\t')
 	lbddic[int(temp[0])] = float(temp[1])
+	postlist.append(int(temp[0]))
 fr.close()
 
 if single:
@@ -105,7 +107,7 @@ fr = open(prefix+'omega_Poisson'+suffix, 'r')
 omglist = fr.readlines()
 vnum = len(omglist)
 
-lbd = np.zeros(users) #parameter lambda which have calculated before
+#lbd = np.zeros(users) #parameter lambda which have calculated before
 omega = np.zeros(vnum) #parameter omega
 phi1 = np.zeros(vnum) #one of topic distribution
 phi2 = np.zeros(vnum) #one of topic distribution
@@ -121,8 +123,8 @@ for i in range(vnum):
 fr.close()
 #print iddic
 
-for key in lbddic:
-	lbd[iddic[key]] = lbddic[key]
+#for key in lbddic:
+#	lbd[iddic[key]] = lbddic[key]
 
 for i in range(5):
 	fr = open(prefix+'phi'+str(i)+'_Poisson'+suffix, 'r')
@@ -181,22 +183,23 @@ for j in range(sims):
 		print i
 		if single and i != 0:
 			continue
-		l = lbd[i]
+		l = lbddic[postlist[i]]
 		ts = GetIET(l)
+		newi = iddic[postlist[i]]
 		while ts < te:
-			tweetdic[number] = i
+			tweetdic[number] = newi
 			root = number
 			number += 1
 			cascade = list()
 			temp = list()
 			temp.append(root)
-			temp.append(uid[i])
+			temp.append(uid[newi])
 			temp.append(ts)
 			temp.append(-1)
 			temp.append(-1)
 			cascade.append(temp)
-			tau = GetTau(phi1, phi2, phi3, phi4, phi5, i)
-			cascade = GetLog(root, root, i, ts, tau, cascade, 1)
+			tau = GetTau(phi1, phi2, phi3, phi4, phi5, newi)
+			cascade = GetLog(root, root, newi, ts, tau, cascade, 1)
 			cascade = sorted(cascade, key=lambda c:c[2])
 			size = len(cascade)
 			temp = list()

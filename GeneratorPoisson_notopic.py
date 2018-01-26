@@ -62,7 +62,7 @@ def GetLog(r, p, u, t, c, d): #root_tweet, parent_tweet, parent_user, parent_tim
 		thres = d ** -x[edgemap[u][f]] * pi[edgemap[u][f]]
 		if np.random.rand() <= thres:
 			current = number
-			tweetdic[current] = number
+			tweetdic[current] = f
 			number += 1
 			temp = list()
 			temp.append(current)
@@ -80,9 +80,11 @@ suffix = '.detail'
 lbddic = {}
 fr = open(prefix+'lambda_Poisson'+suffix, 'r')
 lbdlist = fr.readlines()
+postlist = list()
 for i in range(users):
 	temp = lbdlist[i].split('\t')
 	lbddic[int(temp[0])] = float(temp[1])
+	postlist.append(int(temp[0]))	
 fr.close()
 
 if single:
@@ -113,8 +115,8 @@ for i in range(vnum):
 fr.close()
 #print iddic
 
-for key in lbddic:
-	lbd[iddic[key]] = lbddic[key]
+#for key in lbddic:
+#	lbd[iddic[key]] = lbddic[key]
 
 fr = open(prefix+'pi_Poisson'+suffix, 'r')
 pilist = fr.readlines()
@@ -156,24 +158,25 @@ for j in range(sims):
 	for i in range(users):
 		if single and i != 0:
 			continue
-		l = lbd[i]
+		l = lbddic[postlist[i]]
 		ts = GetIET(l)
+		newi = iddic[postlist[i]]
 		print i
 		while ts < te:
 			casnum += 1
-			tweetdic[number] = i
+			tweetdic[number] = newi
 			root = number
 			number += 1
 			cascade = list()
 			temp = list()
 			temp.append(root)
-			temp.append(uid[i])
+			temp.append(uid[newi])
 			temp.append(ts)
 			temp.append(-1)
 			temp.append(-1)
 			cascade.append(temp)
 			#tau = GetTau(phi1, phi2, phi3, phi4, phi5, i)
-			cascade = GetLog(root, root, i, ts, cascade, 1)
+			cascade = GetLog(root, root, newi, ts, cascade, 1)
 			cascade = sorted(cascade, key=lambda c:c[2])
 			size = len(cascade)
 			temp = list()
