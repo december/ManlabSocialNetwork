@@ -49,6 +49,7 @@ else:
 	position = prefix
 
 m = 0
+bigsim = list()
 for name in namelist:
 	if not name.endswith('.detail'):
 		continue
@@ -60,6 +61,9 @@ for name in namelist:
 	while i < n:
 		temp = simdata[i].split('\t')
 		number = int(temp[1])
+		if number >= 89:
+			for j in range(i, i+number+1):
+				bigsim.append(simdata[j])
 		if sim.has_key(number):
 			sim[number] += 1
 		else:
@@ -111,3 +115,8 @@ if not single:
 	filename = 'all'
 plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png')
 plt.cla()
+
+fw = open(prefix+'BigSimCascades.detail', 'w')
+for line in bigsim:
+	fw.write(line)
+fw.close()
