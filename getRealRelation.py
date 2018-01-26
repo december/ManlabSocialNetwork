@@ -32,12 +32,12 @@ i = 0
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
-	if not tweets.has_key(temp[0]):
-		tweets[temp[0]] = 1
-	else:
-		tweets[temp[0]] += 1
 	for j in range(i+1, i+number):
 		info = realdata[j].split('\t')
+		if not tweets.has_key(info[1]):
+			tweets[info[1]] = 1
+		else:
+			tweets[info[1]] += 1
 		if not info[3] == '-1':
 			if not relation.has_key(info[4]):
 				relation[info[4]] = {}
@@ -47,10 +47,6 @@ while i < n:
 					relation[info[4]][info[1]] = 1
 				else:
 					relation[info[4]][info[1]] += 1
-			if not tweets.has_key(info[4]):
-				tweets[info[4]] = 1
-			else:
-				tweets[info[4]] += 1
 	i += number
 
 fw = open('../../cascading_generation_model/722911_twolevel_neighbor_cascades/tweettimes.detail', 'w')

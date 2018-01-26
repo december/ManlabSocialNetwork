@@ -357,7 +357,7 @@ fr.close()
 #Get post times
 fr = open(prefix+'tweettimes'+suffix, 'r')
 post = fr.readlines()
-for i in range(users):
+for i in range(len(post)):
 	temp = post[i].split('\t')
 	if not iddic.has_key(temp[0]):
 		iddic[temp[0]] = allusers
