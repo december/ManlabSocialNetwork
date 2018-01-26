@@ -84,7 +84,7 @@ for i in range(users):
 	temp = lbdlist[i].split('\t')
 	lbd[i] = float(temp[1])
 fr.close()
-lbd = lbd / 2
+lbd = lbd / 4
 
 if single:
 	prefix = prefix + 'single_user_parameter_notopic/'
