@@ -355,7 +355,7 @@ for i in range(users):
 fr.close()
 
 #Get post times
-fr = open(prefix+'posttimes'+suffix, 'r')
+fr = open(prefix+'tweettimes'+suffix, 'r')
 post = fr.readlines()
 for i in range(users):
 	temp = post[i].split('\t')
