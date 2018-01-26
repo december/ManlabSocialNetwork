@@ -423,7 +423,7 @@ for i in range(allusers):
 fr.close()
 
 
-'''
+
 print 'Use equal value as initial distribution...'
 theta1 += np.arccos(np.sqrt(0.2))
 theta2 += np.arccos(np.sqrt(0.25))
@@ -439,7 +439,7 @@ theta1 += np.arccos(np.sqrt(tr[0]))
 theta2 += np.arccos(np.sqrt(tr[1]))
 theta3 += np.arccos(np.sqrt(tr[2]))
 theta4 += np.arccos(np.sqrt(tr[3]))
-'''
+
 #Read personal cascade file
 print 'Read behavior log...'
 for i in range(users):
