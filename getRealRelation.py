@@ -33,15 +33,15 @@ while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
 	for j in range(i+1, i+number):
-		info = realdata[j].split('\t')
+		info = realdata[j][:-1].split('\t')
 		if not tweets.has_key(info[1]):
 			tweets[info[1]] = 1
 		else:
 			tweets[info[1]] += 1
 		if not info[3] == '-1':
 			if not relation.has_key(info[4]):
-				if info[4][-1] == '\n':
-					print info
+				#if info[4][-1] == '\n':
+				#	print info
 				relation[info[4]] = {}
 				relation[info[4]][info[1]] = 1
 			else:
