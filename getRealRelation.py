@@ -5,13 +5,9 @@ import numpy as np
 import sys
 import os
 
-filename = int(sys.argv[1])
-if filename < 0:
-	single = False
+single = False
 
 prefix = '../../cascading_generation_model/simulation/'
-if int(sys.argv[2]) == 0:
-	prefix = '../../cascading_generation_model/simulation_notopic/'
 suffix = '.detail'
 path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post/'
 users = 7268
