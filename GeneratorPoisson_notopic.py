@@ -162,8 +162,8 @@ for j in range(sims):
 		ts = GetIET(l)
 		newi = iddic[postlist[i]]
 		print i
-		if i == 6932:
-			print 'arrived'
+		if i < 6932:
+			continue
 		while ts < te:
 			casnum += 1
 			tweetdic[number] = newi
