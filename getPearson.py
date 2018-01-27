@@ -75,9 +75,7 @@ def chooseTwo(person):
 	return calcPearson(f1, f2)
 
 filename = int(sys.argv[1])
-single = True
-if filename < 0:
-	single = False
+single = False
 
 prefix = '../../cascading_generation_model/simulation/'
 suffix = '.detail'
@@ -91,16 +89,16 @@ if single:
 namelist = os.listdir(path)
 real = {}
 sim = {}
+realdata = list()
 for name in namelist:
-	if name.startswith(str(filename) + '_'):
-		fr = open(path+name, 'r')
-		realdata = fr.readlines()
-		break
+	fr = open(path+name, 'r')
+	realdata.extend(fr.readlines())
 fr.close()
 
 n = len(realdata)
 i = 0
 cnt = 0
+zerolist = list()
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
@@ -111,15 +109,16 @@ while i < n:
 			#print data[1]
 			continue
 		if not realdic.has_key(data[1]):
-			realdic[data[1]] = list()
-			for k in range(cnt):
-				realdic[data[1]].append(0)
+			realdic[data[1]] = zerolist[:]
+			#for k in range(cnt):
+			#	realdic[data[1]].append(0)
 		realdic[data[1]].append(1)
 		rdic[data[1]] = 1
 	for key in realdic:
 		if not rdic.has_key(key):
 			realdic[key].append(0)
 	cnt += 1
+	zerolist.append(0)
 	i += number
 
 #print cnt
@@ -167,10 +166,12 @@ while i < n:
 					rr_real_sum += 1
 	i += number
 
-namelist = os.listdir(prefix+str(filename)+'/')
+namelist = os.listdir(prefix+'/')
 cnt = 0
 for name in namelist:
-	fr = open(prefix+str(filename)+'/'+name, 'r')
+	if not name.endswith('.detail'):
+		continue
+	fr = open(prefix+'/'+name, 'r')
 	simdata = fr.readlines()
 	n = len(simdata)
 	i = 0
