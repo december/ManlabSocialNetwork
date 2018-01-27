@@ -1,7 +1,6 @@
 import sys
 import scipy as sp
 import numpy as np
-import tensorflow as tf
 
 users = 7268 #total number of users 
 ts = 1321286400 #starting timestamps
@@ -24,7 +23,7 @@ for i in range(users):
 	posts[i] = int(temp[1])
 fr.close()
 #lbd += sum(posts) * 1.0 / 7268 / 86400 / 10
-lbd = posts * 1.0 / 7268 / 86400 / 10
+lbd = posts * 1.0 / 86400 / 10
 
 fw = open(prefix+'lambda_Poisson'+suffix, 'w')
 for i in range(users):
