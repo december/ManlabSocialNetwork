@@ -167,7 +167,7 @@ for i in range(enum):
 	temp = xlist[i].split('\t')
 	x[i] = float(temp[2])
 fr.close()
-x -= 1.7
+x -= 1.5
 
 print 'Finished reading..'
 prefix = '../../cascading_generation_model/simulation/'
