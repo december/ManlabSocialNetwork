@@ -401,7 +401,7 @@ while i < n:
 		friend[temp[0]].append(fd[1])
 	i += number
 fr.close()
-pi = np.array(pi) * 5
+pi = np.array(pi)
 pi = np.arccos(np.sqrt(pi))
 x = np.array([1.05])
 
