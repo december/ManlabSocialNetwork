@@ -128,18 +128,18 @@ for j in range(sims):
 	for key in postdic:
 		print key
 		for i in range(postdic[key]):
-			tweetdic[number] = newi
+			#tweetdic[number] = newi
 			root = number
 			number += 1
 			cascade = list()
 			temp = list()
 			temp.append(root)
-			temp.append(uid[newi])
+			temp.append(key)
 			temp.append(ts)
 			temp.append(-1)
 			temp.append(-1)
 			cascade.append(temp)
-			cascade = GetLog(root, root, newi, cascade)
+			cascade = GetLog(root, root, key, cascade)
 			cascade = sorted(cascade, key=lambda c:c[2])
 			size = len(cascade)
 			temp = list()

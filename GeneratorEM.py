@@ -18,73 +18,18 @@ edgemap = {}
 uid = list() #from user index in this ego network to user id
 iddic = {} #from user id to user index in this ego network
 tweetdic = {} #from tweet id to the user index of its author
-number = 0 #total number of tweeters
-
-def GetIET(l):
-	p = numpy.random.rand()
-	t = -1 * np.log(1-p) / l
-	return round(t)
-
-def GetPhi(p1, p2, p3, p4, p5, tau, v):
-	if tau == 0:
-		return p1[v]
-	if tau == 1:
-		return p2[v]
-	if tau == 2:
-		return p3[v]
-	if tau == 3:
-		return p4[v]
-	return p5[v]
-
-def GetTau(p1, p2, p3, p4, p5, v):
-	p = numpy.random.rand()
-	if p <= p1[v]:
-		return 0
-	p -= p1[v]
-	if p <= p2[v]:
-		return 1
-	p -= p2[v]
-	if p <= p3[v]:
-		return 2
-	p -= p3[v]
-	if p <= p4[v]:
-		return 3
-	return 4	
-
-def GetLog(r, p, u, t, c, d): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
-	global number
-	if not edgemap.has_key(u):
-		return c
-	for f in edgemap[u]:
-		see = t + GetIET(omega[f])
-		if see > te:
-			continue
-		thres = d ** -x[edgemap[u][f]] * pi[edgemap[u][f]]
-		if np.random.rand() <= thres:
-			current = number
-			tweetdic[current] = f
-			number += 1
-			temp = list()
-			temp.append(current)
-			temp.append(uid[f])
-			temp.append(see)
-			temp.append(p)
-			temp.append(uid[u])
-			c.append(temp)
-			c = GetLog(r, current, f, see, c, d+1)
-	return c
+number = 0 #total number of tweeters	
 
 prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 suffix = '.detail'
 
-lbddic = {}
-fr = open(prefix+'lambda_Poisson'+suffix, 'r')
-lbdlist = fr.readlines()
+postdic = {}
+fr = open(prefix+'posttimes'+suffix, 'r')
+timelist = fr.readlines()
 postlist = list()
 for i in range(users):
-	temp = lbdlist[i].split('\t')
-	lbddic[int(temp[0])] = float(temp[1])
-	postlist.append(int(temp[0]))	
+	temp = timelist[i].split('\t')
+	postdic[temp[0]] = int(temp[1])
 fr.close()
 
 if single:
@@ -95,35 +40,29 @@ else:
 if len(sys.argv) > 4:
 	prefix += sys.argv[4] + '/'
 
-fr = open(prefix+'omega_Poisson'+suffix, 'r')
+fr = open(prefix+'gamma'+suffix, 'r')
 omglist = fr.readlines()
 vnum = len(omglist)
 
 lbd = np.zeros(vnum) #parameter lambda which have calculated before
-omega = np.zeros(vnum) #parameter omega
-#phi1 = np.zeros(vnum) + 0.2 #one of topic distribution
-#phi2 = np.zeros(vnum) + 0.2 #one of topic distribution
-#phi3 = np.zeros(vnum) + 0.2 #one of topic distribution
-#phi4 = np.zeros(vnum) + 0.2 #one of topic distribution
-#phi5 = np.zeros(vnum) + 0.2 #one of topic distribution
+gamma = np.zeros(vnum) #parameter omega
 
 for i in range(vnum):
 	temp = omglist[i].split('\t')
 	uid.append(temp[0])
 	iddic[int(temp[0])] = i
-	omega[i] = float(temp[1])
+	gamma[i] = float(temp[1])
 fr.close()
 #print iddic
 
 #for key in lbddic:
 #	lbd[iddic[key]] = lbddic[key]
 
-fr = open(prefix+'pi_Poisson'+suffix, 'r')
+fr = open(prefix+'beta'+suffix, 'r')
 pilist = fr.readlines()
 enum = len(pilist)
 
-pi = np.zeros(enum) #parameter pi (based on edges), row is sender while col is receiver
-x = np.zeros(enum) #parameter x (based on edges), row is sender while col is receiver
+beta = np.zeros(enum) #parameter pi (based on edges), row is sender while col is receiver
 
 for i in range(enum):
 	temp = pilist[i].split('\t')
@@ -132,16 +71,8 @@ for i in range(enum):
 	if not edgemap.has_key(row):
 		edgemap[row] = {}
 	edgemap[row][col] = i
-	pi[i] = float(temp[2])
+	beta[i] = float(temp[2])
 fr.close()
-
-fr = open(prefix+'x_Poisson'+suffix, 'r')
-xlist = fr.readlines()
-for i in range(enum):
-	temp = xlist[i].split('\t')
-	x[i] = float(temp[2])
-fr.close()
-x += 1.5
 
 print 'Finished reading..'
 prefix = '../../cascading_generation_model/simulation_notopic/'
@@ -149,20 +80,37 @@ suffix = '.detail'
 if single:
 	prefix += str(filename) + '/'
 
+def GetLog(r, p, u, c): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
+	global number
+	if not edgemap.has_key(u):
+		return c
+	if np.random.rand() <= gamma[u]:
+		return c
+	for f in edgemap[u]:
+		if np.random.rand() <= beta[edgemap[u][f]]:
+			current = number
+			tweetdic[current] = f
+			number += 1
+			temp = list()
+			temp.append(current)
+			temp.append(uid[f])
+			temp.append(see)
+			temp.append(p)
+			temp.append(uid[u])
+			c.append(temp)
+			c = GetLog(r, current, f, c)
+	return c
+
 for j in range(sims):
 	number = 0
 	behavior = list()
 	print 'Generation ' + str(j+1) + ' begins...'
 	casnum = 0
 	totalnum = 0
-	for i in range(users):
-		if single and i != 0:
-			continue
-		l = lbddic[postlist[i]]
-		ts = GetIET(l)
-		newi = iddic[postlist[i]]
-		print i
-		while ts < te:
+	for key in postdic:
+		print key
+		newi = iddic[key]
+		for i in range(postdic[key]):
 			casnum += 1
 			tweetdic[number] = newi
 			root = number
@@ -176,7 +124,7 @@ for j in range(sims):
 			temp.append(-1)
 			cascade.append(temp)
 			#tau = GetTau(phi1, phi2, phi3, phi4, phi5, i)
-			cascade = GetLog(root, root, newi, ts, cascade, 1)
+			cascade = GetLog(root, root, newi, cascade)
 			cascade = sorted(cascade, key=lambda c:c[2])
 			size = len(cascade)
 			temp = list()

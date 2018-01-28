@@ -136,10 +136,10 @@ def body(obj, i, noreply, omega, pi, x):
 	#if rusc_dic[i].get_shape()[0] == 0:
 
 	if begin_rusc[i] == end_rusc[i]:
-		if noreply == 0:
+		if noreply[cascade_author[i]] == 0:
 			#noreply += tf.reduce_sum(fakeq * tf.log(fakeq))
-			noreply -= LnLc(omega, pi, x, i)
-		obj += noreply
+			noreply[cascade_author[i]] -= LnLc(omega, pi, x, i)
+		obj += noreply[cascade_author[i]]
 	else:
 		#obj += tf.reduce_sum(fakeq * tf.log(fakeq))
 		obj -= LnLc(omega, pi, x, i)
@@ -155,7 +155,7 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	#global total
 	#total += 1
 	it = tf.cast(0, tf.int32)
-	noreply = tf.cast(0.0, tf.float64)
+	noreply = np.zeros(users)
 	#it = tf.Variable(0)
 	#noreply = tf.Variable(0.0)
 	'''
