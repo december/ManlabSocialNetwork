@@ -149,8 +149,8 @@ def body(obj, i, noreply, omega, pi, x):
 
 def ObjF(param): #formulation of objective function (include barrier) (the smaller the better)
 	omega, pi, x = Resolver(param)
-	#omega = tf.cos(omega) * tf.cos(omega)
-	#pi = tf.cos(pi) * tf.cos(pi)
+	omega = tf.cos(omega) * tf.cos(omega)
+	pi = tf.cos(pi) * tf.cos(pi)
 	#x = x * x
 	#global total
 	#total += 1
@@ -306,7 +306,7 @@ while i < n:
 	i += number
 fr.close()
 pi = np.array(pi)
-#pi = np.arccos(np.sqrt(pi))
+pi = np.arccos(np.sqrt(pi))
 x = np.array([1.05])
 
 omega = np.zeros(allusers) #parameter omega
@@ -316,7 +316,7 @@ theta3 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
 omega += sum(lbd) * 100 / users
-#omega = np.arccos(np.sqrt(omega))
+omega = np.arccos(np.sqrt(omega))
 
 '''
 theta1 += np.arccos(np.sqrt(0.2))
@@ -496,16 +496,16 @@ with tf.Session() as session:
 				omega, pi, x = Resolver(newp)
 			break
 		omega, pi, x = Resolver(newp)
-		#Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x)
-		Output(omega, pi, x)
+		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x)
+		#Output(omega, pi, x)
 		lastObj = obj
 		if not changed and obj <= 22000000:
 			alpha = alpha / 2
 			changed = True		
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
-#omega = np.cos(omega) * np.cos(omega)
-#pi = np.cos(pi) * np.cos(pi)
+omega = np.cos(omega) * np.cos(omega)
+pi = np.cos(pi) * np.cos(pi)
 x = x
 
 #Output parameters
