@@ -620,8 +620,8 @@ with tf.Session() as session:
 				omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
 			break
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
-		Output(omega, pi, x, theta1, theta2, theta3, theta4)
-		#Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
+		#Output(omega, pi, x, theta1, theta2, theta3, theta4)
+		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
 		lastObj = obj
 		if not changed1 and obj <= 20000000:
 			alpha = alpha / 2
@@ -631,8 +631,8 @@ with tf.Session() as session:
 			changed2 = True
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
-#omega = np.cos(omega) * np.cos(omega)
-#pi = np.cos(pi) * np.cos(pi)
+omega = np.cos(omega) * np.cos(omega)
+pi = np.cos(pi) * np.cos(pi)
 x = x
 
 #Output parameters
