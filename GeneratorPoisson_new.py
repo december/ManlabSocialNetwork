@@ -167,7 +167,7 @@ for i in range(enum):
 	temp = xlist[i].split('\t')
 	x[i] = float(temp[2])
 fr.close()
-x -= 1.5
+x -= 1.95
 
 print 'Finished reading..'
 prefix = '../../cascading_generation_model/simulation/'
@@ -185,6 +185,8 @@ for j in range(sims):
 		if single and i != 0:
 			continue
 		l = lbddic[postlist[i]]
+		if i == 4838:
+			print postlist[i]
 		ts = GetIET(l)
 		newi = iddic[postlist[i]]
 		while ts < te:
