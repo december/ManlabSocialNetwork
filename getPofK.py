@@ -62,3 +62,4 @@ for key in points:
 		fw.write(':')
 		fw.write(str(points[key][item] * 1.0 / s))
 	fw.write('\n')
+fw.close()
