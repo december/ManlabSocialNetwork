@@ -205,8 +205,8 @@ def body(obj, i, noreply, omega, pi, x, philist, qm):
 
 def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
 	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(param)
-	omega = tf.cos(omega) * tf.cos(omega)
-	pi = tf.cos(pi) * tf.cos(pi)
+	#omega = tf.cos(omega) * tf.cos(omega)
+	#pi = tf.cos(pi) * tf.cos(pi)
 	#x = x * x
 	philist = list()
 	for i in range(5):
@@ -247,8 +247,8 @@ def body_e(i, omega, pi, x, philist):
 
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	#print [len(omega), len(pi), len(x)]
-	omega = tf.cos(omega) * tf.cos(omega)
-	pi = tf.cos(pi) * tf.cos(pi)
+	#omega = tf.cos(omega) * tf.cos(omega)
+	#pi = tf.cos(pi) * tf.cos(pi)
 	#x = x * x
 	#print [len(oc), len(pc), len(xc)]
 	philist = list()
@@ -402,7 +402,7 @@ while i < n:
 	i += number
 fr.close()
 pi = np.array(pi)
-pi = np.arccos(np.sqrt(pi))
+#pi = np.arccos(np.sqrt(pi))
 x = np.array([1.05])
 
 omega = np.zeros(allusers) #parameter omega
@@ -412,7 +412,7 @@ theta3 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
 omega += sum(lbd) * 100 / users
-omega = np.arccos(np.sqrt(omega))
+#omega = np.arccos(np.sqrt(omega))
 
 fr = open(prefix+'lda'+suffix, 'r')
 ldainfo = fr.readlines()
@@ -616,7 +616,8 @@ with tf.Session() as session:
 				omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
 			break
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
-		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
+		Output(omega, pi, x, theta1, theta2, theta3, theta4)
+		#Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
 		lastObj = obj
 		if not changed1 and obj <= 20000000:
 			alpha = alpha / 2
@@ -626,8 +627,8 @@ with tf.Session() as session:
 			changed2 = True
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
-omega = np.cos(omega) * np.cos(omega)
-pi = np.cos(pi) * np.cos(pi)
+#omega = np.cos(omega) * np.cos(omega)
+#pi = np.cos(pi) * np.cos(pi)
 x = x
 
 #Output parameters
