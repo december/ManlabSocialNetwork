@@ -586,6 +586,8 @@ with tf.Session() as session:
 	session.run(init)
 	qf = EStep(omega, pi, x, theta1, theta2, theta3, theta4)
 	print 'EStep part construction finished.'
+	obj = session.run(target, feed_dict={qm:out_qf})
+	print 'Initial value: ' + str(obj)
 	#total = begin_rusc.get_shape()[0]
 	#same = 0
 	#for i in range(total):

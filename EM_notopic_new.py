@@ -471,6 +471,8 @@ with tf.Session() as session:
 	#	if session.run(begin_rusc[i]) == session.run(end_rusc[i]):
 	#		same += 1
 	#print same
+	obj = session.run(target)
+	print 'Initial value: ' + str(obj)
 	while cnt < 100:
 	#param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
 	#start = datetime.datetime.now()
