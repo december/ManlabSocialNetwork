@@ -192,10 +192,10 @@ def cond(obj, i, noreply, omega, pi, x, philist, qm):
 def body(obj, i, noreply, omega, pi, x, philist, qm):
 	#if rusc_dic[i].get_shape()[0] == 0:
 	if begin_rusc[i] == end_rusc[i]:
-		if noreply == 0:
-			noreply += tf.reduce_sum(qm[i] * tf.log(qm[i]))
-			noreply -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
-		obj += noreply
+		if noreply[cascade_author[c]] == 0:
+			noreply[cascade_author[c]] += tf.reduce_sum(qm[i] * tf.log(qm[i]))
+			noreply[cascade_author[c]] -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
+		obj += noreply[cascade_author[c]]
 	else:
 		obj += tf.reduce_sum(qm[i] * tf.log(qm[i]))
 		obj -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
@@ -217,7 +217,8 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	#global total
 	#total += 1
 	it = tf.cast(0, tf.int32)
-	noreply = tf.cast(0.0, tf.float64)
+	#noreply = tf.cast(0.0, tf.float64)
+	noreply = np.zeros(users)
 	#it = tf.Variable(0)
 	#noreply = tf.Variable(0.0)
 	'''
