@@ -164,8 +164,8 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	print x
 	print pi
 	'''
-	obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
-	#obj = 0
+	#obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
+	obj = tf.cast(0.0, tf.float64)
 	newobj, _, _, _, _, _ = tf.while_loop(cond, body, [obj, it, noreply, omega, pi, x], parallel_iterations=80)
 		
 	#if total % 10000 == 0:
