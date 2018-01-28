@@ -144,7 +144,7 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	pi_rc = tf.gather(pi, rc_id[:, 0], axis=0)
 	#x_rc = tf.gather(x, rc_id[:, 0], axis=0)
 	phi_rc = tf.gather(philist, rc_id[:, 1], axis=0)
-	oldtmp = tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - tf.log(rc[:, 1]) * x)
+	oldtmp = tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - rc[:, 1] * tf.log(x))
 	#print oldtmp.get_shape()
 
 	s += oldtmp
@@ -155,7 +155,7 @@ def LnLc(omega, pi, x, philist, c): #ln fromulation of one cascades's likelihood
 	#x_nc = tf.gather(x, nc_id[:, 0], axis=0)
 	exponent = tf.maximum(-1 * omega_nc * nc[:, 0], -100)
 	estimate = tf.exp(exponent) - 1
-	tmp = pi_nc * nc[:, 1] ** (-1 * x) * estimate
+	tmp = pi_nc * x ** (-1 * nc[:, 1]) * estimate
 	phi_nc = tf.gather(philist, nc_id[:, 1], axis=0)
 	newtmp = tf.log(1 + tf.reshape(tmp, (-1, 1)) * phi_nc)
 	#print newtmp.get_shape()
@@ -297,7 +297,7 @@ def SingleObj(data, u):
 			if not casdic.has_key(tweet[0]):
 				casdic[tweet[0]] = {}
 			if tweet[3] == '-1':
-				depth[tweet[0]] = 1
+				depth[tweet[0]] = 0
 			else:
 				depth[tweet[0]] = depth[tweet[3]] + 1
 				casdic[tweet[3]][tweet[1]] = tweet[0]
@@ -401,9 +401,9 @@ while i < n:
 		friend[temp[0]].append(fd[1])
 	i += number
 fr.close()
-pi = np.array(pi)
+pi = np.array(pi) * 5
 pi = np.arccos(np.sqrt(pi))
-x = np.array([3])
+x = np.array([1.05])
 
 omega = np.zeros(allusers) #parameter omega
 theta1 = np.zeros(allusers) #one of spherical coordinates of phi distribution
