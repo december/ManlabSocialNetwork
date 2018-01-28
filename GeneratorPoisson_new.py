@@ -120,7 +120,7 @@ for i in range(vnum):
 	temp = omglist[i].split('\t')
 	uid.append(temp[0])
 	iddic[int(temp[0])] = i
-	omega[i] = float(temp[1])
+	omega[i] = float(temp[1]) / 10
 fr.close()
 #print iddic
 
@@ -185,8 +185,8 @@ for j in range(sims):
 		if single and i != 0:
 			continue
 		l = lbddic[postlist[i]]
-		if i == 4838:
-			print postlist[i]
+		#if i == 4838:
+		#	print postlist[i]
 		ts = GetIET(l)
 		newi = iddic[postlist[i]]
 		while ts < te:
