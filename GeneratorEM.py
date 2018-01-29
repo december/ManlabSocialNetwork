@@ -104,7 +104,7 @@ for j in range(sims):
 	totalnum = 0
 	for key in postdic:
 		print key
-		newi = iddic[key]
+		newi = iddic[int(key)]
 		for i in range(postdic[key]):
 			casnum += 1
 			tweetdic[number] = newi
