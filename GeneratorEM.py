@@ -89,7 +89,7 @@ def GetLog(r, p, u, c): #root_tweet, parent_tweet, parent_user, parent_time, tau
 			temp = list()
 			temp.append(current)
 			temp.append(uid[f])
-			temp.append(see)
+			temp.append(0)
 			temp.append(p)
 			temp.append(uid[u])
 			c.append(temp)
