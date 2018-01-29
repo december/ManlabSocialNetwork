@@ -48,7 +48,7 @@ def GetLog(r, p, u, c): #root_tweet, parent_tweet, parent_user, parent_time, tau
 	if not edgemap.has_key(u):
 		return c
 	m = GetOffspring(u)
-	offspring = random.sample(edgemap[u], num)
+	offspring = random.sample(edgemap[u], m)
 	for f in offspring:
 		current = number
 		tweetdic[current] = f
