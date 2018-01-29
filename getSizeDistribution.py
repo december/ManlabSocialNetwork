@@ -97,8 +97,8 @@ for i in range(n):
 
 realsum = sum(realnum)
 simsum = sum(simnum)
-print sim
-print real
+print simcum
+print realcum
 
 rs = np.array(realsize)
 rn = np.array(realcum) * 1.0 / realsum
