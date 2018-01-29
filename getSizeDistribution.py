@@ -116,7 +116,7 @@ if not single:
 plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png')
 plt.cla()
 
-fw = open(prefix+'BigSimCascades.detail', 'w')
+fw = open(prefix+'BigSimCascades', 'w')
 for line in bigsim:
 	fw.write(line)
 fw.close()
