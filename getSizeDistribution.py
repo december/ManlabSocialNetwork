@@ -36,6 +36,9 @@ i = 0
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1])
+	if number >= 50:
+		for j in range(i, i+number+1):
+			bigreal.append(realdata[j])
 	if real.has_key(number):
 		real[number] += 1
 	else:
@@ -61,7 +64,7 @@ for name in namelist:
 	while i < n:
 		temp = simdata[i].split('\t')
 		number = int(temp[1])
-		if number >= 89:
+		if number >= 50:
 			for j in range(i, i+number+1):
 				bigsim.append(simdata[j])
 		if sim.has_key(number):
@@ -120,3 +123,9 @@ fw = open(prefix+'BigSimCascades', 'w')
 for line in bigsim:
 	fw.write(line)
 fw.close()
+
+fw = open(prefix+'BigRealCascades', 'w')
+for line in bigreal:
+	fw.write(line)
+fw.close()
+

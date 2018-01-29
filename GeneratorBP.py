@@ -34,7 +34,7 @@ def GetOffspring(key):
 		p -= pkdic[key][times]
 		if p <= 0:
 			return times
-	print 'Empty!'
+	#print 'Empty!'
 	return pkdic[key].keys()[-1]
 
 def GetLog(r, p, u, c): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
