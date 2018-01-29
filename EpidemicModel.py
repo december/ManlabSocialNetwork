@@ -85,7 +85,7 @@ def LnLc(beta, c): #ln fromulation of one cascades's likelihood on tau(do not in
 	beta_nc = tf.gather(beta, nc_id[:, 0], axis=0)
 	#x_rc = tf.gather(x, rc_id[:, 0], axis=0)
 	#phi_rc = tf.gather(q, rc_id[:, 1], axis=0)
-	s = tf.reduce_sum(tf.concat(0, [tf.log(beta_rc), tf.log(1-beta_nc)]))
+	s = tf.reduce_sum(tf.concat([tf.log(beta_rc), tf.log(1-beta_nc)], 0))
 
 
 	return s
