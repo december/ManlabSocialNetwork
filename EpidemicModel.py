@@ -56,6 +56,7 @@ enum = 0
 cnum = 0
 rusc_num = 0
 nrusc_num = 0
+cas_num = 0
 pos = 0
 poslist = list()
 total = 0
@@ -93,7 +94,7 @@ def printInfo(obj, i, noreply):
 	print str(i) + ' ' + str(obj) + ' ' + str(noreply)
 
 def cond(obj, i, beta, gamma):
-	return i < q.get_shape()[0]
+	return i < cas_num
 
 def body(obj, i, beta, gamma):
 	#if rusc_dic[i].get_shape()[0] == 0:
@@ -298,7 +299,7 @@ print 'EM algorithm begins...'
 cnt = 0
 lastObj = np.exp(100)
 param = np.append(beta, gamma)
-n = len(q)
+cas_num = len(q)
 #lc = np.array(lc)
 #q = np.array(q)
 #lc = tf.convert_to_tensor(np.array(lc.values()), dtype=tf.float64)
