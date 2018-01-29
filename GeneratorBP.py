@@ -89,7 +89,7 @@ i = 0
 while i < n:
 	temp = relation[i].split('\t')
 	number = int(temp[1]) + 1
-	if not edgemap has_key(temp[0]):
+	if not edgemap.has_key(temp[0]):
 		edgemap[temp[0]] = list()
 	for j in range(i+1, i+number):
 		info = relation[j],split('\t')
