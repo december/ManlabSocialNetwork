@@ -26,6 +26,7 @@ uid = list() #from user index in this ego network to user id
 iddic = {} #from user id to user index in this ego network
 tweetdic = {} #from tweet id to the user index of its author
 number = 0 #total number of tweeters
+empty = 0
 pkdic = {}
 
 def GetOffspring(key):
@@ -35,6 +36,7 @@ def GetOffspring(key):
 		if p <= 0:
 			return times
 	#print 'Empty!'
+	empty += 1
 	return pkdic[key].keys()[-1]
 
 def GetLog(r, p, u, c): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
@@ -157,3 +159,4 @@ for j in range(sims):
 	fw.close()
 
 print 'Finished generation task...'
+print empty
