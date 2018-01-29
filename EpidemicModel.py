@@ -112,6 +112,8 @@ def body(obj, i, beta, gamma):
 def ObjF(param): #formulation of objective function (include barrier) (the smaller the better)
 	beta = param[:enum]
 	gamma = param[enum:]
+	beta = tf.cos(beta) * tf.cos(beta)
+	gamma = tf.cos(gamma) * tf.cos(gamma)
 	#omega = tf.cos(omega) * tf.cos(omega)
 	#pi = tf.cos(pi) * tf.cos(pi)
 	#x = x * x
@@ -127,8 +129,8 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	print x
 	print pi
 	'''
-	obj = factor * (tf.log(beta) + tf.log(1-beta) + tf.log(gamma) + tf.log(1-gamma)) #need to be fixxed
-	#obj = 0
+	#obj = factor * (tf.log(beta) + tf.log(1-beta) + tf.log(gamma) + tf.log(1-gamma)) #need to be fixxed
+	obj = tf.cast(0, dtype=tf.float64)
 	newobj, _, _, _, _ = tf.while_loop(cond, body, [obj, it, beta, gamma], parallel_iterations=80)
 		
 	#if total % 10000 == 0:
@@ -282,6 +284,8 @@ for i in range(users):
 	fr.close()
 
 gamma = np.zeros(vnum) + 0.3
+beta = np.arccos(np.sqrt(beta))
+gamma = np.arccos(np.sqrt(gamma))
 print 'There are ' + str(vnum) + ' point parameters and ' + str(enum) + ' edge parameters to be learned...'
 #Conduct EM algorithm
 #QMatrix(q)
@@ -352,6 +356,8 @@ if single:
 
 def Output(beta, gamma):
 	print 'Output data files...'
+	beta = np.cos(beta) * np.cos(beta)
+	gamma = np.cos(gamma) * np.cos(gamma)
 	fw = open(prefix+'gamma'+suffix, 'w')
 	for i in range(vnum):
 		fw.write(uid[vlist[i]])
