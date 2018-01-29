@@ -28,17 +28,13 @@ tweetdic = {} #from tweet id to the user index of its author
 number = 0 #total number of tweeters
 pkdic = {}
 
-def GetIET(l):
-	p = numpy.random.rand()
-	t = -1 * np.log(1-p) / l
-	return round(t)
-
 def GetOffspring(key):
 	p = numpy.random.rand()
 	for times in pkdic[key]:
 		p -= pkdic[key][times]
 		if p <= 0:
 			return times
+	print 'Empty!'
 	return pkdic[key].keys()[-1]
 
 def GetLog(r, p, u, c): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
