@@ -108,7 +108,7 @@ def body(obj, i, beta, gamma):
 		obj -= LnLc(beta, i)
 	i += 1
 	#tf.py_func(printInfo, [obj, i, noreply], tf.float64)
-	return obj, i, noreply, beta, gamma
+	return obj, i, beta, gamma
 
 def ObjF(param): #formulation of objective function (include barrier) (the smaller the better)
 	beta = param[:enum]
@@ -132,7 +132,7 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	'''
 	#obj = factor * (tf.log(beta) + tf.log(1-beta) + tf.log(gamma) + tf.log(1-gamma)) #need to be fixxed
 	obj = tf.cast(0, dtype=tf.float64)
-	newobj, _, _, _, _ = tf.while_loop(cond, body, [obj, it, beta, gamma], parallel_iterations=80)
+	newobj, _, _, _ = tf.while_loop(cond, body, [obj, it, beta, gamma], parallel_iterations=80)
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
