@@ -33,6 +33,7 @@ for name in namelist:
 
 n = len(realdata)
 i = 0
+bigreal = list()
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1])
