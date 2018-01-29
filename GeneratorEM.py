@@ -32,11 +32,6 @@ for i in range(users):
 	postdic[temp[0]] = int(temp[1])
 fr.close()
 
-if single:
-	prefix = prefix + 'single_user_parameter_notopic/'
-	suffix = '_' + str(filename) + suffix
-else:
-	suffix = '_notopic' + suffix
 if len(sys.argv) > 4:
 	prefix += sys.argv[4] + '/'
 
