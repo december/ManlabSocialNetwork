@@ -84,7 +84,7 @@ if single:
 fr = open(prefix+'relations'+suffix, 'r')
 relation = fr.readlines()
 fr.close()
-n = len(omglist)
+n = len(relation)
 i = 0
 while i < n:
 	temp = relation[i].split('\t')
