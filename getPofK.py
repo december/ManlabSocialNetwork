@@ -36,11 +36,12 @@ while i < n:
 	for j in range(i+1, i+number):
 		info = realdata[j][:-1].split('\t')
 		authordic[info[0]] = info[1]
+		casdic[info[0]] = 0
 		if not info[3] == '-1':
-			if not casdic.has_key(info[3]):
-				casdic[info[3]] = 1
-			else:
-				casdic[info[3]] += 1
+			#if not casdic.has_key(info[3]):
+			#	casdic[info[3]] = 1
+			#else:
+			casdic[info[3]] += 1
 	for key in casdic:
 		author = authordic[key]
 		if not points.has_key(author):
