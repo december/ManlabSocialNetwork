@@ -128,8 +128,6 @@ for j in range(sims):
 			behavior.append(temp)
 			behavior.extend(cascade)
 			totalnum += size
-			iet = GetIET(l)
-			ts += iet
 	print casnum
 	print totalnum
 	fw = open(prefix+str(j)+suffix, 'w')
