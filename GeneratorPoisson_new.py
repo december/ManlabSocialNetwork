@@ -151,8 +151,10 @@ enum = len(pilist)
 pi = np.zeros(enum) #parameter pi (based on edges), row is sender while col is receiver
 x = np.zeros(enum) #parameter x (based on edges), row is sender while col is receiver
 
+edgelist = list()
 for i in range(enum):
 	temp = pilist[i].split('\t')
+	edgelist.append(temp[0] + '\t' + temp[1] + '\t')
 	row = iddic[int(temp[0])]
 	col = iddic[int(temp[1])]
 	if not edgemap.has_key(row):
@@ -175,6 +177,13 @@ prefix = '../../cascading_generation_model/simulation/'
 suffix = '.detail'
 if single:
 	prefix += str(filename) + '/'
+
+fw = open(prefix+'NewPi', 'w')
+for i in range(enum):
+	fw.write(edgelist[i])
+	fw.write(str(pi[i]))
+	fw.write('\n')
+fw.close()
 
 for j in range(sims):
 	casnum = 0
