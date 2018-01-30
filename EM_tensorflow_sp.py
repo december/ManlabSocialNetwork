@@ -412,15 +412,12 @@ theta2 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta3 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
-omega += sum(lbd) * 100 / users
-omega = np.arccos(np.sqrt(omega))
-
 fr = open(prefix+'lda'+suffix, 'r')
 ldainfo = fr.readlines()
 print 'Use lda result as initial distribution...'
 for i in range(allusers):
 	temp = ldainfo[i].split('\t')
-	idx = iddic[temp[0]]
+	idx = vdic[iddic[temp[0]]]
 	theta1[idx] = np.arccos(np.sqrt(float(temp[1])))
 	theta2[idx] = np.arccos(np.sqrt(float(temp[2])))
 	theta3[idx] = np.arccos(np.sqrt(float(temp[3])))
@@ -443,6 +440,10 @@ theta2 += np.arccos(np.sqrt(tr[1]))
 theta3 += np.arccos(np.sqrt(tr[2]))
 theta4 += np.arccos(np.sqrt(tr[3]))
 '''
+
+omega += sum(lbd) * 100 / users
+omega = np.arccos(np.sqrt(omega))
+
 #Read personal cascade file
 print 'Read behavior log...'
 for i in range(users):
@@ -452,12 +453,6 @@ for i in range(users):
 	singlefile = fr.readlines()
 	SingleObj(singlefile, i)
 	fr.close()
-
-outindex = 0
-for i in range(users, allusers):
-	if vdic[i] < users:
-		outindex += 1
-print outindex
 
 poslist.append(vnum)
 poslist.append(vnum+enum)
@@ -469,7 +464,7 @@ print 'There are ' + str(vnum * 5) + ' point parameters and ' + str(enum + 1) + 
 #Conduct EM algorithm
 #QMatrix(q)
 for c in clist:
-	cascade_author.append(vdic[iddic[author[c]]])
+	cascade_author.append(iddic[author[c]])
 print 'EM algorithm begins...'
 #print min(omega)
 #print max(omega)
@@ -628,12 +623,12 @@ with tf.Session() as session:
 		#Output(omega, pi, x, theta1, theta2, theta3, theta4)
 		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
 		lastObj = obj
-		if not changed1 and obj <= 20000000:
-			alpha = alpha / 2
-			changed1 = True
-		if not changed2 and obj <= 15000000:
-			alpha = alpha / 2
-			changed2 = True
+		#if not changed1 and obj <= 20000000:
+		#	alpha = alpha / 2
+		#	changed1 = True
+		#if not changed2 and obj <= 15000000:
+		#	alpha = alpha / 2
+		#	changed2 = True
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
 omega = np.cos(omega) * np.cos(omega)

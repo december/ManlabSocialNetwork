@@ -352,7 +352,7 @@ print 'There are ' + str(vnum) + ' point parameters and ' + str(enum + 1) + ' ed
 #Conduct EM algorithm
 #QMatrix(q)
 for c in clist:
-	cascade_author.append(vdic[iddic[author[c]]])
+	cascade_author.append(iddic[author[c]])
 print 'EM algorithm begins...'
 #print min(omega)
 #print max(omega)

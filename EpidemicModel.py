@@ -67,6 +67,12 @@ epsilon = 10.0 #when will EM stop
 lbd = np.zeros(users) #parameter lambda which have calculated before
 count = 0
 
+def Select(beta):
+	p = list()
+	for i in range(vnum):
+		p.append(beta[vlist[i]])
+	return p
+
 def LnLc(beta, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	#uc = cascade_author[c]
 	#tempgamma = gamma[uc]
@@ -285,6 +291,7 @@ for i in range(users):
 	fr.close()
 
 gamma = np.zeros(vnum) + 0.3
+beta = Select(beta)
 beta = np.arccos(np.sqrt(beta))
 gamma = np.arccos(np.sqrt(gamma))
 print 'There are ' + str(vnum) + ' point parameters and ' + str(enum) + ' edge parameters to be learned...'
