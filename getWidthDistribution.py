@@ -87,11 +87,15 @@ realsize = sorted(real.keys())
 realnum = list()
 for size in realsize:
 	realnum.append(real[size])
+print realsize
+print realsum
 
 simsize = sorted(sim.keys())
 simnum = list()
 for size in simsize:
 	simnum.append(sim[size] * 1.0 / m)
+print simsize
+print simsum
 
 realsum = sum(realnum)
 simsum = sum(simnum)
