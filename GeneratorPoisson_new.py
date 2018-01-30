@@ -160,8 +160,9 @@ for i in range(enum):
 	if not edgemap.has_key(row):
 		edgemap[row] = {}
 	edgemap[row][col] = i
-	phisum = phi1[row] * phi1[col] + phi2[row] * phi2[col] + phi3[row] * phi3[col] + phi4[row] * phi4[col] + phi5[row] * phi5[col]
-	pi[i] = float(temp[2]) / phisum
+	#phisum = phi1[row] * phi1[col] + phi2[row] * phi2[col] + phi3[row] * phi3[col] + phi4[row] * phi4[col] + phi5[row] * phi5[col]
+	#pi[i] = float(temp[2]) / phisum
+	pi[i] = float(temp[2])
 fr.close()
 
 fr = open(prefix+'x_Poisson'+suffix, 'r')
