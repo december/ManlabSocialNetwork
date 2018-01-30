@@ -12,7 +12,7 @@ prefix = '../../cascading_generation_model/all/behavior/'
 namelist = os.listdir(path)
 pointdic = {}
 behaviordic = {}
-for name in namelist
+for name in namelist:
 	fr = open(path+name, 'r')
 	points = fr.readlines()
 	fr.close()
