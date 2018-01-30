@@ -39,7 +39,7 @@ while i < n:
 	for key in pointdic:
 		if pointdic[key].has_key(author):
 			behaviordic[key].append(data[i])
-			CollectLog(data[i+1:i+number], key, number)
+			CollectLog(data[i+1:i+number], key, number - 1)
 	cascade += 1
 	if cascade % 1000000 == 0:
 		print str(cascade) + '(' + str(i) + ')'
