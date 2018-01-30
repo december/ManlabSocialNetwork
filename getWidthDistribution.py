@@ -33,6 +33,7 @@ for name in namelist:
 
 n = len(realdata)
 i = 0
+wide = list()
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
@@ -44,6 +45,9 @@ while i < n:
 		else:
 			widdic[info[3]] = 1
 	wid = max(widdic.values())
+	if wid >= 20:
+		for j in range(i, i+number):
+			wide.append(realdata[j])
 	if real.has_key(wid):
 		real[wid] += 1
 	else:
@@ -115,3 +119,8 @@ if not single:
 	filename = 'all' 
 plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_width.png')
 plt.cla()
+
+fw = open(prefix+'WideRealCascades', 'w')
+for line in wide:
+	fw.write(line)
+fw.close()
