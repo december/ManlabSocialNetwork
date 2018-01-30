@@ -25,7 +25,7 @@ print 'Begin collecting...'
 def CollectLog(info, k, m):
 	for i in range(m):
 		temp = info[i][:-1].split('\t')
-		if pointdic[k].has_key(info[1]) and (info[4] == '-1' or pointdic[k].has_key(info[4])):
+		if pointdic[k].has_key(temp[1]) and (temp[4] == '-1' or pointdic[k].has_key(temp[4])):
 			behaviordic[k].append(info[i])
 
 n = len(data)
