@@ -107,6 +107,8 @@ realsize = sorted(real.keys())
 realnum = list()
 for size in realsize:
 	realnum.append(real[size])
+print realsize
+print simsize
 
 simsize = sorted(sim.keys())
 simnum = list()
@@ -115,6 +117,10 @@ for size in simsize:
 
 realsum = sum(realnum)
 simsum = sum(simnum)
+print realnum
+print simnum
+print realsum
+print simsum
 
 rs = np.array(realsize)
 rn = np.array(realnum) * 1.0 / realsum
