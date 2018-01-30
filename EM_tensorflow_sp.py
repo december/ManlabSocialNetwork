@@ -192,10 +192,10 @@ def cond(obj, i, noreply, omega, pi, x, philist, qm):
 def body(obj, i, noreply, omega, pi, x, philist, qm):
 	#if rusc_dic[i].get_shape()[0] == 0:
 	if begin_rusc[i] == end_rusc[i]:
-		if noreply[cascade_author[c]] == 0:
-			noreply[cascade_author[c]] += tf.reduce_sum(qm[i] * tf.log(qm[i]))
-			noreply[cascade_author[c]] -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
-		obj += noreply[cascade_author[c]]
+		if noreply[cascade_author[i]] == 0:
+			noreply[cascade_author[i]] += tf.reduce_sum(qm[i] * tf.log(qm[i]))
+			noreply[cascade_author[i]] -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
+		obj += noreply[cascade_author[i]]
 	else:
 		obj += tf.reduce_sum(qm[i] * tf.log(qm[i]))
 		obj -= tf.reduce_sum(qm[i] * LnLc(omega, pi, x, philist, i))
@@ -414,7 +414,7 @@ theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
 omega += sum(lbd) * 100 / users
 omega = np.arccos(np.sqrt(omega))
-'''
+
 fr = open(prefix+'lda'+suffix, 'r')
 ldainfo = fr.readlines()
 print 'Use lda result as initial distribution...'
@@ -426,13 +426,13 @@ for i in range(allusers):
 	theta3[idx] = np.arccos(np.sqrt(float(temp[3])))
 	theta4[idx] = np.arccos(np.sqrt(float(temp[4])))
 fr.close()
-
+'''
 print 'Use equal value as initial distribution...'
 theta1 += np.arccos(np.sqrt(0.2))
 theta2 += np.arccos(np.sqrt(0.25))
 theta3 += np.arccos(np.sqrt(1.0 / 3))
 theta4 += np.arccos(np.sqrt(0.5))
-'''
+
 tr = list()
 for i in range(4):
 	tr.append(np.random.rand())
@@ -442,7 +442,7 @@ theta1 += np.arccos(np.sqrt(tr[0]))
 theta2 += np.arccos(np.sqrt(tr[1]))
 theta3 += np.arccos(np.sqrt(tr[2]))
 theta4 += np.arccos(np.sqrt(tr[3]))
-
+'''
 #Read personal cascade file
 print 'Read behavior log...'
 for i in range(users):
@@ -452,6 +452,13 @@ for i in range(users):
 	singlefile = fr.readlines()
 	SingleObj(singlefile, i)
 	fr.close()
+
+outindex = 0
+for i in range(users, allusers):
+	if vdic[i] < users:
+		outindex += 1
+print outindex
+
 poslist.append(vnum)
 poslist.append(vnum+enum)
 poslist.append(vnum+enum+1)
