@@ -499,9 +499,9 @@ with tf.Session() as session:
 		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x)
 		#Output(omega, pi, x)
 		lastObj = obj
-		if not changed and obj <= 22000000:
-			alpha = alpha / 2
-			changed = True		
+		#if not changed and obj <= 22000000:
+		#	alpha = alpha / 2
+		#	changed = True		
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
 omega = np.cos(omega) * np.cos(omega)
