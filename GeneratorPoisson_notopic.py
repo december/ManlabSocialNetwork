@@ -60,7 +60,7 @@ def GetLog(r, p, u, t, c, d): #root_tweet, parent_tweet, parent_user, parent_tim
 		if see > te:
 			continue
 		#thres = d ** -x[edgemap[u][f]] * pi[edgemap[u][f]]
-		thres = x[edgemap[u][f]] ** -d * pi[edgemap[u][f]]
+		thres = x[edgemap[u][f]] ** -d * pi[edgemap[u][f]] * 1.3
 		if np.random.rand() <= thres:
 			current = number
 			tweetdic[current] = f
@@ -142,7 +142,7 @@ for i in range(enum):
 	temp = xlist[i].split('\t')
 	x[i] = float(temp[2])
 fr.close()
-#x += 1.5
+x -= 0.1
 
 print 'Finished reading..'
 prefix = '../../cascading_generation_model/simulation_notopic/'
