@@ -69,8 +69,8 @@ count = 0
 
 def Select(beta):
 	p = list()
-	for i in range(vnum):
-		p.append(beta[vlist[i]])
+	for i in range(enum):
+		p.append(beta[elist[i]])
 	return p
 
 def LnLc(beta, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
