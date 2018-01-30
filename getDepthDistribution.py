@@ -119,13 +119,13 @@ realsum = sum(realnum)
 simsum = sum(simnum)
 print realnum
 print simnum
-print realsum
-print simsum
 
 rs = np.array(realsize)
 rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
+print rn
+print sn
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
