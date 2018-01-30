@@ -75,8 +75,9 @@ while i < n:
 	if m > 1:
 		for j in range(m):
 			for k in range(j+1, m):
-				wi += WienerIndex(graphdic, keylist[j], keylist[k])
-				wilist.append(wi)
+				one = WienerIndex(graphdic, keylist[j], keylist[k])
+				wi += one
+				wilist.append(one)
 		wilist = np.array(wilist)
 		wilist -= wi / len(wilist)
 		wilist = wilist * wilist
@@ -93,7 +94,7 @@ if single:
 else:
 	namelist = os.listdir(prefix)
 	position = prefix
-m = 0
+num = 0
 for name in namelist:
 	if not name.endswith('.detail'):
 		continue
@@ -101,7 +102,7 @@ for name in namelist:
 	simdata = fr.readlines()
 	n = len(simdata)
 	i = 0
-	m += 1
+	num += 1
 	while i < n:
 		temp = simdata[i].split('\t')
 		number = int(temp[1]) + 1
@@ -119,14 +120,22 @@ for name in namelist:
 				depdic[info[0]] = depdic[info[3]] + 1
 			graphdic[info[0]].append(depdic[info[0]])
 		wi = 0
+		wilist = list()
 		m = len(keylist)
-		for j in range(m):
-			for k in range(j+1, m):
-				wi += WienerIndex(graphdic, keylist[j], keylist[k])
-		if sim.has_key(wi):
-			sim[wi] += 1
-		else:
-			sim[wi] = 1
+		if m > 1:
+			for j in range(m):
+				for k in range(j+1, m):
+					one = WienerIndex(graphdic, keylist[j], keylist[k])
+					wi += one
+					wilist.append(one)
+			wilist = np.array(wilist)
+			wilist -= wi / len(wilist)
+			wilist = wilist * wilist
+			polarity = sum(wilist) / (m - 1)
+			if sim.has_key(polarity):
+				sim[polarity] += 1
+			else:
+				sim[polarity] = 1
 		i += number
 	fr.close()
 
@@ -138,7 +147,7 @@ for size in realsize:
 simsize = sorted(sim.keys())
 simnum = list()
 for size in simsize:
-	simnum.append(sim[size] * 1.0 / m)
+	simnum.append(sim[size] * 1.0 / num)
 
 realsum = sum(realnum)
 simsum = sum(simnum)

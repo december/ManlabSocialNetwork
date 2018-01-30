@@ -86,7 +86,7 @@ if single:
 else:
 	namelist = os.listdir(prefix)
 	position = prefix
-m = 0
+num = 0
 for name in namelist:
 	if not name.endswith('.detail'):
 		continue
@@ -94,7 +94,7 @@ for name in namelist:
 	simdata = fr.readlines()
 	n = len(simdata)
 	i = 0
-	m += 1
+	num += 1
 	while i < n:
 		temp = simdata[i].split('\t')
 		number = int(temp[1]) + 1
@@ -131,7 +131,7 @@ for size in realsize:
 simsize = sorted(sim.keys())
 simnum = list()
 for size in simsize:
-	simnum.append(sim[size] * 1.0 / m)
+	simnum.append(sim[size] * 1.0 / num)
 
 realsum = sum(realnum)
 simsum = sum(simnum)
