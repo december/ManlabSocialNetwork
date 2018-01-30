@@ -70,13 +70,14 @@ while i < n:
 			depdic[info[0]] = depdic[info[3]] + 1
 		graphdic[info[0]].append(depdic[info[0]])
 	wi = 0
-	wilist = np.array([])
+	wilist = list()
 	m = len(keylist)
 	if m > 1:
 		for j in range(m):
 			for k in range(j+1, m):
 				wi += WienerIndex(graphdic, keylist[j], keylist[k])
 				wilist.append(wi)
+		wilist = np.array(wilist)
 		wilist -= wi / len(wilist)
 		wilist = wilist * wilist
 		polarity = sum(wilist) / (m - 1)
