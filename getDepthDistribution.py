@@ -108,12 +108,12 @@ realnum = list()
 for size in realsize:
 	realnum.append(real[size])
 print realsize
-print simsize
 
 simsize = sorted(sim.keys())
 simnum = list()
 for size in simsize:
 	simnum.append(sim[size] * 1.0 / m)
+print simsize
 
 realsum = sum(realnum)
 simsum = sum(simnum)
