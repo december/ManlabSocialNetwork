@@ -161,7 +161,7 @@ for i in range(enum):
 		edgemap[row] = {}
 	edgemap[row][col] = i
 	phisum = phi1[row] * phi1[col] + phi2[row] * phi2[col] + phi3[row] * phi3[col] + phi4[row] * phi4[col] + phi5[row] * phi5[col]
-	pi[i] = min(float(temp[2]) / phisum ** 1.3, 1)
+	pi[i] = min(float(temp[2]) / phisum ** 1.5, 1)
 	#pi[i] = float(temp[2])
 fr.close()
 
