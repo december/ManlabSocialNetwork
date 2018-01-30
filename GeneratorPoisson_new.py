@@ -68,7 +68,7 @@ def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, paren
 		if see > te:
 			continue
 		#thres = d ** -x[edgemap[u][f]] * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
-		thres = x[edgemap[u][f]] ** -(d - 1) * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * 1.3
+		thres = x[edgemap[u][f]] ** -(d - 1) * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
 		if np.random.rand() <= thres:
 			current = number
 			tweetdic[current] = f
@@ -158,7 +158,8 @@ for i in range(enum):
 	if not edgemap.has_key(row):
 		edgemap[row] = {}
 	edgemap[row][col] = i
-	pi[i] = float(temp[2])
+	phisum = phi1[row] * phi1[col] + phi2[row] * phi2[col] + phi3[row] * phi3[col] + phi4[row] * phi4[col] + phi5[row] * phi5[col]
+	pi[i] = min(float(temp[2]) / phisum, 1)
 fr.close()
 
 fr = open(prefix+'x_Poisson'+suffix, 'r')
@@ -167,7 +168,7 @@ for i in range(enum):
 	temp = xlist[i].split('\t')
 	x[i] = float(temp[2])
 fr.close()
-x -= 0.01098203
+#x -= 0.01098203
 
 print 'Finished reading..'
 prefix = '../../cascading_generation_model/simulation/'
