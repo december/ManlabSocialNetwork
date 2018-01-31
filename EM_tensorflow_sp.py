@@ -415,6 +415,7 @@ if filename == 3:
 		tr = list()
 		for j in range(4):
 			tr.append(np.random.rand())
+		tr.sort()
 		newtr = [tr[0], tr[1]-tr[0], tr[2]-tr[1], tr[3]-tr[2], 1-tr[3]]
 		theta1[i] = np.arccos(np.sqrt(newtr[0]))
 		theta2[i] = np.arccos(np.sqrt(newtr[1] / (1 - newtr[0])))
