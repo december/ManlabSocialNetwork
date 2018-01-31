@@ -13,6 +13,7 @@ path = '../../cascading_generation_model/all/behavior/'
 
 namelist = os.listdir(path)
 realdata = list()
+cnt = 0
 for name in namelist:
 	fr = open(path+name, 'r')
 	realdata = fr.readlines()
@@ -63,3 +64,6 @@ for name in namelist:
 			fw.write(str(relation[key][fd]))
 			fw.write('\n')
 	fw.close()
+	cnt += 1
+	print cnt
+print 'Finished.'
