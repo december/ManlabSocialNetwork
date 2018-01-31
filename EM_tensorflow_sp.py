@@ -14,8 +14,7 @@ signal.signal(signal.SIGINT, debug_signal_handler)
 
 single = True
 filename = int(sys.argv[1])
-if filename < 0:
-	single = False
+single = False
 alpha = float(sys.argv[2]) #learning rate for optimizer
 
 users = 7268
@@ -378,34 +377,49 @@ theta2 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta3 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
-fr = open(prefix+'lda'+suffix, 'r')
-ldainfo = fr.readlines()
-print 'Use lda result as initial distribution...'
-for i in range(allusers):
-	temp = ldainfo[i].split('\t')
-	idx = iddic[temp[0]]
-	theta1[idx] = np.arccos(np.sqrt(float(temp[1])))
-	theta2[idx] = np.arccos(np.sqrt(float(temp[2])))
-	theta3[idx] = np.arccos(np.sqrt(float(temp[3])))
-	theta4[idx] = np.arccos(np.sqrt(float(temp[4])))
-fr.close()
-'''
-print 'Use equal value as initial distribution...'
-theta1 += np.arccos(np.sqrt(0.2))
-theta2 += np.arccos(np.sqrt(0.25))
-theta3 += np.arccos(np.sqrt(1.0 / 3))
-theta4 += np.arccos(np.sqrt(0.5))
+if filename == 0:
+	fr = open(prefix+'lda'+suffix, 'r')
+	ldainfo = fr.readlines()
+	print 'Use lda result as initial distribution...'
+	for i in range(allusers):
+		temp = ldainfo[i].split('\t')
+		idx = iddic[temp[0]]
+		theta1[idx] = np.arccos(np.sqrt(float(temp[1])))
+		theta2[idx] = np.arccos(np.sqrt(float(temp[2]) / (1 - float(temp[1]))))
+		theta3[idx] = np.arccos(np.sqrt(float(temp[3]) / (1 - float(temp[1]) - float(temp[2]))))
+		theta4[idx] = np.arccos(np.sqrt(float(temp[4]) / (float(temp[4]) + float(temp[5]))))
+	fr.close()
 
-tr = list()
-for i in range(4):
-	tr.append(np.random.rand())
-print 'Use random value as initial distribution...'
-print tr
-theta1 += np.arccos(np.sqrt(tr[0]))
-theta2 += np.arccos(np.sqrt(tr[1]))
-theta3 += np.arccos(np.sqrt(tr[2]))
-theta4 += np.arccos(np.sqrt(tr[3]))
-'''
+if filename == 1:
+	print 'Use equal value as initial distribution...'
+	theta1 += np.arccos(np.sqrt(0.2))
+	theta2 += np.arccos(np.sqrt(0.25))
+	theta3 += np.arccos(np.sqrt(1.0 / 3))
+	theta4 += np.arccos(np.sqrt(0.5))
+
+if filename == 2:
+	tr = list()
+	for i in range(4):
+		tr.append(np.random.rand())
+	newtr = [tr[0], tr[1]-tr[0], tr[2]-tr[1], tr[3]-tr[2], 1-tr[3]]
+	print 'Use one set of random value as initial distribution...'
+	print tr
+	theta1 += np.arccos(np.sqrt(newtr[0]))
+	theta2 += np.arccos(np.sqrt(newtr[1] / (1 - newtr[0])))
+	theta3 += np.arccos(np.sqrt(newtr[2] / (1 - newtr[0] - newtr[1])))
+	theta4 += np.arccos(np.sqrt(newtr[3] / (newtr[3] + newtr[4])))
+
+if filename == 3:
+	for i in range(allusers):
+		tr = list()
+		for j in range(4):
+			tr.append(np.random.rand())
+		newtr = [tr[0], tr[1]-tr[0], tr[2]-tr[1], tr[3]-tr[2], 1-tr[3]]
+		print 'Use all random value as initial distribution...'
+		theta1[i] = np.arccos(np.sqrt(newtr[0]))
+		theta2[i] = np.arccos(np.sqrt(newtr[1] / (1 - newtr[0])))
+		theta3[i] = np.arccos(np.sqrt(newtr[2] / (1 - newtr[0] - newtr[1])))
+		theta4[i] = np.arccos(np.sqrt(newtr[3] / (newtr[3] + newtr[4])))
 
 phi_initial = list()
 for i in range(5):
