@@ -416,7 +416,7 @@ def MultiplyPhi(id1, id2):
 	maxphi = 0
 	for i in range(5):
 		s += phi_initial[i][id1] * phi_initial[i][id2]
-		maxphi = max(maxphi, phi_initial[id2])
+		maxphi = max(maxphi, phi_initial[i][id2])
 	return s, maxphi
 
 pi = list() #parameter pi (based on edges), row is sender while col is receiver
