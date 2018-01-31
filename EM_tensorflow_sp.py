@@ -383,7 +383,7 @@ ldainfo = fr.readlines()
 print 'Use lda result as initial distribution...'
 for i in range(allusers):
 	temp = ldainfo[i].split('\t')
-	idx = vdic[iddic[temp[0]]]
+	idx = iddic[temp[0]]
 	theta1[idx] = np.arccos(np.sqrt(float(temp[1])))
 	theta2[idx] = np.arccos(np.sqrt(float(temp[2])))
 	theta3[idx] = np.arccos(np.sqrt(float(temp[3])))
