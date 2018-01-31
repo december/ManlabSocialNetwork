@@ -9,7 +9,7 @@ single = False
 
 prefix = '../../cascading_generation_model/simulation/'
 suffix = '.detail'
-path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post/'
+path = '../../cascading_generation_model/all/behavior/'
 
 namelist = os.listdir(path)
 relation = {}

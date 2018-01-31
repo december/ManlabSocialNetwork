@@ -445,7 +445,7 @@ while i < n:
 		pos += 1
 		denominator, maxphi = MultiplyPhi(iddic[temp[0]], iddic[fd[1]])
 		temppi = int(fd[2]) * 1.0 / posts[iddic[temp[0]]] / denominator
-		temppi = min(temppi, 1 / maxphi) #Method 1
+		temppi = min(temppi, (1- 1e-5) / maxphi) #Method 1
 		pi.append(temppi)
 		#if iddic[temp[0]] < users or int(fd[2]) == 0:
 		#	pi.append(10 ** -5)
