@@ -206,7 +206,8 @@ def body(obj, i, noreply, omega, pi, x, philist, qm):
 def ObjF(param, qm): #formulation of objective function (include barrier) (the smaller the better)
 	omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(param)
 	omega = tf.cos(omega) * tf.cos(omega)
-	pi = tf.cos(pi) * tf.cos(pi)
+	#pi = tf.cos(pi) * tf.cos(pi)
+	pi = pi * pi
 	#x = x * x
 	philist = list()
 	for i in range(5):
@@ -249,7 +250,8 @@ def body_e(i, omega, pi, x, philist):
 def EStep(omega, pi, x, theta1, theta2, theta3, theta4): #renew q and lc
 	#print [len(omega), len(pi), len(x)]
 	omega = tf.cos(omega) * tf.cos(omega)
-	pi = tf.cos(pi) * tf.cos(pi)
+	#pi = tf.cos(pi) * tf.cos(pi)
+	pi = pi * pi
 	#x = x * x
 	#print [len(oc), len(pc), len(xc)]
 	philist = list()
@@ -370,42 +372,6 @@ fr.close()
 #Give initial value and construct relation
 print 'Construct relation network and give initial value...'
 
-pi = list() #parameter pi (based on edges), row is sender while col is receiver
-x = list() #parameter x (based on edges), row is sender while col is receiver
-fr = open(prefix+'relations'+suffix, 'r')
-relation = fr.readlines()
-n = len(relation)
-i = 0
-while i < n:
-	temp = relation[i].split('\t')
-	number = int(temp[1]) + 1
-	friend[temp[0]] = list()
-	if not iddic.has_key(temp[0]):
-		iddic[temp[0]] = allusers
-		uid.append(temp[0])
-		allusers += 1
-	for j in range(i+1, i+number):
-		fd = relation[j].split('\t')
-		if not iddic.has_key(fd[1]):
-			iddic[fd[1]] = allusers
-			uid.append(fd[1])
-			allusers += 1
-		if not edgemap.has_key(iddic[temp[0]]):
-			edgemap[iddic[temp[0]]] = {}
-		edgemap[iddic[temp[0]]][iddic[fd[1]]] = pos
-		pos += 1
-		if iddic[temp[0]] >= users or int(fd[2]) == 0:
-			pi.append(10 ** -5)
-		else:
-			pi.append(min(1-10**-5, int(fd[2]) * 1.0 / posts[iddic[temp[0]]]))
-		#x.append(1.0)
-		friend[temp[0]].append(fd[1])
-	i += number
-fr.close()
-pi = np.array(pi)
-pi = np.arccos(np.sqrt(pi))
-x = np.array([1.05])
-
 omega = np.zeros(allusers) #parameter omega
 theta1 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta2 = np.zeros(allusers) #one of spherical coordinates of phi distribution
@@ -440,6 +406,59 @@ theta2 += np.arccos(np.sqrt(tr[1]))
 theta3 += np.arccos(np.sqrt(tr[2]))
 theta4 += np.arccos(np.sqrt(tr[3]))
 '''
+
+phi_initial = list()
+for i in range(5):
+	phi_initial.append(Phi_np(theta1, theta2, theta3, theta4, i))
+
+def MultiplyPhi(id1, id2):
+	s = 0
+	maxphi = 0
+	for i in range(5):
+		s += phi_initial[i][id1] * phi_initial[id2]
+		maxphi = max(maxphi, phi_initial[id2])
+	return s, maxphi
+
+pi = list() #parameter pi (based on edges), row is sender while col is receiver
+x = list() #parameter x (based on edges), row is sender while col is receiver
+fr = open(prefix+'relations'+suffix, 'r')
+relation = fr.readlines()
+n = len(relation)
+i = 0
+while i < n:
+	temp = relation[i].split('\t')
+	number = int(temp[1]) + 1
+	friend[temp[0]] = list()
+	if not iddic.has_key(temp[0]):
+		iddic[temp[0]] = allusers
+		uid.append(temp[0])
+		allusers += 1
+	for j in range(i+1, i+number):
+		fd = relation[j].split('\t')
+		if not iddic.has_key(fd[1]):
+			iddic[fd[1]] = allusers
+			uid.append(fd[1])
+			allusers += 1
+		if not edgemap.has_key(iddic[temp[0]]):
+			edgemap[iddic[temp[0]]] = {}
+		edgemap[iddic[temp[0]]][iddic[fd[1]]] = pos
+		pos += 1
+		denominator, maxphi = MultiplyPhi(iddic[temp[0]], iddic[fd[1]])
+		temppi = int(fd[2]) * 1.0 / posts[iddic[temp[0]]] / denominator
+		temppi = min(temppi, 1 / maxphi) #Method 1
+		pi.append(temppi)
+		#if iddic[temp[0]] < users or int(fd[2]) == 0:
+		#	pi.append(10 ** -5)
+		#else:
+		#	pi.append(min(1-10**-5, int(fd[2]) * 1.0 / posts[iddic[temp[0]]]))
+		#x.append(1.0)
+		friend[temp[0]].append(fd[1])
+	i += number
+fr.close()
+pi = np.array(pi)
+#pi = np.arccos(np.sqrt(pi))
+pi = np.sqrt(pi)
+x = np.array([1.05])
 
 omega += sum(lbd) * 100 / users
 omega = np.arccos(np.sqrt(omega))
@@ -621,7 +640,8 @@ with tf.Session() as session:
 			break
 		omega, pi, x, theta1, theta2, theta3, theta4 = Resolver(newp)
 		#Output(omega, pi, x, theta1, theta2, theta3, theta4)
-		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
+		#Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
+		Output(np.cos(omega) * np.cos(omega), pi * pi, x, theta1, theta2, theta3, theta4)
 		lastObj = obj
 		#if not changed1 and obj <= 20000000:
 		#	alpha = alpha / 2
@@ -632,7 +652,8 @@ with tf.Session() as session:
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
 omega = np.cos(omega) * np.cos(omega)
-pi = np.cos(pi) * np.cos(pi)
+#pi = np.cos(pi) * np.cos(pi)
+pi = pi * pi
 x = x
 
 #Output parameters
