@@ -410,12 +410,12 @@ if filename == 2:
 	theta4 += np.arccos(np.sqrt(newtr[3] / (newtr[3] + newtr[4])))
 
 if filename == 3:
+	print 'Use all random value as initial distribution...'
 	for i in range(allusers):
 		tr = list()
 		for j in range(4):
 			tr.append(np.random.rand())
 		newtr = [tr[0], tr[1]-tr[0], tr[2]-tr[1], tr[3]-tr[2], 1-tr[3]]
-		print 'Use all random value as initial distribution...'
 		theta1[i] = np.arccos(np.sqrt(newtr[0]))
 		theta2[i] = np.arccos(np.sqrt(newtr[1] / (1 - newtr[0])))
 		theta3[i] = np.arccos(np.sqrt(newtr[2] / (1 - newtr[0] - newtr[1])))
