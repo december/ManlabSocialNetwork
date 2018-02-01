@@ -130,6 +130,6 @@ for line in widereal:
 fw.close()
 
 fw = open(prefix+'WideSimCascades', 'w')
-for line in widereal:
+for line in widesim:
 	fw.write(line)
 fw.close()

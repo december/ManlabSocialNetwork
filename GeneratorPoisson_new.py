@@ -219,6 +219,7 @@ for j in range(sims):
 			temp = list()
 			temp.append(root)
 			temp.append(size)
+			temp.append(tau)
 			behavior.append(temp)
 			behavior.extend(cascade)
 			iet = GetIET(l)
