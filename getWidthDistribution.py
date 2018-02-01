@@ -33,7 +33,7 @@ for name in namelist:
 
 n = len(realdata)
 i = 0
-wide = list()
+widereal = list()
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
@@ -47,7 +47,7 @@ while i < n:
 	wid = max(widdic.values())
 	if wid >= 20:
 		for j in range(i, i+number):
-			wide.append(realdata[j])
+			widereal.append(realdata[j])
 	if real.has_key(wid):
 		real[wid] += 1
 	else:
@@ -61,6 +61,7 @@ else:
 	namelist = os.listdir(prefix)
 	position = prefix
 m = 0
+widesim = list()
 for name in namelist:
 	if not name.endswith('.detail'):
 		continue
@@ -80,6 +81,9 @@ for name in namelist:
 			else:
 				widdic[info[3]] = 1
 		wid = max(widdic.values())
+		if wid >= 20:
+		for j in range(i, i+number):
+			widesim.append(realdata[j])
 		if sim.has_key(wid):
 			sim[wid] += 1
 		else:
@@ -121,6 +125,11 @@ plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_width.png')
 plt.cla()
 
 fw = open(prefix+'WideRealCascades', 'w')
-for line in wide:
+for line in widereal:
 	fw.write(line)
+fw.close()
+
+fw = open(prefix+'WideSimCascades', 'w')
+for line in widereal:
+	fw.write(sim)
 fw.close()
