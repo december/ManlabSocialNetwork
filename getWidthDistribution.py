@@ -131,5 +131,5 @@ fw.close()
 
 fw = open(prefix+'WideSimCascades', 'w')
 for line in widereal:
-	fw.write(sim)
+	fw.write(line)
 fw.close()
