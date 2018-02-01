@@ -82,8 +82,8 @@ for name in namelist:
 				widdic[info[3]] = 1
 		wid = max(widdic.values())
 		if wid >= 20:
-		for j in range(i, i+number):
-			widesim.append(realdata[j])
+			for j in range(i, i+number):
+				widesim.append(simdata[j])
 		if sim.has_key(wid):
 			sim[wid] += 1
 		else:
