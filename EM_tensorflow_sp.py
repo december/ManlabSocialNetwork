@@ -401,6 +401,7 @@ if filename == 2:
 	tr = list()
 	for i in range(4):
 		tr.append(np.random.rand())
+	tr.sort()
 	newtr = [tr[0], tr[1]-tr[0], tr[2]-tr[1], tr[3]-tr[2], 1-tr[3]]
 	print 'Use one set of random value as initial distribution...'
 	print tr
