@@ -494,7 +494,9 @@ with tf.Session() as session:
 		if abs(lastObj) - obj < epsilon:
 			if abs(lastObj) - obj > 0:
 				omega, pi, x = Resolver(newp)
-			break
+				break
+			else:
+				alpha = alpha / 2
 		omega, pi, x = Resolver(newp)
 		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x)
 		#Output(omega, pi, x)
