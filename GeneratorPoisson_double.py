@@ -80,7 +80,7 @@ def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, paren
 		realpi = pi[edgemap[u][f]]
 		if d > 1:
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)
-		thres = realpi * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * 1.1
+		thres = realpi * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * 1
 		prob = np.random.rand()
 		#prob = normal_rand[nrpos]
 		nrpos += 1
