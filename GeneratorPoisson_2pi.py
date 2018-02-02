@@ -133,7 +133,7 @@ for i in range(vnum):
 	temp = omglist[i].split('\t')
 	uid.append(temp[0])
 	iddic[int(temp[0])] = i
-	omega[i] = float(temp[1])
+	omega[i] = float(temp[1]) * 0.1
 fr.close()
 #print iddic
 
