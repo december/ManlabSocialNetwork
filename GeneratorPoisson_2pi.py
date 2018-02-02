@@ -28,6 +28,7 @@ tweetdic = {} #from tweet id to the user index of its author
 number = 0 #total number of tweeters
 k = 1.025
 normal_rand = scipy.stats.truncnorm.rvs(0, 1, loc=0, scale=1, size=100000000)
+nrpos = 0
 
 def GetIET(l):
 	#p = numpy.random.rand()
@@ -63,7 +64,7 @@ def GetTau(p1, p2, p3, p4, p5, v):
 	return 4	
 
 def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
-	global number
+	global number, nrpos
 	#if d >= 100:
 	#	return c
 	if not edgemap.has_key(u):
