@@ -120,6 +120,23 @@ if not single:
 plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png')
 plt.cla()
 
+
+rs = np.array(realsize)
+rn = np.array(realcum) * 1.0 / realsum
+ss = np.array(simsize)
+sn = np.array(simnum) * 1.0 / simsum
+plt.xscale('log')
+plt.yscale('log')
+plt.plot(rs, rn, 'ro', label='Real')
+plt.plot(ss, sn, 'bo', label='Sim')
+plt.xlabel(u'Size')
+plt.ylabel(u'Distribution')
+plt.legend(loc='upper right');  
+if not single:
+	filename = 'all'
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.png')
+plt.cla()
+
 fw = open(prefix+'BigSimCascades', 'w')
 for line in bigsim:
 	fw.write(line)
