@@ -26,15 +26,15 @@ uid = list() #from user index in this ego network to user id
 iddic = {} #from user id to user index in this ego network
 tweetdic = {} #from tweet id to the user index of its author
 number = 0 #total number of tweeters
-k = 1.06
+k = 1.04
 normal_rand = scipy.stats.truncnorm.rvs(0, 1, loc=0, scale=1, size=100000000)
 nrpos = 0
 
 def GetIET(l):
-	#global nrpos
-	p = numpy.random.rand()
-	#p = normal_rand[nrpos]
-	#nrpos += 1
+	global nrpos
+	#p = numpy.random.rand()
+	p = normal_rand[nrpos]
+	nrpos += 1
 	t = -1 * np.log(1-p) / l
 	return round(t)
 
