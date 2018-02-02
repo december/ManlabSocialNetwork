@@ -169,7 +169,7 @@ for i in range(enum):
 	pi[i] = float(temp[2])
 fr.close()
 
-fr = open(prefix+'pi_root_Poisson'+suffix, 'r')
+fr = open(prefix+'x_Poisson'+suffix, 'r')
 xlist = fr.readlines()
 for i in range(enum):
 	temp = xlist[i].split('\t')
