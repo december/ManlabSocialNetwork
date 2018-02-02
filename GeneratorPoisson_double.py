@@ -1,5 +1,6 @@
 import sys     
 import scipy as sp
+import scipy.stats
 import numpy as np
 import numpy.random
 
@@ -25,6 +26,8 @@ uid = list() #from user index in this ego network to user id
 iddic = {} #from user id to user index in this ego network
 tweetdic = {} #from tweet id to the user index of its author
 number = 0 #total number of tweeters
+normal_rand = scipy.stats.truncnorm.rvs(0, 1, loc=0, scale=1, size=100000000)
+nrpos = 0
 
 def GetIET(l):
 	p = numpy.random.rand()
@@ -68,8 +71,11 @@ def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, paren
 		if see > te:
 			continue
 		#thres = d ** -x[edgemap[u][f]] * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * 0.5
-		thres = x[edgemap[u][f]] ** -(d - 1) * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * GetPhi(phi1_post, phi2_post, phi3_post, phi4_post, phi5_post, tau, u)
-		if np.random.rand() <= thres:
+		thres = x[edgemap[u][f]] ** -(d - 1) * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
+		#p = np.random.rand()
+		p = normal_rand[nrpos]
+		nrpos += 1
+		if p <= thres:
 			current = number
 			tweetdic[current] = f
 			number += 1
