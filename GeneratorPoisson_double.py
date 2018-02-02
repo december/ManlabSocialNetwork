@@ -68,7 +68,7 @@ def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, paren
 		if see > te:
 			continue
 		#thres = d ** -x[edgemap[u][f]] * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * 0.5
-		thres = x[edgemap[u][f]] ** -(d - 1) * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
+		thres = x[edgemap[u][f]] ** -(d - 1) * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * GetPhi(phi1_post, phi2_post, phi3_post, phi4_post, phi5_post, tau, u)
 		if np.random.rand() <= thres:
 			current = number
 			tweetdic[current] = f
