@@ -31,10 +31,10 @@ normal_rand = scipy.stats.truncnorm.rvs(0, 1, loc=0, scale=1, size=100000000)
 nrpos = 0
 
 def GetIET(l):
-	#global nrpos
-	p = numpy.random.rand()
-	#p = normal_rand[nrpos]
-	#nrpos += 1
+	global nrpos
+	#p = numpy.random.rand()
+	p = normal_rand[nrpos]
+	nrpos += 1
 	t = -1 * np.log(1-p) / l
 	return round(t)
 
