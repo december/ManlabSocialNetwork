@@ -61,7 +61,7 @@ def GetTau(p1, p2, p3, p4, p5, v):
 	return 4	
 
 def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
-	global number
+	global number, nrpos
 	#if d >= 100:
 	#	return c
 	if not edgemap.has_key(u):
