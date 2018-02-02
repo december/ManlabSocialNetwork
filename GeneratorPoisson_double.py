@@ -31,10 +31,10 @@ normal_rand = scipy.stats.truncnorm.rvs(0, 1, loc=0, scale=1, size=100000000)
 nrpos = 0
 
 def GetIET(l):
-	global nrpos
-	#p = numpy.random.rand()
-	p = normal_rand[nrpos]
-	nrpos += 1
+	#global nrpos
+	p = numpy.random.rand()
+	#p = normal_rand[nrpos]
+	#nrpos += 1
 	t = -1 * np.log(1-p) / l
 	return round(t)
 
@@ -81,7 +81,8 @@ def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, paren
 		if d > 1:
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)
 		thres = realpi * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
-		prob = normal_rand[nrpos]
+		prob = np.random.rand()
+		#prob = normal_rand[nrpos]
 		nrpos += 1
 		if prob <= thres:
 			current = number
