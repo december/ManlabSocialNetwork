@@ -599,7 +599,7 @@ print 'EM algorithm begins...'
 #print pi
 cnt = 0
 lastObj = np.exp(100)
-param = Joint(omega, pi, x, theta1, theta2, theta3, theta4)
+param = Joint(omega, pi0, pi1, x, theta1, theta2, theta3, theta4, theta1_post, theta2_post, theta3_post, theta4_post)
 n = len(q)
 #lc = np.array(lc)
 #q = np.array(q)
