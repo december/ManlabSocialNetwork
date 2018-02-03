@@ -294,6 +294,7 @@ beta = np.array(beta)
 beta0 = beta.copy()
 beta1 = beta.copy()
 #pi = np.arccos(np.sqrt(pi))fr = open(prefix+'pi_initial'+suffix, 'r')
+fr = open(prefix+'pi_initial'+suffix, 'r')
 ldainfo = fr.readlines()
 for i in range(allusers):
 	temp = ldainfo[i].split('\t')
