@@ -119,6 +119,8 @@ while i < n:
 		if not rdic.has_key(key):
 			realdic[key].append(0)
 	cnt += 1
+	if cnt % 10000 == 0:
+		print cnt
 	zerolist.append(0)
 	i += number
 print cnt
