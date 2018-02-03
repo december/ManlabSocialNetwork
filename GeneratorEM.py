@@ -53,11 +53,12 @@ fr.close()
 #for key in lbddic:
 #	lbd[iddic[key]] = lbddic[key]
 
-fr = open(prefix+'beta'+suffix, 'r')
+fr = open(prefix+'beta0'+suffix, 'r')
 pilist = fr.readlines()
 enum = len(pilist)
 
-beta = np.zeros(enum) #parameter pi (based on edges), row is sender while col is receiver
+beta0 = np.zeros(enum) #parameter pi (based on edges), row is sender while col is receiver
+beta1 = np.zeros(enum) #parameter pi (based on edges), row is sender while col is receiver
 
 for i in range(enum):
 	temp = pilist[i].split('\t')
@@ -66,7 +67,14 @@ for i in range(enum):
 	if not edgemap.has_key(row):
 		edgemap[row] = {}
 	edgemap[row][col] = i
-	beta[i] = float(temp[2])
+	beta0[i] = float(temp[2])
+fr.close()
+
+fr = open(prefix+'beta1'+suffix, 'r')
+xlist = fr.readlines()
+for i in range(enum):
+	temp = xlist[i].split('\t')
+	beta1[i] = float(temp[2])
 fr.close()
 
 print 'Finished reading..'
@@ -82,7 +90,10 @@ def GetLog(r, p, u, c): #root_tweet, parent_tweet, parent_user, parent_time, tau
 	if np.random.rand() <= gamma[u]:
 		return c
 	for f in edgemap[u]:
-		if np.random.rand() <= beta[edgemap[u][f]]:
+		bt = beta1[edgemap[u][f]]
+		if not r:
+			bt = beta0[edgemap[u][f]]
+		if np.random.rand() <= bt:
 			current = number
 			tweetdic[current] = f
 			number += 1
@@ -93,7 +104,7 @@ def GetLog(r, p, u, c): #root_tweet, parent_tweet, parent_user, parent_time, tau
 			temp.append(p)
 			temp.append(uid[u])
 			c.append(temp)
-			c = GetLog(r, current, f, c)
+			c = GetLog(False, current, f, c)
 	return c
 
 for j in range(sims):
@@ -119,7 +130,7 @@ for j in range(sims):
 			temp.append(-1)
 			cascade.append(temp)
 			#tau = GetTau(phi1, phi2, phi3, phi4, phi5, i)
-			cascade = GetLog(root, root, newi, cascade)
+			cascade = GetLog(True, root, newi, cascade)
 			cascade = sorted(cascade, key=lambda c:c[2])
 			size = len(cascade)
 			temp = list()

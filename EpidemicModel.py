@@ -87,6 +87,8 @@ def LnLc(beta0, beta1, c): #ln fromulation of one cascades's likelihood on tau(d
 	bn = begin_nrusc[c]
 	er = end_rusc[c]
 	en = end_nrusc[c]
+	rc = tf.gather(rusc, rusc_dic[br:er], axis=0)
+	nc = tf.gather(nrusc, nrusc_dic[bn:en], axis=0)
 	rc_id = tf.gather(rusc_id, rusc_dic[br:er], axis=0)
 	nc_id = tf.gather(nrusc_id, nrusc_dic[bn:en], axis=0)
 
