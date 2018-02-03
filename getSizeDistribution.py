@@ -5,9 +5,11 @@ import numpy as np
 import sys
 import os
 
+single = True
 filename = int(sys.argv[1])
 if filename < 0:
 	single = False
+
 
 prefix = '../../cascading_generation_model/simulation/'
 if int(sys.argv[2]) == 0:
@@ -21,15 +23,9 @@ real = {}
 sim = {}
 realdata = list()
 for name in namelist:
-	if single and name.startswith(str(filename) + '_'):
-		fr = open(path+name, 'r')
-		realdata = fr.readlines()
-		fr.close()
-		break
-	if not single:
-		fr = open(path+name, 'r')
-		realdata.extend(fr.readlines())
-		fr.close()
+	fr = open(path+name, 'r')
+	realdata.extend(fr.readlines())
+	fr.close()
 
 n = len(realdata)
 i = 0
@@ -37,13 +33,15 @@ bigreal = list()
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1])
-	if number >= 50:
-		for j in range(i, i+number+1):
-			bigreal.append(realdata[j])
-	if real.has_key(number):
-		real[number] += 1
-	else:
-		real[number] = 1
+	a = int(realdata[i+1].split('\t')[1])
+	if a == filename or not single:
+		if number >= 50:
+			for j in range(i, i+number+1):
+				bigreal.append(realdata[j])
+		if real.has_key(number):
+			real[number] += 1
+		else:
+			real[number] = 1
 	i += number + 1
 if single:
 	namelist = os.listdir(prefix+str(filename)+'/')
@@ -65,13 +63,15 @@ for name in namelist:
 	while i < n:
 		temp = simdata[i].split('\t')
 		number = int(temp[1])
-		if number >= 50:
-			for j in range(i, i+number+1):
-				bigsim.append(simdata[j])
-		if sim.has_key(number):
-			sim[number] += 1
-		else:
-			sim[number] = 1
+		a = int(simdata[i+1].split('\t')[1])
+		if a == filename or not single:
+			if number >= 50:
+				for j in range(i, i+number+1):
+					bigsim.append(simdata[j])
+			if sim.has_key(number):
+				sim[number] += 1
+			else:
+				sim[number] = 1
 		i += number + 1
 	fr.close()
 
