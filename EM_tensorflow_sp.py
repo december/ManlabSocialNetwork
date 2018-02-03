@@ -525,7 +525,7 @@ x = np.array([1.05])
 pi0 = pi.copy()
 pi1 = pi.copy()
 
-print sum(lbd) * 100 / users
+print sum(lbd) * 1000 / users
 omega += sum(lbd) * 1000 / users
 #omega += 1
 omega = np.arccos(np.sqrt(omega))
@@ -774,7 +774,8 @@ with tf.Session() as session:
 		print 'Iteration ' + str(cnt) + ' finished...'
 omega = np.cos(omega) * np.cos(omega)
 #pi = np.cos(pi) * np.cos(pi)
-pi = pi * pi
+pi0 = pi0 * pi0
+pi1 = pi1 * pi1
 x = x
 
 #Output parameters

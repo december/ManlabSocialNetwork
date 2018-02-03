@@ -66,27 +66,31 @@ epsilon = 10.0 #when will EM stop
 lbd = np.zeros(users) #parameter lambda which have calculated before
 count = 0
 
-def Joint(omega, pi, x):
-	param = np.append(omega, pi)
+def Joint(omega, pi0, pi1, x):
+	param = np.append(omega, pi0)
+	param = np.append(param, pi1)
 	param = np.append(param, x)
 	return param
 
 def Resolver(param):
 	omega = param[:poslist[0]]
-	pi = param[poslist[0]:poslist[1]]
-	x = param[poslist[1]:poslist[2]]
-	return omega, pi, x
+	pi0 = param[poslist[0]:poslist[1]]
+	pi1 = param[poslist[1]:poslist[2]]
+	x = param[poslist[2]:poslist[3]]
+	return omega, pi0, pi1, x
 
-def Select(omega, pi, x):
+def Select(omega, pi0, p10, x):
 	p = list()
 	for i in range(vnum):
 		p.append(omega[vlist[i]])
 	for i in range(enum):
-		p.append(pi[elist[i]])
+		p.append(pi0[elist[i]])
+	for i in range(enum):
+		p.append(pi1[elist[i]])		
 	p.append(x[0])
 	return Resolver(np.array(p))
 
-def LnLc(omega, pi, x, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
+def LnLc(omega, pi0, pi1, x, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	uc = cascade_author[c]
 	s = tf.log(lbd[vlist_tf[uc]])
 	#tmpphi = philist[uc]
@@ -103,7 +107,10 @@ def LnLc(omega, pi, x, c): #ln fromulation of one cascades's likelihood on tau(d
 	nc_id = tf.gather(nrusc_id, nrusc_dic[bn:en], axis=0)
 
 	omega_rc = tf.gather(omega, rc_id[:, 1], axis=0)
-	pi_rc = tf.gather(pi, rc_id[:, 0], axis=0)
+	pi0_rc = tf.gather(pi0, rc_id[:, 0], axis=0)
+	pi1_rc = tf.gather(pi1, rc_id[:, 0], axis=0)
+	sign_rc = tf.cast(tf.less(rc[:, 1], 1.5), dtype=tf.float64)
+	pi_rc = pi1_rc * sign_rc + pi0_rc * (1 - sign_rc)
 	#x_rc = tf.gather(x, rc_id[:, 0], axis=0)
 	#phi_rc = tf.gather(q, rc_id[:, 1], axis=0)
 	oldtmp = tf.reduce_sum(tf.log(omega_rc) - omega_rc * rc[:, 0] + tf.log(pi_rc) - rc[:, 1] * tf.log(x))
@@ -113,7 +120,10 @@ def LnLc(omega, pi, x, c): #ln fromulation of one cascades's likelihood on tau(d
 	#s += tf.reduce_sum(tf.log(phi_rc), 0)	
 
 	omega_nc = tf.gather(omega, nc_id[:, 1], axis=0)
-	pi_nc = tf.gather(pi, nc_id[:, 0], axis=0)
+	pi0_nc = tf.gather(pi0, nc_id[:, 0], axis=0)
+	pi1_nc = tf.gather(pi1, nc_id[:, 0], axis=0)
+	sign_nc = tf.cast(tf.less(nc[:, 1], 1.5), dtype=tf.float64)
+	pi_nc = pi1_nc * sign_nc + pi0_nc * (1 - sign_nc)
 	#phi_nc = tf.gather(q, nc_id[:, 1], axis=0)
 	#x_nc = tf.gather(x, nc_id[:, 0], axis=0)
 	exponent = tf.maximum(-1 * omega_nc * nc[:, 0], -100)
@@ -129,28 +139,30 @@ def LnLc(omega, pi, x, c): #ln fromulation of one cascades's likelihood on tau(d
 def printInfo(obj, i, noreply):
 	print str(i) + ' ' + str(obj) + ' ' + str(noreply)
 
-def cond(obj, i, noreply, omega, pi, x):
+def cond(obj, i, noreply, omega, pi0, pi1, x):
 	return i < q.get_shape()[0]
 
-def body(obj, i, noreply, omega, pi, x):
+def body(obj, i, noreply, omega, pi0, pi1, x):
 	#if rusc_dic[i].get_shape()[0] == 0:
 
 	if begin_rusc[i] == end_rusc[i]:
 		if noreply[cascade_author[i]] == 0:
 			#noreply += tf.reduce_sum(fakeq * tf.log(fakeq))
-			noreply[cascade_author[i]] -= LnLc(omega, pi, x, i)
+			noreply[cascade_author[i]] -= LnLc(omega, pi0, pi1, x, i)
 		obj += noreply[cascade_author[i]]
 	else:
 		#obj += tf.reduce_sum(fakeq * tf.log(fakeq))
-		obj -= LnLc(omega, pi, x, i)
+		obj -= LnLc(omega, pi0, pi1, x, i)
 	i += 1
 	#tf.py_func(printInfo, [obj, i, noreply], tf.float64)
-	return obj, i, noreply, omega, pi, x
+	return obj, i, noreply, omega, pi0, pi1, x
 
 def ObjF(param): #formulation of objective function (include barrier) (the smaller the better)
-	omega, pi, x = Resolver(param)
+	omega, pi0, pi1, x = Resolver(param)
 	omega = tf.cos(omega) * tf.cos(omega)
-	pi = tf.cos(pi) * tf.cos(pi)
+	#pi = tf.cos(pi) * tf.cos(pi)
+	pi0 = pi0 * pi0
+	pi1 = pi1 * pi1
 	#x = x * x
 	#global total
 	#total += 1
@@ -166,7 +178,7 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	'''
 	#obj = (tf.reduce_sum(tf.log(omega)) + tf.reduce_sum(tf.log(x)) + tf.reduce_sum(tf.log(1-pi)) + tf.reduce_sum(tf.log(pi))) * gamma #need to be fixxed
 	obj = tf.cast(0.0, tf.float64)
-	newobj, _, _, _, _, _ = tf.while_loop(cond, body, [obj, it, noreply, omega, pi, x], parallel_iterations=80)
+	newobj, _, _, _, _, _, _ = tf.while_loop(cond, body, [obj, it, noreply, omega, pi0, pi1, x], parallel_iterations=80)
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
@@ -306,7 +318,9 @@ while i < n:
 	i += number
 fr.close()
 pi = np.array(pi)
-pi = np.arccos(np.sqrt(pi))
+#pi = np.arccos(np.sqrt(pi))
+pi0 = pi.copy()
+pi1 = pi.copy()
 x = np.array([1.05])
 
 omega = np.zeros(allusers) #parameter omega
@@ -315,8 +329,26 @@ theta2 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta3 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
-omega += sum(lbd) * 100 / users
+omega += sum(lbd) * 1000 / users
 omega = np.arccos(np.sqrt(omega))
+
+fr = open(prefix+'pi_initial'+suffix, 'r')
+	ldainfo = fr.readlines()
+	for i in range(allusers):
+		temp = ldainfo[i].split('\t')
+		if not edgemap.has_key(temp[0]):
+			continue
+		if not edgemap[temp[0]].has_key(temp[1]):
+			continue
+		idx = edgemap[iddic[temp[0]]][iddic[temp[1]]]
+		if temp[2] == '0':
+			pi0[idx] = max(float(temp[3]), 1e-5)
+		else:
+			pi1[idx] = max(float(temp[3]), 1e-5)
+	fr.close()
+	pi0 = np.sqrt(pi0)
+	pi1 = np.sqrt(pi1)
+
 
 '''
 theta1 += np.arccos(np.sqrt(0.2))
@@ -344,10 +376,11 @@ for i in range(users):
 	fr.close()
 poslist.append(vnum)
 poslist.append(vnum+enum)
-poslist.append(vnum+enum+1)
+poslist.append(vnum+2*enum)
+poslist.append(vnum+2*enum+1)
 for i in range(4):
-	poslist.append(vnum*(i+2)+enum+1)
-omega, pi, x = Select(omega, pi, x)
+	poslist.append(vnum*(i+2)+2*enum+1)
+omega, pi0, pi1, x = Select(omega, pi0, pi1, x)
 print 'There are ' + str(vnum) + ' point parameters and ' + str(enum + 1) + ' edge parameters to be learned...'
 #Conduct EM algorithm
 #QMatrix(q)
@@ -359,7 +392,7 @@ print 'EM algorithm begins...'
 #print pi
 cnt = 0
 lastObj = np.exp(100)
-param = Joint(omega, pi, x)
+param = Joint(omega, pi0, pi1, x)
 n = len(q)
 #lc = np.array(lc)
 #q = np.array(q)
@@ -422,7 +455,7 @@ if single:
 	prefix = prefix + 'single_user_parameter/'
 	suffix = '_' + str(filename) + suffix
 
-def Output(omega, pi, x):
+def Output(omega, pi0, pi1, x):
 	print 'Output data files...'
 	fw = open(prefix+'omega_Poisson_notopic'+suffix, 'w')
 	for i in range(vnum):
@@ -441,12 +474,11 @@ def Output(omega, pi, x):
 			fw.write('\t')
 			fw.write(uid[fd])
 			fw.write('\t')
-			fw.write(str(pi[edic[edgemap[item][fd]]]))
+			fw.write(str(pi0[edic[edgemap[item][fd]]]))
 			fw.write('\n')
 	fw.close()
 
 	print x
-	x = np.zeros(len(pi)) + x
 	fw = open(prefix+'x_Poisson_notopic'+suffix, 'w')
 	for item in edgemap:
 		for fd in edgemap[item]:
@@ -456,7 +488,7 @@ def Output(omega, pi, x):
 			fw.write('\t')
 			fw.write(uid[fd])
 			fw.write('\t')
-			fw.write(str(x[edic[edgemap[item][fd]]]))
+			fw.write(str(pi1[edic[edgemap[item][fd]]]))
 			fw.write('\n')
 	fw.close()
 
@@ -493,12 +525,12 @@ with tf.Session() as session:
 		#print omega[:10]
 		if abs(lastObj) - obj < epsilon:
 			if abs(lastObj) - obj > 0:
-				omega, pi, x = Resolver(newp)
+				omega, pi0, pi1, x = Resolver(newp)
 				break
 			else:
 				alpha = alpha / 2
-		omega, pi, x = Resolver(newp)
-		Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x)
+		omega, pi0, pi1, x = Resolver(newp)
+		Output(np.cos(omega) * np.cos(omega), pi0 * pi0, pi1 * pi1, x)
 		#Output(omega, pi, x)
 		lastObj = obj
 		#if not changed and obj <= 22000000:
@@ -507,11 +539,12 @@ with tf.Session() as session:
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
 omega = np.cos(omega) * np.cos(omega)
-pi = np.cos(pi) * np.cos(pi)
+pi0 = pi0 * pi0
+pi1 = pi1 * pi1
 x = x
 
 #Output parameters
-Output(omega, pi, x)
+Output(omega, pi0, pi1, x)
 
 endtime = datetime.datetime.now()
 print 'Time consumed: ' + str(endtime - starttime) + ' (' + str(alpha) + ')'
