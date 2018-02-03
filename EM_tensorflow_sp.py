@@ -521,13 +521,13 @@ fr.close()
 pi = np.array(pi)
 #pi = np.arccos(np.sqrt(pi))
 pi = np.sqrt(pi)
-x = np.array([1.072])
+x = np.array([1.05])
 pi0 = pi.copy()
 pi1 = pi.copy()
 
 print sum(lbd) * 100 / users
-#omega += sum(lbd) * 50000 / users
-omega += 1
+omega += sum(lbd) * 1000 / users
+#omega += 1
 omega = np.arccos(np.sqrt(omega))
 
 if filename < 0:
