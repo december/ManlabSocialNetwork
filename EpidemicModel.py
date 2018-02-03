@@ -340,7 +340,8 @@ print 'EM algorithm begins...'
 #print pi
 cnt = 0
 lastObj = np.exp(100)
-param = np.append(beta, gamma)
+param = np.append(beta0, beta1)
+param = np.append(param, gamma)
 cas_num = len(q)
 #lc = np.array(lc)
 #q = np.array(q)
