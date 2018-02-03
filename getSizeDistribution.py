@@ -10,6 +10,28 @@ filename = int(sys.argv[1])
 if filename < 0:
 	single = False
 
+def GetBin(a, x, y):
+	newx = list()
+	newy = list()
+	length = len(x)
+	binnum = 1
+	pos = 0
+	s = 0
+	tempy = 0
+	tempx = 0
+	while pos < length:
+		s += a ** binnum
+		tempx = s - a ** binnum / 2
+		while x[pos] < s:
+			tempy += y[pos]
+			pos += 1
+			if pos >= length:
+				break
+		newx.append(tempx)
+		newy.append(tempy)
+		binnum += 1
+		tempy = 0
+	return newx, newy
 
 prefix = '../../cascading_generation_model/simulation/'
 if int(sys.argv[2]) == 0:
