@@ -67,13 +67,16 @@ epsilon = 10.0 #when will EM stop
 lbd = np.zeros(users) #parameter lambda which have calculated before
 count = 0
 
-def Select(beta):
-	p = list()
+def Select(beta0, beta1):
+	b0 = list()
 	for i in range(enum):
-		p.append(beta[elist[i]])
-	return p
+		b0.append(beta0[elist[i]])
+	b1 = list()
+	for i in range(enum):
+		b1.append(beta1[elist[i]])
+	return b0, b1
 
-def LnLc(beta, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
+def LnLc(beta0, beta1, c): #ln fromulation of one cascades's likelihood on tau(do not include part of Q)
 	#uc = cascade_author[c]
 	#tempgamma = gamma[uc]
 	#tmpphi = philist[uc]
@@ -87,8 +90,16 @@ def LnLc(beta, c): #ln fromulation of one cascades's likelihood on tau(do not in
 	rc_id = tf.gather(rusc_id, rusc_dic[br:er], axis=0)
 	nc_id = tf.gather(nrusc_id, nrusc_dic[bn:en], axis=0)
 
-	beta_rc = tf.gather(beta, rc_id[:, 0], axis=0)
-	beta_nc = tf.gather(beta, nc_id[:, 0], axis=0)
+	beta0_rc = tf.gather(beta0, rc_id[:, 0], axis=0)
+	beta1_rc = tf.gather(beta1, rc_id[:, 0], axis=0)
+	sign_rc = tf.cast(tf.less(rc[:, 1], 1.5), dtype=tf.float64)
+	beta_rc = beta1_rc * sign_rc + beta0_rc * (1 - sign_rc)
+	#beta_rc = tf.gather(beta, rc_id[:, 0], axis=0)
+
+	beta0_nc = tf.gather(beta0, nc_id[:, 0], axis=0)
+	beta1_nc = tf.gather(beta1, nc_id[:, 0], axis=0)
+	sign_nc = tf.cast(tf.less(nc[:, 1], 1.5), dtype=tf.float64)
+	beta_nc = beta1_nc * sign_nc + beta0_nc * (1 - sign_nc)
 	#x_rc = tf.gather(x, rc_id[:, 0], axis=0)
 	#phi_rc = tf.gather(q, rc_id[:, 1], axis=0)
 	s = tf.reduce_sum(tf.concat([tf.log(beta_rc), tf.log(1-beta_nc)], 0))
@@ -99,27 +110,30 @@ def LnLc(beta, c): #ln fromulation of one cascades's likelihood on tau(do not in
 def printInfo(obj, i, noreply):
 	print str(i) + ' ' + str(obj) + ' ' + str(noreply)
 
-def cond(obj, i, beta, gamma):
+def cond(obj, i, beta0, beta1, gamma):
 	return i < cas_num
 
-def body(obj, i, beta, gamma):
+def body(obj, i, beta0, beta1, gamma):
 	#if rusc_dic[i].get_shape()[0] == 0:
 	uc = cascade_author[i]
 	tempgamma = gamma[uc]
 	if begin_rusc[i] == end_rusc[i]:
-		llh = tf.exp(LnLc(beta, i)) + tempgamma
+		llh = tf.exp(LnLc(beta0, beta1, i)) + tempgamma
 		obj -= tf.log(tmp)
 	else:
 		#obj += tf.reduce_sum(fakeq * tf.log(fakeq))
-		obj -= LnLc(beta, i)
+		obj -= LnLc(beta0, beta1, i)
 	i += 1
 	#tf.py_func(printInfo, [obj, i, noreply], tf.float64)
-	return obj, i, beta, gamma
+	return obj, i, beta0, beta1, gamma
 
 def ObjF(param): #formulation of objective function (include barrier) (the smaller the better)
-	beta = param[:enum]
-	gamma = param[enum:]
-	beta = tf.cos(beta) * tf.cos(beta)
+	beta0 = param[:enum]
+	#gamma = param[enum:]
+	beta1 = param[enum:enum*2]
+	gamma = param[enum*2:]
+	beta0 = tf.cos(beta0) * tf.cos(beta0)
+	beta1 = tf.cos(beta1) * tf.cos(beta1)
 	gamma = tf.cos(gamma) * tf.cos(gamma)
 	#omega = tf.cos(omega) * tf.cos(omega)
 	#pi = tf.cos(pi) * tf.cos(pi)
@@ -138,7 +152,7 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	'''
 	#obj = factor * (tf.log(beta) + tf.log(1-beta) + tf.log(gamma) + tf.log(1-gamma)) #need to be fixxed
 	obj = tf.cast(0, dtype=tf.float64)
-	newobj, _, _, _ = tf.while_loop(cond, body, [obj, it, beta, gamma], parallel_iterations=80)
+	newobj, _, _, _, _ = tf.while_loop(cond, body, [obj, it, beta0, beta1, gamma], parallel_iterations=80)
 		
 	#if total % 10000 == 0:
 	#	print 'No.' + str(total) + ' times: ' + str(obj)
@@ -277,7 +291,22 @@ while i < n:
 	i += number
 fr.close()
 beta = np.array(beta)
-#pi = np.arccos(np.sqrt(pi))
+beta0 = beta.copy()
+beta1 = beta.copy()
+#pi = np.arccos(np.sqrt(pi))fr = open(prefix+'pi_initial'+suffix, 'r')
+ldainfo = fr.readlines()
+for i in range(allusers):
+	temp = ldainfo[i].split('\t')
+	if not edgemap.has_key(temp[0]):
+		continue
+	if not edgemap[temp[0]].has_key(temp[1]):
+		continue
+	idx = edgemap[iddic[temp[0]]][iddic[temp[1]]]
+	if temp[2] == '0':
+		beta0[idx] = max(float(temp[3]), 1e-5)
+	else:
+		beta1[idx] = max(float(temp[3]), 1e-5)
+fr.close()
 
 #omega = np.arccos(np.sqrt(omega))
 #Read personal cascade file
@@ -291,8 +320,11 @@ for i in range(users):
 	fr.close()
 
 gamma = np.zeros(vnum) + 0.3
-beta = Select(beta)
-beta = np.arccos(np.sqrt(beta))
+
+
+beta0, beta1 = Select(beta0, beta1)
+beta0 = np.arccos(np.sqrt(beta0))
+beta1 = np.arccos(np.sqrt(beta1))
 gamma = np.arccos(np.sqrt(gamma))
 print 'There are ' + str(vnum) + ' point parameters and ' + str(enum) + ' edge parameters to be learned...'
 #Conduct EM algorithm
@@ -362,9 +394,10 @@ if single:
 	prefix = prefix + 'single_user_parameter/'
 	suffix = '_' + str(filename) + suffix
 
-def Output(beta, gamma):
+def Output(beta0, beta1, gamma):
 	print 'Output data files...'
-	beta = np.cos(beta) * np.cos(beta)
+	beta0 = np.cos(beta0) * np.cos(beta0)
+	beta1 = np.cos(beta1) * np.cos(beta1)
 	gamma = np.cos(gamma) * np.cos(gamma)
 	fw = open(prefix+'gamma'+suffix, 'w')
 	for i in range(vnum):
@@ -374,7 +407,7 @@ def Output(beta, gamma):
 		fw.write('\n')
 	fw.close()
 
-	fw = open(prefix+'beta'+suffix, 'w')
+	fw = open(prefix+'beta0'+suffix, 'w')
 	for item in edgemap:
 		for fd in edgemap[item]:
 			if not edgemap[item][fd] in edic:
@@ -383,9 +416,22 @@ def Output(beta, gamma):
 			fw.write('\t')
 			fw.write(uid[fd])
 			fw.write('\t')
-			fw.write(str(beta[edic[edgemap[item][fd]]]))
+			fw.write(str(beta0[edic[edgemap[item][fd]]]))
 			fw.write('\n')
 	fw.close()
+
+	fw = open(prefix+'beta1'+suffix, 'w')
+	for item in edgemap:
+		for fd in edgemap[item]:
+			if not edgemap[item][fd] in edic:
+				continue
+			fw.write(uid[item])
+			fw.write('\t')
+			fw.write(uid[fd])
+			fw.write('\t')
+			fw.write(str(beta1[edic[edgemap[item][fd]]]))
+			fw.write('\n')
+	fw.close()	
 
 with tf.Session() as session:
 	session.run(init)
@@ -421,10 +467,11 @@ with tf.Session() as session:
 				beta = newp[:enum]
 				gamma = newp[enum:]
 			break
-		beta = newp[:enum]
-		gamma = newp[enum:]
+		beta0 = newp[:enum]
+		beta1 = newp[enum:enum*2]
+		gamma = newp[enum*2:]
 		#Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x)
-		Output(beta, gamma)
+		Output(beta0, beta1, gamma)
 		lastObj = obj	
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
@@ -432,7 +479,7 @@ with tf.Session() as session:
 #pi = np.cos(pi) * np.cos(pi)
 
 #Output parameters
-Output(beta, gamma)
+Output(beta0, beta1, gamma)
 
 endtime = datetime.datetime.now()
 print 'Time consumed: ' + str(endtime - starttime) + ' (' + str(alpha) + ')'
