@@ -92,7 +92,7 @@ for name in namelist:
 		for j in range(i+1, i+number):
 			info = simdata[j].split('\t')
 			if info[3] == '-1':
-				depdic[info[0]] = 0
+				depdic[info[0]] = 1
 			else:
 				depdic[info[0]] = depdic[info[3]] + 1
 		dep = max(depdic.values())
