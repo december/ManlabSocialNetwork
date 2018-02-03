@@ -115,7 +115,7 @@ while i < n:
 			#print data[1]
 			continue
 		if not realdic.has_key(data[1]):
-			realdic[data[1]] = zerolist[:]
+			realdic[data[1]] = zerolist.copy()
 			#for k in range(cnt):
 			#	realdic[data[1]].append(0)
 		realdic[data[1]][cnt] += 1
@@ -124,10 +124,10 @@ while i < n:
 	#	if not rdic.has_key(key):
 	#		realdic[key].append(0)
 	cnt += 1
-	if cnt % 10000 == 0:
-		print cnt
+	#if cnt % 10000 == 0:
+	#	print cnt
 	i += number
-print cnt
+print 'Construct vectors finished.'
 #print cnt
 
 fw = open('../../cascading_generation_model/722911_twolevel_neighbor_cascades/vectors.detail', 'w')
@@ -138,6 +138,7 @@ for key in realdic:
 		fw.write(str(item))
 	fw.write('\n')
 fw.close()
+print 'Write vectors finished.'
 
 fr = open(relation_prefix+'pi_Poisson'+suffix, 'r')
 pilist = fr.readlines()
@@ -181,6 +182,7 @@ while i < n:
 					rr_rd += chooseTwo(authordic[key])
 					rr_real_sum += 1
 	i += number
+print 'Calculate real data finished.'
 
 namelist = os.listdir(prefix+'/')
 cnt = 0
@@ -222,9 +224,11 @@ for name in namelist:
 					rr_random += chooseTwo(authordic[key])
 					rr_sim_sum += 1
 		i += number
-	cnt += 1
-	print cnt
+		cnt += 1
+		if cnt % 10000 == 0:
+		print cnt
 	fr.close()
+print 'Calculate simulation data finished.'
 
 all_real = (rr_real + pr_real) / (rr_real_sum + pr_real_sum)
 all_rd = (rr_rd + pr_rd) / (rr_real_sum + pr_real_sum)

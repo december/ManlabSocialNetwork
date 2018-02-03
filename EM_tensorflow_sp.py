@@ -377,6 +377,11 @@ theta2 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta3 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 
+theta1_post = np.zeros(allusers) #one of spherical coordinates of phi distribution
+theta2_post = np.zeros(allusers) #one of spherical coordinates of phi distribution
+theta3_post = np.zeros(allusers) #one of spherical coordinates of phi distribution
+theta4_post = np.zeros(allusers) #one of spherical coordinates of phi distribution
+
 if filename == 0:
 	fr = open(prefix+'lda'+suffix, 'r')
 	ldainfo = fr.readlines()
@@ -461,7 +466,7 @@ while i < n:
 		pos += 1
 		denominator, maxphi = MultiplyPhi(iddic[temp[0]], iddic[fd[1]])
 		temppi = int(fd[2]) * 1.0 / posts[iddic[temp[0]]] / denominator
-		temppi = min(temppi, (1- 1e-5) / maxphi) #Method 1
+		temppi = min(temppi, (1 - 1e-5) / maxphi) #Method 1
 		pi.append(temppi)
 		#if iddic[temp[0]] < users or int(fd[2]) == 0:
 		#	pi.append(10 ** -5)
@@ -474,9 +479,10 @@ fr.close()
 pi = np.array(pi)
 #pi = np.arccos(np.sqrt(pi))
 pi = np.sqrt(pi)
-x = np.array([1.05])
+x = np.array([1.072])
 
-omega += sum(lbd) * 100 / users
+print sum(lbd) * 100 / users
+omega += sum(lbd) * 50000 / users
 omega = np.arccos(np.sqrt(omega))
 
 #Read personal cascade file
