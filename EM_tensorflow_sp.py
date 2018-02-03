@@ -556,7 +556,8 @@ if filename < 0:
 
 	fr = open(prefix+'pi_initial'+suffix, 'r')
 	ldainfo = fr.readlines()
-	for i in range(allusers):
+	m = len(ldainfo)
+	for i in range(m):
 		temp = ldainfo[i].split('\t')
 		if not edgemap.has_key(iddic[temp[0]]):
 			continue
