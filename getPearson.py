@@ -68,11 +68,12 @@ def randomSelect(person):
 
 def chooseTwo(person):
 	friend = relation[person]
-	f1 = random.choice(friend)
-	friend.remove(f1)
-	f2 = random.choice(friend)
-	friend.append(f1)
-	return calcPearson(f1, f2)
+	#f1 = random.choice(friend)
+	#friend.remove(f1)
+	#f2 = random.choice(friend)
+	#friend.append(f1)
+	f = random.sample(friend, 2)
+	return calcPearson(f[0], f[1])
 
 filename = int(sys.argv[1])
 single = False
@@ -120,7 +121,7 @@ while i < n:
 	cnt += 1
 	zerolist.append(0)
 	i += number
-
+print cnt
 #print cnt
 
 fr = open(relation_prefix+'pi_Poisson_'+str(filename)+suffix, 'r')
