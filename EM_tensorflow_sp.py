@@ -297,7 +297,7 @@ def EStep(omega, pi0, pi1, x, theta1, theta2, theta3, theta4, theta1_post, theta
 
 	philist_post = list()
 	for i in range(5):
-		philist.append(Phi(theta1_post, theta2_post, theta3_post, theta4_post, i))
+		philist_post.append(Phi(theta1_post, theta2_post, theta3_post, theta4_post, i))
 	philist_post = tf.stack(philist_post)
 	philist_post = tf.reshape(philist_post, (5, -1))
 	philist_post = tf.transpose(philist_post)
