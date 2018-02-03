@@ -57,7 +57,7 @@ while i < n:
 			prdic[info[0]] = info[3]
 			tempdep = depdic[info[3]] + 1
 			depdic[info[0]] = tempdep
-			if not reflectdic.has_key(info[3]) and tempdep >= 3:
+			if not reflectdic.has_key(info[3]) and tempdep >= 4:
 				if isRepeat(info[0], prdic, authordic):
 					depdic[prdic[info[0]]] -= 2
 					depdic[info[0]] -= 2
