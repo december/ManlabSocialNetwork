@@ -43,13 +43,9 @@ while i < n:
 		else:
 			real[number] = 1
 	i += number + 1
-if single:
-	namelist = os.listdir(prefix+str(filename)+'/')
-	position = prefix+str(filename)+'/'
-else:
-	namelist = os.listdir(prefix)
-	position = prefix
 
+namelist = os.listdir(prefix)
+position = prefix
 m = 0
 bigsim = list()
 for name in namelist:
