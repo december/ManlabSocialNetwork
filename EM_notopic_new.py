@@ -333,21 +333,21 @@ omega += sum(lbd) * 1000 / users
 omega = np.arccos(np.sqrt(omega))
 
 fr = open(prefix+'pi_initial'+suffix, 'r')
-	ldainfo = fr.readlines()
-	for i in range(allusers):
-		temp = ldainfo[i].split('\t')
-		if not edgemap.has_key(temp[0]):
-			continue
-		if not edgemap[temp[0]].has_key(temp[1]):
-			continue
-		idx = edgemap[iddic[temp[0]]][iddic[temp[1]]]
-		if temp[2] == '0':
-			pi0[idx] = max(float(temp[3]), 1e-5)
-		else:
-			pi1[idx] = max(float(temp[3]), 1e-5)
-	fr.close()
-	pi0 = np.sqrt(pi0)
-	pi1 = np.sqrt(pi1)
+ldainfo = fr.readlines()
+for i in range(allusers):
+	temp = ldainfo[i].split('\t')
+	if not edgemap.has_key(temp[0]):
+		continue
+	if not edgemap[temp[0]].has_key(temp[1]):
+		continue
+	idx = edgemap[iddic[temp[0]]][iddic[temp[1]]]
+	if temp[2] == '0':
+		pi0[idx] = max(float(temp[3]), 1e-5)
+	else:
+		pi1[idx] = max(float(temp[3]), 1e-5)
+fr.close()
+pi0 = np.sqrt(pi0)
+pi1 = np.sqrt(pi1)
 
 
 '''
