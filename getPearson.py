@@ -46,6 +46,7 @@ def calcPearson(x, y):
 	#print str(len(x)) + ' ' + str(len(y)) 
 	x_mean, y_mean = calcMean(x,y)
 	n = len(x)
+	'''
 	sumTop = 0.0  
 	sumBottom = 0.0  
 	x_pow = 0.0  
@@ -56,7 +57,11 @@ def calcPearson(x, y):
 		x_pow += math.pow(x[i]-x_mean, 2)  
 	for i in range(n):
 		y_pow += math.pow(y[i]-y_mean, 2)  
-	sumBottom = math.sqrt(x_pow * y_pow) 
+	'''
+	sumTop = sum((x - x_mean) * (y - y_mean))
+	x_pow = sum((x - x_mean) ** 2)
+	y_pow = sum((y - y_mean) ** 2)
+	sumBottom = np.sqrt(x_pow * y_pow) 
 	if sumBottom == 0:
 		return 0 
 	p = sumTop / sumBottom  
@@ -99,7 +104,7 @@ fr.close()
 n = len(realdata)
 i = 0
 cnt = 0
-zerolist = list()
+zerolist = np.zeros(447453)
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
@@ -113,20 +118,28 @@ while i < n:
 			realdic[data[1]] = zerolist[:]
 			#for k in range(cnt):
 			#	realdic[data[1]].append(0)
-		realdic[data[1]].append(1)
+		realdic[data[1]][cnt] += 1
 		rdic[data[1]] = 1
-	for key in realdic:
-		if not rdic.has_key(key):
-			realdic[key].append(0)
+	#for key in realdic:
+	#	if not rdic.has_key(key):
+	#		realdic[key].append(0)
 	cnt += 1
 	if cnt % 10000 == 0:
 		print cnt
-	zerolist.append(0)
 	i += number
 print cnt
 #print cnt
 
-fr = open(relation_prefix+'pi_Poisson_'+str(filename)+suffix, 'r')
+fw = open('../../cascading_generation_model/722911_twolevel_neighbor_cascades/vectors.detail', 'w')
+for key in realdic:
+	fw.write(key)
+	for item in realdic[key]:
+		fw.write('\t')
+		fw.write(str(item))
+	fw.write('\n')
+fw.close()
+
+fr = open(relation_prefix+'pi_Poisson'+suffix, 'r')
 pilist = fr.readlines()
 enum = len(pilist)
 for i in range(enum):
@@ -235,4 +248,4 @@ x = np.arange(6)
 
 plt.bar(x , y_sim, width=0.3 , color='y')
 plt.bar(x+0.3, y_random, width=0.3 , color='b')
-plt.savefig(prefix+'Pearson/'+str(filename)+'.png')
+plt.savefig(prefix+'Pearson/all.png')
