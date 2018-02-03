@@ -28,16 +28,20 @@ tweetdic = {} #from tweet id to the user index of its author
 number = 0 #total number of tweeters
 empty = 0
 pkdic = {}
+pkdic_post = {}
 
-def GetOffspring(key):
+def GetOffspring(root, key):
 	p = numpy.random.rand()
-	for times in pkdic[key]:
-		p -= pkdic[key][times]
+	pk = pkdic[key]
+	if root:
+		pk = pkdic_post[key]
+	for times in pk:
+		p -= pk[times]
 		if p <= 0:
 			return times
 	#print 'Empty!'
 	empty += 1
-	return pkdic[key].keys()[-1]
+	return pk.keys()[-1]
 
 def GetLog(r, p, u, c): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
 	global number
@@ -45,7 +49,7 @@ def GetLog(r, p, u, c): #root_tweet, parent_tweet, parent_user, parent_time, tau
 	#	return c
 	if not edgemap.has_key(u):
 		return c
-	m = GetOffspring(u)
+	m = GetOffspring(r, u)
 	offspring = random.sample(edgemap[u], m)
 	for f in offspring:
 		current = number
@@ -58,7 +62,7 @@ def GetLog(r, p, u, c): #root_tweet, parent_tweet, parent_user, parent_time, tau
 		temp.append(p)
 		temp.append(u)
 		c.append(temp)
-		c = GetLog(r, current, f, c)
+		c = GetLog(False, current, f, c)
 	return c
 
 prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
@@ -106,6 +110,17 @@ for line in pk:
 		info = temp[j].split(':')
 		pkdic[temp[0]][int(info[0])] = float(info[1])
 
+fr = open(prefix+'PofK_post'+suffix, 'r')
+pk = fr.readlines()
+fr.close()
+for line in pk:
+	temp = line.split('\t')
+	n = len(temp)
+	pkdic_post[temp[0]] = {}
+	for j in range(1, n):
+		info = temp[j].split(':')
+		pkdic_post[temp[0]][int(info[0])] = float(info[1])
+
 #print iddic
 
 #for key in lbddic:
@@ -137,7 +152,7 @@ for j in range(sims):
 			temp.append(-1)
 			temp.append(-1)
 			cascade.append(temp)
-			cascade = GetLog(root, root, key, cascade)
+			cascade = GetLog(True, root, key, cascade)
 			cascade = sorted(cascade, key=lambda c:c[2])
 			size = len(cascade)
 			temp = list()

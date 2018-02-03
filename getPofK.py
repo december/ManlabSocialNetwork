@@ -13,6 +13,7 @@ path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/singl
 users = 7268
 
 namelist = os.listdir(path)
+points_post = {}
 points = {}
 authordic = {}
 realdata = list()
@@ -32,6 +33,8 @@ i = 0
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
+	root = temp[0]
+	root_tweet = 0
 	casdic = {}
 	for j in range(i+1, i+number):
 		info = realdata[j][:-1].split('\t')
@@ -41,7 +44,10 @@ while i < n:
 			#if not casdic.has_key(info[3]):
 			#	casdic[info[3]] = 1
 			#else:
-			casdic[info[3]] += 1
+			if info[3] == root:
+				root_tweet += 1
+			else:
+				casdic[info[3]] += 1
 	for key in casdic:
 		author = authordic[key]
 		if not points.has_key(author):
@@ -50,6 +56,13 @@ while i < n:
 			points[author][casdic[key]] = 1
 		else:
 			points[author][casdic[key]] += 1
+	author = authordic[root]
+	if not points_post.has_key(author):
+		points_post[author] = {}
+	if not points_post[author].has_key(root_tweet):
+		points_post[author][root_tweet] = 1
+	else:
+		points_post[author][root_tweet] += 1
 	i += number
 
 fw = open('../../cascading_generation_model/722911_twolevel_neighbor_cascades/PofK.detail', 'w')
@@ -62,5 +75,18 @@ for key in points:
 		fw.write(str(item))
 		fw.write(':')
 		fw.write(str(points[key][item] * 1.0 / s))
+	fw.write('\n')
+fw.close()
+
+fw = open('../../cascading_generation_model/722911_twolevel_neighbor_cascades/PofK_post.detail', 'w')
+for key in points_post:
+	fw.write(key)
+	num = sorted(points_post[key].keys())
+	s = sum(points_post[key].values())
+	for item in num:
+		fw.write('\t')
+		fw.write(str(item))
+		fw.write(':')
+		fw.write(str(points_post[key][item] * 1.0 / s))
 	fw.write('\n')
 fw.close()
