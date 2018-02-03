@@ -334,7 +334,7 @@ omega = np.arccos(np.sqrt(omega))
 
 fr = open(prefix+'pi_initial'+suffix, 'r')
 ldainfo = fr.readlines()
-m = len(allusers)
+m = len(ldainfo)
 for i in range(m):
 	temp = ldainfo[i].split('\t')
 	if not edgemap.has_key(iddic[temp[0]]):
