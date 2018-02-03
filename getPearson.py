@@ -226,7 +226,7 @@ for name in namelist:
 		i += number
 		cnt += 1
 		if cnt % 10000 == 0:
-		print cnt
+			print cnt
 	fr.close()
 print 'Calculate simulation data finished.'
 
