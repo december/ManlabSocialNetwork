@@ -526,7 +526,8 @@ pi0 = pi.copy()
 pi1 = pi.copy()
 
 print sum(lbd) * 100 / users
-omega += sum(lbd) * 50000 / users
+#omega += sum(lbd) * 50000 / users
+omega += 1
 omega = np.arccos(np.sqrt(omega))
 
 if filename < 0:
@@ -557,6 +558,10 @@ if filename < 0:
 	ldainfo = fr.readlines()
 	for i in range(allusers):
 		temp = ldainfo[i].split('\t')
+		if not edgemap.has_key(temp[0]):
+			continue
+		if not edgemap[temp[0]].has_key(temp[1]):
+			continue
 		idx = edgemap[iddic[temp[0]]][iddic[temp[1]]]
 		if temp[2] == '0':
 			pi0[idx] = float(temp[3])

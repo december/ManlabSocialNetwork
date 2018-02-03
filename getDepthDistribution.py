@@ -52,7 +52,7 @@ while i < n:
 		info = realdata[j].split('\t')
 		authordic[info[0]] = info[1]
 		if info[3] == '-1':
-			depdic[info[0]] = 0
+			depdic[info[0]] = 1
 		else:
 			prdic[info[0]] = info[3]
 			tempdep = depdic[info[3]] + 1
