@@ -564,9 +564,9 @@ if filename < 0:
 			continue
 		idx = edgemap[iddic[temp[0]]][iddic[temp[1]]]
 		if temp[2] == '0':
-			pi0[idx] = float(temp[3])
+			pi0[idx] = max(float(temp[3]), 1e-5)
 		else:
-			pi1[idx] = float(temp[3])
+			pi1[idx] = max(float(temp[3]), 1e-5)
 	fr.close()
 	pi0 = np.sqrt(pi0)
 	pi1 = np.sqrt(pi1)
