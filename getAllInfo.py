@@ -63,7 +63,7 @@ while i < n:
 	keylist = list()
 	for j in range(i+1, i+number+1):
 		info = realdata[j].split('\t')
-		authordic[info[0]] = info[1]
+		#authordic[info[0]] = info[1]
 		if info[3] == '-1':
 			depdic[info[0]] = 1
 		else:
