@@ -348,7 +348,7 @@ for i in range(m):
 		pi1[idx] = max(float(temp[3]), 1e-5)
 fr.close()
 pi0 = np.arccos(np.sqrt(pi0))
-pi1 = np.acrcos(np.sqrt(pi1))
+pi1 = np.arccos(np.sqrt(pi1))
 
 
 '''
