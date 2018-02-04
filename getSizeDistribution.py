@@ -137,7 +137,7 @@ for i in range(m):
 		pos1 += 1
 	while pos2 < len(ss) and ss[pos2] < i:
 		pos2 += 1
-	if rs[pos1] == i
+	if rs[pos1] == i:
 		temp += rn[pos1]
 	if ss[pos2] == i:
 		temp -= sn[pos2]
@@ -169,7 +169,7 @@ for i in range(m):
 		pos1 += 1
 	while pos2 < len(ss) and ss[pos2] < i:
 		pos2 += 1
-	if rs[pos1] == i
+	if rs[pos1] == i:
 		temp += rn[pos1]
 	if ss[pos2] == i:
 		temp -= sn[pos2]
