@@ -190,12 +190,12 @@ plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'bo', label='Sim')
-plt.xlabel(u'Size')
+plt.xlabel(u'Width')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num_bin.png')
+plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_bin.png')
 plt.cla()
 
 fw = open(prefix+'WideRealCascades', 'w')

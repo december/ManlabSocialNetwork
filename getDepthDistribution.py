@@ -24,6 +24,29 @@ def isRepeat(tid, pr, author):
 	author4 = author[tid]
 	return (author1 == author3 and author2 == author4)
 
+def GetBin(a, x, y):
+	newx = list()
+	newy = list()
+	length = len(x)
+	binnum = 1
+	pos = 0
+	s = 0
+	tempy = 0
+	tempx = 0
+	while pos < length:
+		s += a ** binnum
+		tempx = s - a ** binnum / 2
+		while x[pos] <= s:
+			tempy += y[pos]
+			pos += 1
+			if pos >= length:
+				break
+		newx.append(tempx)
+		newy.append(tempy)
+		binnum += 1
+		tempy = 0
+	return newx, newy
+
 namelist = os.listdir(path)
 real = {}
 sim = {}
@@ -127,23 +150,22 @@ sn = np.array(simnum) * 1.0 / simsum
 print rn
 print sn
 
-logmae = 0
+logmae = [0,0]
 m = max(max(rs), max(ss))
 pos1 = 0
 pos2 = 0
-for i in range(m):
-	temp = 0
+cr = 0
+cs = 0
+for i in range(1, m):
 	while pos1 < len(rs) and rs[pos1] < i:
 		pos1 += 1
 	while pos2 < len(ss) and ss[pos2] < i:
 		pos2 += 1
 	if pos1 < len(rs) and rs[pos1] == i:
-		temp += rn[pos1]
+		cr += rn[pos1]
 	if pos2 < len(ss) and ss[pos2] == i:
-		temp -= sn[pos2]
-	if temp != 0:
-		logmae += np.log(abs(temp))
-print logmae
+		cs += sn[pos2]
+	logmae[0] += abs(np.log(cr) - np.log(cs))
 
 plt.xscale('log')
 plt.yscale('log')
@@ -155,4 +177,37 @@ plt.legend(loc='upper right');
 if not single:
 	filename = 'all' 
 plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_depth.png')
+plt.cla()
+
+binrx, binry = GetBin(1.1, realsize, realnum) 
+binsx, binsy = GetBin(1.1, simsize, simnum)
+rs = np.array(binrx)
+rn = np.array(binry) * 1.0 / realsum
+ss = np.array(binsx)
+sn = np.array(binsy) * 1.0 / simsum
+
+m = max(len(rs), len(ss))
+cr = 0
+cs = 0
+square = 0
+for i in range(m):
+	if i < len(rs):
+		cr += rn[i]
+	if i < len(ss):
+		cs += sn[i]
+	logmae[1] += abs(np.log(cr) - np.log(cs))
+	square += abs(np.log(cr) - np.log(cs)) * 1.1 ** (i+1)
+print logmae
+print square
+
+plt.xscale('log')
+plt.yscale('log')
+plt.plot(rs, rn, 'ro', label='Real')
+plt.plot(ss, sn, 'bo', label='Sim')
+plt.xlabel(u'Depth')
+plt.ylabel(u'Distribution')
+plt.legend(loc='upper right');  
+if not single:
+	filename = 'all'
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_bin.png')
 plt.cla()
