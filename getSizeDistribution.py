@@ -133,7 +133,7 @@ pos1 = 0
 pos2 = 0
 cr = 0
 cs = 0
-for i in range(m):
+for i in range(1, m):
 	while pos1 < len(rs) and rs[pos1] < i:
 		pos1 += 1
 	while pos2 < len(ss) and ss[pos2] < i:
