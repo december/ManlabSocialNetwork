@@ -97,16 +97,18 @@ pearson = 0
 jaccard = 0
 numbers = m * (m - 1) / 2
 pointlist = realdic.keys()
-pdb = {}
-jdb = {}
 bins = 10000
+pdb = np.zeros(bins)
+jdb = np.zeros(bins)
+ppos = np.zeros(bins)
+jpos = np.zeros(bins)
 wid1 = 1 / bins
 wid2 = 2 / bins
 end1 = wid1
 end2 = -1 + wid2
 for i in range(bins):
-	pdb[end2] = 0
-	jdb[end1] = 0
+	ppos[i] = end2
+	jpos[i] = end1
 	end1 += wid1
 	end2 += wid2
 
@@ -115,13 +117,34 @@ fw2 = open(prefix+'similarity/'+filename+'_jaccard.detail', 'w')
 for i in range(m):
 	for j in range(i+1, m):
 		pij, jij = calcPJ(realdic[pointlist[i]], realdic[pointlist[j]])
-		binp = math.ceil(pij * 5000 + 1e-300) / 5000
-		binj = math.ceil(jij * 10000 + 1e-300) / 10000
+		binp = math.floor((pij - 1e-300 + 1) / wid2)
+		binj = math.floor((jij - 1e-300) / wid1)
 		fw1.write(pointlist[i]+'\t'+pointlist[j]+'\t'+str(pij)+'\n')
 		fw2.write(pointlist[i]+'\t'+pointlist[j]+'\t'+str(jij)+'\n')
 		pdb[binp] += 1
 		jdb[binj] += 1
+		pearson += pij
+		jaccard += bij
 	print i
 fw1.close()
 fw2.close()
+print pearson / numbers
+print jaccard / numbers
+
+px = np.array(ppos)
+jx = np.array(jpos)
+py = np.array(pdb) / numbers
+jy = np.array(jdb) / numbers
+plt.yscale('log')
+plt.plot(px, py, 'r')
+plt.xlabel(u'Pearson')
+plt.ylabel(u'Distribution')
+plt.savefig(prefix+'similarity/'+filename+'_pearson.png')
+plt.cla()
+plt.yscale('log')
+plt.plot(jx, jy, 'r')
+plt.xlabel(u'Jaccard')
+plt.ylabel(u'Distribution')
+plt.savefig(prefix+'similarity/'+filename+'_jaccard.png')
+plt.cla()
 
