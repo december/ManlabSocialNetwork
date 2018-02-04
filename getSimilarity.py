@@ -124,7 +124,7 @@ for i in range(m):
 		pdb[int(binp)] += 1
 		jdb[int(binj)] += 1
 		pearson += pij
-		jaccard += bij
+		jaccard += jij
 	print i
 fw1.close()
 fw2.close()
