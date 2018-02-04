@@ -117,12 +117,12 @@ fw2 = open(prefix+'similarity/'+filename+'_jaccard.detail', 'w')
 for i in range(m):
 	for j in range(i+1, m):
 		pij, jij = calcPJ(realdic[pointlist[i]], realdic[pointlist[j]])
-		binp = int((pij - 1e-300 + 1) / wid2)
-		binj = int((jij - 1e-300) / wid1)
+		binp = int((pij+ 1) / wid2)
+		binj = int(jij / wid1)
 		fw1.write(pointlist[i]+'\t'+pointlist[j]+'\t'+str(pij)+'\n')
 		fw2.write(pointlist[i]+'\t'+pointlist[j]+'\t'+str(jij)+'\n')
-		pdb[int(binp)] += 1
-		jdb[int(binj)] += 1
+		pdb[max(binp, 9999)] += 1
+		jdb[max(binj, 9999)] += 1
 		pearson += pij
 		jaccard += jij
 	print i

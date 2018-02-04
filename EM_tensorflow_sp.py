@@ -232,8 +232,8 @@ def ObjF(param, qm): #formulation of objective function (include barrier) (the s
 	omega, pi0, pi1, x, theta1, theta2, theta3, theta4, theta1_post, theta2_post, theta3_post, theta4_post = Resolver(param)
 	omega = tf.cos(omega) * tf.cos(omega)
 	#pi = tf.cos(pi) * tf.cos(pi)
-	pi0 = pi0 * pi0
-	pi1 = pi1 * pi1
+	pi0 = tf.cos(pi0) * tf.cos(pi0)
+	pi1 = tf.cos(pi1) * tf.cos(pi1)
 	#x = x * x
 	philist = list()
 	for i in range(5):
@@ -284,8 +284,8 @@ def EStep(omega, pi0, pi1, x, theta1, theta2, theta3, theta4, theta1_post, theta
 	#print [len(omega), len(pi), len(x)]
 	omega = tf.cos(omega) * tf.cos(omega)
 	#pi = tf.cos(pi) * tf.cos(pi)
-	pi0 = pi0 * pi0
-	pi1 = pi1 * pi1
+	pi0 = tf.cos(pi0) * tf.cos(pi0)
+	pi1 = tf.cos(pi1) * tf.cos(pi1)
 	#x = x * x
 	#print [len(oc), len(pc), len(xc)]
 	philist = list()
@@ -519,8 +519,8 @@ while i < n:
 	i += number
 fr.close()
 pi = np.array(pi)
-#pi = np.arccos(np.sqrt(pi))
-pi = np.sqrt(pi)
+pi = np.arccos(np.sqrt(pi))
+#pi = np.sqrt(pi)
 x = np.array([1.05])
 pi0 = pi.copy()
 pi1 = pi.copy()
@@ -569,8 +569,8 @@ if filename < 0:
 		else:
 			pi1[idx] = max(float(temp[3]), 1e-5)
 	fr.close()
-	pi0 = np.sqrt(pi0)
-	pi1 = np.sqrt(pi1)
+	pi0 = np.arccos(np.sqrt(pi0))
+	pi1 = np.arccos(np.sqrt(pi1))
 
 #Read personal cascade file
 print 'Read behavior log...'
@@ -763,7 +763,7 @@ with tf.Session() as session:
 		omega, pi0, pi1, x, theta1, theta2, theta3, theta4, theta1_post, theta2_post, theta3_post, theta4_post = Resolver(newp)
 		#Output(omega, pi, x, theta1, theta2, theta3, theta4)
 		#Output(np.cos(omega) * np.cos(omega), np.cos(pi) * np.cos(pi), x, theta1, theta2, theta3, theta4)
-		Output(np.cos(omega) * np.cos(omega), pi0 * pi0, pi1 * pi1, x, theta1, theta2, theta3, theta4, theta1_post, theta2_post, theta3_post, theta4_post)
+		Output(np.cos(omega) * np.cos(omega), np.cos(pi0) * np.cos(pi0), np.cos(pi1) * np.cos(pi1), x, theta1, theta2, theta3, theta4, theta1_post, theta2_post, theta3_post, theta4_post)
 		lastObj = obj
 		#if not changed1 and obj <= 20000000:
 		#	alpha = alpha / 2
@@ -775,8 +775,8 @@ with tf.Session() as session:
 		print 'Iteration ' + str(cnt) + ' finished...'
 omega = np.cos(omega) * np.cos(omega)
 #pi = np.cos(pi) * np.cos(pi)
-pi0 = pi0 * pi0
-pi1 = pi1 * pi1
+pi0 = np.cos(pi0) * np.cos(pi0)
+pi1 = np.cos(pi1) * no.cos(pi1)
 x = x
 
 #Output parameters

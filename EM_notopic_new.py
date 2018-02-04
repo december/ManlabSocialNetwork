@@ -161,8 +161,8 @@ def ObjF(param): #formulation of objective function (include barrier) (the small
 	omega, pi0, pi1, x = Resolver(param)
 	omega = tf.cos(omega) * tf.cos(omega)
 	#pi = tf.cos(pi) * tf.cos(pi)
-	pi0 = pi0 * pi0
-	pi1 = pi1 * pi1
+	pi0 = tf.cos(pi0) * tf.cos(pi0)
+	pi1 = tf.cos(pi1) * tf.cos(pi1)
 	#x = x * x
 	#global total
 	#total += 1
@@ -318,7 +318,7 @@ while i < n:
 	i += number
 fr.close()
 pi = np.array(pi)
-#pi = np.arccos(np.sqrt(pi))
+pi = np.arccos(np.sqrt(pi))
 pi0 = pi.copy()
 pi1 = pi.copy()
 x = np.array([1.05])
@@ -347,8 +347,8 @@ for i in range(m):
 	else:
 		pi1[idx] = max(float(temp[3]), 1e-5)
 fr.close()
-pi0 = np.sqrt(pi0)
-pi1 = np.sqrt(pi1)
+pi0 = np.arccos(np.sqrt(pi0))
+pi1 = np.acrcos(np.sqrt(pi1))
 
 
 '''
@@ -531,7 +531,7 @@ with tf.Session() as session:
 			else:
 				alpha = alpha / 2
 		omega, pi0, pi1, x = Resolver(newp)
-		Output(np.cos(omega) * np.cos(omega), pi0 * pi0, pi1 * pi1, x)
+		Output(np.cos(omega) * np.cos(omega), np.cos(pi0) * np.cos(pi0), np.cos(pi1) * np.cos(pi1), x)
 		#Output(omega, pi, x)
 		lastObj = obj
 		#if not changed and obj <= 22000000:
@@ -540,8 +540,8 @@ with tf.Session() as session:
 		cnt += 1
 		print 'Iteration ' + str(cnt) + ' finished...'
 omega = np.cos(omega) * np.cos(omega)
-pi0 = pi0 * pi0
-pi1 = pi1 * pi1
+pi0 = np.cos(pi0) * np.cos(pi0)
+pi1 = np.cos(pi1) * no.cos(pi1)
 x = x
 
 #Output parameters
