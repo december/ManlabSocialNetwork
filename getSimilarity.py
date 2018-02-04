@@ -47,6 +47,7 @@ prefix = '../../cascading_generation_model/simulation/'
 suffix = '.detail'
 path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post/'
 users = 7268
+realdata = list()
 relation_prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 if not simulation:
 	namelist = os.listdir(path)
