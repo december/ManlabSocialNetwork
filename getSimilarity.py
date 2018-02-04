@@ -43,23 +43,6 @@ def calcPJ(x, y):
 	p = top * 1.0 / bottom
 	return p, j
 
-
-def randomSelect(person):
-	friend = random.choice(relation[person])
-	return calcPearson(person, friend)
-
-def chooseTwo(person):
-	friend = relation[person]
-	#f1 = random.choice(friend)
-	#friend.remove(f1)
-	#f2 = random.choice(friend)
-	#friend.append(f1)
-	f = random.sample(friend, 2)
-	return calcPearson(f[0], f[1])
-
-filename = int(sys.argv[1])
-single = False
-
 prefix = '../../cascading_generation_model/simulation/'
 suffix = '.detail'
 path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post/'
