@@ -122,7 +122,7 @@ simsum = sum(simnum)
 print simcum
 print realcum
 
-logmae = [0,0,0,0]
+logmae = [0,0]
 rs = np.array(realsize)
 rn = np.array(realcum) * 1.0 / realsum
 ss = np.array(simsize)
@@ -131,18 +131,18 @@ sn = np.array(simcum) * 1.0 / simsum
 m = max(max(rs), max(ss))
 pos1 = 0
 pos2 = 0
+cr = 0
+cs = 0
 for i in range(m):
-	temp = 0
 	while pos1 < len(rs) and rs[pos1] < i:
 		pos1 += 1
 	while pos2 < len(ss) and ss[pos2] < i:
 		pos2 += 1
 	if pos1 < len(rs) and rs[pos1] == i:
-		temp += np.log(rn[pos1]+1)
+		cr = 1 - rn[pos1]
 	if pos2 < len(ss) and ss[pos2] == i:
-		temp -= np.log(sn[pos2]+1)
-	if temp != 0:
-		logmae[0] += abs(temp)
+		cs = 1 - sn[pos2]
+	logmae[0] += abs(log(cr) - log(cs))
 
 plt.xscale('log')
 plt.yscale('log')
@@ -160,7 +160,7 @@ rs = np.array(realsize)
 rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
-
+'''
 m = max(max(rs), max(ss))
 pos1 = 0
 pos2 = 0
@@ -176,7 +176,7 @@ for i in range(m):
 		temp -= np.log(sn[pos2]+1)
 	if temp != 0:
 		logmae[1] += abs(temp)
-
+'''
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
@@ -198,15 +198,16 @@ ss = np.array(binsx)
 sn = np.array(binsy) * 1.0 / simsum
 
 m = max(len(rs), len(ss))
+cr = 0
+cs = 0
+square = 0
 for i in range(m):
-	temp = 0
 	if i < len(rs):
-		temp += np.log(rn[i]+1)
+		cr = 1 - rn[i]
 	if i < len(ss):
-		temp -= np.log(sn[i]+1)
-	if temp != 0:
-		logmae[2] += abs(temp)
-		square[0] += abs(temp) * 1.1 ** (i+1)
+		cs = 1 - sn[i]
+	logmae[1] += abs(log(cr) - log(cs))
+	square += abs(log(cr) - log(cs)) * 1.1 ** (i+1)
 
 plt.xscale('log')
 plt.yscale('log')
@@ -226,7 +227,7 @@ rs = np.array(binrx)
 rn = np.array(binry) * 1.0 / realsum
 ss = np.array(binsx)
 sn = np.array(binsy) * 1.0 / simsum
-
+'''
 m = max(len(rs), len(ss))
 for i in range(m):
 	temp = 0
@@ -237,7 +238,7 @@ for i in range(m):
 	if temp != 0:
 		logmae[3] += abs(temp)
 		square[1] += abs(temp) * 1.1 ** (i+1)
-
+'''
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
