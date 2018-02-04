@@ -138,9 +138,9 @@ for i in range(m):
 	while pos2 < len(ss) and ss[pos2] < i:
 		pos2 += 1
 	if pos1 < len(rs) and rs[pos1] == i:
-		temp += np.log(rn[pos1])
+		temp += np.log(rn[pos1]+1)
 	if pos2 < len(ss) and ss[pos2] == i:
-		temp -= np.log(sn[pos2])
+		temp -= np.log(sn[pos2]+1)
 	if temp != 0:
 		logmae[0] += abs(temp)
 
@@ -171,9 +171,9 @@ for i in range(m):
 	while pos2 < len(ss) and ss[pos2] < i:
 		pos2 += 1
 	if pos1 < len(rs) and rs[pos1] == i:
-		temp += np.log(rn[pos1])
+		temp += np.log(rn[pos1]+1)
 	if pos2 < len(ss) and ss[pos2] == i:
-		temp -= np.log(sn[pos2])
+		temp -= np.log(sn[pos2]+1)
 	if temp != 0:
 		logmae[1] += abs(temp)
 
@@ -201,9 +201,9 @@ m = max(len(rs), len(ss))
 for i in range(m):
 	temp = 0
 	if i < len(rs):
-		temp += np.log(rn[i])
+		temp += np.log(rn[i]+1)
 	if i < len(ss):
-		temp -= np.log(sn[i])
+		temp -= np.log(sn[i]+1)
 	if temp != 0:
 		logmae[2] += abs(temp)
 		square[0] += abs(temp) * 1.1 ** (i+1)
@@ -231,9 +231,9 @@ m = max(len(rs), len(ss))
 for i in range(m):
 	temp = 0
 	if i < len(rs):
-		temp += np.log(rn[i])
+		temp += np.log(rn[i]+1)
 	if i < len(ss):
-		temp -= np.log(sn[i])
+		temp -= np.log(sn[i]+1)
 	if temp != 0:
 		logmae[3] += abs(temp)
 		square[1] += abs(temp) * 1.1 ** (i+1)
