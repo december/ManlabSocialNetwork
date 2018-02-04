@@ -102,8 +102,8 @@ pdb = np.zeros(bins)
 jdb = np.zeros(bins)
 ppos = np.zeros(bins)
 jpos = np.zeros(bins)
-wid1 = 1 / bins
-wid2 = 2 / bins
+wid1 = 1.0 / bins
+wid2 = 2.0 / bins
 end1 = wid1
 end2 = -1 + wid2
 for i in range(bins):
