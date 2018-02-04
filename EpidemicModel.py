@@ -471,7 +471,9 @@ with tf.Session() as session:
 			if abs(lastObj) - obj > 0:
 				beta = newp[:enum]
 				gamma = newp[enum:]
-			break
+				break
+			else:
+				alpha = alpha / 2
 		beta0 = newp[:enum]
 		beta1 = newp[enum:enum*2]
 		gamma = newp[enum*2:]
