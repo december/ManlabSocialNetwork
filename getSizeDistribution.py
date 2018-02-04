@@ -138,11 +138,11 @@ for i in range(m):
 	while pos2 < len(ss) and ss[pos2] < i:
 		pos2 += 1
 	if pos1 < len(rs) and rs[pos1] == i:
-		temp += rn[pos1]
+		temp += np.log(rn[pos1])
 	if pos2 < len(ss) and ss[pos2] == i:
-		temp -= sn[pos2]
+		temp -= np.log(sn[pos2])
 	if temp != 0:
-		logmae[0] += np.log(abs(temp))
+		logmae[0] += abs(temp)
 
 plt.xscale('log')
 plt.yscale('log')
@@ -171,11 +171,11 @@ for i in range(m):
 	while pos2 < len(ss) and ss[pos2] < i:
 		pos2 += 1
 	if pos1 < len(rs) and rs[pos1] == i:
-		temp += rn[pos1]
+		temp += np.log(rn[pos1])
 	if pos2 < len(ss) and ss[pos2] == i:
-		temp -= sn[pos2]
+		temp -= np.log(sn[pos2])
 	if temp != 0:
-		logmae[1] += np.log(abs(temp))
+		logmae[1] += abs(temp)
 
 plt.xscale('log')
 plt.yscale('log')
@@ -201,12 +201,12 @@ m = max(len(rs), len(ss))
 for i in range(m):
 	temp = 0
 	if i < len(rs):
-		temp += rn[i]
+		temp += np.log(rn[i])
 	if i < len(ss):
-		temp -= sn[i]
+		temp -= np.log(sn[i])
 	if temp != 0:
-		logmae[2] += np.log(abs(temp))
-		square[0] += np.log(abs(temp) * 1.1 ** (i+1))
+		logmae[2] += abs(temp)
+		square[0] += abs(temp) * 1.1 ** (i+1)
 
 plt.xscale('log')
 plt.yscale('log')
@@ -231,12 +231,12 @@ m = max(len(rs), len(ss))
 for i in range(m):
 	temp = 0
 	if i < len(rs):
-		temp += rn[i]
+		temp += np.log(rn[i])
 	if i < len(ss):
-		temp -= sn[i]
+		temp -= np.log(sn[i])
 	if temp != 0:
-		logmae[3] += np.log(abs(temp))
-		square[1] += np.log(abs(temp) * 1.1 ** (i+1))
+		logmae[3] += abs(temp)
+		square[1] += abs(temp) * 1.1 ** (i+1)
 
 plt.xscale('log')
 plt.yscale('log')
