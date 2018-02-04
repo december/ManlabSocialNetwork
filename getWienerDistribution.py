@@ -140,6 +140,25 @@ rs = np.array(realsize)
 rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
+
+logmae = 0
+m = max(max(rs), max(ss))
+pos1 = 0
+pos2 = 0
+for i in range(m):
+	temp = 0
+	while pos1 < len(rs) and rs[pos1] < i:
+		pos1 += 1
+	while pos2 < len(ss) and ss[pos2] < i:
+		pos2 += 1
+	if pos1 < len(rs) and rs[pos1] == i:
+		temp += rn[pos1]
+	if pos2 < len(ss) and ss[pos2] == i:
+		temp -= sn[pos2]
+	if temp != 0:
+		logmae += np.log(abs(temp))
+print logmae
+
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
