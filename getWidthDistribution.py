@@ -117,18 +117,18 @@ logmae = 0
 m = max(max(rs), max(ss))
 pos1 = 0
 pos2 = 0
-for i in range(m):
-	temp = 0
+cr = 0
+cs = 0
+for i in range(1, m):
 	while pos1 < len(rs) and rs[pos1] < i:
 		pos1 += 1
 	while pos2 < len(ss) and ss[pos2] < i:
 		pos2 += 1
 	if pos1 < len(rs) and rs[pos1] == i:
-		temp += rn[pos1]
+		cr += rn[pos1]
 	if pos2 < len(ss) and ss[pos2] == i:
-		temp -= sn[pos2]
-	if temp != 0:
-		logmae += np.log(abs(temp))
+		cs += sn[pos2]
+	logmae += abs(np.log(cr) - np.log(cs))
 print logmae
 
 plt.xscale('log')

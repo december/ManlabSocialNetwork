@@ -65,11 +65,13 @@ jsum = sum(jdb)
 temps = psum
 pdb_cum[0] = temps
 for i in range(1, bins):
-	pdb_cum[i] = temps - pdb[i-1]
+	temps -= pdb[i-1]
+	pdb_cum[i] = temps
 temps = jsum
 jdb_cum[0] = temps
 for i in range(1, bins):
-	jdb_cum[i] = temps - jdb[i-1]	
+	temps -= jdb[i-1]
+	jdb_cum[i] = temps
 
 filename = sys.argv[1]
 fr1 = open(prefix+'similarity/'+filename+'_pearson.detail', 'r')
@@ -97,11 +99,13 @@ jsum_sim = sum(jdb_sim)
 temps = psum_sim
 pdb_sim_cum[0] = temps
 for i in range(1, bins):
-	pdb_sim_cum[i] = temps - pdb_sim[i-1]
+	temps -= pdb_sim[i-1]
+	pdb_sim_cum[i] = temps
 temps = jsum_sim
 jdb_sim_cum[0] = temps
 for i in range(1, bins):
-	jdb_sim_cum[i] = temps - jdb_sim[i-1]	
+	temps -= jdb_sim[i-1]
+	jdb_sim_cum[i] = temps	
 
 px = np.array(ppos)
 py = np.array(pdb) * 1.0 / psum
@@ -120,7 +124,7 @@ plt.cla()
 
 plt.yscale('log')
 plt.plot(jx, jy, 'r')
-plt.plot(jx, js, 'r')
+plt.plot(jx, js, 'b')
 plt.xlabel(u'Jaccard')
 plt.ylabel(u'Distribution')
 plt.savefig(prefix+'similarity/'+filename+'_jaccard_num.png')
@@ -143,7 +147,7 @@ plt.cla()
 
 plt.yscale('log')
 plt.plot(jx, jy, 'r')
-plt.plot(jx, js, 'r')
+plt.plot(jx, js, 'b')
 plt.xlabel(u'Jaccard')
 plt.ylabel(u'Distribution')
 plt.savefig(prefix+'similarity/'+filename+'_jaccard_cum.png')
