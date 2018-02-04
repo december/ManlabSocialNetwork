@@ -121,8 +121,8 @@ for i in range(m):
 		binj = int(jij / wid1)
 		fw1.write(pointlist[i]+'\t'+pointlist[j]+'\t'+str(pij)+'\n')
 		fw2.write(pointlist[i]+'\t'+pointlist[j]+'\t'+str(jij)+'\n')
-		pdb[max(binp, 9999)] += 1
-		jdb[max(binj, 9999)] += 1
+		pdb[min(binp, 9999)] += 1
+		jdb[min(binj, 9999)] += 1
 		pearson += pij
 		jaccard += jij
 	print i
