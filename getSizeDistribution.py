@@ -143,6 +143,7 @@ for i in range(1, m):
 	if pos2 < len(ss) and ss[pos2] == i:
 		cs = 1 - sn[pos2]
 	logmae[0] += abs(np.log(cr) - np.log(cs))
+logmae[0] = logmae[0] / m
 
 plt.xscale('log')
 plt.yscale('log')
@@ -208,6 +209,8 @@ for i in range(m):
 		cs = 1 - sn[i]
 	logmae[1] += abs(np.log(cr) - np.log(cs))
 	square += abs(np.log(cr) - np.log(cs)) * 1.1 ** (i+1)
+logmae[1] = logmae[1] / m
+square = square / m
 
 plt.xscale('log')
 plt.yscale('log')
