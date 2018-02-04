@@ -22,7 +22,7 @@ def GetBin(a, x, y):
 	while pos < length:
 		s += a ** binnum
 		tempx = s - a ** binnum / 2
-		while x[pos] < s:
+		while x[pos] <= s:
 			tempy += y[pos]
 			pos += 1
 			if pos >= length:
@@ -122,10 +122,27 @@ simsum = sum(simnum)
 print simcum
 print realcum
 
+logmae = [0,0,0,0]
 rs = np.array(realsize)
 rn = np.array(realcum) * 1.0 / realsum
 ss = np.array(simsize)
 sn = np.array(simcum) * 1.0 / simsum
+
+m = max(max(rs), max(ss))
+pos1 = 0
+pos2 = 0
+for i in range(m):
+	temp = 0
+	while pos1 < len(rs) and rs[pos1] < i:
+		pos1 += 1
+	while pos2 < len(ss) and ss[pos2] < i:
+		pos2 += 1
+	if rs[pos1] == i
+		temp += rn[pos1]
+	if ss[pos2] == i:
+		temp -= sn[pos2]
+	logmae[0] += np.log(abs(temp))
+
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
@@ -138,11 +155,26 @@ if not single:
 plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png')
 plt.cla()
 
-
 rs = np.array(realsize)
 rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
+
+m = max(max(rs), max(ss))
+pos1 = 0
+pos2 = 0
+for i in range(m):
+	temp = 0
+	while pos1 < len(rs) and rs[pos1] < i:
+		pos1 += 1
+	while pos2 < len(ss) and ss[pos2] < i:
+		pos2 += 1
+	if rs[pos1] == i
+		temp += rn[pos1]
+	if ss[pos2] == i:
+		temp -= sn[pos2]
+	logmae[1] += np.log(abs(temp))
+
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
@@ -155,6 +187,65 @@ if not single:
 plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.png')
 plt.cla()
 
+square = [0, 0]
+binrx, binry = GetBin(1.1, realsize, realcum) 
+binsx, binsy = GetBin(1.1, simsize, simcum)
+rs = np.array(binrx)
+rn = np.array(binry) * 1.0 / realsum
+ss = np.array(binsx)
+sn = np.array(binsy) * 1.0 / simsum
+
+m = max(len(rs), len(ss))
+for i in range(m):
+	temp = 0
+	if i < len(rs):
+		temp += rn[i]
+	if i < len(ss):
+		temp -= sn[i]
+	logmae[2] += np.log(abs(temp))
+	square[0] += np.log(abs(temp) * 1.1 ** i)
+
+plt.xscale('log')
+plt.yscale('log')
+plt.plot(rs, rn, 'ro', label='Real')
+plt.plot(ss, sn, 'bo', label='Sim')
+plt.xlabel(u'Size')
+plt.ylabel(u'Distribution')
+plt.legend(loc='upper right');  
+if not single:
+	filename = 'all'
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum_bin.png')
+plt.cla()
+
+binrx, binry = GetBin(1.1, realsize, realnum) 
+binsx, binsy = GetBin(1.1, simsize, simnum)
+rs = np.array(binrx)
+rn = np.array(binry) * 1.0 / realsum
+ss = np.array(binsx)
+sn = np.array(binsy) * 1.0 / simsum
+
+m = max(len(rs), len(ss))
+for i in range(m):
+	temp = 0
+	if i < len(rs):
+		temp += rn[i]
+	if i < len(ss):
+		temp -= sn[i]
+	logmae[3] += np.log(abs(temp))
+	square[1] += np.log(abs(temp) * 1.1 ** i)
+
+plt.xscale('log')
+plt.yscale('log')
+plt.plot(rs, rn, 'ro', label='Real')
+plt.plot(ss, sn, 'bo', label='Sim')
+plt.xlabel(u'Size')
+plt.ylabel(u'Distribution')
+plt.legend(loc='upper right');  
+if not single:
+	filename = 'all'
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num_bin.png')
+plt.cla()
+
 fw = open(prefix+'BigSimCascades', 'w')
 for line in bigsim:
 	fw.write(line)
@@ -165,3 +256,5 @@ for line in bigreal:
 	fw.write(line)
 fw.close()
 
+print logmae
+print square
