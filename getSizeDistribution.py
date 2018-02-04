@@ -206,7 +206,7 @@ for i in range(m):
 		temp -= sn[i]
 	if temp != 0:
 		logmae[2] += np.log(abs(temp))
-		square[0] += np.log(abs(temp) * 1.1 ** i)
+		square[0] += np.log(abs(temp) * 1.1 ** (i+1))
 
 plt.xscale('log')
 plt.yscale('log')
@@ -236,7 +236,7 @@ for i in range(m):
 		temp -= sn[i]
 	if temp != 0:
 		logmae[3] += np.log(abs(temp))
-		square[1] += np.log(abs(temp) * 1.1 ** i)
+		square[1] += np.log(abs(temp) * 1.1 ** (i+1))
 
 plt.xscale('log')
 plt.yscale('log')
