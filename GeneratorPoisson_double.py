@@ -26,7 +26,7 @@ uid = list() #from user index in this ego network to user id
 iddic = {} #from user id to user index in this ego network
 tweetdic = {} #from tweet id to the user index of its author
 number = 0 #total number of tweeters
-k = 1.055
+k = 1.06
 #normal_rand = scipy.stats.truncnorm.rvs(0, 1, loc=0, scale=1, size=100000000)
 #nrpos = 0
 
