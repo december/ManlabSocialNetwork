@@ -198,7 +198,7 @@ rn = np.array(binry) * 1.0 / realsum
 ss = np.array(binsx)
 sn = np.array(binsy) * 1.0 / simsum
 
-m = max(rs) + 1
+m = len(rs)
 cr = 0
 cs = 0
 square = 0
