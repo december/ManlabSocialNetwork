@@ -156,7 +156,7 @@ plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_cum.png')
+plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_width_cum.png')
 plt.cla()
 
 rs = np.array(realsize)

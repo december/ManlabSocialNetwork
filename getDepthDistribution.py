@@ -168,7 +168,7 @@ plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_cum.png')
+plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_depth_cum.png')
 plt.cla()
 
 rs = np.array(realsize)

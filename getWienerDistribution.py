@@ -184,7 +184,7 @@ plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_cum.png')
+plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_wiener_cum.png')
 plt.cla()
 
 rs = np.array(realsize)
