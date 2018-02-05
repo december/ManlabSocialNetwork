@@ -32,7 +32,7 @@ def CollectLog(info, k, m, td):
 		temp = info[i][:-1].split('\t')
 		if pointdic[k].has_key(temp[1]) and (temp[4] == '-1' or pointdic[k].has_key(temp[4])) and (temp[3] == '-1' or tweetdic.has_key(temp[3])):
 			td.append(info[i])
-			tweetdic[temp[3]] = 1
+			tweetdic[temp[0]] = 1
 	return td
 
 n = len(data)
