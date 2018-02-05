@@ -112,12 +112,24 @@ for name in namelist:
 		temp = simdata[i].split('\t')
 		number = int(temp[1]) + 1
 		depdic = {}
+		prdic = {}
+		authordic = {}
+		reflectdic = {}
 		for j in range(i+1, i+number):
 			info = simdata[j].split('\t')
+			authordic[info[0]] = info[1]
 			if info[3] == '-1':
 				depdic[info[0]] = 1
 			else:
-				depdic[info[0]] = depdic[info[3]] + 1
+				prdic[info[0]] = info[3]
+				tempdep = depdic[info[3]] + 1
+				depdic[info[0]] = tempdep
+				if not reflectdic.has_key(info[3]) and tempdep >= 4:
+					if isRepeat(info[0], prdic, authordic):
+						depdic[prdic[info[0]]] -= 2
+						depdic[info[0]] -= 2
+						reflectdic[info[3]] = prdic[prdic[info[3]]]
+						reflectdic[info[0]] = prdic[prdic[info[0]]]
 		dep = max(depdic.values())
 		if sim.has_key(dep):
 			sim[dep] += 1
