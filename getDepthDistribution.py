@@ -220,8 +220,8 @@ if not single:
 plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_depth.png')
 plt.cla()
 
-binrx, binry = GetBin(1.1, realsize, realnum) 
-binsx, binsy = GetBin(1.1, simsize, simnum)
+binrx, binry = GetBin(1.5, realsize, realnum) 
+binsx, binsy = GetBin(1.5, simsize, simnum)
 rs = np.array(binrx)
 rn = np.array(binry) * 1.0 / realsum
 ss = np.array(binsx)
