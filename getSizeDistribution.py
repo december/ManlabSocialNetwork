@@ -128,7 +128,7 @@ rn = np.array(realcum) * 1.0 / realsum
 ss = np.array(simsize)
 sn = np.array(simcum) * 1.0 / simsum
 
-m = max(rs) + 1
+m = max(ss) + 1
 pos1 = 0
 pos2 = 0
 cr = 0
@@ -142,6 +142,10 @@ for i in range(1, m):
 		cr = 1 - rn[pos1]
 	if pos2 < len(ss) and ss[pos2] == i:
 		cs = 1 - sn[pos2]
+	if pos1 >= len(rs):
+		cr = 1
+	if pos2 >= len(ss):
+		cs = 1
 	logmae[0] += abs(np.log(cr) - np.log(cs))
 logmae[0] = logmae[0] / m
 
@@ -198,7 +202,7 @@ rn = np.array(binry) * 1.0 / realsum
 ss = np.array(binsx)
 sn = np.array(binsy) * 1.0 / simsum
 
-m = len(rs)
+m = len(ss)
 cr = 0
 cs = 0
 square = 0

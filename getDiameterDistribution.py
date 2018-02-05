@@ -96,7 +96,7 @@ while i < n:
 	m = len(keylist)
 	for j in range(m):
 		for k in range(j+1, m):
-			wi += WienerIndex(graphdic, keylist[j], keylist[k])
+			wi = max(wi, WienerIndex(graphdic, keylist[j], keylist[k]))
 	if real.has_key(wi):
 		real[wi] += 1
 	else:
@@ -179,12 +179,12 @@ plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'bo', label='Sim')
-plt.xlabel(u'Wiener Index')
+plt.xlabel(u'Diameter')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_wiener_cum.png')
+plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_diameter_cum.png')
 plt.cla()
 
 rs = np.array(realsize)
@@ -219,7 +219,7 @@ plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_wiener.png')
+plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_diameter.png')
 plt.cla()
 
 m = len(ss)
@@ -247,5 +247,5 @@ plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_bin.png')
+plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_diameter_bin.png')
 plt.cla()

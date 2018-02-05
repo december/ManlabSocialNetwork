@@ -62,7 +62,7 @@ while i < n:
 print 'Begin output...'
 
 for name in namelist:
-	fw = open(prefix+name+'_'+str(maxsize[name])+'_'+str(totalnum[name]), 'w')
+	fw = open(prefix+name+'_'+str(maxsize[name])+'_'+str(totalnum[name])+'.detail', 'w')
 	for line in behaviordic[name]:
 		fw.write(line)
 	fw.close()
