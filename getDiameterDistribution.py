@@ -138,7 +138,7 @@ for name in namelist:
 		m = len(keylist)
 		for j in range(m):
 			for k in range(j+1, m):
-				wi += WienerIndex(graphdic, keylist[j], keylist[k])
+				wi = max(wi, WienerIndex(graphdic, keylist[j], keylist[k]))
 		if sim.has_key(wi):
 			sim[wi] += 1
 		else:
