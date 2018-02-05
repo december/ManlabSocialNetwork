@@ -193,7 +193,7 @@ ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
 
 logmae = [0,0]
-m = max(max(rs), max(ss))
+m = max(rs) + 1
 pos1 = 0
 pos2 = 0
 cr = 0
@@ -222,7 +222,7 @@ if not single:
 plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_wiener.png')
 plt.cla()
 
-m = max(len(rs), len(ss))
+m = len(rs)
 cr = 0
 cs = 0
 square = 0

@@ -165,7 +165,7 @@ ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
 
 logmae = [0,0]
-m = max(max(rs), max(ss))
+m = max(rs) + 1
 pos1 = 0
 pos2 = 0
 cr = 0
@@ -201,7 +201,7 @@ rn = np.array(binry) * 1.0 / realsum
 ss = np.array(binsx)
 sn = np.array(binsy) * 1.0 / simsum
 
-m = max(len(rs), len(ss))
+m = len(rs)
 cr = 0
 cs = 0
 square = 0
