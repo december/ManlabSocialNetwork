@@ -79,11 +79,15 @@ while i < n:
 	templist.append(max(depdic.values()))
 	templist.append(max(widdic.values()))
 	wi = 0
+	maxwi = 0
 	m = len(keylist)
 	for j in range(m):
 		for k in range(j+1, m):
-			wi += WienerIndex(graphdic, keylist[j], keylist[k])
+			tempwi = WienerIndex(graphdic, keylist[j], keylist[k])
+			wi += tempwi
+			maxwi = max(maxwi, tempwi)
 	templist.append(wi)
+	templist.append(maxwi)
 	real[cascade] = templist
 	i += number + 1
 

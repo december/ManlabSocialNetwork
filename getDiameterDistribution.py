@@ -214,7 +214,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'bo', label='Sim')
-plt.xlabel(u'Wiener Index')
+plt.xlabel(u'Diameter')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
@@ -242,7 +242,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'bo', label='Sim')
-plt.xlabel(u'Wiener Index')
+plt.xlabel(u'Diameter')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
