@@ -131,6 +131,34 @@ print simnum
 realsum = sum(realnum)
 simsum = sum(simnum)
 
+realcum = list()
+n = len(realnum)
+s = sum(realnum)
+for i in range(n):
+	s -= realnum[i]
+	realcum.append(s)
+simcum = list()
+n = len(simnum)
+s = sum(simnum)
+for i in range(n):
+	s -= simnum[i]
+	simcum.append(s)
+rs = np.array(realsize)
+rn = np.array(realcum) * 1.0 / realsum
+ss = np.array(simsize)
+sn = np.array(simcum) * 1.0 / simsum
+plt.xscale('log')
+plt.yscale('log')
+plt.plot(rs, rn, 'ro', label='Real')
+plt.plot(ss, sn, 'bo', label='Sim')
+plt.xlabel(u'Width')
+plt.ylabel(u'Distribution')
+plt.legend(loc='upper right');  
+if not single:
+	filename = 'all'
+plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_cum.png')
+plt.cla()
+
 rs = np.array(realsize)
 rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
