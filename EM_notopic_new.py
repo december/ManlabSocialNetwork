@@ -541,7 +541,7 @@ with tf.Session() as session:
 		print 'Iteration ' + str(cnt) + ' finished...'
 omega = np.cos(omega) * np.cos(omega)
 pi0 = np.cos(pi0) * np.cos(pi0)
-pi1 = np.cos(pi1) * no.cos(pi1)
+pi1 = np.cos(pi1) * np.cos(pi1)
 x = x
 
 #Output parameters
