@@ -37,14 +37,16 @@ def CollectLog(info, k, m, td):
 
 n = len(data)
 print n
-i = 1589440404
-#i = 0
+#i = 1589440404
+i = 0
 cascade = 0
+wrongdata = 0
 
 while i < n:
 	temp = data[i].split('\t')
-	while len(temp) != 2:
+	while not temp[1].isdigit():
 		i += 1
+		wrongdata += 1
 		temp = data[i].split('\t')
 	number = int(temp[1]) + 1
 	author = data[i+1].split('\t')[1]
@@ -64,6 +66,7 @@ while i < n:
 		print str(cascade) + '(' + str(i) + ')'
 	i += number
 print 'Begin output...'
+print wrongdata
 
 for name in namelist:
 	fw = open(prefix+name+'_'+str(maxsize[name])+'_'+str(totalnum[name])+'.detail', 'w')
