@@ -37,7 +37,7 @@ def CollectLog(info, k, m, td):
 
 n = len(data)
 print n
-i = 0
+i = 1589440404
 cascade = 0
 
 while i < n:
