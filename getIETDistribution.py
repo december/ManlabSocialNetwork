@@ -166,7 +166,7 @@ for i in range(n):
 realsum = sum(realnum)
 simsum = sum(simnum)
 
-start = 10
+start = 0
 
 rs = np.array(realsize[start:])
 rn = np.array(realcum[start:]) * 1.0 / realsum
