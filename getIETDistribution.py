@@ -169,12 +169,12 @@ simsum = sum(simnum)
 start = 0
 
 rs = np.array(realsize[start:])
-rn = np.array(realcum[start:]) * 1.0 / realsum
+rn = np.array(realnum[start:]) * 1.0 / realsum
 ss = np.array(simsize[start:])
-sn = np.array(simcum[start:]) * 1.0 / simsum
+sn = np.array(simnum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 plt.xscale('log')
-#plt.yscale('log')
+plt.yscale('log')
 plt.plot(rs, rn, 'r', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'Response Time')
@@ -212,12 +212,12 @@ realsum = sum(realnum)
 simsum = sum(simnum)
 
 rs = np.array(realsize[start:])
-rn = np.array(realcum[start:]) * 1.0 / realsum
+rn = np.array(realnum[start:]) * 1.0 / realsum
 ss = np.array(simsize[start:])
-sn = np.array(simcum[start:]) * 1.0 / simsum
+sn = np.array(simnum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 plt.xscale('log')
-#plt.yscale('log')
+plt.yscale('log')
 plt.plot(rs, rn, 'r', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'IET for Root')
@@ -254,12 +254,12 @@ realsum = sum(realnum)
 simsum = sum(simnum)
 
 rs = np.array(realsize[start:])
-rn = np.array(realcum[start:]) * 1.0 / realsum
+rn = np.array(realnum[start:]) * 1.0 / realsum
 ss = np.array(simsize[start:])
-sn = np.array(simcum[start:]) * 1.0 / simsum
+sn = np.array(simnum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 plt.xscale('log')
-#plt.yscale('log')
+plt.yscale('log')
 plt.plot(rs, rn, 'r', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'IET for Retweet')
