@@ -194,6 +194,10 @@ def SingleObj(data, u):
 	while i < n:
 		temp = data[i].split('\t')
 		number = int(temp[1]) + 1
+		tm = int(data[i+1].split('\t')[2])
+		if tm > mid:
+			i += number
+			continue
 		rusc_dic.append(list())
 		nrusc_dic.append(list())
 		clist.append(temp[0])
