@@ -166,12 +166,12 @@ for i in range(n):
 realsum = sum(realnum)
 simsum = sum(simnum)
 
-start = 0
+start = 10
 
 rs = np.array(realsize[start:])
-rn = np.array(realnum[start:]) * 1.0 / realsum
+rn = np.array(realcum[start:]) * 1.0 / realsum
 ss = np.array(simsize[start:])
-sn = np.array(simnum[start:]) * 1.0 / simsum
+sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 #plt.xscale('log')
 plt.yscale('log')
@@ -212,9 +212,9 @@ realsum = sum(realnum)
 simsum = sum(simnum)
 
 rs = np.array(realsize[start:])
-rn = np.array(realnum[start:]) * 1.0 / realsum
+rn = np.array(realcum[start:]) * 1.0 / realsum
 ss = np.array(simsize[start:])
-sn = np.array(simnum[start:]) * 1.0 / simsum
+sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 #plt.xscale('log')
 plt.yscale('log')
@@ -254,9 +254,9 @@ realsum = sum(realnum)
 simsum = sum(simnum)
 
 rs = np.array(realsize[start:])
-rn = np.array(realnum[start:]) * 1.0 / realsum
+rn = np.array(realcum[start:]) * 1.0 / realsum
 ss = np.array(simsize[start:])
-sn = np.array(simnum[start:]) * 1.0 / simsum
+sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 #plt.xscale('log')
 plt.yscale('log')
