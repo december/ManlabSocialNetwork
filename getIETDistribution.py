@@ -87,10 +87,11 @@ if single:
 else:
 	namelist = os.listdir(prefix)
 	position = prefix
-m = len(namelist)
+cnt = 0
 for name in namelist:
 	if not name.endswith('.detail'):
 		continue
+	cnt += 1
 	last_post = {}
 	last_retweet = {}
 	fr = open(position+name, 'r')
@@ -154,7 +155,7 @@ for i in range(n):
 simsize = sorted(sim.keys())
 simnum = list()
 for size in simsize:
-	simnum.append(sim[size] * 1.0 / m)
+	simnum.append(sim[size] * 1.0 / cnt)
 simcum = list()
 n = len(simnum)
 s = sum(simnum)
@@ -166,10 +167,10 @@ realsum = sum(realnum)
 simsum = sum(simnum)
 
 rs = np.array(realsize)
-rn = np.array(realcum) * 1.0 / realsum
+rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
-sn = np.array(simcum) * 1.0 / simsum
-plt.xlim(xmin=1000)
+sn = np.array(simnum) * 1.0 / simsum
+#plt.xlim(xmin=1000)
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'r', label='Real')
@@ -196,7 +197,7 @@ for i in range(n):
 simsize = sorted(sim_post.keys())
 simnum = list()
 for size in simsize:
-	simnum.append(sim_post[size] * 1.0 / m)
+	simnum.append(sim_post[size] * 1.0 / cnt)
 simcum = list()
 n = len(simnum)
 s = sum(simnum)
@@ -209,10 +210,10 @@ realsum = sum(realnum)
 simsum = sum(simnum)
 
 rs = np.array(realsize)
-rn = np.array(realcum) * 1.0 / realsum
+rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
-sn = np.array(simcum) * 1.0 / simsum
-plt.xlim(xmin=1000)
+sn = np.array(simnum) * 1.0 / simsum
+#plt.xlim(xmin=1000)
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'r', label='Real')
@@ -239,7 +240,7 @@ for i in range(n):
 simsize = sorted(sim_rt.keys())
 simnum = list()
 for size in simsize:
-	simnum.append(sim_rt[size] * 1.0 / m)
+	simnum.append(sim_rt[size] * 1.0 / cnt)
 simcum = list()
 n = len(simnum)
 s = sum(simnum)
@@ -251,10 +252,10 @@ realsum = sum(realnum)
 simsum = sum(simnum)
 
 rs = np.array(realsize)
-rn = np.array(realcum) * 1.0 / realsum
+rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
-sn = np.array(simcum) * 1.0 / simsum
-plt.xlim(xmin=1000)
+sn = np.array(simnum) * 1.0 / simsum
+#plt.xlim(xmin=1000)
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'r', label='Real')
