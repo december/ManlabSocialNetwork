@@ -144,11 +144,23 @@ realsize = sorted(real.keys())
 realnum = list()
 for size in realsize:
 	realnum.append(real[size])
+realcum = list()
+n = len(realnum)
+s = sum(realnum)
+for i in range(n):
+	s -= realnum[i]
+	realcum.append(s)
 
 simsize = sorted(sim.keys())
 simnum = list()
 for size in simsize:
 	simnum.append(sim[size] * 1.0 / m)
+simcum = list()
+n = len(simnum)
+s = sum(simnum)
+for i in range(n):
+	s -= simnum[i]
+	simcum.append(s)
 
 realsum = sum(realnum)
 simsum = sum(simnum)
@@ -159,8 +171,8 @@ ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
 plt.xscale('log')
 plt.yscale('log')
-plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'bo', label='Sim')
+plt.plot(rs, rn, 'r', label='Real')
+plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'Response Time')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');
@@ -173,11 +185,24 @@ realsize = sorted(real_post.keys())
 realnum = list()
 for size in realsize:
 	realnum.append(real_post[size])
+realcum = list()
+n = len(realnum)
+s = sum(realnum)
+for i in range(n):
+	s -= realnum[i]
+	realcum.append(s)
 
 simsize = sorted(sim_post.keys())
 simnum = list()
 for size in simsize:
 	simnum.append(sim_post[size] * 1.0 / m)
+simcum = list()
+n = len(simnum)
+s = sum(simnum)
+for i in range(n):
+	s -= simnum[i]
+	simcum.append(s)
+
 
 realsum = sum(realnum)
 simsum = sum(simnum)
@@ -188,8 +213,8 @@ ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
 plt.xscale('log')
 plt.yscale('log')
-plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'bo', label='Sim')
+plt.plot(rs, rn, 'r', label='Real')
+plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'IET for Root')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');
@@ -202,11 +227,23 @@ realsize = sorted(real_rt.keys())
 realnum = list()
 for size in realsize:
 	realnum.append(real_rt[size])
+realcum = list()
+n = len(realnum)
+s = sum(realnum)
+for i in range(n):
+	s -= realnum[i]
+	realcum.append(s)
 
 simsize = sorted(sim_rt.keys())
 simnum = list()
 for size in simsize:
 	simnum.append(sim_rt[size] * 1.0 / m)
+simcum = list()
+n = len(simnum)
+s = sum(simnum)
+for i in range(n):
+	s -= simnum[i]
+	simcum.append(s)
 
 realsum = sum(realnum)
 simsum = sum(simnum)
@@ -217,8 +254,8 @@ ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
 plt.xscale('log')
 plt.yscale('log')
-plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'bo', label='Sim')
+plt.plot(rs, rn, 'r', label='Real')
+plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'IET for Retweet')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');
