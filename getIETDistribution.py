@@ -166,9 +166,9 @@ realsum = sum(realnum)
 simsum = sum(simnum)
 
 rs = np.array(realsize)
-rn = np.array(realnum) * 1.0 / realsum
+rn = np.array(realcum) * 1.0 / realsum
 ss = np.array(simsize)
-sn = np.array(simnum) * 1.0 / simsum
+sn = np.array(simcum) * 1.0 / simsum
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'r', label='Real')
@@ -208,9 +208,9 @@ realsum = sum(realnum)
 simsum = sum(simnum)
 
 rs = np.array(realsize)
-rn = np.array(realnum) * 1.0 / realsum
+rn = np.array(realcum) * 1.0 / realsum
 ss = np.array(simsize)
-sn = np.array(simnum) * 1.0 / simsum
+sn = np.array(simcum) * 1.0 / simsum
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'r', label='Real')
@@ -249,9 +249,9 @@ realsum = sum(realnum)
 simsum = sum(simnum)
 
 rs = np.array(realsize)
-rn = np.array(realnum) * 1.0 / realsum
+rn = np.array(realcum) * 1.0 / realsum
 ss = np.array(simsize)
-sn = np.array(simnum) * 1.0 / simsum
+sn = np.array(simcum) * 1.0 / simsum
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'r', label='Real')
