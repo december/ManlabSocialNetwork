@@ -101,7 +101,7 @@ for name in namelist:
 		temp = simdata[i].split('\t')
 		number = int(temp[1]) + 1
 		timedic = {}
-		newtemp = realdata[i+1].split('\t')
+		newtemp = simdata[i+1].split('\t')
 		if not last_post.has_key(newtemp[1]):
 			last_post[newtemp[1]] = list()
 		last_post[newtemp[1]].append(int(float(newtemp[2])))
