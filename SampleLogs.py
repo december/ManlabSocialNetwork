@@ -37,17 +37,17 @@ def CollectLog(info, k, m, td):
 
 n = len(data)
 print n
-i = 1589440404
-#i = 0
+#i = 1589440404
+i = 0
 cascade = 0
 wrongdata = 0
 
 while i < n:
 	temp = data[i].split('\t')
-	#while not temp[1].isdigit():
-	#	i += 1
-	#	wrongdata += 1
-	#	temp = data[i].split('\t')
+	while len(temp[1]) > 10:
+		i += 1
+		wrongdata += 1
+		temp = data[i].split('\t')
 	number = int(temp[1]) + 1
 	author = data[i+1].split('\t')[1]
 	for key in pointdic:
