@@ -22,6 +22,8 @@ users = 7268
 allusers = 7268
 ts = 1321286400 #start timestamps
 te = 1322150400 #end timestamps
+mid = (ts + te) / 2
+te = mid
 uid = list() #from user index to user id
 iddic = {} #from user id to user index
 friend = {} #from user id to its followers' user id
@@ -179,6 +181,8 @@ def SingleObj(data, u):
 		casdic = {} #from tweet id to user id who replied it with which tweet id
 		for j in range(i+1, i+number):
 			tweet = data[j].split('\t')
+			if int(tweet[2]) > mid:
+				continue
 			#print tweet
 			author[tweet[0]] = tweet[1]
 			timestamp[tweet[0]] = int(tweet[2])

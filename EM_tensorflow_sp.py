@@ -21,6 +21,8 @@ users = 7268
 allusers = 7268
 ts = 1321286400 #start timestamps
 te = 1322150400 #end timestamps
+mid = (ts + te) / 2
+te = mid
 uid = list() #from user index to user id
 iddic = {} #from user id to user index
 friend = {} #from user id to its followers' user id
@@ -332,8 +334,10 @@ def SingleObj(data, u):
 		for j in range(i+1, i+number):
 			tweet = data[j].split('\t')
 			#print tweet
-			author[tweet[0]] = tweet[1]
+			if int(tweet[2]) > mid:
+				continue
 			timestamp[tweet[0]] = int(tweet[2])
+			author[tweet[0]] = tweet[1]
 			if not vdic.has_key(iddic[tweet[1]]):
 				vdic[iddic[tweet[1]]] = vnum
 				vnum += 1
