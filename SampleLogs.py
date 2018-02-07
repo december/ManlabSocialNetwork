@@ -37,14 +37,14 @@ def CollectLog(info, k, m, td):
 
 n = len(data)
 print n
-i = 1589440404
-#i = 0
+#i = 1589440404
+i = 0
 cascade = 0
 wrongdata = 0
 
 while i < n:
 	temp = data[i].split('\t')
-	while len(temp[1]) > 10:
+	while len(temp[1]) > 5:
 		i += 1
 		wrongdata += 1
 		temp = data[i].split('\t')
