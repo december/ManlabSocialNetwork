@@ -65,7 +65,7 @@ while i < n:
 	fdidx = 0
 	for j in range(i+1, i+number):
 		data = relationdata[j].split('\t')
-		if int(data[2]) == 1:
+		if int(data[2]) <= 2:
 			continue
 		relation_dic[temp[0]][data[1]] = fdidx
 		fdidx += 1
@@ -92,10 +92,10 @@ while i < n:
 	for j in range(i+1, i+number):
 		data = realdata[j][:-1].split('\t')
 		if data[3] != '-1':
-			isroot = int(root_tweet.has_key(data[3]))
+			#isroot = int(root_tweet.has_key(data[3]))
 			if not data[1] in relation_dic[data[4]]:
 				continue
-			#isroot = 0
+			isroot = 0
 			if not realdic[isroot].has_key(data[4]):
 				realdic[isroot][data[4]] = {}
 			if not realdic[isroot][data[4]].has_key(data[3]):
