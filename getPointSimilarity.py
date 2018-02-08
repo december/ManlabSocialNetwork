@@ -116,9 +116,9 @@ for k in relation_dic:
 	m1 = 0
 	tempcnt = len(relation_dic[k])
 	if realdic[0].has_key(k):
-		m0 = len(real_dic[0][k])
+		m0 = len(realdic[0][k])
 	if realdic[1].has_key(k):
-		m1 = len(real_dic[1][k])
+		m1 = len(realdic[1][k])
 	if m0 > 1:
 		pearson = 0
 		jaccard = 0
