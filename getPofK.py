@@ -38,7 +38,7 @@ i = 0
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
-	tm = int(data[i+1].split('\t')[2])
+	tm = int(temp[i+1].split('\t')[2])
 	if tm > mid:
 		i += number
 		continue
