@@ -77,7 +77,7 @@ for i in range(1, bins):
 	jdb_cum[i] = temps
 
 filename = sys.argv[1]
-fr1 = open(prefix+'similarity/'+filename+'_pearson.detail', 'r')
+fr1 = open(prefix+'similarity/'+filename+'_pearson_point.detail', 'r')
 data = fr1.readlines()
 for line in data:
 	temp = line.split('\t')
@@ -88,7 +88,7 @@ for line in data:
 	pdb_sim[min(idx, 99)] += 1
 fr1.close()
 
-fr2 = open(prefix+'similarity/'+filename+'_jaccard.detail', 'r')
+fr2 = open(prefix+'similarity/'+filename+'_jaccard_point.detail', 'r')
 data = fr2.readlines()
 for line in data:
 	temp = line.split('\t')
