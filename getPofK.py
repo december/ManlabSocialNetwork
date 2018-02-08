@@ -12,6 +12,11 @@ suffix = '.detail'
 path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post/'
 users = 7268
 
+ts = 1321286400 #start timestamps
+te = 1322150400 #end timestamps
+mid = (ts + te) / 2
+te = mid
+
 namelist = os.listdir(path)
 points_post = {}
 points = {}
@@ -33,11 +38,17 @@ i = 0
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
+	tm = int(data[i+1].split('\t')[2])
+	if tm > mid:
+		i += number
+		continue
 	root = temp[0]
 	root_tweet = 0
 	casdic = {}
 	for j in range(i+1, i+number):
 		info = realdata[j][:-1].split('\t')
+		if int(info[2]) > mid:
+			continue
 		authordic[info[0]] = info[1]
 		casdic[info[0]] = 0
 		if not info[3] == '-1':
@@ -65,7 +76,7 @@ while i < n:
 		points_post[author][root_tweet] += 1
 	i += number
 
-fw = open('../../cascading_generation_model/722911_twolevel_neighbor_cascades/PofK.detail', 'w')
+fw = open('../../cascading_generation_model/722911_twolevel_neighbor_cascades/PofK_5.detail', 'w')
 for key in points:
 	fw.write(key)
 	num = sorted(points[key].keys())
@@ -78,7 +89,7 @@ for key in points:
 	fw.write('\n')
 fw.close()
 
-fw = open('../../cascading_generation_model/722911_twolevel_neighbor_cascades/PofK_post.detail', 'w')
+fw = open('../../cascading_generation_model/722911_twolevel_neighbor_cascades/PofK_5_post.detail', 'w')
 for key in points_post:
 	fw.write(key)
 	num = sorted(points_post[key].keys())
