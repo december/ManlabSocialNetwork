@@ -23,7 +23,7 @@ users = 7268
 realdata = list()
 relation_prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 
-bins = 10
+bins = 20
 pdb = np.zeros(bins)
 pdb_cum = np.zeros(bins)
 pdb_sim = np.zeros(bins)
