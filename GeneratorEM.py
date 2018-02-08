@@ -78,7 +78,7 @@ for i in range(enum):
 fr.close()
 
 print 'Finished reading..'
-prefix = '../../cascading_generation_model/simulation_notopic/'
+prefix = '../../cascading_generation_model/simulation/'
 suffix = '.detail'
 if single:
 	prefix += str(filename) + '/'
