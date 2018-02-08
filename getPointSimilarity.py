@@ -141,8 +141,8 @@ for k in relation_dic:
 				jaccard += jij
 		valueset[1] = pearson * 2.0 / m1 / (m1 - 1)
 		valueset[3] = jaccard * 2.0 / m1 / (m1 - 1)
-	fw1.write(k+'\t'+valueset[0]+'\t'+valueset[2]+'\n')
-	fw2.write(k+'\t'+valueset[1]+'\t'+valueset[3]+'\n')
+	fw1.write(k+'\t'+str(valueset[0])+'\t'+str(valueset[2])+'\n')
+	fw2.write(k+'\t'+str(valueset[1])+'\t'+str(valueset[3])+'\n')
 fw1.close()
 fw2.close()
 
