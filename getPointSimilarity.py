@@ -122,31 +122,37 @@ for k in relation_dic:
 	if realdic[1].has_key(k):
 		m1 = len(realdic[1][k])
 	if m0 > 1:
-		pearson = 0
-		jaccard = 0
+		pearson = 0.0
+		jaccard = 0.0
 		pointlist = realdic[0][k].keys()
+		number = m0 * (m0 - 1) / 2
 		for i in range(m0):
 			for j in range(i+1, m0):
 				if len(realdic[0][k][pointlist[i]]) == tempcnt or len(realdic[0][k][pointlist[j]]) == tempcnt:
+					number -= 1
 					continue
 				pij, jij = calcPJ(realdic[0][k][pointlist[i]], realdic[0][k][pointlist[j]], tempcnt)
 				pearson += abs(pij)
 				jaccard += jij
-		valueset[0] = pearson * 2.0 / m0 / (m0 - 1)
-		valueset[2] = jaccard * 2.0 / m0 / (m0 - 1)
+		if number > 0:
+			valueset[0] = pearson / number
+			valueset[2] = jaccard / number
 	if m1 > 1:
-		pearson = 0
-		jaccard = 0
+		pearson = 0.0
+		jaccard = 0.0
 		pointlist = realdic[1][k].keys()
+		number = m1 * (m1 - 1) / 2
 		for i in range(m1):
 			for j in range(i+1, m1):
 				if len(realdic[1][k][pointlist[i]]) == tempcnt or len(realdic[1][k][pointlist[j]]) == tempcnt:
+					number -= 1
 					continue
 				pij, jij = calcPJ(realdic[1][k][pointlist[i]], realdic[1][k][pointlist[j]], tempcnt)
 				pearson += abs(pij)
 				jaccard += jij
-		valueset[1] = pearson * 2.0 / m1 / (m1 - 1)
-		valueset[3] = jaccard * 2.0 / m1 / (m1 - 1)
+		if number > 0:
+			valueset[1] = pearson / number
+			valueset[3] = jaccard / number
 	fw1.write(k+'\t'+str(valueset[0])+'\t'+str(valueset[2])+'\n')
 	fw2.write(k+'\t'+str(valueset[1])+'\t'+str(valueset[3])+'\n')
 fw1.close()
