@@ -23,7 +23,7 @@ allusers = 7268
 ts = 1321286400 #start timestamps
 te = 1322150400 #end timestamps
 mid = (ts + te) / 2
-te = mid - 86400 * 2
+#te = mid - 86400 * 2
 uid = list() #from user index to user id
 iddic = {} #from user id to user index
 friend = {} #from user id to its followers' user id
@@ -340,6 +340,7 @@ theta4 = np.zeros(allusers) #one of spherical coordinates of phi distribution
 omega += sum(lbd) * 1000 / users
 omega = np.arccos(np.sqrt(omega))
 
+'''
 fr = open(prefix+'pi_initial'+suffix, 'r')
 ldainfo = fr.readlines()
 m = len(ldainfo)
@@ -357,7 +358,7 @@ for i in range(m):
 fr.close()
 pi0 = np.arccos(np.sqrt(pi0))
 pi1 = np.arccos(np.sqrt(pi1))
-
+'''
 
 '''
 theta1 += np.arccos(np.sqrt(0.2))
