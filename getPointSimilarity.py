@@ -54,7 +54,7 @@ realdata = list()
 relation_prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 
 relation_dic = {}
-fr = open(relation_prefix+'relations.detal', 'r')
+fr = open(relation_prefix+'relations'+suffix, 'r')
 relationdata = fr.readlines()
 n = len(relationdata)
 i = 0
