@@ -90,8 +90,8 @@ while i < n:
 	for j in range(i+1, i+number):
 		data = realdata[j][:-1].split('\t')
 		if data[3] != '-1':
-			#isroot = int(root_tweet.has_key(data[3]))
-			isroot = 0
+			isroot = int(root_tweet.has_key(data[3]))
+			#isroot = 0
 			if not realdic[isroot].has_key(data[4]):
 				realdic[isroot][data[4]] = {}
 			if not realdic[isroot][data[4]].has_key(data[3]):
@@ -154,8 +154,8 @@ for k in relation_dic:
 		if number > 0:
 			valueset[1] = pearson / number
 			valueset[3] = jaccard / number
-	fw1.write(k+'\t'+str(valueset[0])+'\t'+str(valueset[2])+'\n')
-	fw2.write(k+'\t'+str(valueset[1])+'\t'+str(valueset[3])+'\n')
+	fw1.write(k+'\t'+str(valueset[0])+'\t'+str(valueset[1])+'\n')
+	fw2.write(k+'\t'+str(valueset[2])+'\t'+str(valueset[3])+'\n')
 fw1.close()
 fw2.close()
 
