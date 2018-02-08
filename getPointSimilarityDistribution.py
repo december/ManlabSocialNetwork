@@ -23,7 +23,7 @@ users = 7268
 realdata = list()
 relation_prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 
-bins = 100
+bins = 50
 pdb = np.zeros(bins)
 pdb_cum = np.zeros(bins)
 pdb_sim = np.zeros(bins)
@@ -45,7 +45,12 @@ fr1 = open(prefix+'similarity/'+filename+'_pearson_point.detail', 'r')
 data = fr1.readlines()
 for line in data:
 	temp = line.split('\t')
-	p = float(temp[mode+1])
+	if mode < 2:
+		p = float(temp[mode+1])
+	else:
+		p = abs(float(temp[1])-float(temp[2]))
+		if float(temp[1]) == -1 or float(temp[2]) == -1:
+			p = -1
 	if p < 0:
 		continue
 	idx = int(p / wid)
@@ -56,7 +61,12 @@ fr2 = open(prefix+'similarity/'+filename+'_jaccard_point.detail', 'r')
 data = fr2.readlines()
 for line in data:
 	temp = line.split('\t')
-	p = float(temp[mode+1])
+	if mode < 2:
+		p = float(temp[mode+1])
+	else:
+		p = abs(float(temp[1])-float(temp[2]))
+		if float(temp[1]) == -1 or float(temp[2]) == -1:
+			p = -1
 	if p < 0:
 		continue
 	idx = int(p / wid)
@@ -81,7 +91,12 @@ fr1 = open(prefix+'similarity/'+filename+'_pearson_point.detail', 'r')
 data = fr1.readlines()
 for line in data:
 	temp = line.split('\t')
-	p = float(temp[mode+1])
+	if mode < 2:
+		p = float(temp[mode+1])
+	else:
+		p = abs(float(temp[1])-float(temp[2]))
+		if float(temp[1]) == -1 or float(temp[2]) == -1:
+			p = -1
 	if p < 0:
 		continue
 	idx = int(p / wid)
@@ -92,7 +107,12 @@ fr2 = open(prefix+'similarity/'+filename+'_jaccard_point.detail', 'r')
 data = fr2.readlines()
 for line in data:
 	temp = line.split('\t')
-	p = float(temp[mode+1])
+	if mode < 2:
+		p = float(temp[mode+1])
+	else:
+		p = abs(float(temp[1])-float(temp[2]))
+		if float(temp[1]) == -1 or float(temp[2]) == -1:
+			p = -1
 	if p < 0:
 		continue
 	idx = int(p / wid)
