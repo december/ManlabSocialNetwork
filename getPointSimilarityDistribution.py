@@ -34,8 +34,8 @@ jdb_sim = np.zeros(bins)
 jdb_sim_cum = np.zeros(bins)
 ppos = np.zeros(bins)
 jpos = np.zeros(bins)
-wid = 0.01
-end = 0.005
+wid = 1.0 / bins
+end = wid / 2
 for i in range(bins):
 	ppos[i] = end
 	jpos[i] = end
