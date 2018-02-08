@@ -19,7 +19,7 @@ uid = list() #from user index in this ego network to user id
 iddic = {} #from user id to user index in this ego network
 tweetdic = {} #from tweet id to the user index of its author
 number = 0 #total number of tweeters
-k = 1.8
+k = 1.5
 
 def GetIET(l):
 	p = numpy.random.rand()
@@ -64,7 +64,7 @@ def GetLog(r, p, u, t, c, d): #root_tweet, parent_tweet, parent_user, parent_tim
 		realpi = pi[edgemap[u][f]]
 		if d > 1:
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)
-		if np.random.rand() <= realpi:
+		if np.random.rand() <= realpi * 0.2:
 			current = number
 			tweetdic[current] = f
 			number += 1
@@ -147,7 +147,7 @@ for i in range(enum):
 fr.close()
 
 print 'Finished reading..'
-prefix = '../../cascading_generation_model/simulation_notopic/'
+prefix = '../../cascading_generation_model/simulation/'
 suffix = '.detail'
 if single:
 	prefix += str(filename) + '/'
