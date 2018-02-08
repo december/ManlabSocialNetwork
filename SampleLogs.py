@@ -37,13 +37,14 @@ def CollectLog(info, k, m, td):
 
 n = len(data)
 print n
-i = 1589440404
-#i = 0
+#i = 1589440404
+i = 0
 cascade = 0
 wrongdata = 0
 
 while i < n:
-	print i
+	if i == 1590678642:
+		i = 1590678668
 	temp = data[i].split('\t')
 	#if len(temp[1]) > 10 and i < 1590678665:
 	#	i = 1590678668
