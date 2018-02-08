@@ -107,24 +107,6 @@ print [m1, m2]
 
 #pearson = np.zeros((m, m))
 #jaccard = np.zeros((m, m))
-pearson = 0
-jaccard = 0
-numbers = m * (m - 1) / 2
-pointlist = realdic.keys()
-bins = 10000
-pdb = np.zeros(bins)
-jdb = np.zeros(bins)
-ppos = np.zeros(bins)
-jpos = np.zeros(bins)
-wid1 = 1.0 / bins
-wid2 = 2.0 / bins
-end1 = wid1
-end2 = -1 + wid2
-for i in range(bins):
-	ppos[i] = end2
-	jpos[i] = end1
-	end1 += wid1
-	end2 += wid2
 
 fw1 = open(prefix+'similarity/'+filename+'_pearson_point.detail', 'w')
 fw2 = open(prefix+'similarity/'+filename+'_jaccard_point.detail', 'w')
