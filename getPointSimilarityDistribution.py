@@ -23,7 +23,7 @@ users = 7268
 realdata = list()
 relation_prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 
-bins = 100
+bins = 10
 pdb = np.zeros(bins)
 pdb_cum = np.zeros(bins)
 pdb_sim = np.zeros(bins)
@@ -49,7 +49,7 @@ for line in data:
 	if p < 0:
 		continue
 	idx = int(p / wid)
-	pdb[min(idx, 99)] += 1
+	pdb[min(idx, bins-1)] += 1
 fr1.close()
 
 fr2 = open(prefix+'similarity/'+filename+'_jaccard_point.detail', 'r')
@@ -60,7 +60,7 @@ for line in data:
 	if p < 0:
 		continue
 	idx = int(p / wid)
-	jdb[min(idx, 99)] += 1
+	jdb[min(idx, bins-1)] += 1
 fr2.close()
 
 psum = sum(pdb)
@@ -85,7 +85,7 @@ for line in data:
 	if p < 0:
 		continue
 	idx = int(p / wid)
-	pdb_sim[min(idx, 99)] += 1
+	pdb_sim[min(idx, bins-1)] += 1
 fr1.close()
 
 fr2 = open(prefix+'similarity/'+filename+'_jaccard_point.detail', 'r')
@@ -96,7 +96,7 @@ for line in data:
 	if p < 0:
 		continue
 	idx = int(p / wid)
-	jdb_sim[min(idx, 99)] += 1
+	jdb_sim[min(idx, bins-1)] += 1
 fr2.close()
 
 psum_sim = sum(pdb_sim)
