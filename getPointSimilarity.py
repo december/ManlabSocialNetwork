@@ -111,10 +111,12 @@ fw1 = open(prefix+'similarity/'+filename+'_pearson_point.detail', 'w')
 fw2 = open(prefix+'similarity/'+filename+'_jaccard_point.detail', 'w')
 
 for k in relation_dic:
+	tempcnt = len(relation_dic[k])
+	if tempcnt < 2:
+		continue
 	valueset = [-1, -1, -1, -1]
 	m0 = 0
 	m1 = 0
-	tempcnt = len(relation_dic[k])
 	if realdic[0].has_key(k):
 		m0 = len(realdic[0][k])
 	if realdic[1].has_key(k):
@@ -125,7 +127,7 @@ for k in relation_dic:
 		pointlist = realdic[0][k].keys()
 		for i in range(m0):
 			for j in range(i+1, m0):
-				pij, jij = calcPJ(realdic[0][k][pointlist[i]], realdic[0][k][pointlist[i]], tempcnt)
+				pij, jij = calcPJ(realdic[0][k][pointlist[i]], realdic[0][k][pointlist[j]], tempcnt)
 				pearson += abs(pij)
 				jaccard += jij
 		valueset[0] = pearson * 2.0 / m0 / (m0 - 1)
@@ -136,7 +138,7 @@ for k in relation_dic:
 		pointlist = realdic[1][k].keys()
 		for i in range(m1):
 			for j in range(i+1, m1):
-				pij, jij = calcPJ(realdic[1][k][pointlist[i]], realdic[1][k][pointlist[i]], tempcnt)
+				pij, jij = calcPJ(realdic[1][k][pointlist[i]], realdic[1][k][pointlist[j]], tempcnt)
 				pearson += abs(pij)
 				jaccard += jij
 		valueset[1] = pearson * 2.0 / m1 / (m1 - 1)
