@@ -127,7 +127,7 @@ for k in relation_dic:
 		pointlist = realdic[0][k].keys()
 		for i in range(m0):
 			for j in range(i+1, m0):
-				if len(realdic[0][k][pointlist[i]]) == tempcnt or len(realdic[0][k][pointlist[i]]) == tempcnt:
+				if len(realdic[0][k][pointlist[i]]) == tempcnt or len(realdic[0][k][pointlist[j]]) == tempcnt:
 					continue
 				pij, jij = calcPJ(realdic[0][k][pointlist[i]], realdic[0][k][pointlist[j]], tempcnt)
 				pearson += abs(pij)
@@ -140,6 +140,8 @@ for k in relation_dic:
 		pointlist = realdic[1][k].keys()
 		for i in range(m1):
 			for j in range(i+1, m1):
+				if len(realdic[1][k][pointlist[i]]) == tempcnt or len(realdic[1][k][pointlist[j]]) == tempcnt:
+					continue
 				pij, jij = calcPJ(realdic[1][k][pointlist[i]], realdic[1][k][pointlist[j]], tempcnt)
 				pearson += abs(pij)
 				jaccard += jij
