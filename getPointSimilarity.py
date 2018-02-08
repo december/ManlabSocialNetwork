@@ -113,7 +113,7 @@ fw2 = open(prefix+'similarity/'+filename+'_jaccard_point.detail', 'w')
 
 for k in relation_dic:
 	tempcnt = len(relation_dic[k])
-	if tempcnt < 5:
+	if tempcnt < 10:
 		continue
 	valueset = [-1, -1, -1, -1]
 	m0 = 0
