@@ -13,7 +13,6 @@ realdic.append({}) #retweet
 realdic.append({}) #post root
 
 authordic = {} #from tweet id to author id
-cnt = 0 #cascade number
 
 simulation = False
 filename = 'Real'
@@ -21,7 +20,7 @@ if len(sys.argv) > 1:
 	filename = sys.argv[1]
 	simulation = True
 
-def calcPJ(x, y):
+def calcPJ(x, y, cnt):
 	p = 0
 	j = 0
 	xlist = x.keys()
@@ -112,28 +111,33 @@ fw1 = open(prefix+'similarity/'+filename+'_pearson_point.detail', 'w')
 fw2 = open(prefix+'similarity/'+filename+'_jaccard_point.detail', 'w')
 
 for k in relation_dic:
-	m0 = len(relation_dic[0][k])
-	m1 = len(relation_dic[1][k])
 	valueset = [-1, -1, -1, -1]
+	m0 = 0
+	m1 = 0
+	tempcnt = len(relation_dic[k])
+	if realdic[0].has_key(k):
+		m0 = len(real_dic[0][k])
+	if realdic[1].has_key(k):
+		m1 = len(real_dic[1][k])
 	if m0 > 1:
 		pearson = 0
 		jaccard = 0
-		pointlist = relation_dic[0][k].keys()
+		pointlist = realdic[0][k].keys()
 		for i in range(m0):
 			for j in range(i+1, m0):
-				pij, jij = calcPJ(relation_dic[0][k][pointlist[i]], relation_dic[0][k][pointlist[i]])
-				pearson += pij
+				pij, jij = calcPJ(realdic[0][k][pointlist[i]], realdic[0][k][pointlist[i]], tempcnt)
+				pearson += abs(pij)
 				jaccard += jij
 		valueset[0] = pearson * 2.0 / m0 / (m0 - 1)
 		valueset[2] = jaccard * 2.0 / m0 / (m0 - 1)
 	if m1 > 1:
 		pearson = 0
 		jaccard = 0
-		pointlist = relation_dic[1][k].keys()
+		pointlist = realdic[1][k].keys()
 		for i in range(m1):
 			for j in range(i+1, m1):
-				pij, jij = calcPJ(relation_dic[1][k][pointlist[i]], relation_dic[1][k][pointlist[i]])
-				pearson += pij
+				pij, jij = calcPJ(realdic[1][k][pointlist[i]], realdic[1][k][pointlist[i]], tempcnt)
+				pearson += abs(pij)
 				jaccard += jij
 		valueset[1] = pearson * 2.0 / m1 / (m1 - 1)
 		valueset[3] = jaccard * 2.0 / m1 / (m1 - 1)
