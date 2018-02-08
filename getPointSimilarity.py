@@ -112,7 +112,7 @@ fw2 = open(prefix+'similarity/'+filename+'_jaccard_point.detail', 'w')
 
 for k in relation_dic:
 	tempcnt = len(relation_dic[k])
-	if tempcnt < 5:
+	if tempcnt < 2:
 		continue
 	valueset = [-1, -1, -1, -1]
 	m0 = 0
@@ -127,6 +127,8 @@ for k in relation_dic:
 		pointlist = realdic[0][k].keys()
 		for i in range(m0):
 			for j in range(i+1, m0):
+				if len(realdic[0][k][pointlist[i]]) == tempcnt or len(realdic[0][k][pointlist[i]]) == cnt:
+					continue
 				pij, jij = calcPJ(realdic[0][k][pointlist[i]], realdic[0][k][pointlist[j]], tempcnt)
 				pearson += abs(pij)
 				jaccard += jij
