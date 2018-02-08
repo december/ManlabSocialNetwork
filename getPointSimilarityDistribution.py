@@ -46,6 +46,8 @@ data = fr1.readlines()
 for line in data:
 	temp = line.split('\t')
 	p = float(temp[mode+1])
+	if p < 0:
+		continue
 	idx = int(p / wid)
 	pdb[min(idx, 99)] += 1
 fr1.close()
@@ -55,6 +57,8 @@ data = fr2.readlines()
 for line in data:
 	temp = line.split('\t')
 	p = float(temp[mode+1])
+	if p < 0:
+		continue
 	idx = int(p / wid)
 	jdb[min(idx, 99)] += 1
 fr2.close()
@@ -89,6 +93,8 @@ data = fr2.readlines()
 for line in data:
 	temp = line.split('\t')
 	p = float(temp[mode+1])
+	if p < 0:
+		continue
 	idx = int(p / wid)
 	jdb_sim[min(idx, 99)] += 1
 fr2.close()
