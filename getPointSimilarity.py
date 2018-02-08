@@ -90,8 +90,8 @@ while i < n:
 	for j in range(i+1, i+number):
 		data = realdata[j][:-1].split('\t')
 		if data[3] != '-1':
-			isroot = int(root_tweet.has_key(data[3]))
-			#isroot = 0
+			#isroot = int(root_tweet.has_key(data[3]))
+			isroot = 0
 			if not realdic[isroot].has_key(data[4]):
 				realdic[isroot][data[4]] = {}
 			if not realdic[isroot][data[4]].has_key(data[3]):
