@@ -92,7 +92,7 @@ while i < n:
 	for j in range(i+1, i+number):
 		data = realdata[j][:-1].split('\t')
 		if data[3] != '-1':
-			isroot = int(root_tweet.has_key(data[3]))
+			#isroot = int(root_tweet.has_key(data[3]))
 			if not data[1] in relation_dic[data[4]]:
 				continue
 			#isroot = 0
