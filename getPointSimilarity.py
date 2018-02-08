@@ -95,7 +95,7 @@ while i < n:
 			#isroot = int(root_tweet.has_key(data[3]))
 			if not data[1] in relation_dic[data[4]]:
 				continue
-			#isroot = 0
+			isroot = 0
 			if not realdic[isroot].has_key(data[4]):
 				realdic[isroot][data[4]] = {}
 			if not realdic[isroot][data[4]].has_key(data[3]):
