@@ -247,7 +247,7 @@ for i in range(n):
 	infer = list()
 	for j in range(5):
 		mul = np.log(expect_pop[poineer[0]][j])
-		for tau in range(1, 10):
+		for tau in range(1, 5):
 			mul +=  np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau]))
 		infer.append(mul)
 	norm = infer[2] + infer[3] + infer[1] + infer[4] + infer[0]
@@ -256,7 +256,7 @@ for i in range(n):
 	s = 0
 	temps = 0
 	num = 0
-	for tau in range(10):
+	for tau in range(5):
 		d = tau + 1
 		if tau > 0:
 			d = 1
