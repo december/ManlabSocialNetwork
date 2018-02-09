@@ -252,12 +252,13 @@ for i in range(n):
 	#print sel
 	acr = len(par_answer[i].intersection(sel)) * 1.0 / len(par_answer[i])
 	if acr > 0.5:
-		print sel
+		#print sel
 		right += 1
 	accuracy.append(acr)
 	#print i
 
 #print accuracy
+print expect_pop
 print len(accuracy)
 print sum(accuracy) / len(accuracy)
 print right
