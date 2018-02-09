@@ -55,7 +55,7 @@ while i < n:
 				edgemap[newinfo[1]][newinfo[4]] = 1
 		i += number
 		continue
-	if number > 10:
+	if number > 5:
 		answer = info[0]
 		legal = 0
 		for j in range(i+1, i+number):
@@ -64,8 +64,8 @@ while i < n:
 				answer += '\t' + newinfo[1]
 				legal += 1
 		answer += '\n'
-		if legal > 10:
-			participation.append(info[1]+'\t'+str(number-1)+'\n')
+		if legal > 5:
+			participation.append(info[1]+'\t'+str(legal)+'\n')
 			par_answer.append(answer)
 	if number > 10:
 		legal = 0
@@ -78,7 +78,7 @@ while i < n:
 				legal += 1
 		question += '\n'
 		if legal > 10:
-			pop_answer.append(info[0]+'\t'+str(number-1)+'\n')
+			pop_answer.append(info[0]+'\t'+str(legal)+'\n')
 			popularity.append(question)		
 	i += number
 
