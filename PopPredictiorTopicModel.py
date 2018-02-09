@@ -249,14 +249,10 @@ for i in range(n):
 	s = 0
 	temps = 0
 	num = 0
-
-
-
 	for tau in range(10):
 		d = tau + 1
 		if tau > 0:
 			d = 1
-		
 		for ui in range(1, 5):
 			s += GetExpect(poineer[tau], ui, d, 1, 0) * infer[ui]
 			
@@ -264,7 +260,7 @@ for i in range(n):
 	s += 10
 	#s = s / 5
 	#print i
-	print s
+	print str(s) + '\t' + str(pop_answer[i])
 	answer.append(infer)
 	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
 	accuracy.append(mape)
