@@ -246,15 +246,15 @@ for i in range(n):
 	norm = infer[2] + infer[3] + infer[4]
 	for j in range(3):
 		infer[j+2] = infer[j+2] / norm
-	s = 5
+	#s = 5
 	for tau in range(5):
 		d = tau + 1
 		if tau > 0:
 			d = 1
 		for ui in range(3, 5):
-			s += GetExpect(poineer[tau], ui, d, 1, 0) * infer[ui]
+			s += GetExpect(poineer[tau], ui, d, 1, 0) * (1 - infer[ui])
 		#s += GetExpect(poineer[tau], 4, d, 1, 0)
-	#s += 5
+	s = s / 2 + 5
 		'''
 		if not expect_pop.has_key(poineer[tau]):
 			expect_pop[poineer[tau]] = list()
