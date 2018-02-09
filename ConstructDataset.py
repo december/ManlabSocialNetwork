@@ -40,30 +40,46 @@ pop_answer = list()
 
 n = len(realdata)
 i = 0
+edgemap = {}
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
 	info = realdata[i+1].split('\t')
 	tm = int(info[2])
 	if tm <= mid:
+		for j in range(i+1, i+number):
+			newinfo = realdata[j].split('\t')
+			if int(newinfo[2]) <= mid and newinfo[3] != '-1':
+				if not edgemap.has_key(newinfo[1]):
+					edgemap[newinfo[1]] = {}
+				edgemap[newinfo[1]][newinfo[4]] = 1
 		i += number
 		continue
 	if number > 10:
-		participation.append(info[1]+'\t'+str(number-1)+'\n')
 		answer = info[0]
+		legal = 0
 		for j in range(i+1, i+number):
 			newinfo = realdata[j].split('\t')
-			answer += '\t' + newinfo[1]
+			if newinfo[3] == -1 or (edgemap.has_key(newinfo[1]) and edgemap[newinfo[1]].has_key(newinfo[4])):
+				answer += '\t' + newinfo[1]
+				legal += 1
 		answer += '\n'
-		par_answer.append(answer)
+		if legal > 10:
+			participation.append(info[1]+'\t'+str(number-1)+'\n')
+			par_answer.append(answer)
 	if number > 20:
-		pop_answer.append(info[0]+'\t'+str(number-1)+'\n')
+		legal = 0
 		question = info[0]
 		for j in range(i+1, i+6):
 			newinfo = realdata[j].split('\t')
+			if newinfo[3] == -1 or (edgemap.has_key(newinfo[1]) and edgemap[newinfo[1]].has_key(newinfo[4])):
+				answer += '\t' + newinfo[1]
+				legal += 1			
 			question += '\t' + newinfo[1]
 		question += '\n'
-		popularity.append(question)		
+		if legal > 20:
+			pop_answer.append(info[0]+'\t'+str(number-1)+'\n')
+			popularity.append(question)		
 	i += number
 
 fw = open('../../cascading_generation_model/722911_twolevel_neighbor_cascades/Participation.detail', 'w')
