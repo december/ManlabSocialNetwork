@@ -171,7 +171,7 @@ print 'Finished reading..'
 #suffix = '.detail'
 accuracy = list()
 expect_pop = {}
-n = len(par)
+n = len(pop)
 right = 0
 for i in range(n):
 	line = pop[i]
