@@ -73,8 +73,8 @@ def GetExpect(u, tau, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_
 		if d > 1:
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)		
 		p = psaw * realpi * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
-		s += p
-		s = p * GetExpect(f, tau, d+1, rp * p, s)
+		s += rp * p
+		s = GetExpect(f, tau, d+1, rp * p, s)
 	return s
 
 def Select(prusc, pop, selection, depdic, infer):
