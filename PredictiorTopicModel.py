@@ -231,10 +231,10 @@ for i in range(n):
 			expect_pop[line[0]].append(GetExpect(newi, 0, 1, 1))
 	delta = abs(expect_pop[line[0]][0] - pop)
 	infer = 0
-	for i in range(1, 5):
-		if abs(expect_pop[line[0]][i] - pop) < delta:
-			delta = abs(expect_pop[line[0]][i] - pop)
-			infer = i
+	for j in range(1, 5):
+		if abs(expect_pop[line[0]][j] - pop) < delta:
+			delta = abs(expect_pop[line[0]][j] - pop)
+			infer = j
 	prusc = {}
 	depdic = {}
 	sel = set()
