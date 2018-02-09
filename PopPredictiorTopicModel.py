@@ -229,7 +229,7 @@ for i in range(n):
 	flag = False
 	poineer = list()
 	for j in line:
-		if not iddic.has_key(int(j)):
+		if j == '1'
 			flag = True
 			break
 		poineer.append(iddic[int(j)])
@@ -255,7 +255,7 @@ for i in range(n):
 				d = 1
 			expect_pop[poineer[tau]][infer] = GetExpect(poineer[tau], infer, d, 1, 0) + 1
 		s += expect_pop[poineer[tau]][infer]
-	s = s / 5
+	#s = s / 5
 	print i
 	answer.append(s)
 	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
