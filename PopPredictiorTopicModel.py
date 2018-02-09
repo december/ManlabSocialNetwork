@@ -256,7 +256,9 @@ for i in range(n):
 			expect_pop[poineer[tau]][infer] = GetExpect(poineer[tau], infer, d, 1, 0) + 1
 		s += expect_pop[poineer[tau]][infer]
 	#s = s / 5
-	print i
+	#print i
+	if s > 200:
+		print line
 	answer.append(s)
 	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
 	accuracy.append(mape)
