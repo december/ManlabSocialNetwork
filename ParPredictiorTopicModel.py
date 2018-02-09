@@ -67,8 +67,8 @@ def GetExpect(u, tau, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_
 	if not edgemap.has_key(u):
 		return s
 	for f in edgemap[u]:
-		psaw = 1 - np.exp(-omega[f]*te)
-		#psaw = 1
+		#psaw = 1 - np.exp(-omega[f]*te)
+		psaw = 1
 		realpi = pi[edgemap[u][f]]
 		if d > 1:
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)		
