@@ -98,7 +98,7 @@ fr = open(prefix+'Popularity'+suffix, 'r')
 questions = fr.readlines()
 pop = list()
 for line in questions:
-	par.append(line[:-1].split('\t')[1:])
+	pop.append(line[:-1].split('\t')[1:])
 fr.close()
 
 fr = open(prefix+'Popularity_answer'+suffix, 'r')
