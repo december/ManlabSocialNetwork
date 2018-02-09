@@ -67,8 +67,8 @@ def GetExpect(u, tau, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_
 	if not edgemap.has_key(u):
 		return s
 	for f in edgemap[u]:
-		#psaw = 1 - np.exp(-omega[f]*te)
-		psaw = 1
+		psaw = 1 - np.exp(-omega[f]*te)
+		#psaw = 1
 		realpi = pi[edgemap[u][f]]
 		if d > 1:
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)		
@@ -233,7 +233,7 @@ for i in range(n):
 	if not expect_pop.has_key(line[0]):
 		expect_pop[line[0]] = []
 		for j in range(5):
-			expect_pop[line[0]].append(GetExpect(newi, j, 1, 1, 0))
+			expect_pop[line[0]].append(GetExpect(newi, j, 1, 1, 0)+1)
 	delta = abs(expect_pop[line[0]][0] - pop)
 	infer = 0
 	for j in range(1, 5):
@@ -250,6 +250,7 @@ for i in range(n):
 	sel = Select(prusc, pop, sel, depdic, infer)
 	sel = set(idlist[s] for s in sel)
 	#print sel
+	print par_answer[i].intersection(sel)
 	acr = len(par_answer[i].intersection(sel)) * 1.0 / len(par_answer[i])
 	if acr > 0.5:
 		#print sel
