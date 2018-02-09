@@ -61,21 +61,20 @@ def GetTau(p1, p2, p3, p4, p5, v):
 		return 3
 	return 4	
 
-def GetExpect(u, tau, d, rp): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
+def GetExpect(u, tau, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
 	if d >= 20 or rp <= 5e-2:
 		return 0
 	if not edgemap.has_key(u):
 		return 0
-	s = 0
 	for f in edgemap[u]:
-		#psaw = 1 - np.exp(-omega[f]*te)
-		psaw = 1
+		psaw = 1 - np.exp(-omega[f]*te)
+		#psaw = 1
 		realpi = pi[edgemap[u][f]]
 		if d > 1:
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)		
 		p = psaw * realpi * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
 		s += p
-		s += p * GetExpect(f, tau, d+1, rp * p)
+		s += p * GetExpect(f, tau, d+1, rp * p, )
 	return s
 
 def Select(prusc, pop, selection, depdic, infer):
