@@ -200,5 +200,6 @@ for i in range(n):
 
 #print accuracy
 print len(accuracy)
+print sum(accuracy) / len(accuracy)
 print sum(mae) / len(mae)
 #print right
