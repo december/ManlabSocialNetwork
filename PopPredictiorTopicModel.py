@@ -223,6 +223,7 @@ expect_pop = {}
 answer = list()
 right = 0
 wrong = 0
+threshold = 15
 n = len(pop)
 for i in range(n):
 	line = pop[i]
@@ -261,6 +262,10 @@ for i in range(n):
 	#s = s / 5
 	#print i
 	print str(s) + '\t' + str(pop_answer[i])
+	if (s > threshold) == (pop_answer[i] > threshold):
+		right += 1
+	else:
+		wrong += 1 
 	answer.append(infer)
 	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
 	accuracy.append(mape)
@@ -273,4 +278,5 @@ for i in range(n):
 print len(accuracy)
 print sum(accuracy) / len(accuracy)
 print sum(mae) / len(mae)
+print str(right) + '\t' + str(wrong)
 #print right
