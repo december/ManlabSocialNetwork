@@ -218,7 +218,7 @@ print 'Finished reading..'
 #prefix = '../../cascading_generation_model/simulation/'
 #suffix = '.detail'
 accuracy = list()
-mape = list()
+mae = list()
 expect_pop = {}
 right = 0
 wrong = 0
@@ -255,8 +255,9 @@ for i in range(n):
 			expect_pop[poineer[tau]][infer] = GetExpect(poineer[tau], infer, d, 1, 0) + 1
 		s += expect_pop[poineer[tau]][infer]
 	s = s / 5
-	mae = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
-	accuracy.append(mae)
+	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
+	accuracy.append(mape)
+	mae.append(abs(pop_answer[i] - s))
 	#print i
 
 #print accuracy
@@ -264,4 +265,5 @@ for i in range(n):
 print wrong
 print len(accuracy)
 print sum(accuracy) / len(accuracy)
+print sum(mae) / len(mae)
 #print right

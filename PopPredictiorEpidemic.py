@@ -170,7 +170,7 @@ print 'Finished reading..'
 #prefix = '../../cascading_generation_model/simulation/'
 #suffix = '.detail'
 accuracy = list()
-mape = list()
+mae = list()
 expect_pop = {}
 n = len(pop)
 right = 0
