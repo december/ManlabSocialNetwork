@@ -238,18 +238,18 @@ for i in range(n):
 	infer = 0
 	for j in range(5):
 		mul = 1
-		for k in range(1, 5):
-			mul *=  GetPhi(phi1, phi2, phi3, phi4, phi5, i, poineer[k])
+		for tau in range(1, 5):
+			mul *=  GetPhi(phi1, phi2, phi3, phi4, phi5, i, poineer[tau])
 		if mul > delta:
 			infer = i
 			delta = mul
 	s = 0
-	for k in range(5):
-		if not expect_pop.has_key(poineer[k]):
-			expect_pop[poineer[k]] = {}
-		if not expect_pop[poineer[k]].has_key(infer):
-			expect_pop[poineer[k]][infer] = GetExpect(poineer[k], infer, 1, 1, 0) + 1
-		s += expect_pop[poineer[k]][infer]
+	for tau in range(5):
+		if not expect_pop.has_key(poineer[tau]):
+			expect_pop[poineer[tau]] = {}
+		if not expect_pop[poineer[tau]].has_key(infer):
+			expect_pop[poineer[tau]][infer] = GetExpect(poineer[tau], infer, 1, 1, 0) + 1
+		s += expect_pop[poineer[tau]][infer]
 	mae = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
 	accuracy.append(mae)
 	#print i
