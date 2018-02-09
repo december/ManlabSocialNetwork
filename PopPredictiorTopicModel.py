@@ -251,8 +251,9 @@ for i in range(n):
 		d = tau + 1
 		if tau > 0:
 			d = 1
-		for ui in range(1, 5):
-			s += GetExpect(poineer[tau], ui, d, 1, 0) / 4
+		for ui in range(5):
+			if ui != infer.index(max(infer)):
+				s += GetExpect(poineer[tau], ui, d, 1, 0) / 4
 	#s += 5
 		'''
 		if not expect_pop.has_key(poineer[tau]):
