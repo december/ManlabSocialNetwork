@@ -255,18 +255,6 @@ for i in range(n):
 			s += GetExpect(poineer[tau], ui, d, 1, 0) * (1 - infer[ui])
 		#s += GetExpect(poineer[tau], 4, d, 1, 0)
 	s = s / 2 + 5
-		'''
-		if not expect_pop.has_key(poineer[tau]):
-			expect_pop[poineer[tau]] = list()
-			for ui in range(5):
-				expect_pop[poineer[tau]].append(GetExpect(poineer[tau], infer, d, 1, 0)+1)
-		if not expect_pop[poineer[tau]].has_key(infer):
-			d = tau + 1
-			if tau > 0:
-				d = 1
-			expect_pop[poineer[tau]][infer] = GetExpect(poineer[tau], infer, d, 1, 0) + 1
-		s += expect_pop[poineer[tau]][infer]
-		'''
 	#s = s / 5
 	#print i
 	#print s
