@@ -223,7 +223,7 @@ expect_pop = {}
 answer = list()
 right = 0
 wrong = 0
-threshold = 15
+threshold = 20
 n = len(pop)
 for i in range(n):
 	line = pop[i]
