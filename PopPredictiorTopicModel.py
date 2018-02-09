@@ -254,7 +254,7 @@ for i in range(n):
 		if tau > 0:
 			d = 1
 		for ui in range(1, 5):
-			s += GetExpect(poineer[tau], ui, d, 1, 0) * infer[ui]
+			s += GetExpect(poineer[tau], ui, d, 1, 0) * 0.25
 			
 		#s += GetExpect(poineer[tau], 4, d, 1, 0)
 	s += 10
