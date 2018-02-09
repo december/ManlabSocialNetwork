@@ -227,7 +227,7 @@ for i in range(n):
 	pop = int(line[1])
 	if not expect_pop.has_key(line[0]):
 		expect_pop[line[0]] = []
-		for i in range(5):
+		for j in range(5):
 			expect_pop[line[0]].append(GetExpect(newi, 0, 1, 1))
 	delta = abs(expect_pop[line[0]][0] - pop)
 	infer = 0
