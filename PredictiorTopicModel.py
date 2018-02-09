@@ -64,6 +64,8 @@ def GetTau(p1, p2, p3, p4, p5, v):
 def GetExpect(u, tau, d): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
 	if d >= 20:
 		return 0
+	if not edgemap.has_key(u):
+		return 0
 	s = 0
 	for f in edgemap[u]:
 		psaw = 1 - np.exp(-omega[f]*te)
@@ -80,6 +82,9 @@ def Select(prusc, pop, selection, depdic):
 		maximum = max(prusc.values())
 		user = max(prusc.items(), key=lambda x: x[1])[0]
 		selection.add(user)
+		prusc.pop(user)
+		if not edgemap.has_key(user):
+			continue
 		for f in edgemap[user]:
 			if not f in selection:
 				prusc[f] = maximum * (1 - np.exp(-omega[f]*te)) * x[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, infer, f) * k ** -depdic[user]
