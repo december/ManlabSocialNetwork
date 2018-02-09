@@ -173,7 +173,9 @@ accuracy = list()
 expect_pop = {}
 n = len(par)
 for i in range(n):
-	line = par[i]
+	line = par[i]	
+	if not iddic.has_key(int(line[0])):
+		continue
 	newi = iddic[int(line[0])]
 	pop = int(line[1])
 	if not edgemap.has_key(newi):
