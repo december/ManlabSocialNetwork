@@ -238,7 +238,7 @@ for i in range(n):
 		poineer.append(iddic[int(j)])
 	if flag:
 		continue
-	#expect_pop[poineer[0]] = [i+1]
+	expect_pop[poineer[0]] = []
 	for ui in range(0, 5):
 		expect_pop[poineer[0]].append(GetExpect(poineer[0], ui, 1, 1, 0))
 	#print expect_pop[poineer[0]]
