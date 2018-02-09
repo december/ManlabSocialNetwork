@@ -87,7 +87,7 @@ def Select(prusc, pop, selection, depdic):
 			continue
 		for f in edgemap[user]:
 			if not f in selection:
-				prusc[f] = maximum * (1 - np.exp(-omega[f]*te)) * x[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, infer, f) * k ** -depdic[user]
+				prusc[f] = maximum * (1 - np.exp(-omega[f]*te)) * x[edgemap[user][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, infer, f) * k ** -depdic[user]
 				depdic[f] = depdic[user] + 1
 	return selection
 
