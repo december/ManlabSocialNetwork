@@ -74,7 +74,7 @@ def GetExpect(u, tau, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)		
 		p = psaw * realpi * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
 		s += rp * p
-		s = GetExpect(f, tau, d, rp * p, s)
+		s = GetExpect(f, tau, d+1, rp * p, s)
 	return s
 
 def Select(prusc, pop, selection, depdic, infer):
@@ -239,9 +239,9 @@ for i in range(n):
 	if flag:
 		continue
 	expect_pop[poineer[0]] = list()
-	#for ui in range(1, 5):
-	#	expect_pop[poineer[0]].append(GetExpect(poineer[0], ui, 1, 1, 0))
-	#print expect_pop[poineer[0]]
+	for ui in range(1, 5):
+		expect_pop[poineer[0]].append(GetExpect(poineer[0], ui, 1, 1, 0))
+	print expect_pop[poineer[0]]
 
 	delta = 0
 	infer = list()
@@ -267,7 +267,7 @@ for i in range(n):
 	s += 10
 	#s = s / 5
 	#print i
-	print str(s) + '\t' + str(pop_answer[i])
+	#print str(s) + '\t' + str(pop_answer[i])
 	if pop_answer[i] > threshold:
 		bigger += 1
 	else:
