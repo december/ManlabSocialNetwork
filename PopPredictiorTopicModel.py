@@ -243,17 +243,17 @@ for i in range(n):
 		for tau in range(1, 5):
 			mul *=  GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau])
 		infer.append(mul)
-	norm = sum(infer)
-	for j in range(5):
-		infer[j] = infer[j] / norm
+	norm = infer[2] + infer[3] + infer[4]
+	for j in range(3):
+		infer[j+2] = infer[j+2] / norm
 	s = 5
 	for tau in range(5):
 		d = tau + 1
 		if tau > 0:
 			d = 1
-		#for ui in range(3, 5):
-		#	s += GetExpect(poineer[tau], ui, d, 1, 0) / 2
-		s += GetExpect(poineer[tau], 4, d, 1, 0)
+		for ui in range(3, 5):
+			s += GetExpect(poineer[tau], ui, d, 1, 0) * infer[ui]
+		#s += GetExpect(poineer[tau], 4, d, 1, 0)
 	#s += 5
 		'''
 		if not expect_pop.has_key(poineer[tau]):
