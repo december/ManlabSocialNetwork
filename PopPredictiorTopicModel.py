@@ -252,7 +252,7 @@ for i in range(n):
 		if tau > 0:
 			d = 1
 		for ui in range(5):
-			s += (GetExpect(poineer[tau], ui, d, 1, 0) + 1) * 0.2
+			s += (GetExpect(poineer[tau], ui, d, 1, 0) + 1) * (1 - infer(i))
 		'''
 		if not expect_pop.has_key(poineer[tau]):
 			expect_pop[poineer[tau]] = list()
@@ -276,7 +276,7 @@ for i in range(n):
 
 #print accuracy
 #print expect_pop
-print answer
+#print answer
 print len(accuracy)
 print sum(accuracy) / len(accuracy)
 print sum(mae) / len(mae)

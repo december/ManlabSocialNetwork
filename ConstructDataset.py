@@ -80,7 +80,7 @@ while i < n:
 		if legal > 5:
 			participation.append(info[1]+'\t'+str(legal)+'\n')
 			par_answer.append(answer)
-	if number > 10 and info[1] in goodset:
+	if number > 5 and info[1] in goodset:
 		legal = 0
 		question = info[0]
 		for j in range(i+1, i+number):
@@ -90,7 +90,7 @@ while i < n:
 					question += '\t' + newinfo[1]
 				legal += 1
 		question += '\n'
-		if legal > 10:
+		if legal > 5:
 			pop_answer.append(info[0]+'\t'+str(legal)+'\n')
 			popularity.append(question)		
 	i += number
