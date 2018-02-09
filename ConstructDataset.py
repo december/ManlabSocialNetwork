@@ -67,17 +67,17 @@ while i < n:
 		if legal > 10:
 			participation.append(info[1]+'\t'+str(number-1)+'\n')
 			par_answer.append(answer)
-	if number > 20:
+	if number > 10:
 		legal = 0
 		question = info[0]
-		for j in range(i+1, i+6):
+		for j in range(i+1, i+number):
 			newinfo = realdata[j].split('\t')
 			if newinfo[3] == -1 or (edgemap.has_key(newinfo[1]) and edgemap[newinfo[1]].has_key(newinfo[4])):
-				answer += '\t' + newinfo[1]
-				legal += 1			
-			question += '\t' + newinfo[1]
+				if legal < 5:		
+					question += '\t' + newinfo[1]
+				legal += 1
 		question += '\n'
-		if legal > 20:
+		if legal > 10:
 			pop_answer.append(info[0]+'\t'+str(number-1)+'\n')
 			popularity.append(question)		
 	i += number
