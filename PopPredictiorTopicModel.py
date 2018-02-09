@@ -62,7 +62,7 @@ def GetTau(p1, p2, p3, p4, p5, v):
 	return 4	
 
 def GetExpect(u, tau, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
-	if d >= 20 or rp <= 1e-3:
+	if d >= 20 or rp <= 1e-2:
 		return s
 	if not edgemap.has_key(u):
 		return s
@@ -259,7 +259,7 @@ for i in range(n):
 	#print i
 	if s > 200:
 		print line
-	answer.append(s)
+	answer.append(infer)
 	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
 	accuracy.append(mape)
 	mae.append(abs(pop_answer[i] - s))
