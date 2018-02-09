@@ -229,7 +229,7 @@ for i in range(n):
 	flag = False
 	poineer = list()
 	for j in line:
-		if j == '1' or j == '206430' or j == '178365':
+		if j == '1' or j == '206430' or j == '178365' or j == '178826':
 			flag = True
 			break
 		poineer.append(iddic[int(j)])
