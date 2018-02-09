@@ -220,6 +220,7 @@ print 'Finished reading..'
 #suffix = '.detail'
 accuracy = list()
 expect_pop = {}
+right = 0
 n = len(par)
 for i in range(n):
 	line = par[i]
@@ -248,8 +249,13 @@ for i in range(n):
 		depdic[f] = 1
 	sel = Select(prusc, pop, sel, depdic, infer)
 	sel = set(idlist[s] for s in sel)
-	accuracy.append(len(par_answer[i].intersection(sel)) * 1.0 / len(par_answer[i]))
-	print i
+	acr = len(par_answer[i].intersection(sel)) * 1.0 / len(par_answer[i])
+	if acr > 0.5:
+		right += 1
+	accuracy.append(acr)
+	#print i
 
-print accuracy
+#print accuracy
+print len(accuracy)
 print sum(accuracy) / len(accuracy)
+print right
