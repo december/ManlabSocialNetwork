@@ -223,7 +223,7 @@ expect_pop = {}
 answer = list()
 right = 0
 wrong = 0
-threshold = 18
+threshold = 17
 bigger = 0
 smaller = 0
 n = len(pop)
@@ -267,7 +267,7 @@ for i in range(n):
 	s += 10
 	#s = s / 5
 	#print i
-	#print str(s) + '\t' + str(pop_answer[i])
+	print str(s) + '\t' + str(pop_answer[i])
 	if pop_answer[i] > threshold:
 		bigger += 1
 	else:
