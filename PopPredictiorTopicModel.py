@@ -237,28 +237,37 @@ for i in range(n):
 		wrong += 1
 		continue
 	delta = 0
-	infer = 0
+	infer = list()
 	for j in range(5):
 		mul = 1
 		for tau in range(1, 5):
 			mul *=  GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau])
-		if mul > delta:
-			infer = j
-			delta = mul
+		infer.append(mul)
+	norm = sum(infer)
+	for j in range(5):
+		infer[j] = infer[j] / norm
 	s = 0
 	for tau in range(5):
+		d = tau + 1
+		if tau > 0:
+			d = 1
+		for ui in range(5):
+			s += (GetExpect(poineer[tau], ui, d, 1, 0) + 1) * infer[ui]
+		'''
 		if not expect_pop.has_key(poineer[tau]):
-			expect_pop[poineer[tau]] = {}
+			expect_pop[poineer[tau]] = list()
+			for ui in range(5):
+				expect_pop[poineer[tau]].append(GetExpect(poineer[tau], infer, d, 1, 0)+1)
 		if not expect_pop[poineer[tau]].has_key(infer):
 			d = tau + 1
 			if tau > 0:
 				d = 1
 			expect_pop[poineer[tau]][infer] = GetExpect(poineer[tau], infer, d, 1, 0) + 1
 		s += expect_pop[poineer[tau]][infer]
+		'''
 	#s = s / 5
 	#print i
-	if s > 200:
-		print line
+	print s
 	answer.append(infer)
 	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
 	accuracy.append(mape)
