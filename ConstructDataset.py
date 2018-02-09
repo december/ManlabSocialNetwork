@@ -41,21 +41,32 @@ pop_answer = list()
 n = len(realdata)
 i = 0
 edgemap = {}
+goodset = set()
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
 	info = realdata[i+1].split('\t')
 	tm = int(info[2])
 	if tm <= mid:
+		if number > 10:
+			goodset.add(info[1])
 		for j in range(i+1, i+number):
 			newinfo = realdata[j].split('\t')
 			if int(newinfo[2]) <= mid and newinfo[3] != '-1':
 				if not edgemap.has_key(newinfo[1]):
 					edgemap[newinfo[1]] = {}
 				edgemap[newinfo[1]][newinfo[4]] = 1
+	i += number
+i = 0
+while i < n:
+	temp = realdata[i].split('\t')
+	number = int(temp[1]) + 1
+	info = realdata[i+1].split('\t')
+	tm = int(info[2])
+	if tm <= mid:
 		i += number
-		continue
-	if number > 5:
+		continue	
+	if number > 5 and info[1] in goodset:
 		answer = info[0]
 		legal = 0
 		for j in range(i+1, i+number):
@@ -67,7 +78,7 @@ while i < n:
 		if legal > 5:
 			participation.append(info[1]+'\t'+str(legal)+'\n')
 			par_answer.append(answer)
-	if number > 10:
+	if number > 10 and info[1] in goodset:
 		legal = 0
 		question = info[0]
 		for j in range(i+1, i+number):
