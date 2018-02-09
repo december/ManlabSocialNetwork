@@ -252,7 +252,8 @@ for i in range(n):
 		if tau > 0:
 			d = 1
 		for ui in range(2, 5):
-			s += (GetExpect(poineer[tau], ui, d, 1, 0) + 1) / 3
+			s += GetExpect(poineer[tau], ui, d, 1, 0) / 3
+		s += 5
 		'''
 		if not expect_pop.has_key(poineer[tau]):
 			expect_pop[poineer[tau]] = list()
