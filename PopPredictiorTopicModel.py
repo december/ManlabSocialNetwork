@@ -257,7 +257,7 @@ for i in range(n):
 	s += 5
 	#s = s / 5
 	#print i
-	#print s
+	print s
 	answer.append(infer)
 	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
 	accuracy.append(mape)
