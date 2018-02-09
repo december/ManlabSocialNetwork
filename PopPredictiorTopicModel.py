@@ -253,7 +253,7 @@ for i in range(n):
 			d = tau + 1
 			if tau > 0:
 				d = 1
-			expect_pop[poineer[tau]][infer] = GetExpect(poineer[tau], infer, d, 1, 0) * 5 + 1
+			expect_pop[poineer[tau]][infer] = GetExpect(poineer[tau], infer, d, 1, 0) + 1
 		s += expect_pop[poineer[tau]][infer]
 	#s = s / 5
 	#print i
