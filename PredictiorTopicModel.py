@@ -62,7 +62,7 @@ def GetTau(p1, p2, p3, p4, p5, v):
 	return 4	
 
 def GetExpect(u, tau, d, rp): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
-	if d >= 20 or rp <= 1e-3:
+	if d >= 20 or rp <= 1e-2:
 		return 0
 	if not edgemap.has_key(u):
 		return 0
