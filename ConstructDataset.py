@@ -50,6 +50,8 @@ while i < n:
 	if tm <= mid:
 		if number > 10:
 			goodset.add(info[1])
+			if info[1] == '246341':
+				break
 		for j in range(i+1, i+number):
 			newinfo = realdata[j].split('\t')
 			if int(newinfo[2]) <= mid and newinfo[3] != '-1':
