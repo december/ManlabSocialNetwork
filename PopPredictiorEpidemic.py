@@ -61,20 +61,20 @@ def GetTau(p1, p2, p3, p4, p5, v):
 		return 3
 	return 4	
 
-def GetExpect(u, tau, d, rp): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
+def GetExpect(u, rp, d, s): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
 	if d >= 20 or rp <= 1e-2:
-		return 0
+		return s
 	if not edgemap.has_key(u):
-		return 0
-	s = 0
+		return s
 	for f in edgemap[u]:
-		psaw = 1 - np.exp(-omega[f]*te)
-		realpi = pi[edgemap[u][f]]
+		#psaw = 1 - np.exp(-omega[f]*te)
+		#psaw = 1
+		realpi = beta0[edgemap[u][f]]
 		if d > 1:
-			realpi = x[edgemap[u][f]] * k ** -(d - 1)		
-		p = psaw * realpi * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
-		s += p
-		s += p * GetExpect(f, tau, d+1, rp * p)
+			realpi = beta1[edgemap[u][f]]		
+		p = realpi * (1 - gamma[u])
+		s += rp * p
+		s = GetExpect(f, d+1, rp * p, s)
 	return s
 
 def Select(prusc, pop, selection, depdic):
@@ -94,19 +94,18 @@ def Select(prusc, pop, selection, depdic):
 prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 suffix = '.detail'
 
-fr = open(prefix+'Participation'+suffix, 'r')
+fr = open(prefix+'Popularity'+suffix, 'r')
 questions = fr.readlines()
-par = list()
+pop = list()
 for line in questions:
-	par.append(line[:-1].split('\t'))
+	pop.append(line[:-1].split('\t')[1:])
 fr.close()
 
-fr = open(prefix+'Participation_answer'+suffix, 'r')
+fr = open(prefix+'Popularity_answer'+suffix, 'r')
 questions = fr.readlines()
-par_answer = list()
+pop_answer = list()
 for line in questions:
-	participant = line[:-1].split('\t')[1:]
-	par_answer.append(set(participant))
+	pop_answer.append(int(line[:-1].split('\t')[1]))
 fr.close()
 '''
 lbddic = {}
@@ -175,41 +174,32 @@ expect_pop = {}
 n = len(par)
 right = 0
 for i in range(n):
-	line = par[i]	
-	if not iddic.has_key(int(line[0])):
+	line = pop[i]
+	flag = False
+	poineer = list()
+	for j in line:
+		if not iddic.has_key(int(j)):
+			flag = True
+			break
+		poineer.append(iddic[int(j)])
+	if flag:
 		continue
-	newi = iddic[int(line[0])]
-	pop = int(line[1])
-	if not edgemap.has_key(newi):
-		continue
-	'''
-	if not expect_pop.has_key(line[0]):
-		expect_pop[line[0]] = []
-		for j in range(5):
-			expect_pop[line[0]].append(GetExpect(newi, 0, 1, 1))
-	delta = abs(expect_pop[line[0]][0] - pop)
-	infer = 0
-	for j in range(1, 5):
-		if abs(expect_pop[line[0]][j] - pop) < delta:
-			delta = abs(expect_pop[line[0]][j] - pop)
-			infer = j
-	'''
-	prusc = {}
-	depdic = {}
-	sel = set()
-	sel.add(newi)
-	for f in edgemap[newi]:
-		prusc[f] = (1 - gamma[newi]) * beta1[edgemap[newi][f]]
-		depdic[f] = 1
-	sel = Select(prusc, pop, sel, depdic)
-	sel = set(idlist[s] for s in sel)
-	acr = len(par_answer[i].intersection(sel)) * 1.0 / len(par_answer[i])
-	if acr > 0.5:
-		right += 1
-	accuracy.append(acr)
+	s = 0
+	for tau in range(5):
+		if not expect_pop.has_key(poineer[tau]):
+			expect_pop[poineer[tau]] = {}
+		if not expect_pop[poineer[tau]].has_key(infer):
+			d = tau + 1
+			if tau > 0:
+				d = 1			
+			expect_pop[poineer[tau]][infer] = GetExpect(poineer[tau], d, 1, 0) + 1
+		s += expect_pop[poineer[tau]][infer]
+	mae = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
+	accuracy.append(mae)
+	#print i
 	#print i
 
 #print accuracy
 print len(accuracy)
 print sum(accuracy) / len(accuracy)
-print right
+#print right
