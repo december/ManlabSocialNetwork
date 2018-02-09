@@ -223,7 +223,15 @@ right = 0
 n = len(pop)
 for i in range(n):
 	line = pop[i]
-	poineer = [iddic[j] for j in line]
+	flag = False
+	poineer = list()
+	for j in line:
+		if not iddic.has_key(j):
+			flag = True
+			break
+		poineer.append(iddic[j])
+	if flag:
+		continue
 	delta = 0
 	infer = 0
 	for j in range(5):
