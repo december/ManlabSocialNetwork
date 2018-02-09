@@ -245,7 +245,7 @@ for i in range(n):
 	sel = Select(prusc, pop, sel, depdic)
 	sel = set(idlist[s] for s in sel)
 	accuracy.append(len(par_answer[i].intersection(sel)) * 1.0 / len(par_answer[i]))
-	#print i
+	print i
 
 print accuracy
 print sum(accuracy) / len(accuracy)
