@@ -223,7 +223,7 @@ expect_pop = {}
 answer = list()
 right = 0
 wrong = 0
-threshold = 17
+threshold = 20
 bigger = 0
 smaller = 0
 n = len(pop)
@@ -232,7 +232,7 @@ for i in range(n):
 	flag = False
 	poineer = list()
 	for j in line:
-		if j == '1' or j == '206430':
+		if j == '1' or j == '206430' or j == '182684':
 			flag = True
 			break
 		poineer.append(iddic[int(j)])
