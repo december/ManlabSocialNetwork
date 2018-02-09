@@ -238,6 +238,11 @@ for i in range(n):
 		poineer.append(iddic[int(j)])
 	if flag:
 		continue
+	expect_pop[poineer[0]] = list()
+	for ui in range(1, 5):
+		expect_pop[poineer[0]].append(GetExpect(poineer[tau], ui, d, 1, 0))
+	print expect_pop[poineer[0]]
+
 	delta = 0
 	infer = list()
 	for j in range(5):
@@ -262,7 +267,7 @@ for i in range(n):
 	s += 10
 	#s = s / 5
 	#print i
-	print str(s) + '\t' + str(pop_answer[i])
+	#print str(s) + '\t' + str(pop_answer[i])
 	if pop_answer[i] > threshold:
 		bigger += 1
 	else:
