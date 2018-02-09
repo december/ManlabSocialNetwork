@@ -229,9 +229,9 @@ for i in range(n):
 	flag = False
 	poineer = list()
 	for j in line:
-		#if j == '1' or j == '206430' or j == '178365' or j == '178826':
-		#	flag = True
-		#	break
+		if j == '1':
+			flag = True
+			break
 		poineer.append(iddic[int(j)])
 	if flag:
 		wrong += 1
@@ -251,8 +251,8 @@ for i in range(n):
 		d = tau + 1
 		if tau > 0:
 			d = 1
-		for ui in range(3, 5):
-			s += GetExpect(poineer[tau], ui, d, 1, 0) / 3
+		for ui in range(2, 5):
+			s += GetExpect(poineer[tau], ui, d, 1, 0) / 4
 		#s += GetExpect(poineer[tau], 4, d, 1, 0)
 	s += 10
 	#s = s / 5
