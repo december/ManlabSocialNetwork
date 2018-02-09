@@ -239,9 +239,9 @@ for i in range(n):
 	if flag:
 		continue
 	expect_pop[poineer[0]] = [1]
-	for ui in range(1, 5):
+	for ui in range(0, 5):
 		expect_pop[poineer[0]].append(GetExpect(poineer[0], ui, 1, 1, 0))
-	#print expect_pop[poineer[0]]
+	print expect_pop[poineer[0]]
 
 	delta = 0
 	infer = list()
