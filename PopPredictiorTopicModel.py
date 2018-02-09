@@ -220,7 +220,7 @@ print 'Finished reading..'
 accuracy = list()
 expect_pop = {}
 right = 0
-n = len(par)
+n = len(pop)
 for i in range(n):
 	line = pop[i]
 	poineer = [iddic[j] for j in line]
