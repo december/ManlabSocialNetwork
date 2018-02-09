@@ -10,8 +10,7 @@ def debug_signal_handler(signal, frame):
 import signal
 signal.signal(signal.SIGINT, debug_signal_handler)
 
-single = True
-filename = int(sys.argv[1])
+
 ts = 0
 te = 5 * 86400
 
