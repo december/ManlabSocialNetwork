@@ -60,7 +60,7 @@ while i < n:
 		legal = 0
 		for j in range(i+1, i+number):
 			newinfo = realdata[j].split('\t')
-			if newinfo[3] == -1 or (edgemap.has_key(newinfo[1]) and edgemap[newinfo[1]].has_key(newinfo[4])):
+			if newinfo[3] == '-1' or (edgemap.has_key(newinfo[1]) and edgemap[newinfo[1]].has_key(newinfo[4])):
 				answer += '\t' + newinfo[1]
 				legal += 1
 		answer += '\n'
@@ -72,7 +72,7 @@ while i < n:
 		question = info[0]
 		for j in range(i+1, i+number):
 			newinfo = realdata[j].split('\t')
-			if newinfo[3] == -1 or (edgemap.has_key(newinfo[1]) and edgemap[newinfo[1]].has_key(newinfo[4])):
+			if newinfo[3] == '-1' or (edgemap.has_key(newinfo[1]) and edgemap[newinfo[1]].has_key(newinfo[4])):
 				if legal < 5:		
 					question += '\t' + newinfo[1]
 				legal += 1
