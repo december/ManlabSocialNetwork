@@ -42,6 +42,7 @@ n = len(realdata)
 i = 0
 edgemap = {}
 goodset = set()
+nodeset = set()
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
@@ -52,6 +53,7 @@ while i < n:
 			goodset.add(info[1])
 		for j in range(i+1, i+number):
 			newinfo = realdata[j].split('\t')
+			#nodeset.add()
 			if int(newinfo[2]) <= mid and newinfo[3] != '-1':
 				if not edgemap.has_key(newinfo[1]):
 					edgemap[newinfo[1]] = {}

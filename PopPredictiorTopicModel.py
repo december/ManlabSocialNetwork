@@ -220,17 +220,19 @@ print 'Finished reading..'
 accuracy = list()
 expect_pop = {}
 right = 0
+wrong = 0
 n = len(pop)
 for i in range(n):
 	line = pop[i]
 	flag = False
 	poineer = list()
 	for j in line:
-		if not iddic.has_key(j):
+		if not iddic.has_key(int(j)):
 			flag = True
 			break
-		poineer.append(iddic[j])
+		poineer.append(iddic[int(j)])
 	if flag:
+		wrong += 1
 		continue
 	delta = 0
 	infer = 0
@@ -254,6 +256,7 @@ for i in range(n):
 
 #print accuracy
 #print expect_pop
+print wrong
 print len(accuracy)
 print sum(accuracy) / len(accuracy)
 #print right
