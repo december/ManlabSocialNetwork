@@ -74,7 +74,7 @@ def GetExpect(u, tau, d): #root_tweet, parent_tweet, parent_user, parent_time, t
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)		
 		p = psaw * realpi * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
 		s += p
-		if p > 1e-5:
+		if p > 1e-3:
 			s += p * GetExpect(f, tau, d+1)
 	return s
 
