@@ -22,8 +22,8 @@ users = 7268
 allusers = 7268
 ts = 1321286400 #start timestamps
 te = 1322150400 #end timestamps
-#mid = (ts + te) / 2
-#te = mid
+mid = (ts + te) / 2
+te = mid
 uid = list() #from user index to user id
 iddic = {} #from user id to user index
 friend = {} #from user id to its followers' user id
@@ -194,10 +194,10 @@ def SingleObj(data, u):
 	while i < n:
 		temp = data[i].split('\t')
 		number = int(temp[1]) + 1
-		#tm = int(data[i+1].split('\t')[2])
-		#if tm > mid:
-		#	i += number
-		#	continue
+		tm = int(data[i+1].split('\t')[2])
+		if tm > mid:
+			i += number
+			continue
 		rusc_dic.append(list())
 		nrusc_dic.append(list())
 		clist.append(temp[0])
@@ -209,8 +209,8 @@ def SingleObj(data, u):
 		casdic = {} #from tweet id to user id who replied it with which tweet id
 		for j in range(i+1, i+number):
 			tweet = data[j].split('\t')
-			#if int(tweet[2]) > mid:
-			#	continue
+			if int(tweet[2]) > mid:
+				continue
 			#print tweet
 			author[tweet[0]] = tweet[1]
 			timestamp[tweet[0]] = int(tweet[2])
@@ -467,7 +467,7 @@ if single:
 
 def Output(omega, pi0, pi1, x):
 	print 'Output data files...'
-	fw = open(prefix+'omega_Poisson_notopic_all'+suffix, 'w')
+	fw = open(prefix+'omega_Poisson_notopic'+suffix, 'w')
 	for i in range(vnum):
 		fw.write(uid[vlist[i]])
 		fw.write('\t')
@@ -475,7 +475,7 @@ def Output(omega, pi0, pi1, x):
 		fw.write('\n')
 	fw.close()
 
-	fw = open(prefix+'pi_Poisson_notopic_all'+suffix, 'w')
+	fw = open(prefix+'pi_Poisson_notopic'+suffix, 'w')
 	for item in edgemap:
 		for fd in edgemap[item]:
 			if not edgemap[item][fd] in edic:
@@ -489,7 +489,7 @@ def Output(omega, pi0, pi1, x):
 	fw.close()
 
 	print x
-	fw = open(prefix+'x_Poisson_notopic_all'+suffix, 'w')
+	fw = open(prefix+'x_Poisson_notopic'+suffix, 'w')
 	for item in edgemap:
 		for fd in edgemap[item]:
 			if not edgemap[item][fd] in edic:
