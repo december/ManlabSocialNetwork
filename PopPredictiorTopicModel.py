@@ -224,6 +224,8 @@ answer = list()
 right = 0
 wrong = 0
 threshold = 20
+bigger = 0
+smaller = 0
 n = len(pop)
 for i in range(n):
 	line = pop[i]
@@ -261,6 +263,11 @@ for i in range(n):
 	#s = s / 5
 	#print i
 	print str(s) + '\t' + str(pop_answer[i])
+	if pop_answer[i] > threshold:
+		bigger += 1
+	else:
+		smaller += 1
+
 	if (s > threshold) == (pop_answer[i] > threshold):
 		right += 1
 	else:
@@ -278,4 +285,5 @@ print len(accuracy)
 print sum(accuracy) / len(accuracy)
 print sum(mae) / len(mae)
 print str(right) + '\t' + str(wrong)
+print str(bigger) + '\t' + str(smaller)
 #print right
