@@ -241,7 +241,7 @@ for i in range(n):
 	for j in range(5):
 		mul = 0
 		for tau in range(1, 10):
-			mul +=  GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau])
+			mul +=  np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau]))
 		infer.append(mul)
 	norm = infer[2] + infer[3] + infer[1] + infer[4]
 	for j in range(4):
