@@ -139,7 +139,7 @@ for i in range(vnum):
 	temp = omglist[i].split('\t')
 	uid.append(temp[0])
 	iddic[int(temp[0])] = i
-	iddic.append(temp[0])
+	idlist.append(temp[0])
 	omega[i] = float(temp[1]) * 500
 fr.close()
 #print iddic
@@ -238,6 +238,7 @@ for i in range(n):
 		prusc[f] = (1 - np.exp(-omega[f]*te)) * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, infer, f)
 		depdic[f] = 1
 	sel = Select(prusc, pop, sel, depdic)
+	sel = set(idlist[s] for s in sel)
 	accuracy.append(len(par_answer[i].intersection(sel)) * 1.0 / len(par_answer[i]))
 
 print accuracy
