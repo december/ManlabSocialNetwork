@@ -249,6 +249,7 @@ for i in range(n):
 		depdic[f] = 1
 	sel = Select(prusc, pop, sel, depdic, infer)
 	sel = set(idlist[s] for s in sel)
+	print sel
 	acr = len(par_answer[i].intersection(sel)) * 1.0 / len(par_answer[i])
 	if acr > 0.5:
 		right += 1
