@@ -246,7 +246,7 @@ for i in range(n):
 	norm = infer[2] + infer[3] + infer[4]
 	for j in range(3):
 		infer[j+2] = infer[j+2] / norm
-	#s = 5
+	s = 0
 	for tau in range(5):
 		d = tau + 1
 		if tau > 0:
