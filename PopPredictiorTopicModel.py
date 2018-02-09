@@ -241,9 +241,9 @@ for i in range(n):
 	for j in range(5):
 		mul = 1
 		for tau in range(1, 5):
-			mul *=  GetPhi(phi1, phi2, phi3, phi4, phi5, i, poineer[tau])
+			mul *=  GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau])
 		if mul > delta:
-			infer = i
+			infer = j
 			delta = mul
 	s = 0
 	for tau in range(5):
