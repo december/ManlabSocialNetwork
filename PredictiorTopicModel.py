@@ -101,7 +101,7 @@ questions = fr.readlines()
 par_answer = list()
 for line in questions:
 	participant = line[:-1].split('\t')[1:]
-	par_answer.append(set([participant]))
+	par_answer.append(set(participant))
 fr.close()
 '''
 lbddic = {}
