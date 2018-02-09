@@ -186,14 +186,10 @@ for i in range(n):
 		continue
 	s = 0
 	for tau in range(5):
-		if not expect_pop.has_key(poineer[tau]):
-			expect_pop[poineer[tau]] = {}
-		if not expect_pop[poineer[tau]].has_key(infer):
-			d = tau + 1
-			if tau > 0:
-				d = 1			
-			expect_pop[poineer[tau]][infer] = GetExpect(poineer[tau], d, 1, 0) + 1
-		s += expect_pop[poineer[tau]][infer]
+		d = tau + 1
+		if tau > 0:
+			d = 1			
+		s += GetExpect(poineer[tau], d, 1, 0) + 1
 	mae = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
 	accuracy.append(mae)
 	#print i
