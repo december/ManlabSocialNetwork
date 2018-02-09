@@ -240,12 +240,12 @@ for i in range(n):
 	sel = set()
 	sel.add(newi)
 	for f in edgemap[newi]:
-		prusc[f] = (1 - np.exp(-omega[f]*te)) * pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, infer, f)
+		prusc[f] = (1 - np.exp(-omega[f]*te)) * pi[edgemap[newi][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, infer, f)
 		depdic[f] = 1
 	sel = Select(prusc, pop, sel, depdic)
 	sel = set(idlist[s] for s in sel)
 	accuracy.append(len(par_answer[i].intersection(sel)) * 1.0 / len(par_answer[i]))
-	print i
+	#print i
 
 print accuracy
 print sum(accuracy) / len(accuracy)
