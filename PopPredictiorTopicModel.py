@@ -239,9 +239,9 @@ for i in range(n):
 	if flag:
 		continue
 	expect_pop[poineer[0]] = list()
-	for ui in range(1, 5):
-		expect_pop[poineer[0]].append(GetExpect(poineer[tau], ui, d, 1, 0))
-	print expect_pop[poineer[0]]
+	#for ui in range(1, 5):
+	#	expect_pop[poineer[0]].append(GetExpect(poineer[0], ui, 1, 1, 0))
+	#print expect_pop[poineer[0]]
 
 	delta = 0
 	infer = list()
@@ -259,7 +259,7 @@ for i in range(n):
 	for tau in range(10):
 		d = tau + 1
 		if tau > 0:
-			d = 1
+			d = 2
 		for ui in range(1, 5):
 			s += GetExpect(poineer[tau], ui, d, 1, 0) * infer[ui]
 			
@@ -267,7 +267,7 @@ for i in range(n):
 	s += 10
 	#s = s / 5
 	#print i
-	#print str(s) + '\t' + str(pop_answer[i])
+	print str(s) + '\t' + str(pop_answer[i])
 	if pop_answer[i] > threshold:
 		bigger += 1
 	else:
