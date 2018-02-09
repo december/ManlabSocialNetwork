@@ -239,9 +239,9 @@ for i in range(n):
 	delta = 0
 	infer = list()
 	for j in range(5):
-		mul = 1
+		mul = 0
 		for tau in range(1, 10):
-			mul *=  GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau])
+			mul +=  GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau])
 		infer.append(mul)
 	norm = infer[2] + infer[3] + infer[1] + infer[4]
 	for j in range(4):
@@ -254,7 +254,7 @@ for i in range(n):
 		if tau > 0:
 			d = 1
 		for ui in range(1, 5):
-			s += GetExpect(poineer[tau], ui, d, 1, 0) * 0.25
+			s += GetExpect(poineer[tau], ui, d, 1, 0) * infer[ui]
 			
 		#s += GetExpect(poineer[tau], 4, d, 1, 0)
 	s += 10
