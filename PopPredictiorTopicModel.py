@@ -254,7 +254,7 @@ for i in range(n):
 		for ui in range(3, 5):
 			s += GetExpect(poineer[tau], ui, d, 1, 0) / 3
 		#s += GetExpect(poineer[tau], 4, d, 1, 0)
-	s = 5
+	s += 5
 	#s = s / 5
 	#print i
 	#print s
