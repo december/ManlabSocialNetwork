@@ -74,7 +74,7 @@ def GetExpect(u, tau, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)		
 		p = psaw * realpi * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
 		s += rp * p
-		s = GetExpect(f, tau, d+1, rp * p, s)
+		s = GetExpect(f, tau, d, rp * p, s)
 	return s
 
 def Select(prusc, pop, selection, depdic, infer):
@@ -259,7 +259,7 @@ for i in range(n):
 	for tau in range(10):
 		d = tau + 1
 		if tau > 0:
-			d = 2
+			d = 1
 		for ui in range(1, 5):
 			s += GetExpect(poineer[tau], ui, d, 1, 0) * infer[ui]
 			
