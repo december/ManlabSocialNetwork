@@ -225,6 +225,8 @@ for i in range(n):
 	line = par[i]
 	newi = iddic[int(line[0])]
 	pop = int(line[1])
+	if not edgemap.has_key(newi):
+		continue
 	if not expect_pop.has_key(line[0]):
 		expect_pop[line[0]] = []
 		for j in range(5):
