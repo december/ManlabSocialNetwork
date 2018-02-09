@@ -245,7 +245,7 @@ for i in range(n):
 		infer.append(mul)
 	norm = infer[2] + infer[3] + infer[4]
 	for j in range(4):
-		infer[j+1] = infer[j+2] / norm
+		infer[j+1] = infer[j+1] / norm
 	s = 0
 	for tau in range(10):
 		d = tau + 1
