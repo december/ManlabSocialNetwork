@@ -235,7 +235,6 @@ for i in range(n):
 			break
 		poineer.append(iddic[int(j)])
 	if flag:
-		wrong += 1
 		continue
 	delta = 0
 	infer = list()
