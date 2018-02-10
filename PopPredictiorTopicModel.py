@@ -252,7 +252,7 @@ random = list()
 for i in range(n):
 	line = pop[i]
 	ans = par_answer[i].split(',')
-	if ans[0] == '' and len(ans) < 10:
+	if ans[0] == '' or len(ans) < 10:
 		continue
 	flag = False
 	poineer = list()
