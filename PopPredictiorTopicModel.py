@@ -302,6 +302,7 @@ for i in range(n):
 print len(mae)
 #print sum(accuracy) / len(accuracy)
 print sum(mae) / len(mae)
+print total
 print str(right) + '\t' + str(wrong)
 print str(bigger) + '\t' + str(smaller)
 #print right
