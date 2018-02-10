@@ -255,6 +255,8 @@ smaller = 0
 n = len(pop)
 total = 0
 random = list()
+list1 = list()
+list2 = list()
 for i in range(n):
 	line = pop[i]
 	ans = par_answer[i].split(',')
@@ -300,6 +302,7 @@ for i in range(n):
 	while len(choiceset) < 2 * len(realset):
 		choiceset.add(choice(edgemap[poineer[0]].keys()))
 	ranking = GetRanking(poineer[0], infer, choiceset, idlist[poineer[0]])
+	
 	topnum = len(ans)
 	simset = set()
 	
@@ -309,6 +312,10 @@ for i in range(n):
 	acu = len(inter) * 1.0 / len(realset)
 	random.append(len(realset) * 1.0 / len(ranking))
 	print str(len(inter)) + '\t' + str(len(realset)) + '\t' + str(len(ranking)) + '\t' + str(acu) + '\t' + idlist[poineer[0]]
+	if idlist[poineer[0]] == '1':
+		list1.append(acu)
+	else:
+		list2.append(acu)
 	'''
 
 	s = 0
@@ -362,6 +369,8 @@ for i in range(n):
 #print len(mae)
 print len(accuracy)
 print sum(accuracy) / len(accuracy)
+print sum(list1) / len(list1)
+print sum(list2) / len(list2)
 print sum(random) / len(random)
 #print sum(mae) / len(mae)
 #print total
