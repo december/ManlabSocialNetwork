@@ -222,8 +222,8 @@ if not single:
 plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_wiener.png')
 plt.cla()
 
-binrx, binry = GetBin(1.1, realsize, realnum) 
-binsx, binsy = GetBin(1.1, simsize, simnum)
+binrx, binry = GetBin(1.2, realsize, realnum) 
+binsx, binsy = GetBin(1.2, simsize, simnum)
 rs = np.array(binrx)
 rn = np.array(binry) * 1.0 / realsum
 ss = np.array(binsx)
