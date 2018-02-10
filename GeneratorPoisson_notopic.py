@@ -64,7 +64,7 @@ def GetLog(r, p, u, t, c, d): #root_tweet, parent_tweet, parent_user, parent_tim
 		realpi = pi[edgemap[u][f]]
 		if d > 1:
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)
-		if np.random.rand() <= realpi * 0.2:
+		if np.random.rand() <= realpi:
 			current = number
 			tweetdic[current] = f
 			number += 1
