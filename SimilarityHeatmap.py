@@ -63,8 +63,6 @@ def calcPJ(x, y):
     top = len(inter) * cnt
     top -= xlen * ylen
     bottom = math.sqrt(cnt * xlen - xlen ** 2) * math.sqrt(cnt * ylen - ylen ** 2)
-    if bottom == 0:
-        return p, 0
     p = top * 1.0 / bottom
     return p, j
 
