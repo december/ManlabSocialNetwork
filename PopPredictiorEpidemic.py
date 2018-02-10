@@ -3,6 +3,7 @@ import scipy as sp
 import scipy.stats
 import numpy as np
 import numpy.random
+from random import choice
 
 def debug_signal_handler(signal, frame):
     import pdb
@@ -61,6 +62,14 @@ def GetTau(p1, p2, p3, p4, p5, v):
 		return 3
 	return 4	
 
+def GetRanking(u, taudb, cset):
+	result = {}
+	for f in edgemap[u]:
+		if not f in cset:
+			continue
+		result[f] = beta1[edgemap[u][f]]
+	return sorted(result.iteritems(), key=lambda d:d[1], reverse=True)
+
 def GetExpect(u, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
 	if d >= 20 or rp <= 5e-2:
 		return s
@@ -107,6 +116,14 @@ pop_answer = list()
 for line in questions:
 	pop_answer.append(line[:-1].split('\t')[:-1])
 fr.close()
+
+fr = open(prefix+'Participation_answer'+suffix, 'r')
+questions = fr.readlines()
+par_answer = list()
+for line in questions:
+	par_answer.append(line[:-1].split('\t')[0][:-1])
+fr.close()
+
 '''
 lbddic = {}
 fr = open(prefix+'lambda_Poisson'+suffix, 'r')
@@ -176,39 +193,84 @@ n = len(pop)
 right = 0
 for i in range(n):
 	line = pop[i]
+	ans = par_answer[i].split(',')
+	if ans[0] == '':
+		continue
 	flag = False
 	poineer = list()
 	for j in line:
-		if j == '1' or j == '232478':
+		if j == '1':
 			flag = True
 			break
 		poineer.append(iddic[int(j)])
 	if flag:
 		continue
-	s = GetExpect(poineer[0], 1, 1, 0)
+	realset = set(ans)
+	choiceset = set()
+	for item in realset:
+		choiceset.add(iddic[int(item)])
+	while len(choiceset) < 2 * len(realset):
+		choiceset.add(choice(edgemap[poineer[0]].keys()))
+	ranking = GetRanking(poineer[0], infer, choiceset)
+	topnum = len(ans)
+	simset = set()
+	
+	for j in range(topnum):
+		simset.add(idlist[ranking[j][0]])
+	inter = realset & simset
+	acu = len(inter) * 1.0 / len(realset)
+	random.append(len(realset) * 1.0 / len(ranking))
+	print str(len(inter)) + '\t' + str(len(realset)) + '\t' + str(len(ranking)) + '\t' + str(acu) + '\t' + idlist[poineer[0]]
 	'''
+
+	s = 0
+	for ui in range(1, 5):
+		s += expect_pop[poineer[0]][ui] * infer[ui]
+	
+	s = 0
+	temps = 0
+	num = 0
 	for tau in range(5):
 		d = tau + 1
 		if tau > 0:
-			d = 1			
-		s += GetExpect(poineer[tau], d, 1, 0) + 1
-	s = s / 5
+			d = 1
+		for ui in range(0, 5):
+			if ui == 0:
+				continue
+			s += GetExpect(poineer[tau], ui, d, 1, 0) / 4
+	'''
+		#s += GetExpect(poineer[tau], 4, d, 1, 0)
+	#s += 10
+	#s = s / 5
+	#print i
 	'''
 	panumer = int(pop_answer[i][0])
-	print str(s) + '\t' + str(pop_answer[i][0]) + '\t' + idlist[poineer[0]]
-	mae.append(abs(panumer - s))	
-	mape = abs(panumer - s) * 1.0 / (panumer + 5)
-	accuracy.append(mape)
-	#mae.append(abs(pop_answer[i] - s))	
 	
+	
+	if pop_answer[i] > threshold:
+		bigger += 1
+	else:
+		smaller += 1
 
+	if (s > threshold) == (pop_answer[i] > threshold):
+		right += 1
+	else:
+		wrong += 1 
+	
+	answer.append(infer)
+	'''
+	#mape = abs(panumer - s) * 1.0 / (panumer + 5)
+	accuracy.append(acu)
+	#accuracy.append(mape)
+	
+	#mae.append(abs(panumer - s))
 	#total += panumer
-	#print i
+	
 	#print i
 
 #print accuracy
 #print len(accuracy)
 print sum(accuracy) / len(accuracy)
-print sum(mae) / len(mae)
-print len(mae)
+#print sum(mae) / len(mae)
+#print len(mae)
 #print right
