@@ -276,7 +276,7 @@ for i in range(n):
 	#print i
 	'''
 	panumer = int(pop_answer[i][0])
-	print str(s) + '\t' + str(pop_answer[i][0])
+	print str(s) + '\t' + str(pop_answer[i][0]) + '\t' + idlist[poineer[0]]
 	'''
 	if pop_answer[i] > threshold:
 		bigger += 1
