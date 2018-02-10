@@ -87,12 +87,14 @@ def GetRanking(u, taudb, cset, uid):
 		p = 0
 		iterset = [1,3]
 		if uid == '1':
-			iterset = [0,1,2,3,4]
+			iterset = [0,2,4]
 		for tau in iterset:
 			#p += pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * taudb[tau]
 			#p = np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)) + np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
 			#p = np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
 			p = np.log(x[edgemap[u][f]]) + np.log(taudb[tau])
+			#if uid == '1':
+			#	p += GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
 		result[f] = p
 	return sorted(result.iteritems(), key=lambda d:d[1], reverse=True)
 
