@@ -160,7 +160,7 @@ plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.svg')
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png', dpi=600)
 plt.cla()
 
 rs = np.array(realsize)
@@ -193,7 +193,7 @@ plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.svg')
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.png', dpi=600)
 plt.cla()
 
 square = [0, 0]
@@ -227,7 +227,7 @@ plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum_bin.svg')
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum_bin.png', dpi=600)
 plt.cla()
 
 binrx, binry = GetBin(1.1, realsize, realnum) 
@@ -257,7 +257,7 @@ plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num_bin.svg')
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num_bin.png', dpi=600)
 plt.cla()
 
 fw = open(prefix+'BigSimCascades', 'w')
