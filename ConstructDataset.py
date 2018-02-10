@@ -106,7 +106,7 @@ while i < n:
 		if legal > 5:
 			parans = ''
 			popans = ''
-			for j in len(pointlist):
+			for j in range(len(pointlist)):
 				popans += str(len(answerdic[tweetlist[j]])) + '\t'
 				temppar = ''
 				for item in answerdic[tweetlist[j]]:
