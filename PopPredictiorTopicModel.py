@@ -81,7 +81,7 @@ def GetRanking(u, taudb):
 	result = {}
 	for f in edgemap[u]:
 		p = 0
-		for tau in range(2, 5):
+		for tau in range(0, 5):
 			#p += pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * taudb[tau]
 			p = GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * taudb[tau] * x[edgemap[u][f]]
 		result[f] = p
