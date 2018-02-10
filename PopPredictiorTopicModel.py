@@ -85,7 +85,7 @@ def GetRanking(u, taudb, cset, uid):
 		if not f in cset:
 			continue
 		p = 0
-		iterset = [1,3]
+		iterset = [1,3,4]
 		if uid == '1':
 			iterset = [1,2,4]
 		for tau in iterset:
