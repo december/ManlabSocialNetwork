@@ -113,7 +113,7 @@ def plot_by_x_y(x_list, y_list, xy_f_name):
     ylabel(x_name)
     # show()
 
-    savefig('/home/luyunfei/cascading_generation_model/simulation/heat_pic/%s_%s_%s.png' % (_, x_name, y_name), dpi=600)
+    savefig('/home/luyunfei/cascading_generation_model/simulation/heat_pic/%s_%s_%s.pdf' % (_, x_name, y_name), dpi=600)
 
 
 xy_files_name = os.listdir(output_tmp_data)
