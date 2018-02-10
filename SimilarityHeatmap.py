@@ -131,6 +131,6 @@ plt.cla()
 
 sns.set()
 np.random.seed(0)
-uniform_data = np.random.rand(10, 12)
+uniform_data = np.random.rand(8000, 8000)
 ax = sns.heatmap(uniform_data)
 plt.savefig(prefix+'similarity/'+filename+'_jaccard_2D.png')
