@@ -76,7 +76,8 @@ for i in range(n):
 print np.sum(delta_p) * 1.0 / delta_p.size
 print np.sum(delta_j) * 1.0 / delta_j.size
 sns.set()
-ax = sns.heatmap(delta_p[:1000][:1000], norm=LogNorm(vmin=delta_p.min(), vmax=delta_p.max()))
+#ax = sns.heatmap(delta_p[:1000][:1000], norm=LogNorm(vmin=delta_p.min(), vmax=delta_p.max()))
+ax = sns.heatmap(delta_p[:1000][:1000])
 plt.savefig(prefix+'similarity/'+filename+'_pearson_2D.png')
 plt.cla()
 #df = pd.DataFrame(j_matrix)
