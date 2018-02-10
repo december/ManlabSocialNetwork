@@ -245,10 +245,11 @@ bigger = 0
 smaller = 0
 n = len(pop)
 total = 0
+random = list()
 for i in range(n):
 	line = pop[i]
 	ans = par_answer[i].split(',')
-	if ans[0] == '' or len(ans) < 5:
+	if ans[0] == '' or len(ans) < 10:
 		continue
 	flag = False
 	poineer = list()
@@ -292,6 +293,7 @@ for i in range(n):
 		realset.add(ans[j])
 	inter = realset & simset
 	acu = len(inter) * 1.0 / len(realset)
+	random.append(len(realset) * 1.0 / len(ranking))
 	print str(len(inter)) + '\t' + str(len(realset)) + '\t' + str(len(ranking)) + '\t' + str(acu)
 	'''
 
@@ -346,6 +348,7 @@ for i in range(n):
 #print len(mae)
 print len(accuracy)
 print sum(accuracy) / len(accuracy)
+print sum(ranking) / len(ranking)
 #print sum(mae) / len(mae)
 #print total
 #print str(right) + '\t' + str(wrong)
