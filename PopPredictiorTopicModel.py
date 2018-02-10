@@ -3,6 +3,7 @@ import scipy as sp
 import scipy.stats
 import numpy as np
 import numpy.random
+from random import choice
 
 def debug_signal_handler(signal, frame):
     import pdb
@@ -77,9 +78,11 @@ def GetExpect(u, tau, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_
 		#s = GetExpect(f, tau, d+1, rp * p, s)
 	return s
 
-def GetRanking(u, taudb):
+def GetRanking(u, taudb, cset):
 	result = {}
 	for f in edgemap[u]:
+		if not f in cset:
+			continue
 		p = 0
 		for tau in range(0, 5):
 			#p += pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * taudb[tau]
@@ -249,7 +252,7 @@ random = list()
 for i in range(n):
 	line = pop[i]
 	ans = par_answer[i].split(',')
-	if ans[0] == '' or len(ans) < 10:
+	if ans[0] == '':
 		continue
 	flag = False
 	poineer = list()
@@ -284,13 +287,18 @@ for i in range(n):
 	norm = infer[2] * p[2] + infer[3] * p[3] + infer[4] * p[4] + infer[1] * p[1] + infer[0] * p[0]
 	for j in range(5):
 		infer[j] = infer[j] * p[j] / norm
-	ranking = GetRanking(poineer[0], infer)
+	realset = set(ans)
+	choiceset = set()
+	for item in realset:
+		choiceset.add(iddic[int(item)])
+	while len(choiceset) < 2 * len(realset):
+		choiceset.add(choice(edgemap[poineer[0]]))
+	ranking = GetRanking(poineer[0], infer, choiceset)
 	topnum = len(ans)
 	simset = set()
-	realset = set()
+	
 	for j in range(topnum):
 		simset.add(idlist[ranking[j][0]])
-		realset.add(ans[j])
 	inter = realset & simset
 	acu = len(inter) * 1.0 / len(realset)
 	random.append(len(realset) * 1.0 / len(ranking))
