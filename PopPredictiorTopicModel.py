@@ -330,7 +330,7 @@ for i in range(n):
 	answer.append(infer)
 	'''
 	#mape = abs(panumer - s) * 1.0 / (panumer + 5)
-	accuracy.append(accuracy)
+	accuracy.append(acu)
 	
 	#mae.append(abs(panumer - s))
 	#total += panumer
