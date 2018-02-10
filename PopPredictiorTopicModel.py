@@ -253,7 +253,7 @@ random = list()
 for i in range(n):
 	line = pop[i]
 	ans = par_answer[i].split(',')
-	if ans[0] == '' or len(ans) > 10:
+	if ans[0] == '':
 		continue
 	flag = False
 	poineer = list()
@@ -271,7 +271,7 @@ for i in range(n):
 	delta = 0
 	infer = list()
 	p = expect_pop[poineer[0]]
-	psum = expect_pop[poineer[0]][1] + expect_pop[poineer[0]][3]
+	psum = expect_pop[poineer[0]][1] + expect_pop[poineer[0]][2] + expect_pop[poineer[0]][3] + expect_pop[poineer[0]][4]
 	for j in range(1, 5):
 		p[j] = expect_pop[poineer[0]][j] / psum
 	for j in range(5):
@@ -280,12 +280,12 @@ for i in range(n):
 		for tau in range(1, 5):
 			mul += np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau]))
 		infer.append(mul)
-	norm = infer[3] + infer[1]
+	norm = infer[2] + infer[3] + infer[4] + infer[1]
 	for j in range(5):
 		infer[j] = infer[j] / norm
 	#p = [0, 3,2,4,1]
 	
-	norm = infer[3] * p[3] + infer[1] * p[1]
+	norm = infer[2] * p[2] + infer[3] * p[3] + infer[4] * p[4] + infer[1] * p[1]
 	for j in range(5):
 		infer[j] = infer[j] * p[j] / norm
 	realset = set(ans)
@@ -303,7 +303,7 @@ for i in range(n):
 	inter = realset & simset
 	acu = len(inter) * 1.0 / len(realset)
 	random.append(len(realset) * 1.0 / len(ranking))
-	print str(len(inter)) + '\t' + str(len(realset)) + '\t' + str(len(ranking)) + '\t' + str(acu)
+	print str(len(inter)) + '\t' + str(len(realset)) + '\t' + str(len(ranking)) + '\t' + str(acu) + '\t' + idlist[poineer[1]]
 	'''
 
 	s = 0
