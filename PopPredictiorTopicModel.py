@@ -291,7 +291,7 @@ for i in range(n):
 		realset.add(ans[j])
 	inter = realset & simset
 	acu = len(inter) * 1.0 / len(realset)
-	print str(len(inter)) + '\t' + str(len(realset)) + '\t' + str(len(simset)) + '\t' + str(acu)
+	print str(len(inter)) + '\t' + str(len(realset)) + '\t' + str(len(ranking)) + '\t' + str(acu)
 
 
 	#s = 0
