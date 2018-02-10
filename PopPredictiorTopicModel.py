@@ -261,7 +261,9 @@ for i in range(n):
 		d = tau + 1
 		if tau > 0:
 			d = 1
-		for ui in range(1, 4):
+		for ui in range(0, 5):
+			if ui == 0 or ui == 2:
+				continue
 			s += GetExpect(poineer[tau], ui, d, 1, 0) / 3
 			
 		#s += GetExpect(poineer[tau], 4, d, 1, 0)
