@@ -292,7 +292,7 @@ for i in range(n):
 	for item in realset:
 		choiceset.add(iddic[int(item)])
 	while len(choiceset) < 2 * len(realset):
-		choiceset.add(choice(edgemap[poineer[0]]))
+		choiceset.add(choice(edgemap[poineer[0]].keys()))
 	ranking = GetRanking(poineer[0], infer, choiceset)
 	topnum = len(ans)
 	simset = set()
