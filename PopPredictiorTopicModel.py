@@ -303,7 +303,7 @@ for i in range(n):
 	inter = realset & simset
 	acu = len(inter) * 1.0 / len(realset)
 	random.append(len(realset) * 1.0 / len(ranking))
-	print str(len(inter)) + '\t' + str(len(realset)) + '\t' + str(len(ranking)) + '\t' + str(acu) + '\t' + idlist[poineer[1]]
+	print str(len(inter)) + '\t' + str(len(realset)) + '\t' + str(len(ranking)) + '\t' + str(acu) + '\t' + idlist[poineer[0]]
 	'''
 
 	s = 0
