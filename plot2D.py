@@ -119,7 +119,7 @@ def plot_by_x_y(x_list, y_list, xy_f_name):
 xy_files_name = os.listdir(output_tmp_data)
 xy_files_name = [_ for _ in xy_files_name if '.csv' in _ and '__' in _]
 xy_files_name.sort()
-assert len(xy_files_name) == 30
+#assert len(xy_files_name) == 30
 print xy_files_name
 for xy_f_name in xy_files_name:
     x_list = []
