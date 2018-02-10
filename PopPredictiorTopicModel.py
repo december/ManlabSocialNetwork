@@ -295,10 +295,10 @@ for i in range(n):
 	print str(len(inter)) + '\t' + str(len(realset)) + '\t' + str(len(ranking)) + '\t' + str(acu)
 	'''
 
-	#s = 0
-	#for ui in range(1, 5):
-	#	s += expect_pop[poineer[0]][ui] * infer[ui]
-	
+	s = 0
+	for ui in range(1, 5):
+		s += expect_pop[poineer[0]][ui] * infer[ui]
+	'''
 	s = 0
 	temps = 0
 	num = 0
@@ -310,9 +310,9 @@ for i in range(n):
 			if ui == 0:
 				continue
 			s += GetExpect(poineer[tau], ui, d, 1, 0) / 4
-			
+	'''
 		#s += GetExpect(poineer[tau], 4, d, 1, 0)
-	s += 10
+	#s += 10
 	#s = s / 5
 	#print i
 	
