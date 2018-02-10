@@ -74,7 +74,7 @@ def GetExpect(u, tau, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)		
 		p = psaw * realpi * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
 		s += rp * p
-		s = GetExpect(f, tau, d+1, rp * p, s)
+		#s = GetExpect(f, tau, d+1, rp * p, s)
 	return s
 
 def Select(prusc, pop, selection, depdic, infer):
@@ -105,7 +105,7 @@ fr = open(prefix+'Popularity_answer'+suffix, 'r')
 questions = fr.readlines()
 pop_answer = list()
 for line in questions:
-	pop_answer.append(int(line[:-1].split('\t')[1]))
+	pop_answer.append(line[:-1].split('\t')[:-1])
 fr.close()
 '''
 lbddic = {}
@@ -144,7 +144,7 @@ for i in range(vnum):
 	uid.append(temp[0])
 	iddic[int(temp[0])] = i
 	idlist.append(temp[0])
-	omega[i] = float(temp[1])
+	omega[i] = float(temp[1]) * 500
 fr.close()
 #print iddic
 
@@ -227,14 +227,15 @@ threshold = 20
 bigger = 0
 smaller = 0
 n = len(pop)
+total = 0
 for i in range(n):
 	line = pop[i]
 	flag = False
 	poineer = list()
 	for j in line:
-		if j == '1':
-			flag = True
-			break
+		#if j == '1' or j == '206430' or j == '182684':
+		#	flag = True
+		#	break
 		poineer.append(iddic[int(j)])
 	if flag:
 		continue
@@ -242,18 +243,21 @@ for i in range(n):
 	for ui in range(0, 5):
 		expect_pop[poineer[0]].append(GetExpect(poineer[0], ui, 1, 1, 0))
 	#print expect_pop[poineer[0]]
-
 	delta = 0
 	infer = list()
 	for j in range(5):
-		mul = np.log(expect_pop[poineer[0]][j])
+		#mul = np.log(expect_pop[poineer[0]][j])
 		#mul = 0
 		for tau in range(1, 5):
 			mul +=  np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau]))
 		infer.append(mul)
-	norm = infer[2] + infer[3] + infer[1] + infer[4]
+	norm = infer[2] + infer[3] + infer[1] + infer[4] + infer[0]
 	for j in range(5):
 		infer[j] = infer[j] / norm
+	s = 0
+	for ui in range(5):
+		s += infer[ui] * expect_pop[poineer[0]][ui]
+	'''
 	s = 0
 	temps = 0
 	num = 0
@@ -270,7 +274,10 @@ for i in range(n):
 	s += 10
 	#s = s / 5
 	#print i
-	print str(s) + '\t' + str(pop_answer[i])
+	'''
+	panumer = int(pop_answer[i][0])
+	print str(s) + '\t' + str(pop_answer[i][0])
+	'''
 	if pop_answer[i] > threshold:
 		bigger += 1
 	else:
@@ -283,7 +290,10 @@ for i in range(n):
 	answer.append(infer)
 	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
 	accuracy.append(mape)
-	mae.append(abs(pop_answer[i] - s))
+	'''
+	mae.append(abs(panumer - s))
+	total += panumer
+	
 	#print i
 
 #print accuracy
