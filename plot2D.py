@@ -18,7 +18,7 @@ def showtime(s=''):
 
 
 col_names = ['cascade_id', 'size', 'depth', 'width', 'wienerIndex', 'Diameter']
-input_folder = '/Users/lihaoyang/all/lab/ecology/plot/lyf_info'  # 指定数据文件夹
+input_folder = '/home/luyunfei/cascading_generation_model/simulation/info'  # 指定数据文件夹
 # input_folder = '/home/hli/lyf_info'  # 指定数据文件夹
 output_tmp_data = input_folder + '/col_data'
 otuput_pic_folder = input_folder + '/pic'
@@ -26,7 +26,7 @@ files_name = os.listdir(input_folder)
 files_name = [_ for _ in files_name if '.detail' in _]
 files_name.sort()
 data_len = len(col_names)
-assert len(files_name) == 3
+#assert len(files_name) == 3
 
 if not os.path.exists(output_tmp_data):
     os.mkdir(output_tmp_data)
