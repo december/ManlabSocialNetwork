@@ -193,21 +193,22 @@ for i in range(n):
 			d = 1			
 		s += GetExpect(poineer[tau], d, 1, 0) + 1
 	s = s / 5
-	
-	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
-	accuracy.append(mape)
-	mae.append(abs(pop_answer[i] - s))	
 	'''
 	panumer = int(pop_answer[i][0])
 	print str(s) + '\t' + str(pop_answer[i][0]) + '\t' + idlist[poineer[0]]
-	mae.append(abs(panumer - s))
+	mae.append(abs(panumer - s))	
+	mape = abs(panumer - s) * 1.0 / (panumer + 5)
+	accuracy.append(mape)
+	#mae.append(abs(pop_answer[i] - s))	
+	
+
 	#total += panumer
 	#print i
 	#print i
 
 #print accuracy
 #print len(accuracy)
-#print sum(accuracy) / len(accuracy)
+print sum(accuracy) / len(accuracy)
 print sum(mae) / len(mae)
 print len(mae)
 #print right

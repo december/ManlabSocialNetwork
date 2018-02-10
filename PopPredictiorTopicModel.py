@@ -295,10 +295,12 @@ for i in range(n):
 		right += 1
 	else:
 		wrong += 1 
+	
 	answer.append(infer)
-	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
-	accuracy.append(mape)
 	'''
+	mape = abs(panumer - s) * 1.0 / (panumer + 5)
+	accuracy.append(mape)
+	
 	mae.append(abs(panumer - s))
 	total += panumer
 	
@@ -308,7 +310,7 @@ for i in range(n):
 #print expect_pop
 #print answer
 print len(mae)
-#print sum(accuracy) / len(accuracy)
+print sum(accuracy) / len(accuracy)
 print sum(mae) / len(mae)
 print total
 print str(right) + '\t' + str(wrong)
