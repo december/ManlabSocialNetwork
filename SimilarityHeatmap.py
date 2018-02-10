@@ -117,5 +117,5 @@ for i in range(m):
         p_matrix[i][j] = pij
         j_matrix[i][j] = jij
     print i
-draw_heatmap(x, x, p_matrix, 'pearson')
-draw_heatmap(x, x, j_matrix, 'jaccard')
+draw_heatmap(p_matrix, x, x, 'pearson')
+draw_heatmap(j_matrix, x, x, 'jaccard')
