@@ -67,7 +67,7 @@ def calcPJ(x, y):
     bottom = math.sqrt(cnt * xlen - xlen ** 2) * math.sqrt(cnt * ylen - ylen ** 2)
     p = top * 1.0 / bottom
     return p, j
-'''
+
 prefix = '../../cascading_generation_model/simulation/'
 suffix = '.detail'
 path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post/'
@@ -84,7 +84,7 @@ else:
     fr = open(prefix+'result/'+filename+'.detail', 'r')
     realdata = fr.readlines()
     fr.close()
-
+'''
 n = len(realdata)
 i = 0
 while i < n:
