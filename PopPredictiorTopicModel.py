@@ -84,7 +84,7 @@ def GetRanking(u, taudb, cset):
 		if not f in cset:
 			continue
 		p = 0
-		iterset = [0,1,2,3,4]
+		iterset = [1,2,3,4]
 		for tau in iterset:
 			#p += pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * taudb[tau]
 			#p = np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)) + np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
@@ -266,8 +266,8 @@ for i in range(n):
 		poineer.append(iddic[int(j)])
 	if flag:
 		continue
-	expect_pop[poineer[0]] = []
-	for ui in range(0, 5):
+	expect_pop[poineer[0]] = [1]
+	for ui in range(1, 5):
 		expect_pop[poineer[0]].append(GetExpect(poineer[0], ui, 1, 1, 0))
 	#print expect_pop[poineer[0]]
 	delta = 0
