@@ -83,11 +83,11 @@ preal = 0
 jreal = 0
 for i in range(n):
 	for j in range(n):
-		if p_matrix_real[i][j] < 0:
+		if p_matrix_real[i][j] > 0:
 			delta_p[i][j] = abs(p_matrix_real[i][j] - p_matrix_sim[i][j])
 			preal += abs(p_matrix_real[i][j])
 			psize += 1
-		if j_matrix_real[i][j] < 0:
+		if j_matrix_real[i][j] > 0:
 			delta_j[i][j] = abs(j_matrix_real[i][j] - j_matrix_sim[i][j])
 			jreal += abs(j_matrix_real[i][j])
 			jsize += 1
