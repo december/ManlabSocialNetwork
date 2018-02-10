@@ -78,7 +78,7 @@ fr2.close()
 delta_p = np.zeros((n, n))
 delta_j = np.zeros((n, n))
 psize = 0
-jsize = 1
+jsize = 0
 for i in range(n):
 	for j in range(n):
 		if p_matrix_real[i][j] != 0:
