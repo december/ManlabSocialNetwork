@@ -32,7 +32,8 @@ j_matrix_sim = np.zeros((m, m))
 
 fr1 = open(prefix+'similarity/'+filename+'_pearson_value.detail', 'r')
 data = fr1.readlines()
-n = len(data)n = 20
+n = len(data)
+n = 20
 for i in range(n):
 	temp = data[i].split('\t')[:-1]
 	for j in range(n):
