@@ -1,7 +1,7 @@
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import seaborn
+import seaborn as sns
 import numpy as np
 import sys
 import os
@@ -40,6 +40,7 @@ if int(sys.argv[2]) == 0:
 suffix = '.detail'
 path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post/'
 users = 7268
+sns.set()
 
 namelist = os.listdir(path)
 real = {}
