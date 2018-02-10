@@ -246,9 +246,9 @@ for i in range(n):
 	delta = 0
 	infer = list()
 	p = expect_pop[poineer[0]]
-	psum = expect_pop[poineer[0]][1] + expect_pop[poineer[0]][2] + expect_pop[poineer[0]][3] + expect_pop[poineer[0]][4]
+	psum = np.log(expect_pop[poineer[0]][1]) + np.log(expect_pop[poineer[0]][2]) + np.log(expect_pop[poineer[0]][3]) + np.log(expect_pop[poineer[0]][4])
 	for j in range(1, 5):
-		p[j] = expect_pop[poineer[0]][j] / psum
+		p[j] = np.log(expect_pop[poineer[0]][j]) / psum
 	for j in range(5):
 		#mul = np.log(expect_pop[poineer[0]][j]) * 5
 		mul = 0
