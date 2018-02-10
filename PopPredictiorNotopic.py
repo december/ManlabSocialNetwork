@@ -122,7 +122,7 @@ fr.close()
 #	suffix = '_notopic.detail'
 prefix += sys.argv[1] + '/'
 
-fr = open(prefix+'omega_Poisson'+suffix, 'r')
+fr = open(prefix+'omega_Poisson_notopic'+suffix, 'r')
 omglist = fr.readlines()
 vnum = len(omglist)
 
@@ -151,7 +151,7 @@ fr.close()
 #for key in lbddic:
 #	lbd[iddic[key]] = lbddic[key]
 
-fr = open(prefix+'pi_Poisson'+suffix, 'r')
+fr = open(prefix+'pi_Poisson_notopic'+suffix, 'r')
 pilist = fr.readlines()
 enum = len(pilist)
 
@@ -172,7 +172,7 @@ for i in range(enum):
 	pi[i] = float(temp[2])
 fr.close()
 
-fr = open(prefix+'x_Poisson'+suffix, 'r')
+fr = open(prefix+'x_Poisson_notopic'+suffix, 'r')
 xlist = fr.readlines()
 for i in range(enum):
 	temp = xlist[i].split('\t')
