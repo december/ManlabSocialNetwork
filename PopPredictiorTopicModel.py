@@ -248,7 +248,7 @@ total = 0
 for i in range(n):
 	line = pop[i]
 	ans = par_answer[i].split(',')
-	if ans[0] == '' or len(ans) < 6:
+	if ans[0] == '' or len(ans) < 10:
 		continue
 	flag = False
 	poineer = list()
