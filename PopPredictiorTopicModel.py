@@ -84,7 +84,7 @@ def GetRanking(u, taudb, cset):
 		if not f in cset:
 			continue
 		p = 0
-		iterset = [1]
+		iterset = [3]
 		for tau in iterset:
 			#p += pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * taudb[tau]
 			#p = np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)) + np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
