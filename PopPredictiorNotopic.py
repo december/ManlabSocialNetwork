@@ -116,6 +116,13 @@ pop_answer = list()
 for line in questions:
 	pop_answer.append(line[:-1].split('\t')[:-1])
 fr.close()
+
+fr = open(prefix+'Participation_answer'+suffix, 'r')
+questions = fr.readlines()
+par_answer = list()
+for line in questions:
+	par_answer.append(line[:-1].split('\t')[0][:-1])
+fr.close()
 '''
 lbddic = {}
 fr = open(prefix+'lambda_Poisson'+suffix, 'r')
