@@ -33,6 +33,7 @@ j_matrix_sim = np.zeros((m, m))
 fr1 = open(prefix+'similarity/'+filename+'_pearson_value.detail', 'r')
 data = fr1.readlines()
 n = len(data)
+n = 100
 for i in range(n):
 	temp = data[i].split('\t')[:-1]
 	for j in range(n):
@@ -42,6 +43,7 @@ fr1.close()
 fr2 = open(prefix+'similarity/'+filename+'_jaccard_value.detail', 'r')
 data = fr2.readlines()
 n = len(data)
+n = 100
 for i in range(n):
 	temp = data[i].split('\t')[:-1]
 	for j in range(n):
@@ -52,6 +54,7 @@ filename = sys.argv[1]
 fr1 = open(prefix+'similarity/'+filename+'_pearson_value.detail', 'r')
 data = fr1.readlines()
 n = len(data)
+n = 100
 for i in range(n):
 	temp = data[i].split('\t')[:-1]
 	for j in range(n):
@@ -61,6 +64,7 @@ fr1.close()
 fr2 = open(prefix+'similarity/'+filename+'_jaccard_value.detail', 'r')
 data = fr2.readlines()
 n = len(data)
+n = 100
 for i in range(n):
 	temp = data[i].split('\t')[:-1]
 	for j in range(n):
@@ -78,7 +82,7 @@ for i in range(n):
 print np.sum(delta_p) * 1.0 / delta_p.size 
 print np.sum(delta_j) * 1.0 / delta_j.size
 sns.set()
-ax = sns.heatmap(delta_p[:1000][:1000], norm=LogNorm(vmin=delta_p.min(), vmax=delta_p.max()))
+ax = sns.heatmap(delta_p[:100][:100], norm=LogNorm(vmin=delta_p.min(), vmax=delta_p.max()))
 #ax = sns.heatmap(delta_p[:1000][:1000])
 plt.savefig(prefix+'similarity/'+filename+'_pearson_2D.png')
 plt.cla()
