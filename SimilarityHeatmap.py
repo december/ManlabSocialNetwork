@@ -84,7 +84,7 @@ else:
     fr = open(prefix+'result/'+filename+'.detail', 'r')
     realdata = fr.readlines()
     fr.close()
-'''
+
 n = len(realdata)
 i = 0
 while i < n:
@@ -117,8 +117,24 @@ for i in range(m):
         p_matrix[i][j] = pij
         j_matrix[i][j] = jij
     print i
+
+fw1 = open(prefix+'similarity/'+filename+'_pearson_value.detail', 'w')
+fw2 = open(prefix+'similarity/'+filename+'_jaccard_value.detail', 'w')
+for i in range(m):
+    for j in range(m):
+        fw1.write(str(p_matrix[i][j]))
+        fw1.write('\t')
+        fw2.write(str(j_matrix[i][j]))
+        fw2.write('\t')
+    fw1.write('\n')
+    fw2.write('\n')
+fw1.close()
+fw2.close()
+
+
 #draw_heatmap(p_matrix, x, x, 'pearson')
 #draw_heatmap(j_matrix, x, x, 'jaccard')
+'''
 df = pd.DataFrame(p_matrix)
 sns.heatmap(df, vmin=np.min(p_matrix), vmax=np.max(p_matrix))
 plt.savefig(prefix+'similarity/'+filename+'_pearson_2D.png')
@@ -128,16 +144,3 @@ sns.heatmap(df, vmin=np.min(p_matrix), vmax=np.max(p_matrix))
 plt.savefig(prefix+'similarity/'+filename+'_jaccard_2D.png')
 plt.cla()
 '''
-
-sns.set()
-np.random.seed(0)
-uniform_data = np.random.rand(1000, 1000)
-ax = sns.clustermap(uniform_data)
-plt.savefig(prefix+'similarity/'+filename+'_jaccard_2D.png')
-plt.cla()
-sns.set()
-np.random.seed(0)
-uniform_data = np.random.rand(1000, 1000)
-ax = sns.clustermap(uniform_data)
-plt.savefig(prefix+'similarity/'+filename+'_pearson_2D.png')
-plt.cla()
