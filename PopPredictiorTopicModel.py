@@ -248,14 +248,14 @@ for i in range(n):
 	for j in range(5):
 		mul = expect_pop[poineer[0]][j]
 		#mul = 0
-		for tau in range(2, 5):
+		for tau in range(1, 5):
 			mul *= GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau])
 		infer.append(mul)
-	norm = infer[2] + infer[3] + infer[4]
+	norm = infer[2] + infer[3] + infer[4] + infer[1]
 	for j in range(5):
 		infer[j] = infer[j] / norm
 	s = 0
-	for ui in range(2, 5):
+	for ui in range(1, 5):
 		s += expect_pop[poineer[0]][ui] * infer[ui]
 	'''
 	s = 0
