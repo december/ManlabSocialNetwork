@@ -256,7 +256,7 @@ for i in range(n):
 		infer[j] = infer[j] / norm
 	s = 0
 	for ui in range(5):
-		s += infer[ui] * expect_pop[poineer[0]][ui]
+		s += expect_pop[poineer[0]][ui] * 0.2
 	'''
 	s = 0
 	temps = 0
