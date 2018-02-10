@@ -201,7 +201,7 @@ for i in range(n):
 	panumer = int(pop_answer[i][0])
 	print str(s) + '\t' + str(pop_answer[i][0]) + '\t' + idlist[poineer[0]]
 	mae.append(abs(panumer - s))
-	total += panumer
+	#total += panumer
 	#print i
 	#print i
 
