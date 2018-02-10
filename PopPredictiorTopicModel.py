@@ -299,7 +299,7 @@ for i in range(n):
 #print accuracy
 #print expect_pop
 #print answer
-print len(accuracy)
+print len(mae)
 #print sum(accuracy) / len(accuracy)
 print sum(mae) / len(mae)
 print str(right) + '\t' + str(wrong)
