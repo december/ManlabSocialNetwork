@@ -35,8 +35,8 @@ def calcPJ(x, y):
 	#top *= cnt
 	#xsum = sum(x.values())
 	#ysum = sum(y.values())
-	xlen = cnt
-	ylen = cnt
+	xlen = len(xlist)
+	ylen = len(ylist)
 	top = len(inter) * cnt
 	top -= xlen * ylen
 	bottom = math.sqrt(cnt * xlen - xlen ** 2) * math.sqrt(cnt * ylen - ylen ** 2)
