@@ -348,7 +348,7 @@ for i in range(n):
 #print len(mae)
 print len(accuracy)
 print sum(accuracy) / len(accuracy)
-print sum(ranking) / len(ranking)
+print sum(random) / len(random)
 #print sum(mae) / len(mae)
 #print total
 #print str(right) + '\t' + str(wrong)
