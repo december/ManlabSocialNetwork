@@ -80,6 +80,7 @@ def GetExpect(u, tau, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_
 
 def GetRanking(u, taudb, cset, uid):
 	result = {}
+	print uid
 	for f in edgemap[u]:
 		if not f in cset:
 			continue
