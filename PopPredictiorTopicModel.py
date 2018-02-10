@@ -85,7 +85,7 @@ def GetRanking(u, taudb):
 			#p += pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * taudb[tau]
 			p = np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)) + np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
 		result[f] = p
-	return sorted(result.iteritems(), key=lambda d:d[1], reverse=True)
+	return sorted(result.iteritems(), key=lambda d:d[1], reverse=False)
 
 def Select(prusc, pop, selection, depdic, infer):
 	while pop > len(selection) and len(prusc) > 0:
