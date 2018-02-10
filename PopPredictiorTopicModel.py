@@ -88,7 +88,7 @@ def GetRanking(u, taudb, cset):
 		for tau in iterset:
 			#p += pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * taudb[tau]
 			#p = np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)) + np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
-			p = np.log(taudb[tau]) * 2 + x[edgemap[u][f]]
+			p = np.log(taudb[tau]) * 0.5 + x[edgemap[u][f]]
 			#p = np.log(x[edgemap[u][f]])
 		result[f] = p
 	return sorted(result.iteritems(), key=lambda d:d[1], reverse=True)
