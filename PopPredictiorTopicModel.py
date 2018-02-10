@@ -144,7 +144,7 @@ for i in range(vnum):
 	uid.append(temp[0])
 	iddic[int(temp[0])] = i
 	idlist.append(temp[0])
-	omega[i] = float(temp[1]) * 500
+	omega[i] = float(temp[1])
 fr.close()
 #print iddic
 
