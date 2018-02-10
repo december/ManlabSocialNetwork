@@ -49,7 +49,7 @@ while i < n:
 	info = realdata[i+1].split('\t')
 	tm = int(info[2])
 	if tm <= mid:
-		if number > 10:
+		if number > 5:
 			goodset.add(info[1])
 		for j in range(i+1, i+number):
 			newinfo = realdata[j].split('\t')
@@ -67,7 +67,8 @@ while i < n:
 	tm = int(info[2])
 	if tm <= mid:
 		i += number
-		continue	
+		continue
+	'''	
 	if number > 5 and info[1] in goodset:
 		answer = info[0]
 		legal = 0
@@ -80,18 +81,40 @@ while i < n:
 		if legal > 5:
 			participation.append(info[1]+'\t'+str(legal)+'\n')
 			par_answer.append(answer)
-	if number > 10 and info[1] in goodset:
+	'''
+	if number > 5 and info[1] in goodset:
 		legal = 0
 		question = info[0]
+		qauthor = info[1]
+		pointlist = list()
+		tweetlist = list()
+		answerdic = {}
 		for j in range(i+1, i+number):
 			newinfo = realdata[j].split('\t')
 			if newinfo[3] == '-1' or (edgemap.has_key(newinfo[1]) and edgemap[newinfo[1]].has_key(newinfo[4])):
-				if legal < 10:		
+				if legal < 5:		
 					question += '\t' + newinfo[1]
+					pointlist.append(newinfo[1])
+					tweetlist.append(newinfo[0])
+					if not answerdic.has_key(newinfo[0]):
+						answerdic[newinfo[0]] = set()
+				else:
+					if answerdic.has_key(newinfo[3]):
+						answerdic[newinfo[3]].add(newinfo[1])	
 				legal += 1
 		question += '\n'
-		if legal > 10:
-			pop_answer.append(info[0]+'\t'+str(legal)+'\n')
+		if legal > 5:
+			parans = ''
+			popans = ''
+			for j in len(pointlist):
+				popans += str(len(answerdic[tweetlist[j]])) + '\t'
+				temppar = ''
+				for item in answerdic[tweetlist[j]]:
+					temppar += item + ','
+				parans += temppar + '\t'
+			#pop_answer.append(info[0]+'\t'+str(legal)+'\n')
+			pop_answer.append(popans)
+			par_answer.append(parans)
 			popularity.append(question)		
 	i += number
 
