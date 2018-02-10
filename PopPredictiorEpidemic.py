@@ -185,7 +185,7 @@ for i in range(n):
 		poineer.append(iddic[int(j)])
 	if flag:
 		continue
-	s = GetExpect(poineer[tau], 1, 1, 0)
+	s = GetExpect(poineer[0], 1, 1, 0)
 	'''
 	for tau in range(5):
 		d = tau + 1
