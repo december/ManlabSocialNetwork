@@ -199,9 +199,9 @@ for i in range(n):
 	flag = False
 	poineer = list()
 	for j in line:
-		if j == '1':
-			flag = True
-			break
+		#if j == '1':
+		#	flag = True
+		#	break
 		poineer.append(iddic[int(j)])
 	if flag:
 		continue
