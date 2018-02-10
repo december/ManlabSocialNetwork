@@ -87,7 +87,7 @@ for i in range(n):
 		delta_j[i][j] = abs(j_matrix_real[i][j] - j_matrix_sim[i][j])
 
 sns.set()
-ax = sns.heatmap(delta_p[:1000][:1000], norm=LogNorm(vmin=delta_p.min(), vmax=delta_p.max())))
+ax = sns.heatmap(delta_p[:1000][:1000], norm=LogNorm(vmin=delta_p.min(), vmax=delta_p.max()))
 plt.savefig(prefix+'similarity/'+filename+'_pearson_2D.png')
 plt.cla()
 #df = pd.DataFrame(j_matrix)
