@@ -316,7 +316,7 @@ for i in range(n):
 	#s = s / 5
 	#print i
 	
-	#panumer = int(pop_answer[i][0])
+	panumer = int(pop_answer[i][0])
 	
 	'''
 	if pop_answer[i] > threshold:
