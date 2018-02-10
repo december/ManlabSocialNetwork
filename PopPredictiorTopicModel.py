@@ -94,7 +94,7 @@ def GetRanking(u, taudb, cset, uid):
 			#p = np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
 			p = np.log(x[edgemap[u][f]]) + np.log(taudb[tau])
 			if uid == '1':
-				p = np.log(x[edgemap[u][f]]) + np.log(taudb[tau]) * 3
+				p = np.log(x[edgemap[u][f]]) + np.log(taudb[tau]) * 5
 		result[f] = p
 	return sorted(result.iteritems(), key=lambda d:d[1], reverse=True)
 
