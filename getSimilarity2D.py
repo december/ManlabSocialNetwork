@@ -67,26 +67,14 @@ for i in range(n):
 		j_matrix_sim[i][j] = float(temp[j]) 
 fr2.close()
 
-psum_sim = sum(pdb_sim)
-jsum_sim = sum(jdb_sim)
-temps = psum_sim
-pdb_sim_cum[0] = temps
-for i in range(1, bins):
-	temps -= pdb_sim[i-1]
-	pdb_sim_cum[i] = temps
-temps = jsum_sim
-jdb_sim_cum[0] = temps
-for i in range(1, bins):
-	temps -= jdb_sim[i-1]
-	jdb_sim_cum[i] = temps	
-
 delta_p = np.zeros((n, n))
 delta_j = np.zeros((n, n))
 for i in range(n):
 	for j in range(n):
 		delta_p[i][j] = abs(p_matrix_real[i][j] - p_matrix_sim[i][j])
 		delta_j[i][j] = abs(j_matrix_real[i][j] - j_matrix_sim[i][j])
-
+print np.sum(delta_p) * 1.0 / delta_p.size
+print np.sum(delta_j) * 1.0 / delta_j.size
 sns.set()
 ax = sns.heatmap(delta_p[:1000][:1000], norm=LogNorm(vmin=delta_p.min(), vmax=delta_p.max()))
 plt.savefig(prefix+'similarity/'+filename+'_pearson_2D.png')
