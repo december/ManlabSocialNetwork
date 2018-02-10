@@ -222,6 +222,13 @@ if not single:
 plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_diameter.png')
 plt.cla()
 
+binrx, binry = GetBin(1.1, realsize, realnum) 
+binsx, binsy = GetBin(1.1, simsize, simnum)
+rs = np.array(binrx)
+rn = np.array(binry) * 1.0 / realsum
+ss = np.array(binsx)
+sn = np.array(binsy) * 1.0 / simsum
+
 m = len(ss)
 cr = 0
 cs = 0
