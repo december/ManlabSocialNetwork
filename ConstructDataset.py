@@ -113,8 +113,8 @@ while i < n:
 					temppar += item + ','
 				parans += temppar + '\t'
 			#pop_answer.append(info[0]+'\t'+str(legal)+'\n')
-			pop_answer.append(popans)
-			par_answer.append(parans)
+			pop_answer.append(popans+'\n')
+			par_answer.append(parans+'\n')
 			popularity.append(question)		
 	i += number
 
