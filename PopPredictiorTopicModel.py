@@ -92,7 +92,7 @@ def GetRanking(u, taudb, cset, uid):
 			#p += pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * taudb[tau]
 			#p = np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)) + np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
 			#p = np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
-			p = np.log(x[edgemap[u][f]]) + np.log(taudb[tau])
+			p = np.log(x[edgemap[u][f]]) + np.log(taudb[tau]) * 2000
 			if uid == '1':
 				p = np.log(x[edgemap[u][f]]) + np.log(taudb[tau]) * 2000
 		result[f] = p
