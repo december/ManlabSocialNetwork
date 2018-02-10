@@ -245,15 +245,22 @@ for i in range(n):
 	#print expect_pop[poineer[0]]
 	delta = 0
 	infer = list()
+	p = expect_pop[poineer[0]]
+	psum = expect_pop[poineer[0]][1] + expect_pop[poineer[0]][2] + expect_pop[poineer[0]][3] + expect_pop[poineer[0]][4]
+	for j in range(1, 5):
+		p[i] = expect_pop[poineer[0]][i] / psum
 	for j in range(5):
-		mul = np.log(expect_pop[poineer[0]][j]) * 5
-		#mul = 0
+		#mul = np.log(expect_pop[poineer[0]][j]) * 5
+		mul = 0
 		for tau in range(1, 5):
 			mul += np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau]))
 		infer.append(mul)
-	norm = infer[2] + infer[3] + infer[4] + infer[1]
+	#norm = infer[2] + infer[3] + infer[4] + infer[1]
+	#for j in range(5):
+	#	infer[j] = infer[j] / norm
+	norm = infer[2] * p[2] + infer[3] * p[3] + infer[4] * p[4] + infer[1] * p[1]
 	for j in range(5):
-		infer[j] = infer[j] / norm
+		infer[j] = infer[j] * p[j] / norm	
 	s = 0
 	for ui in range(1, 5):
 		s += expect_pop[poineer[0]][ui] * infer[ui]
