@@ -93,8 +93,8 @@ def GetRanking(u, taudb, cset, uid):
 			#p = np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)) + np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
 			#p = np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
 			p = np.log(x[edgemap[u][f]]) + np.log(taudb[tau])
-			#if uid == '1':
-			#	p += GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
+			if uid == '1':
+				p = np.log(pi[edgemap[u][f]]) + np.log(taudb[tau])
 		result[f] = p
 	return sorted(result.iteritems(), key=lambda d:d[1], reverse=True)
 
