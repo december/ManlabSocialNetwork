@@ -38,7 +38,7 @@ for i in range(n):
 	temp = data[i].split('\t')[:-1]
 	for j in range(n):
 		p_matrix_real[i][j] = float(temp[j]) 
-		p_matrix_real[j][i] = float(temp[j]) 
+		#p_matrix_real[j][i] = float(temp[j]) 
 fr1.close()
 
 fr2 = open(prefix+'similarity/'+filename+'_jaccard_value.detail', 'r')
@@ -49,7 +49,7 @@ for i in range(n):
 	temp = data[i].split('\t')[:-1]
 	for j in range(n):
 		j_matrix_real[i][j] = float(temp[j]) 
-		j_matrix_real[j][i] = float(temp[j]) 
+		#j_matrix_real[j][i] = float(temp[j]) 
 fr2.close()
 
 filename = sys.argv[1]
@@ -61,7 +61,7 @@ for i in range(n):
 	temp = data[i].split('\t')[:-1]
 	for j in range(n):
 		p_matrix_sim[i][j] = float(temp[j]) 
-		p_matrix_sim[j][i] = float(temp[j]) 
+		#p_matrix_sim[j][i] = float(temp[j]) 
 fr1.close()
 
 fr2 = open(prefix+'similarity/'+filename+'_jaccard_value.detail', 'r')
@@ -72,7 +72,7 @@ for i in range(n):
 	temp = data[i].split('\t')[:-1]
 	for j in range(n):
 		j_matrix_sim[i][j] = float(temp[j]) 
-		j_matrix_sim[j][i] = float(temp[j]) 
+		#j_matrix_sim[j][i] = float(temp[j]) 
 fr2.close()
 
 delta_p = np.zeros((n, n))
