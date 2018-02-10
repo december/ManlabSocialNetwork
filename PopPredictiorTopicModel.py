@@ -78,13 +78,15 @@ def GetExpect(u, tau, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_
 		#s = GetExpect(f, tau, d+1, rp * p, s)
 	return s
 
-def GetRanking(u, taudb, cset):
+def GetRanking(u, taudb, cset, uid):
 	result = {}
 	for f in edgemap[u]:
 		if not f in cset:
 			continue
 		p = 0
-		iterset = [0,2,3,4]
+		iterset = [1,3]
+		if uid == '1':
+			iterset = [0,2]
 		for tau in iterset:
 			#p += pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * taudb[tau]
 			#p = np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)) + np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
@@ -296,7 +298,7 @@ for i in range(n):
 		choiceset.add(iddic[int(item)])
 	while len(choiceset) < 2 * len(realset):
 		choiceset.add(choice(edgemap[poineer[0]].keys()))
-	ranking = GetRanking(poineer[0], infer, choiceset)
+	ranking = GetRanking(poineer[0], infer, choiceset, idlist[poineer[0]])
 	topnum = len(ans)
 	simset = set()
 	
