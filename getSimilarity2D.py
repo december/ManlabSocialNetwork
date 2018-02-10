@@ -67,17 +67,17 @@ for i in range(n):
 		j_matrix_sim[i][j] = float(temp[j]) 
 fr2.close()
 
-delta_p = np.zeros((n, n))
-delta_j = np.zeros((n, n))
+delta_p = np.zeros((n, n)) + 1e-15
+delta_j = np.zeros((n, n)) + 1e-15
 for i in range(n):
 	for j in range(n):
 		delta_p[i][j] = abs(p_matrix_real[i][j] - p_matrix_sim[i][j])
 		delta_j[i][j] = abs(j_matrix_real[i][j] - j_matrix_sim[i][j])
-print np.sum(delta_p) * 1.0 / delta_p.size
+print np.sum(delta_p) * 1.0 / delta_p.size 
 print np.sum(delta_j) * 1.0 / delta_j.size
 sns.set()
-#ax = sns.heatmap(delta_p[:1000][:1000], norm=LogNorm(vmin=delta_p.min(), vmax=delta_p.max()))
-ax = sns.heatmap(delta_p[:1000][:1000])
+ax = sns.heatmap(delta_p[:1000][:1000], norm=LogNorm(vmin=delta_p.min(), vmax=delta_p.max()))
+#ax = sns.heatmap(delta_p[:1000][:1000])
 plt.savefig(prefix+'similarity/'+filename+'_pearson_2D.png')
 plt.cla()
 #df = pd.DataFrame(j_matrix)
