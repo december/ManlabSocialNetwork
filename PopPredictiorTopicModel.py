@@ -247,13 +247,13 @@ n = len(pop)
 total = 0
 for i in range(n):
 	line = pop[i]
-	#ans = par_answer[i].split(',')
-	#if ans[0] == '' or len(ans) < 10:
-	#	continue
+	ans = par_answer[i].split(',')
+	if ans[0] == '' or len(ans) < 10:
+		continue
 	flag = False
 	poineer = list()
 	for j in line:
-		if j == '1' or j == '232478':
+		if j == '1':
 			flag = True
 			break
 		poineer.append(iddic[int(j)])
@@ -279,7 +279,7 @@ for i in range(n):
 	for j in range(5):
 		infer[j] = infer[j] / norm
 	#p = [0, 3,2,4,1]
-	'''
+	
 	norm = infer[2] * p[2] + infer[3] * p[3] + infer[4] * p[4] + infer[1] * p[1]
 	for j in range(5):
 		infer[j] = infer[j] * p[j] / norm
@@ -298,7 +298,7 @@ for i in range(n):
 	s = 0
 	for ui in range(1, 5):
 		s += expect_pop[poineer[0]][ui] * infer[ui]
-	'''
+	
 	s = 0
 	temps = 0
 	num = 0
@@ -315,10 +315,10 @@ for i in range(n):
 	#s += 10
 	#s = s / 5
 	#print i
-	
+	'''
 	panumer = int(pop_answer[i][0])
 	
-	'''
+	
 	if pop_answer[i] > threshold:
 		bigger += 1
 	else:
@@ -331,9 +331,9 @@ for i in range(n):
 	
 	answer.append(infer)
 	'''
-	mape = abs(panumer - s) * 1.0 / (panumer + 5)
-	#accuracy.append(acu)
-	accuracy.append(mape)
+	#mape = abs(panumer - s) * 1.0 / (panumer + 5)
+	accuracy.append(acu)
+	#accuracy.append(mape)
 	
 	#mae.append(abs(panumer - s))
 	#total += panumer
