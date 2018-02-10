@@ -74,7 +74,7 @@ def GetExpect(u, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_time,
 			realpi = beta1[edgemap[u][f]]		
 		p = realpi * (1 - gamma[u])
 		s += rp * p
-		s = GetExpect(f, d+1, rp * p, s)
+		#s = GetExpect(f, d+1, rp * p, s)
 	return s
 
 def Select(prusc, pop, selection, depdic):
@@ -105,7 +105,7 @@ fr = open(prefix+'Popularity_answer'+suffix, 'r')
 questions = fr.readlines()
 pop_answer = list()
 for line in questions:
-	pop_answer.append(int(line[:-1].split('\t')[1]))
+	pop_answer.append(line[:-1].split('\t')[:-1])
 fr.close()
 '''
 lbddic = {}
@@ -179,27 +179,35 @@ for i in range(n):
 	flag = False
 	poineer = list()
 	for j in line:
-		if not iddic.has_key(int(j)):
+		if j == 1:
 			flag = True
 			break
 		poineer.append(iddic[int(j)])
 	if flag:
 		continue
-	s = 0
+	s = GetExpect(poineer[tau], 1, 1, 0)
+	'''
 	for tau in range(5):
 		d = tau + 1
 		if tau > 0:
 			d = 1			
 		s += GetExpect(poineer[tau], d, 1, 0) + 1
 	s = s / 5
+	
 	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
 	accuracy.append(mape)
 	mae.append(abs(pop_answer[i] - s))	
+	'''
+	panumer = int(pop_answer[i][0])
+	print str(s) + '\t' + str(pop_answer[i][0]) + '\t' + idlist[poineer[0]]
+	mae.append(abs(panumer - s))
+	total += panumer
 	#print i
 	#print i
 
 #print accuracy
-print len(accuracy)
-print sum(accuracy) / len(accuracy)
+#print len(accuracy)
+#print sum(accuracy) / len(accuracy)
 print sum(mae) / len(mae)
+print len(mae)
 #print right
