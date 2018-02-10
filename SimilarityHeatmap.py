@@ -67,7 +67,7 @@ def calcPJ(x, y):
     bottom = math.sqrt(cnt * xlen - xlen ** 2) * math.sqrt(cnt * ylen - ylen ** 2)
     p = top * 1.0 / bottom
     return p, j
-
+'''
 prefix = '../../cascading_generation_model/simulation/'
 suffix = '.detail'
 path = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/single_user_post/'
@@ -127,3 +127,10 @@ plt.cla()
 sns.heatmap(df, vmin=np.min(p_matrix), vmax=np.max(p_matrix))
 plt.savefig(prefix+'similarity/'+filename+'_jaccard_2D.png')
 plt.cla()
+'''
+
+sns.set()
+np.random.seed(0)
+uniform_data = np.random.rand(10, 12)
+ax = sns.heatmap(uniform_data)
+plt.savefig(prefix+'similarity/'+filename+'_jaccard_2D.png')
