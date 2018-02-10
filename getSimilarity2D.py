@@ -79,16 +79,22 @@ delta_p = np.zeros((n, n))
 delta_j = np.zeros((n, n))
 psize = 0
 jsize = 0
+preal = 0
+jreal = 0
 for i in range(n):
 	for j in range(n):
 		if p_matrix_real[i][j] != 0:
 			delta_p[i][j] = abs(p_matrix_real[i][j] - p_matrix_sim[i][j])
+			preal += abs(p_matrix_real[i][j])
 			psize += 1
 		if j_matrix_real[i][j] != 0:
 			delta_j[i][j] = abs(j_matrix_real[i][j] - j_matrix_sim[i][j])
+			jreal += abs(j_matrix_real[i][j])
 			jsize += 1
 print np.sum(delta_p) * 1.0 / psize 
 print np.sum(delta_j) * 1.0 / jsize
+print preal * 1.0 / psize 
+print jreal * 1.0 / jsize
 '''
 sns.set()
 ax = sns.heatmap(delta_p, norm=LogNorm(vmin=delta_p.min(), vmax=delta_p.max()))
