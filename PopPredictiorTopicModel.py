@@ -84,7 +84,7 @@ def GetRanking(u, taudb, cset):
 		if not f in cset:
 			continue
 		p = 0
-		iterset = [1,2,3,4]
+		iterset = [1,3,4]
 		for tau in iterset:
 			#p += pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * taudb[tau]
 			#p = np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)) + np.log(taudb[tau]) + np.log(x[edgemap[u][f]])
@@ -273,7 +273,7 @@ for i in range(n):
 	delta = 0
 	infer = list()
 	p = expect_pop[poineer[0]]
-	psum = expect_pop[poineer[0]][1] + expect_pop[poineer[0]][2] + expect_pop[poineer[0]][3] + expect_pop[poineer[0]][4]
+	psum = expect_pop[poineer[0]][1] + expect_pop[poineer[0]][3] + expect_pop[poineer[0]][4]
 	for j in range(1, 5):
 		p[j] = expect_pop[poineer[0]][j] / psum
 	for j in range(5):
@@ -282,12 +282,12 @@ for i in range(n):
 		for tau in range(1, 5):
 			mul += np.log(GetPhi(phi1, phi2, phi3, phi4, phi5, j, poineer[tau]))
 		infer.append(mul)
-	norm = infer[2] + infer[3] + infer[4] + infer[1]
+	norm = infer[3] + infer[4] + infer[1]
 	for j in range(5):
 		infer[j] = infer[j] / norm
 	#p = [0, 3,2,4,1]
 	
-	norm = infer[2] * p[2] + infer[3] * p[3] + infer[4] * p[4] + infer[1] * p[1]
+	norm = infer[3] * p[3] + infer[4] * p[4] + infer[1] * p[1]
 	for j in range(5):
 		infer[j] = infer[j] * p[j] / norm
 	realset = set(ans)
