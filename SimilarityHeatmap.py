@@ -109,11 +109,13 @@ print m
 p_matrix = np.zeros((m, m))
 j_matrix = np.zeros((m, m))
 x = np.linspace(1, m, m)
+pointlist = realdic.keys()
 
 for i in range(m):
     for j in range(i+1, m):
         pij, jij = calcPJ(realdic[pointlist[i]], realdic[pointlist[j]])
         p_matrix[i][j] = pij
         j_matrix[i][j] = jij
+    print i
 draw_heatmap(x, x, p_matrix, 'pearson')
 draw_heatmap(x, x, j_matrix, 'jaccard')
