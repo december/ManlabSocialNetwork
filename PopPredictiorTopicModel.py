@@ -300,7 +300,7 @@ for i in range(n):
 #print expect_pop
 #print answer
 print len(accuracy)
-print sum(accuracy) / len(accuracy)
+#print sum(accuracy) / len(accuracy)
 print sum(mae) / len(mae)
 print str(right) + '\t' + str(wrong)
 print str(bigger) + '\t' + str(smaller)
