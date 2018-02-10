@@ -62,7 +62,7 @@ def GetTau(p1, p2, p3, p4, p5, v):
 		return 3
 	return 4	
 
-def GetRanking(u, taudb, cset):
+def GetRanking(u, cset):
 	result = {}
 	for f in edgemap[u]:
 		if not f in cset:
@@ -199,9 +199,9 @@ for i in range(n):
 	flag = False
 	poineer = list()
 	for j in line:
-		#if j == '1':
-		#	flag = True
-		#	break
+		if j == '1':
+			flag = True
+			break
 		poineer.append(iddic[int(j)])
 	if flag:
 		continue
@@ -211,7 +211,7 @@ for i in range(n):
 		choiceset.add(iddic[int(item)])
 	while len(choiceset) < 2 * len(realset):
 		choiceset.add(choice(edgemap[poineer[0]].keys()))
-	ranking = GetRanking(poineer[0], infer, choiceset)
+	ranking = GetRanking(poineer[0], choiceset)
 	topnum = len(ans)
 	simset = set()
 	
