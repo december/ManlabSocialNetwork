@@ -77,6 +77,15 @@ def GetExpect(u, tau, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_
 		#s = GetExpect(f, tau, d+1, rp * p, s)
 	return s
 
+def GetRanking(u, taudb):
+	result = {}
+	for f in edgemap[u]:
+		p = 0
+		for tau in range(5):
+			p += pi[edgemap[u][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f) * taudb[tau]
+		result[f] = p
+	return sorted(result.iteritems(), key=lambda d:d[1], reverse=True)
+
 def Select(prusc, pop, selection, depdic, infer):
 	while pop > len(selection) and len(prusc) > 0:
 		maximum = max(prusc.values())
@@ -106,6 +115,13 @@ questions = fr.readlines()
 pop_answer = list()
 for line in questions:
 	pop_answer.append(line[:-1].split('\t')[:-1])
+fr.close()
+
+fr = open(prefix+'Participation_answer'+suffix, 'r')
+questions = fr.readlines()
+par_answer = list()
+for line in questions:
+	par_answer.append(line[:-1].split('\t')[0][:-1])
 fr.close()
 '''
 lbddic = {}
@@ -230,12 +246,15 @@ n = len(pop)
 total = 0
 for i in range(n):
 	line = pop[i]
+	ans = par_answer[i].split(',')
+	if ans[0] == '':
+		continue
 	flag = False
 	poineer = list()
 	for j in line:
-		if j == '1' or j == '232478':
-			flag = True
-			break
+		#if j == '1' or j == '232478':
+		#	flag = True
+		#	break
 		poineer.append(iddic[int(j)])
 	if flag:
 		continue
@@ -261,10 +280,22 @@ for i in range(n):
 	#p = [0, 3,2,4,1]
 	norm = infer[2] * p[2] + infer[3] * p[3] + infer[4] * p[4] + infer[1] * p[1]
 	for j in range(5):
-		infer[j] = infer[j] * p[j] / norm	
-	s = 0
-	for ui in range(1, 5):
-		s += expect_pop[poineer[0]][ui] * infer[ui]
+		infer[j] = infer[j] * p[j] / norm
+	ranking = GetRanking(poineer[0], infer)
+	topnum = len(ans)
+	simset = set()
+	realset = set()
+	for j in range(topnum):
+		simset.add(idlist[ranking[j][0]])
+		realset.add(ans[j])
+	inter = realset & simset
+	acu = len(inter) * 1.0 / len(realset)
+	print str(len(inter)) + '\t' + str(len(realset)) + '\t' + str(acu)
+
+
+	#s = 0
+	#for ui in range(1, 5):
+	#	s += expect_pop[poineer[0]][ui] * infer[ui]
 	'''
 	s = 0
 	temps = 0
@@ -283,8 +314,8 @@ for i in range(n):
 	#s = s / 5
 	#print i
 	'''
-	panumer = int(pop_answer[i][0])
-	print str(s) + '\t' + str(pop_answer[i][0]) + '\t' + idlist[poineer[0]]
+	#panumer = int(pop_answer[i][0])
+	
 	'''
 	if pop_answer[i] > threshold:
 		bigger += 1
@@ -298,21 +329,22 @@ for i in range(n):
 	
 	answer.append(infer)
 	'''
-	mape = abs(panumer - s) * 1.0 / (panumer + 5)
-	accuracy.append(mape)
+	#mape = abs(panumer - s) * 1.0 / (panumer + 5)
+	accuracy.append(accuracy)
 	
-	mae.append(abs(panumer - s))
-	total += panumer
+	#mae.append(abs(panumer - s))
+	#total += panumer
 	
 	#print i
 
 #print accuracy
 #print expect_pop
 #print answer
-print len(mae)
+#print len(mae)
+print len(accuracy)
 print sum(accuracy) / len(accuracy)
-print sum(mae) / len(mae)
-print total
-print str(right) + '\t' + str(wrong)
-print str(bigger) + '\t' + str(smaller)
+#print sum(mae) / len(mae)
+#print total
+#print str(right) + '\t' + str(wrong)
+#print str(bigger) + '\t' + str(smaller)
 #print right
