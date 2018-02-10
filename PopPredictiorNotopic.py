@@ -61,23 +61,23 @@ def GetTau(p1, p2, p3, p4, p5, v):
 		return 3
 	return 4	
 
-def GetExpect(u, tau, d, rp): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
+def GetExpect(u, d, rp, s): #root_tweet, parent_tweet, parent_user, parent_time, tau, cascade log, depth
 	if d >= 20 or rp <= 1e-2:
-		return 0
+		return s
 	if not edgemap.has_key(u):
-		return 0
-	s = 0
+		return s
 	for f in edgemap[u]:
 		psaw = 1 - np.exp(-omega[f]*te)
+		#psaw = 1
 		realpi = pi[edgemap[u][f]]
 		if d > 1:
 			realpi = x[edgemap[u][f]] * k ** -(d - 1)		
-		p = psaw * realpi * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
-		s += p
-		s += p * GetExpect(f, tau, d+1, rp * p)
+		p = psaw * realpi
+		s += rp * p
+		#s = GetExpect(f, tau, d+1, rp * p, s)
 	return s
 
-def Select(prusc, pop, selection, depdic):
+def Select(prusc, pop, selection, depdic, infer):
 	while pop > len(selection) and len(prusc) > 0:
 		maximum = max(prusc.values())
 		user = max(prusc.items(), key=lambda x: x[1])[0]
@@ -87,26 +87,25 @@ def Select(prusc, pop, selection, depdic):
 			continue
 		for f in edgemap[user]:
 			if not f in selection:
-				prusc[f] = maximum * (1 - np.exp(-omega[f]*te)) * x[edgemap[user][f]] * k ** -depdic[user]
+				prusc[f] = maximum * (1 - np.exp(-omega[f]*te)) * x[edgemap[user][f]] * GetPhi(phi1, phi2, phi3, phi4, phi5, infer, f) * k ** -depdic[user]
 				depdic[f] = depdic[user] + 1
 	return selection
 
 prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 suffix = '.detail'
 
-fr = open(prefix+'Participation'+suffix, 'r')
+fr = open(prefix+'Popularity'+suffix, 'r')
 questions = fr.readlines()
-par = list()
+pop = list()
 for line in questions:
-	par.append(line[:-1].split('\t'))
+	pop.append(line[:-1].split('\t')[1:])
 fr.close()
 
-fr = open(prefix+'Participation_answer'+suffix, 'r')
+fr = open(prefix+'Popularity_answer'+suffix, 'r')
 questions = fr.readlines()
-par_answer = list()
+pop_answer = list()
 for line in questions:
-	participant = line[:-1].split('\t')[1:]
-	par_answer.append(set(participant))
+	pop_answer.append(line[:-1].split('\t')[:-1])
 fr.close()
 '''
 lbddic = {}
@@ -145,7 +144,7 @@ for i in range(vnum):
 	uid.append(temp[0])
 	iddic[int(temp[0])] = i
 	idlist.append(temp[0])
-	omega[i] = float(temp[1]) * 500
+	omega[i] = float(temp[1])
 fr.close()
 #print iddic
 
@@ -185,39 +184,77 @@ print 'Finished reading..'
 #prefix = '../../cascading_generation_model/simulation/'
 #suffix = '.detail'
 accuracy = list()
+mae = list()
 expect_pop = {}
-n = len(par)
+answer = list()
+right = 0
+wrong = 0
+threshold = 20
+bigger = 0
+smaller = 0
+n = len(pop)
+total = 0
 for i in range(n):
-	line = par[i]
-	if not iddic.has_key(int(line[0])):
-		continue	
-	newi = iddic[int(line[0])]
-	pop = int(line[1])
-	if not edgemap.has_key(newi):
+	line = pop[i]
+	flag = False
+	poineer = list()
+	for j in line:
+		if j == '1':
+			flag = True
+			break
+		poineer.append(iddic[int(j)])
+	if flag:
 		continue
-	'''
-	if not expect_pop.has_key(line[0]):
-		expect_pop[line[0]] = []
-		for j in range(5):
-			expect_pop[line[0]].append(GetExpect(newi, 0, 1, 1))
-	delta = abs(expect_pop[line[0]][0] - pop)
-	infer = 0
-	for j in range(1, 5):
-		if abs(expect_pop[line[0]][j] - pop) < delta:
-			delta = abs(expect_pop[line[0]][j] - pop)
-			infer = j
-	'''
-	prusc = {}
-	depdic = {}
-	sel = set()
-	sel.add(newi)
-	for f in edgemap[newi]:
-		prusc[f] = (1 - np.exp(-omega[f]*te)) * pi[edgemap[newi][f]]
-		depdic[f] = 1
-	sel = Select(prusc, pop, sel, depdic)
-	sel = set(idlist[s] for s in sel)
-	accuracy.append(len(par_answer[i].intersection(sel)) * 1.0 / len(par_answer[i]))
-	print i
+	#print expect_pop[poineer[0]]
+	delta = 0
+	s = GetExpect(poineer[0], 1, 1, 0)
 
-print accuracy
-print sum(accuracy) / len(accuracy)
+	'''
+	s = 0
+	temps = 0
+	num = 0
+	for tau in range(5):
+		d = tau + 1
+		if tau > 0:
+			d = 1
+		for ui in range(0, 5):
+			if ui == 0:
+				continue
+			s += GetExpect(poineer[tau], ui, d, 1, 0) / 4
+			
+		#s += GetExpect(poineer[tau], 4, d, 1, 0)
+	s += 10
+	#s = s / 5
+	#print i
+	'''
+	panumer = int(pop_answer[i][0])
+	print str(s) + '\t' + str(pop_answer[i][0]) + '\t' + idlist[poineer[0]]
+	'''
+	if pop_answer[i] > threshold:
+		bigger += 1
+	else:
+		smaller += 1
+
+	if (s > threshold) == (pop_answer[i] > threshold):
+		right += 1
+	else:
+		wrong += 1 
+	answer.append(infer)
+	mape = abs(pop_answer[i] - s) * 1.0 / pop_answer[i]
+	accuracy.append(mape)
+	'''
+	mae.append(abs(panumer - s))
+	total += panumer
+	
+	#print i
+
+#print accuracy
+#print expect_pop
+#print answer
+print len(mae)
+#print sum(accuracy) / len(accuracy)
+print sum(mae) / len(mae)
+print total
+print str(right) + '\t' + str(wrong)
+print str(bigger) + '\t' + str(smaller)
+#print right
