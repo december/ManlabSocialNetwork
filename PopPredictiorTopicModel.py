@@ -258,7 +258,7 @@ for i in range(n):
 	flag = False
 	poineer = list()
 	for j in line:
-		if j == '1':
+		if j == '1' or j == '187786':
 			flag = True
 			break
 		poineer.append(iddic[int(j)])
