@@ -84,11 +84,11 @@ jreal = 0
 for i in range(n):
 	for j in range(n):
 		if abs(p_matrix_real[i][j]) > 0.1:
-			delta_p[i][j] = abs(p_matrix_real[i][j] - p_matrix_sim[i][j])
+			delta_p[i][j] = abs(p_matrix_real[i][j] - p_matrix_sim[i][j]) / abs(p_matrix_real[i][j])
 			preal += abs(p_matrix_real[i][j])
 			psize += 1
 		if abs(j_matrix_real[i][j]) > 0.1:
-			delta_j[i][j] = abs(j_matrix_real[i][j] - j_matrix_sim[i][j])
+			delta_j[i][j] = abs(j_matrix_real[i][j] - j_matrix_sim[i][j]) / abs(j_matrix_real[i][j])
 			jreal += abs(j_matrix_real[i][j])
 			jsize += 1
 print np.sum(delta_p) * 1.0 / psize 
