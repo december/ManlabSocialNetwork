@@ -205,7 +205,7 @@ for size in simsize:
 
 simsize1 = sorted(sim1.keys())
 simnum1 = list()
-for size in simsize:
+for size in simsize1:
 	simnum1.append(sim1[size] * 1.0 / m)
 
 simsize2 = sorted(sim2.keys())
