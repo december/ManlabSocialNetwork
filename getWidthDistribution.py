@@ -128,8 +128,8 @@ for size in simsize:
 print simsize
 print simnum
 
-realsize, realnum = GetBin(1.1, realsize, realcum) 
-simsize, simnum = GetBin(1.1, simsize, simcum)
+realsize, realnum = GetBin(1.1, realsize, realnum) 
+simsize, simnum = GetBin(1.1, simsize, simnum)
 
 realsum = sum(realnum)
 simsum = sum(simnum)
