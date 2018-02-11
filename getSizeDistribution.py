@@ -217,7 +217,7 @@ sn3 = np.array(simnum3) * 1.0 / simsum3
 
 plt.xscale('log')
 plt.yscale('log')
-plt.plot(rs, rn, '#ff6347', linestyle='o', label='Real')
+plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, '#4876ff', label='Our framework')
 plt.plot(ss1, sn1, '#8c8c8c', label='BP')
 plt.plot(ss2, sn2, '#ffa500', label='EP')
@@ -244,7 +244,7 @@ sn3 = np.array(simcum3) * 1.0 / simsum3
 
 plt.xscale('log')
 plt.yscale('log')
-plt.plot(rs, rn, '#ff6347', linestyle='o', label='Real')
+plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, '#4876ff', label='Our framework')
 plt.plot(ss1, sn1, '#8c8c8c', label='BP')
 plt.plot(ss2, sn2, '#ffa500', label='EP')
