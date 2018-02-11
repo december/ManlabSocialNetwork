@@ -48,9 +48,9 @@ for f_name in files_name:  # 3
                 for line in f:
                     line = line.strip()
                     info = line.split()
-                    x = np.log(int(info[i]))
-                    y = np.log(int(info[j]))
-                    print >> fout, '%f,%f' % (x, y)
+                    x = int(info[i])
+                    y = int(info[j])
+                    print >> fout, '%d,%d' % (x, y)
             fout.close()
 
 showtime('Finish pre data')
@@ -96,8 +96,8 @@ def plot_by_x_y(x_list, y_list, xy_f_name):
 
     # pcolor(data)
     print data.max(), data.min()
-    #pcolor(data, norm=colors.LogNorm(vmin=data.min(), vmax=data.max()), cmap='coolwarm')
-    pcolor(data, norm=colors.Norm(vmin=data.min(), vmax=data.max()), cmap='coolwarm')
+    pcolor(data, norm=colors.LogNorm(vmin=data.min() / 1000, vmax=data.max()), cmap='afmhot')
+    #pcolor(data, norm=colors.Norm(vmin=data.min(), vmax=data.max()), cmap='coolwarm')
     global First
     if First:
         colorbar()
