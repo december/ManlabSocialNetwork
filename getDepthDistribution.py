@@ -340,7 +340,7 @@ plt.xlabel(u'Depth', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=15);  
 filename = 'all_depth'
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.eps', dpi=1200)
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.png', dpi=1200)
 plt.cla()
 
 #print logmae
@@ -369,5 +369,5 @@ plt.xlabel(u'Depth', fontsize=14)
 plt.ylabel(u'CDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=15);  
 filename = 'all_depth'
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.eps', dpi=1200)
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png', dpi=1200)
 plt.cla()
