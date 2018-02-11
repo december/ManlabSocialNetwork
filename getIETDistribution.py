@@ -263,7 +263,7 @@ plt.ylabel(u'CDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
 if not single:
 	filename = 'all' 
-plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_IETRoot.eps', dpi=300)
+plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_IETRoot.eps', dpi=1200)
 plt.cla()
 
 realsize = sorted(real_rt.keys())
@@ -312,5 +312,5 @@ plt.ylabel(u'CDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
 if not single:
 	filename = 'all' 
-plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_IETRetweet.eps',dpi=300)
+plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_IETRetweet.eps',dpi=1200)
 plt.cla()
