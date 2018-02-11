@@ -11,7 +11,7 @@ realdic = {} #from id to its cascade dic
 relation = {} #from id to follower id
 authordic = {} #from tweet id to author id
 cnt = 0 #cascade number
-mode = int(sys.argv[2])
+mode = 0
 
 simulation = False
 filename = 'Real'
