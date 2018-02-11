@@ -255,11 +255,12 @@ sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'b', label='Sim')
+plt.plot(ss, sn, 'b', label='Our framework')
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
-plt.xlabel(u'IET for Root', fontsize=14)
+plt.xlabel(u'Interevent time', fontsize=14)
 plt.ylabel(u'CDF', fontsize=14)
+plt.title('IET Distribution for Posting Roots', fontsize=20)
 plt.legend(loc='upper right', fontsize=20);
 if not single:
 	filename = 'all' 
@@ -306,9 +307,10 @@ plt.yscale('log')
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'b', label='Sim')
+plt.plot(ss, sn, 'b', label='Our framework')
 plt.xlabel(u'IET for Retweet', fontsize=14)
 plt.ylabel(u'CDF', fontsize=14)
+plt.title('IET Distribution for Retweeting', fontsize=20)
 plt.legend(loc='upper right', fontsize=20);
 if not single:
 	filename = 'all' 

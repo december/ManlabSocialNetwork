@@ -126,6 +126,7 @@ plt.plot(px, ps, '#4876ff', label='Our Framework', linewidth=2.5)
 plt.xlabel(u'Pearson Coeffecient', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
+#plt.title('Distribution of Pearson Coeffecient', fontsize=20)
 plt.savefig(prefix+'similarity/'+filename+'_pearson_num.eps', dpi=300)
 plt.cla()
 
