@@ -90,7 +90,7 @@ def plot_by_x_y(x_list, y_list, xy_f_name):
     for i in range(len(data)):
         for j in range(len(data[i])):
             data[i][j] /= cnt
-            #data[i][j] = max(data[i][j], 1e-7)
+            data[i][j] = max(data[i][j], 1e-100)
     data = np.array(data)
     figure(figsize=(20,15))
 
