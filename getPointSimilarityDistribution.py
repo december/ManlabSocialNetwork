@@ -158,8 +158,8 @@ plt.plot([0.2, 0.2,], [0, py[9]], 'k:', linewidth=2.5)
 plt.plot([0.4, 0.4,], [0, py[19]], 'k:', linewidth=2.5)
 plt.plot([0, 0.2,], [py[9], py[9]], 'k:', linewidth=2.5)
 plt.plot([0, 0.2,], [ps1[9], ps1[9]], 'k:', linewidth=2.5)
-plt.plot([0, 0.2,], [py[19], py[19]], 'k:', linewidth=2.5)
-plt.plot([0, 0.2,], [ps1[19], ps1[19]], 'k:', linewidth=2.5)
+plt.plot([0, 0.4,], [py[19], py[19]], 'k:', linewidth=2.5)
+plt.plot([0, 0.4,], [ps1[19], ps1[19]], 'k:', linewidth=2.5)
 
 
 plt.ylim((0,1.02))
@@ -167,5 +167,5 @@ plt.xlim((0,1.02))
 plt.xlabel(u'Collectivity', fontsize=14)
 plt.ylabel(u'CDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=15);
-plt.savefig(prefix+'similarity/'+str(mode)+'_'+filename+'_collectivity.png')
+plt.savefig(prefix+'similarity/'+str(mode)+'_'+filename+'_collectivity.eps', dpi=1200)
 plt.cla()
