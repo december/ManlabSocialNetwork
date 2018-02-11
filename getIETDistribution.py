@@ -248,7 +248,7 @@ simsum = sum(simnum)
 
 rs = np.array(realsize[start:])
 rn = np.array(realcum[start:]) * 1.0 / realsum
-rs, rn = GetBin(100, rs, rn)
+rs, rn = GetBin(1000, rs, rn)
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
@@ -297,7 +297,7 @@ simsum = sum(simnum)
 
 rs = np.array(realsize[start:])
 rn = np.array(realcum[start:]) * 1.0 / realsum
-rs, rn = GetBin(100, rs, rn)
+rs, rn = GetBin(1000, rs, rn)
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
