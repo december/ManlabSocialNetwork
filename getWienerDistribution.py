@@ -321,6 +321,16 @@ for i in range(n-1):
 	s -= simnum3[i]
 	simcum3.append(s)
 
+rs = np.array(realsize)
+rn = np.array(realnum) * 1.0 / realsum
+ss = np.array(simsize)
+sn = np.array(simnum) * 1.0 / simsum
+ss1 = np.array(simsize1)
+sn1 = np.array(simnum1) * 1.0 / simsum1
+ss2 = np.array(simsize2)
+sn2 = np.array(simnum2) * 1.0 / simsum2
+ss3 = np.array(simsize3)
+sn3 = np.array(simnum3) * 1.0 / simsum3
 
 sns.set()
 sns.set_style('white')
