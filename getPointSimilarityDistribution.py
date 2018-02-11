@@ -156,6 +156,12 @@ plt.plot(px, ps1, '#8c8c8c',linestyle='--',label='BP', linewidth=2.5)
 plt.plot(px, ps2, '#458b00',linestyle='--',label='Base', linewidth=2.5)
 plt.plot([0.2, 0.2,], [0, py[9]], 'k:', linewidth=2.5)
 plt.plot([0.4, 0.4,], [0, py[19]], 'k:', linewidth=2.5)
+plt.plot([0, 0.2,], [py[9], py[9]], 'k:', linewidth=2.5)
+plt.plot([0, 0.2,], [ps1[9], ps1[9]], 'k:', linewidth=2.5)
+plt.plot([0, 0.2,], [py[19], py[19]], 'k:', linewidth=2.5)
+plt.plot([0, 0.2,], [ps1[19], ps1[19]], 'k:', linewidth=2.5)
+
+
 plt.ylim((0,1.02))
 plt.xlim((0,1.02))
 plt.xlabel(u'Collectivity', fontsize=14)
