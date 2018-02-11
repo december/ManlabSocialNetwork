@@ -122,7 +122,7 @@ plt.style.use("ggplot")
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 plt.plot(px, py, '#ff6347', label='Real', linewidth=2.5)
-plt.plot(px, ps, '#4876ff', label='Our framework', linewidth=2.5)
+plt.plot(px, ps, '#4876ff', label='BP', linewidth=2.5)
 plt.xlabel(u'Pearson Coeffecient', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
