@@ -131,13 +131,13 @@ print simnum
 realsum = sum(realnum)
 simsum = sum(simnum)
 
-realcum = list()
+realcum = [1]
 n = len(realnum)
 s = sum(realnum)
 for i in range(n):
 	s -= realnum[i]
 	realcum.append(s)
-simcum = list()
+simcum = [1]
 n = len(simnum)
 s = sum(simnum)
 for i in range(n):
@@ -150,7 +150,7 @@ sn = np.array(simcum) * 1.0 / simsum
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'bo', label='Sim')
+plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'Width')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
@@ -185,7 +185,7 @@ logmae[0] = logmae[0] / m
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'bo', label='Sim')
+plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'Width')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right'); 
@@ -220,7 +220,7 @@ print square
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'bo', label='Sim')
+plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'Width')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  

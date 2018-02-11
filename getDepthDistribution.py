@@ -155,13 +155,13 @@ simsum = sum(simnum)
 print realnum
 print simnum
 
-realcum = list()
+realcum = [1]
 n = len(realnum)
 s = sum(realnum)
 for i in range(n):
 	s -= realnum[i]
 	realcum.append(s)
-simcum = list()
+simcum = [1]
 n = len(simnum)
 s = sum(simnum)
 for i in range(n):
