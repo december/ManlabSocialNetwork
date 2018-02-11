@@ -100,61 +100,184 @@ if single:
 else:
 	namelist = os.listdir(prefix)
 	position = prefix
-m = 0
-for name in namelist:
-	if not name.endswith('.detail'):
-		continue
-	fr = open(position+name, 'r')
-	simdata = fr.readlines()
-	m += 1
-	n = len(simdata)
-	i = 0
-	while i < n:
-		temp = simdata[i].split('\t')
-		number = int(temp[1]) + 1
-		depdic = {}
-		prdic = {}
-		authordic = {}
-		reflectdic = {}
-		for j in range(i+1, i+number):
-			info = simdata[j].split('\t')
-			authordic[info[0]] = info[1]
-			if info[3] == '-1':
-				depdic[info[0]] = 1
-			else:
-				prdic[info[0]] = info[3]
-				tempdep = depdic[info[3]] + 1
-				depdic[info[0]] = tempdep
-				if not reflectdic.has_key(info[3]) and tempdep >= 4:
-					if isRepeat(info[0], prdic, authordic):
-						depdic[prdic[info[0]]] -= 2
-						depdic[info[0]] -= 2
-						reflectdic[info[3]] = prdic[prdic[info[3]]]
-						reflectdic[info[0]] = prdic[prdic[info[0]]]
-		dep = max(depdic.values())
-		if sim.has_key(dep):
-			sim[dep] += 1
+m = 1
+
+fr = open('/home/luyunfei/cascading_generation_model/simulation/result/All_parameter_500.detail', 'r')
+simdata = fr.readlines()
+n = len(simdata)
+i = 0
+while i < n:
+	temp = simdata[i].split('\t')
+	number = int(temp[1]) + 1
+	depdic = {}
+	prdic = {}
+	authordic = {}
+	reflectdic = {}
+	for j in range(i+1, i+number):
+		info = simdata[j].split('\t')
+		authordic[info[0]] = info[1]
+		if info[3] == '-1':
+			depdic[info[0]] = 1
 		else:
-			sim[dep] = 1
-		i += number
-	fr.close()
+			prdic[info[0]] = info[3]
+			tempdep = depdic[info[3]] + 1
+			depdic[info[0]] = tempdep
+			if not reflectdic.has_key(info[3]) and tempdep >= 4:
+				if isRepeat(info[0], prdic, authordic):
+					depdic[prdic[info[0]]] -= 2
+					depdic[info[0]] -= 2
+					reflectdic[info[3]] = prdic[prdic[info[3]]]
+					reflectdic[info[0]] = prdic[prdic[info[0]]]
+	dep = max(depdic.values())
+	if sim.has_key(dep):
+		sim[dep] += 1
+	else:
+		sim[dep] = 1
+	i += number
+fr.close()
+
+fr = open('/home/luyunfei/cascading_generation_model/simulation/result/BranchingProcess.detail', 'r')
+sim1 = {}
+simdata = fr.readlines()
+n = len(simdata)
+i = 0
+while i < n:
+	temp = simdata[i].split('\t')
+	number = int(temp[1]) + 1
+	depdic = {}
+	prdic = {}
+	authordic = {}
+	reflectdic = {}
+	for j in range(i+1, i+number):
+		info = simdata[j].split('\t')
+		authordic[info[0]] = info[1]
+		if info[3] == '-1':
+			depdic[info[0]] = 1
+		else:
+			prdic[info[0]] = info[3]
+			tempdep = depdic[info[3]] + 1
+			depdic[info[0]] = tempdep
+			if not reflectdic.has_key(info[3]) and tempdep >= 4:
+				if isRepeat(info[0], prdic, authordic):
+					depdic[prdic[info[0]]] -= 2
+					depdic[info[0]] -= 2
+					reflectdic[info[3]] = prdic[prdic[info[3]]]
+					reflectdic[info[0]] = prdic[prdic[info[0]]]
+	dep = max(depdic.values())
+	if sim1.has_key(dep):
+		sim1[dep] += 1
+	else:
+		sim1[dep] = 1
+	i += number
+fr.close()
+
+fr = open('/home/luyunfei/cascading_generation_model/simulation/result/EpidemicModel.detail', 'r')
+sim2 = {}
+simdata = fr.readlines()
+n = len(simdata)
+i = 0
+while i < n:
+	temp = simdata[i].split('\t')
+	number = int(temp[1]) + 1
+	depdic = {}
+	prdic = {}
+	authordic = {}
+	reflectdic = {}
+	for j in range(i+1, i+number):
+		info = simdata[j].split('\t')
+		authordic[info[0]] = info[1]
+		if info[3] == '-1':
+			depdic[info[0]] = 1
+		else:
+			prdic[info[0]] = info[3]
+			tempdep = depdic[info[3]] + 1
+			depdic[info[0]] = tempdep
+			if not reflectdic.has_key(info[3]) and tempdep >= 4:
+				if isRepeat(info[0], prdic, authordic):
+					depdic[prdic[info[0]]] -= 2
+					depdic[info[0]] -= 2
+					reflectdic[info[3]] = prdic[prdic[info[3]]]
+					reflectdic[info[0]] = prdic[prdic[info[0]]]
+	dep = max(depdic.values())
+	if sim2.has_key(dep):
+		sim2[dep] += 1
+	else:
+		sim2[dep] = 1
+	i += number
+fr.close()
+
+fr = open('/home/luyunfei/cascading_generation_model/simulation/result/NoTopic.detail', 'r')
+sim3 = {}
+simdata = fr.readlines()
+n = len(simdata)
+i = 0
+while i < n:
+	temp = simdata[i].split('\t')
+	number = int(temp[1]) + 1
+	depdic = {}
+	prdic = {}
+	authordic = {}
+	reflectdic = {}
+	for j in range(i+1, i+number):
+		info = simdata[j].split('\t')
+		authordic[info[0]] = info[1]
+		if info[3] == '-1':
+			depdic[info[0]] = 1
+		else:
+			prdic[info[0]] = info[3]
+			tempdep = depdic[info[3]] + 1
+			depdic[info[0]] = tempdep
+			if not reflectdic.has_key(info[3]) and tempdep >= 4:
+				if isRepeat(info[0], prdic, authordic):
+					depdic[prdic[info[0]]] -= 2
+					depdic[info[0]] -= 2
+					reflectdic[info[3]] = prdic[prdic[info[3]]]
+					reflectdic[info[0]] = prdic[prdic[info[0]]]
+	dep = max(depdic.values())
+	if sim3.has_key(dep):
+		sim3[dep] += 1
+	else:
+		sim3[dep] = 1
+	i += number
+fr.close()
 
 realsize = sorted(real.keys())
 realnum = list()
 for size in realsize:
 	realnum.append(real[size])
-print realsize
 
 simsize = sorted(sim.keys())
 simnum = list()
 for size in simsize:
 	simnum.append(sim[size] * 1.0 / m)
-print simsize
+
+simsize1 = sorted(sim1.keys())
+simnum1 = list()
+for size in simsize1:
+	simnum1.append(sim1[size] * 1.0 / m)
+
+simsize2 = sorted(sim2.keys())
+simnum2 = list()
+for size in simsize2:
+	simnum2.append(sim2[size] * 1.0 / m)
+
+simsize3 = sorted(sim3.keys())
+simnum3 = list()
+for size in simsize3:
+	simnum3.append(sim3[size] * 1.0 / m)
+
+realsize, realnum = GetBin(1.1, realsize, realnum) 
+simsize, simnum = GetBin(1.1, simsize, simnum)
+simsize1, simnum1 = GetBin(1.1, simsize1, simnum1)
+simsize2, simnum2 = GetBin(1.1, simsize2, simnum2)
+simsize3, simnum3 = GetBin(1.1, simsize3, simnum3)
+
 
 realsum = sum(realnum)
 simsum = sum(simnum)
-print realnum
-print simnum
+simsum1 = sum(simnum1)
+simsum2 = sum(simnum2)
+simsum3 = sum(simnum3)
 
 realcum = [sum(realnum)]
 n = len(realnum)
@@ -162,96 +285,86 @@ s = sum(realnum)
 for i in range(n-1):
 	s -= realnum[i]
 	realcum.append(s)
+
 simcum = [sum(simnum)]
 n = len(simnum)
 s = sum(simnum)
 for i in range(n-1):
 	s -= simnum[i]
 	simcum.append(s)
-rs = np.array(realsize)
-rn = np.array(realcum) * 1.0 / realsum
-ss = np.array(simsize)
-sn = np.array(simcum) * 1.0 / simsum
-plt.xscale('log')
-plt.yscale('log')
-plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'bo', label='Sim')
-plt.xlabel(u'Depth')
-plt.ylabel(u'Distribution')
-plt.legend(loc='upper right');  
-if not single:
-	filename = 'all'
-plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_depth_cum.png')
-plt.cla()
+
+simcum1 = [sum(simnum1)]
+n = len(simnum1)
+s = sum(simnum1)
+for i in range(n-1):
+	s -= simnum1[i]
+	simcum1.append(s)
+
+simcum2 = [sum(simnum2)]
+n = len(simnum2)
+s = sum(simnum2)
+for i in range(n-1):
+	s -= simnum2[i]
+	simcum2.append(s)
+
+simcum3 = [sum(simnum3)]
+n = len(simnum3)
+s = sum(simnum3)
+for i in range(n-1):
+	s -= simnum3[i]
+	simcum3.append(s)
 
 rs = np.array(realsize)
 rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
-print rn
-print sn
+ss1 = np.array(simsize1)
+sn1 = np.array(simnum1) * 1.0 / simsum1
+ss2 = np.array(simsize2)
+sn2 = np.array(simnum2) * 1.0 / simsum2
+ss3 = np.array(simsize3)
+sn3 = np.array(simnum3) * 1.0 / simsum3
 
-logmae = [0,0]
-m = max(ss) + 1
-pos1 = 0
-pos2 = 0
-cr = 0
-cs = 0
-for i in range(1, m):
-	while pos1 < len(rs) and rs[pos1] < i:
-		pos1 += 1
-	while pos2 < len(ss) and ss[pos2] < i:
-		pos2 += 1
-	if pos1 < len(rs) and rs[pos1] == i:
-		cr += rn[pos1]
-	if pos2 < len(ss) and ss[pos2] == i:
-		cs += sn[pos2]
-	logmae[0] += abs(np.log(cr) - np.log(cs))
-logmae[0] = logmae[0] / m
+sns.set()
+sns.set_style('white')
 
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'bo', label='Sim')
-plt.xlabel(u'Depth')
-plt.ylabel(u'Distribution')
-plt.legend(loc='upper right');
-if not single:
-	filename = 'all' 
-plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_depth.png')
+plt.plot(ss, sn, '#4876ff', label='Our framework')
+plt.plot(ss1, sn1, '#8c8c8c', linestyle='--', label='BP')
+plt.plot(ss2, sn2, '#ffa500', label='EP')
+plt.plot(ss3, sn3, '#458b00', linestyle='--', label='Base')
+plt.xlabel(u'Depth', fontsize=14)
+plt.ylabel(u'PDF', fontsize=14)
+plt.legend(loc='upper right', fontsize=15);  
+filename = 'all_depth'
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.png', dpi=600)
 plt.cla()
 
-binrx, binry = GetBin(1.1, realsize, realnum) 
-binsx, binsy = GetBin(1.1, simsize, simnum)
-rs = np.array(binrx)
-rn = np.array(binry) * 1.0 / realsum
-ss = np.array(binsx)
-sn = np.array(binsy) * 1.0 / simsum
-
-m = len(ss)
-cr = 0
-cs = 0
-square = 0
-for i in range(m):
-	if i < len(rs):
-		cr += rn[i]
-	if i < len(ss):
-		cs += sn[i]
-	logmae[1] += abs(np.log(cr) - np.log(cs))
-	square += abs(np.log(cr) - np.log(cs)) * 1.1 ** (i+1)
-logmae[1] = logmae[1] / m
-square = square / m
-print logmae
-print square
+#print logmae
+#print square
+rs = np.array(realsize)
+rn = np.array(realcum) * 1.0 / realsum
+ss = np.array(simsize)
+sn = np.array(simcum) * 1.0 / simsum
+ss1 = np.array(simsize1)
+sn1 = np.array(simcum1) * 1.0 / simsum1
+ss2 = np.array(simsize2)
+sn2 = np.array(simcum2) * 1.0 / simsum2
+ss3 = np.array(simsize3)
+sn3 = np.array(simcum3) * 1.0 / simsum3
 
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'bo', label='Sim')
-plt.xlabel(u'Depth')
-plt.ylabel(u'Distribution')
-plt.legend(loc='upper right');  
-if not single:
-	filename = 'all'
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_bin.png')
+plt.plot(ss, sn, '#4876ff', label='Our framework')
+plt.plot(ss1, sn1, '#8c8c8c', linestyle='--', label='BP')
+plt.plot(ss2, sn2, '#ffa500', label='EP')
+plt.plot(ss3, sn3, '#458b00', linestyle='--', label='Base')
+plt.xlabel(u'Depth', fontsize=14)
+plt.ylabel(u'CDF', fontsize=14)
+plt.legend(loc='upper right', fontsize=15);  
+filename = 'all_depth'
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png', dpi=600)
 plt.cla()
