@@ -83,56 +83,152 @@ if single:
 else:
 	namelist = os.listdir(prefix)
 	position = prefix
-m = 0
+m = 1
+
 widesim = list()
-for name in namelist:
-	if not name.endswith('.detail'):
-		continue
-	fr = open(position+name, 'r')
-	simdata = fr.readlines()
-	n = len(simdata)
-	m += 1
-	i = 0
-	while i < n:
-		temp = simdata[i].split('\t')
-		number = int(temp[1]) + 1
-		widdic = {}
-		for j in range(i+1, i+number):
-			info = simdata[j].split('\t')
-			if widdic.has_key(info[3]):
-				widdic[info[3]] += 1
-			else:
-				widdic[info[3]] = 1
-		wid = max(widdic.values())
-		if wid >= 20:
-			for j in range(i, i+number):
-				widesim.append(simdata[j])
-		if sim.has_key(wid):
-			sim[wid] += 1
+fr = open('/home/luyunfei/cascading_generation_model/simulation/result/All_parameter_500.detail', 'r')
+simdata = fr.readlines()
+n = len(simdata)
+i = 0
+while i < n:
+	temp = simdata[i].split('\t')
+	number = int(temp[1]) + 1
+	widdic = {}
+	for j in range(i+1, i+number):
+		info = simdata[j].split('\t')
+		if widdic.has_key(info[3]):
+			widdic[info[3]] += 1
 		else:
-			sim[wid] = 1
-		i += number
-	fr.close()
+			widdic[info[3]] = 1
+	wid = max(widdic.values())
+	if wid >= 20:
+		for j in range(i, i+number):
+			widesim.append(simdata[j])
+	if sim.has_key(wid):
+		sim[wid] += 1
+	else:
+		sim[wid] = 1
+	i += number
+fr.close()
+
+widesim = list()
+sim1 = {}
+fr = open('/home/luyunfei/cascading_generation_model/simulation/result/BranchingProcess.detail', 'r')
+simdata = fr.readlines()
+n = len(simdata)
+i = 0
+while i < n:
+	temp = simdata[i].split('\t')
+	number = int(temp[1]) + 1
+	widdic = {}
+	for j in range(i+1, i+number):
+		info = simdata[j].split('\t')
+		if widdic.has_key(info[3]):
+			widdic[info[3]] += 1
+		else:
+			widdic[info[3]] = 1
+	wid = max(widdic.values())
+	if wid >= 20:
+		for j in range(i, i+number):
+			widesim.append(simdata[j])
+	if sim1.has_key(wid):
+		sim1[wid] += 1
+	else:
+		sim1[wid] = 1
+	i += number
+fr.close()
+
+widesim = list()
+sim2 = {}
+fr = open('/home/luyunfei/cascading_generation_model/simulation/result/EpidemicModel.detail', 'r')
+simdata = fr.readlines()
+n = len(simdata)
+i = 0
+while i < n:
+	temp = simdata[i].split('\t')
+	number = int(temp[1]) + 1
+	widdic = {}
+	for j in range(i+1, i+number):
+		info = simdata[j].split('\t')
+		if widdic.has_key(info[3]):
+			widdic[info[3]] += 1
+		else:
+			widdic[info[3]] = 1
+	wid = max(widdic.values())
+	if wid >= 20:
+		for j in range(i, i+number):
+			widesim.append(simdata[j])
+	if sim2.has_key(wid):
+		sim2[wid] += 1
+	else:
+		sim2[wid] = 1
+	i += number
+fr.close()
+
+widesim = list()
+sim3 = {}
+fr = open('/home/luyunfei/cascading_generation_model/simulation/result/NoTopic.detail', 'r')
+simdata = fr.readlines()
+n = len(simdata)
+i = 0
+while i < n:
+	temp = simdata[i].split('\t')
+	number = int(temp[1]) + 1
+	widdic = {}
+	for j in range(i+1, i+number):
+		info = simdata[j].split('\t')
+		if widdic.has_key(info[3]):
+			widdic[info[3]] += 1
+		else:
+			widdic[info[3]] = 1
+	wid = max(widdic.values())
+	if wid >= 20:
+		for j in range(i, i+number):
+			widesim.append(simdata[j])
+	if sim3.has_key(wid):
+		sim3[wid] += 1
+	else:
+		sim3[wid] = 1
+	i += number
+fr.close()
+
 
 realsize = sorted(real.keys())
 realnum = list()
 for size in realsize:
 	realnum.append(real[size])
-print realsize
-print realnum
 
 simsize = sorted(sim.keys())
 simnum = list()
 for size in simsize:
 	simnum.append(sim[size] * 1.0 / m)
-print simsize
-print simnum
+
+simsize1 = sorted(sim1.keys())
+simnum1 = list()
+for size in simsize:
+	simnum1.append(sim1[size] * 1.0 / m)
+
+simsize2 = sorted(sim2.keys())
+simnum2 = list()
+for size in simsize2:
+	simnum2.append(sim2[size] * 1.0 / m)
+
+simsize3 = sorted(sim3.keys())
+simnum3 = list()
+for size in simsize3:
+	simnum3.append(sim3[size] * 1.0 / m)
 
 realsize, realnum = GetBin(1.1, realsize, realnum) 
 simsize, simnum = GetBin(1.1, simsize, simnum)
+simsize1, simnum1 = GetBin(1.1, simsize1, simnum1)
+simsize2, simnum2 = GetBin(1.1, simsize2, simnum2)
+simsize3, simnum3 = GetBin(1.1, simsiz3e, simnum3)
 
 realsum = sum(realnum)
 simsum = sum(simnum)
+simsum1 = sum(simnum1)
+simsum2 = sum(simnum2)
+simsum3 = sum(simnum3)
 
 realcum = [sum(realnum)]
 n = len(realnum)
@@ -140,43 +236,88 @@ s = sum(realnum)
 for i in range(n-1):
 	s -= realnum[i]
 	realcum.append(s)
+
 simcum = [sum(simnum)]
 n = len(simnum)
 s = sum(simnum)
 for i in range(n-1):
 	s -= simnum[i]
 	simcum.append(s)
-rs = np.array(realsize)
-rn = np.array(realcum) * 1.0 / realsum
-ss = np.array(simsize)
-sn = np.array(simcum) * 1.0 / simsum
-plt.xscale('log')
-plt.yscale('log')
-plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'b', label='Sim')
-plt.xlabel(u'Width')
-plt.ylabel(u'Distribution')
-plt.legend(loc='upper right');  
-if not single:
-	filename = 'all'
-plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_width_cum.png')
-plt.cla()
+
+simcum1 = [sum(simnum1)]
+n = len(simnum1)
+s = sum(simnum1)
+for i in range(n-1):
+	s -= simnum1[i]
+	simcum1.append(s)
+
+simcum2 = [sum(simnum2)]
+n = len(simnum2)
+s = sum(simnum2)
+for i in range(n-1):
+	s -= simnum2[i]
+	simcum2.append(s)
+
+simcum3 = [sum(simnum3)]
+n = len(simnum3)
+s = sum(simnum3)
+for i in range(n-1):
+	s -= simnum3[i]
+	simcum3.append(s)
 
 rs = np.array(realsize)
 rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
+ss1 = np.array(simsize1)
+sn1 = np.array(simnum1) * 1.0 / simsum1
+ss2 = np.array(simsize2)
+sn2 = np.array(simnum2) * 1.0 / simsum2
+ss3 = np.array(simsize3)
+sn3 = np.array(simnum3) * 1.0 / simsum3
+
+sns.set()
+sns.set_style('white')
 
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'b', label='Sim')
-plt.xlabel(u'Width')
-plt.ylabel(u'Distribution')
-plt.legend(loc='upper right'); 
-if not single:
-	filename = 'all' 
-plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_width.png')
+plt.plot(ss, sn, '#4876ff', label='Our framework')
+plt.plot(ss1, sn1, '#8c8c8c', linestyle='--', label='BP')
+plt.plot(ss2, sn2, '#ffa500', label='EP')
+plt.plot(ss3, sn3, '#458b00', linestyle='--', label='Base')
+plt.xlabel(u'Width', fontsize=14)
+plt.ylabel(u'PDF', fontsize=14)
+plt.legend(loc='upper right', fontsize=15);  
+filename = 'all_width'
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.png', dpi=600)
+plt.cla()
+
+#print logmae
+#print square
+rs = np.array(realsize)
+rn = np.array(realcum) * 1.0 / realsum
+ss = np.array(simsize)
+sn = np.array(simcum) * 1.0 / simsum
+ss1 = np.array(simsize1)
+sn1 = np.array(simcum1) * 1.0 / simsum1
+ss2 = np.array(simsize2)
+sn2 = np.array(simcum2) * 1.0 / simsum2
+ss3 = np.array(simsize3)
+sn3 = np.array(simcum3) * 1.0 / simsum3
+
+plt.xscale('log')
+plt.yscale('log')
+plt.plot(rs, rn, 'ro', label='Real')
+plt.plot(ss, sn, '#4876ff', label='Our framework')
+plt.plot(ss1, sn1, '#8c8c8c', linestyle='--', label='BP')
+plt.plot(ss2, sn2, '#ffa500', label='EP')
+plt.plot(ss3, sn3, '#458b00', linestyle='--', label='Base')
+plt.xlabel(u'Width', fontsize=14)
+plt.ylabel(u'CDF', fontsize=14)
+plt.legend(loc='upper right', fontsize=15);  
+filename = 'all_width'
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png', dpi=600)
 plt.cla()
 
 '''
