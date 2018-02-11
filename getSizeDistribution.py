@@ -186,11 +186,11 @@ for i in range(n-1):
 simsize3 = sorted(sim3.keys())
 #print simsize
 simnum3 = list()
-simcum3 = [sum(simnum3)]
 for size in simsize3:
 	simnum3.append(sim3[size] * 1.0 / m)
 n = len(simnum3)
 s = sum(simnum3)
+simcum3 = [sum(simnum3)]
 for i in range(n-1):
 	s -= simnum3[i]
 	simcum3.append(s)
