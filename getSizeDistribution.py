@@ -132,6 +132,7 @@ while i < n:
 	i += number + 1
 fr.close()
 
+m=1
 
 realsize = sorted(real.keys())
 #print realsize
