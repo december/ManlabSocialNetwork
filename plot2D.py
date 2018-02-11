@@ -95,7 +95,7 @@ def plot_by_x_y(x_list, y_list, xy_f_name):
 
     # pcolor(data)
     print data.max(), data.min()
-    pcolor(data, norm=colors.LogNorm(vmin=data.min(), vmax=data.max()))
+    pcolor(data, norm=colors.LogNorm(vmin=data.min(), vmax=data.max()), cmap='magma')
     global First
     if First:
         colorbar()

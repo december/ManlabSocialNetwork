@@ -115,6 +115,7 @@ jy = np.array(jdb) * 1.0 / jsum
 js = np.array(jdb_sim) * 1.0 / jsum_sim
 
 plt.yscale('log')
+plt.style.use("ggplot")
 plt.plot(px, py, 'r')
 plt.plot(px, ps, 'b')
 plt.xlabel(u'Pearson')
@@ -123,6 +124,7 @@ plt.savefig(prefix+'similarity/'+filename+'_pearson_num.png')
 plt.cla()
 
 plt.yscale('log')
+plt.style.use("ggplot")
 plt.plot(jx, jy, 'r')
 plt.plot(jx, js, 'b')
 plt.xlabel(u'Jaccard')
@@ -138,6 +140,7 @@ jy = np.array(jdb_cum) * 1.0 / jsum
 js = np.array(jdb_sim_cum) * 1.0 / jsum_sim
 
 plt.yscale('log')
+plt.style.use("ggplot")
 plt.plot(px, py, 'r')
 plt.plot(px, ps, 'b')
 plt.xlabel(u'Pearson')
@@ -146,6 +149,7 @@ plt.savefig(prefix+'similarity/'+filename+'_pearson_cum.png')
 plt.cla()
 
 plt.yscale('log')
+plt.style.use("ggplot")
 plt.plot(jx, jy, 'r')
 plt.plot(jx, js, 'b')
 plt.xlabel(u'Jaccard')
