@@ -92,7 +92,7 @@ def plot_by_x_y(x_list, y_list, xy_f_name):
             data[i][j] /= cnt
             data[i][j] = max(data[i][j], 1e-7)
     data = np.array(data)
-    figure(figsize=(20,10))
+    figure(figsize=(20,15))
 
     # pcolor(data)
     print data.max(), data.min()
@@ -100,7 +100,7 @@ def plot_by_x_y(x_list, y_list, xy_f_name):
     global First
     if First:
         colorbar()
-        First = False
+        #First = False
 
     # xticks(arange(x_min + 0.5, x_max + 1.5), range(x_min, x_max + 1, 10))
     # yticks(arange(y_min + 0.5, y_max + 1.5), range(y_min, y_max + 1, 10))
