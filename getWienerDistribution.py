@@ -273,11 +273,11 @@ simnum3 = list()
 for size in simsize3:
 	simnum3.append(sim3[size] * 1.0)
 
-realsize, realnum = GetBin(1.6, realsize, realnum) 
-simsize, simnum = GetBin(1.6, simsize, simnum)
-simsize1, simnum1 = GetBin(1.6, simsize1, simnum1)
-simsize2, simnum2 = GetBin(1.6, simsize2, simnum2)
-simsize3, simnum3 = GetBin(1.6, simsize3, simnum3)
+realsize, realnum = GetBin(1.7, realsize, realnum) 
+simsize, simnum = GetBin(1.7, simsize, simnum)
+simsize1, simnum1 = GetBin(1.7, simsize1, simnum1)
+simsize2, simnum2 = GetBin(1.7, simsize2, simnum2)
+simsize3, simnum3 = GetBin(1.7, simsize3, simnum3)
 
 realsum = sum(realnum)
 simsum = sum(simnum)
