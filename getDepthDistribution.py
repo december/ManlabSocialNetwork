@@ -339,7 +339,7 @@ plt.yticks(fontsize=14)
 plt.xlabel(u'Depth', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=15);  
-plt.tight_layer()
+plt.tight_layout()
 filename = 'all_depth'
 plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.eps', dpi=1200)
 plt.cla()
@@ -369,7 +369,7 @@ plt.yticks(fontsize=14)
 plt.xlabel(u'Depth', fontsize=14)
 plt.ylabel(u'CDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=15);  
-plt.tight_layer()
+plt.tight_layout()
 filename = 'all_depth'
 plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.eps', dpi=1200)
 plt.cla()
