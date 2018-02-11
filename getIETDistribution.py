@@ -30,7 +30,7 @@ def GetBin(a, x, y):
 			if pos >= length:
 				break
 		newx.append(tempx)
-		newy.append(tempy)
+		newy.append(tempy / a)
 		binnum += 1
 		tempy = 0
 	return newx, newy
@@ -237,7 +237,7 @@ for i in range(n):
 realsum = sum(realnum)
 simsum = sum(simnum)
 
-binrx, binry = GetBin(1000, realsize, realnum) 
+binrx, binry = GetBin(1000, realsize, realcum) 
 rs = np.array(binrx)
 rn = np.array(binry) * 1.0 / realsum
 
@@ -285,7 +285,7 @@ for i in range(n):
 realsum = sum(realnum)
 simsum = sum(simnum)
 
-binrx, binry = GetBin(1000, realsize, realnum) 
+binrx, binry = GetBin(1000, realsize, realcum) 
 rs = np.array(binrx)
 rn = np.array(binry) * 1.0 / realsum
 
