@@ -287,11 +287,13 @@ plt.plot(ss, sn, '#4876ff', label='Our framework')
 plt.plot(ss1, sn1, '#8c8c8c', linestyle='--', label='BP')
 plt.plot(ss2, sn2, '#ffa500', label='EP')
 plt.plot(ss3, sn3, '#458b00', linestyle='--', label='Base')
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
 plt.xlabel(u'Width', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=15);  
 filename = 'all_width'
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.png', dpi=600)
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.eps', dpi=1200)
 plt.cla()
 
 #print logmae
@@ -314,11 +316,13 @@ plt.plot(ss, sn, '#4876ff', label='Our framework')
 plt.plot(ss1, sn1, '#8c8c8c', linestyle='--', label='BP')
 plt.plot(ss2, sn2, '#ffa500', label='EP')
 plt.plot(ss3, sn3, '#458b00', linestyle='--', label='Base')
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
 plt.xlabel(u'Width', fontsize=14)
 plt.ylabel(u'CDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=15);  
 filename = 'all_width'
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png', dpi=600)
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.eps', dpi=1200)
 plt.cla()
 
 '''
