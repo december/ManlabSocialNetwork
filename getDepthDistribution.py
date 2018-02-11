@@ -265,13 +265,13 @@ simsize3 = sorted(sim3.keys())
 simnum3 = list()
 for size in simsize3:
 	simnum3.append(sim3[size] * 1.0 / m)
-
+'''
 realsize, realnum = GetBin(1.1, realsize, realnum) 
 simsize, simnum = GetBin(1.1, simsize, simnum)
 simsize1, simnum1 = GetBin(1.1, simsize1, simnum1)
 simsize2, simnum2 = GetBin(1.1, simsize2, simnum2)
 simsize3, simnum3 = GetBin(1.1, simsize3, simnum3)
-
+'''
 realsum = sum(realnum)
 simsum = sum(simnum)
 simsum1 = sum(simnum1)
