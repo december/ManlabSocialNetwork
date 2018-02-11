@@ -28,6 +28,12 @@ pdb = np.zeros(bins)
 pdb_cum = np.zeros(bins)
 pdb_sim = np.zeros(bins)
 pdb_sim_cum = np.zeros(bins)
+pdb_sim1 = np.zeros(bins)
+pdb_sim1_cum = np.zeros(bins)
+pdb_sim2 = np.zeros(bins)
+pdb_sim2_cum = np.zeros(bins)
+
+
 jdb = np.zeros(bins)
 jdb_cum = np.zeros(bins)
 jdb_sim = np.zeros(bins)
@@ -57,36 +63,15 @@ for line in data:
 	pdb[min(idx, bins-1)] += 1
 fr1.close()
 
-fr2 = open(prefix+'similarity/'+filename+'_jaccard_point.detail', 'r')
-data = fr2.readlines()
-for line in data:
-	temp = line.split('\t')
-	if mode < 2:
-		p = float(temp[mode+1])
-	else:
-		p = abs(float(temp[1])-float(temp[2]))
-		if float(temp[1]) == -1 or float(temp[2]) == -1:
-			p = -1
-	if p < 0:
-		continue
-	idx = int(p / wid)
-	jdb[min(idx, bins-1)] += 1
-fr2.close()
-
 psum = sum(pdb)
-jsum = sum(jdb)
 temps = psum
 pdb_cum[0] = temps
 for i in range(1, bins):
 	temps -= pdb[i-1]
 	pdb_cum[i] = temps
-temps = jsum
-jdb_cum[0] = temps
-for i in range(1, bins):
-	temps -= jdb[i-1]
-	jdb_cum[i] = temps
 
-filename = sys.argv[1]
+
+filename = 'All_parameter_500'
 fr1 = open(prefix+'similarity/'+filename+'_pearson_point.detail', 'r')
 data = fr1.readlines()
 for line in data:
@@ -103,8 +88,16 @@ for line in data:
 	pdb_sim[min(idx, bins-1)] += 1
 fr1.close()
 
-fr2 = open(prefix+'similarity/'+filename+'_jaccard_point.detail', 'r')
-data = fr2.readlines()
+psum_sim = sum(pdb_sim)
+temps = psum_sim
+pdb_sim_cum[0] = temps
+for i in range(1, bins):
+	temps -= pdb_sim[i-1]
+	pdb_sim_cum[i] = temps
+
+filename = 'BranchingProcess'
+fr1 = open(prefix+'similarity/'+filename+'_pearson_point.detail', 'r')
+data = fr1.readlines()
 for line in data:
 	temp = line.split('\t')
 	if mode < 2:
@@ -116,67 +109,53 @@ for line in data:
 	if p < 0:
 		continue
 	idx = int(p / wid)
-	jdb_sim[min(idx, bins-1)] += 1
-fr2.close()
+	pdb_sim1[min(idx, bins-1)] += 1
+fr1.close()
 
-psum_sim = sum(pdb_sim)
-jsum_sim = sum(jdb_sim)
-temps = psum_sim
-pdb_sim_cum[0] = temps
+psum_sim1 = sum(pdb_sim1)
+temps = psum_sim1
+pdb_sim1_cum[0] = temps
 for i in range(1, bins):
-	temps -= pdb_sim[i-1]
-	pdb_sim_cum[i] = temps
-temps = jsum_sim
-jdb_sim_cum[0] = temps
+	temps -= pdb_sim1[i-1]
+	pdb_sim1_cum[i] = temps
+
+filename = 'NoTopic'
+fr1 = open(prefix+'similarity/'+filename+'_pearson_point.detail', 'r')
+data = fr1.readlines()
+for line in data:
+	temp = line.split('\t')
+	if mode < 2:
+		p = float(temp[mode+1])
+	else:
+		p = abs(float(temp[1])-float(temp[2]))
+		if float(temp[1]) == -1 or float(temp[2]) == -1:
+			p = -1
+	if p < 0:
+		continue
+	idx = int(p / wid)
+	pdb_sim2[min(idx, bins-1)] += 1
+fr1.close()
+
+psum_sim2 = sum(pdb_sim2)
+temps = psum_sim2
+pdb_sim2_cum[0] = temps
 for i in range(1, bins):
-	temps -= jdb_sim[i-1]
-	jdb_sim_cum[i] = temps	
-
-px = np.array(ppos)
-py = np.array(pdb) * 1.0 / psum
-ps = np.array(pdb_sim) * 1.0 / psum_sim
-jx = np.array(jpos)
-jy = np.array(jdb) * 1.0 / jsum
-js = np.array(jdb_sim) * 1.0 / jsum_sim
-
-plt.yscale('log')
-plt.plot(px, py, 'r')
-plt.plot(px, ps, 'b')
-plt.xlabel(u'Pearson')
-plt.ylabel(u'Distribution')
-plt.savefig(prefix+'similarity/'+str(mode)+'_'+filename+'_pearson_num.png')
-plt.cla()
-
-plt.yscale('log')
-plt.plot(jx, jy, 'r')
-plt.plot(jx, js, 'b')
-plt.xlabel(u'Jaccard')
-plt.ylabel(u'Distribution')
-plt.savefig(prefix+'similarity/'+str(mode)+'_'+filename+'_jaccard_num.png')
-plt.cla()
+	temps -= pdb_sim2[i-1]
+	pdb_sim2_cum[i] = temps
 
 px = np.array(ppos)
 py = np.array(pdb_cum) * 1.0 / psum
 ps = np.array(pdb_sim_cum) * 1.0 / psum_sim
-jx = np.array(jpos)
-jy = np.array(jdb_cum) * 1.0 / jsum
-js = np.array(jdb_sim_cum) * 1.0 / jsum_sim
+ps1 = np.array(pdb_sim1_cum) * 1.0 / psum_sim1
+ps2 = np.array(pdb_sim2_cum) * 1.0 / psum_sim2
 
-#plt.yscale('log')
-print px
-print py
-print ps
-plt.plot(px, py, 'r')
-plt.plot(px, ps, 'b')
-plt.xlabel(u'Pearson')
-plt.ylabel(u'Distribution')
-plt.savefig(prefix+'similarity/'+str(mode)+'_'+filename+'_pearson_cum.png')
-plt.cla()
-
-#plt.yscale('log')
-plt.plot(jx, jy, 'r')
-plt.plot(jx, js, 'b')
-plt.xlabel(u'Jaccard')
-plt.ylabel(u'Distribution')
-plt.savefig(prefix+'similarity/'+str(mode)+'_'+filename+'_jaccard_cum.png')
+plt.yscale('log')
+plt.plot(px, py, '#ff6347', label='Real', linewidth=2.5)
+plt.plot(px, ps, '#4876ff', label='Our Framework', linewidth=2.5)
+plt.plot(px, ps1, '#8c8c8c',linestyle='-' label='BP', linewidth=2.5)
+plt.plot(px, ps2, '#458b00',linestyle='-' label='Base', linewidth=2.5)
+plt.xlabel(u'Collectivity', fontsize=14)
+plt.ylabel(u'CDF', fontsize=14)
+plt.legend(loc='upper right', fontsize=20);
+plt.savefig(prefix+'similarity/'+str(mode)+'_'+filename+'_collectivity.png')
 plt.cla()
