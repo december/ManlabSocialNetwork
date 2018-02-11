@@ -132,7 +132,7 @@ while i < n:
 	i += number + 1
 fr.close()
 
-m=1
+
 
 realsize = sorted(real.keys())
 #print realsize
@@ -146,6 +146,7 @@ for i in range(n-1):
 	s -= realnum[i]
 	realcum.append(s)
 
+m=1
 simsize = sorted(sim.keys())
 #print simsize
 simnum = list()
@@ -202,17 +203,6 @@ simsum3 = sum(simnum3)
 #print simcum
 #print realcum
 
-plt.xscale('log')
-plt.yscale('log')
-plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'bo', label='Sim')
-plt.xlabel(u'Size')
-plt.ylabel(u'Distribution')
-plt.legend(loc='upper right');  
-filename = 'all'
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png', dpi=600)
-plt.cla()
-
 
 rs = np.array(realsize)
 rn = np.array(realnum) * 1.0 / realsum
@@ -263,6 +253,6 @@ plt.xlabel(u'Size')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 filename = 'all_size'
-plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.png', dpi=600)
+plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png', dpi=600)
 plt.cla()
 
