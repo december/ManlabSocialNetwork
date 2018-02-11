@@ -223,11 +223,11 @@ sn = np.array(simcum[start:]) * 1.0 / simsum
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
-plt.xticks(fontsize=20)
-plt.yticks(fontsize=20)
-plt.xlabel(u'IET for Root', fontsize=30)
-plt.ylabel(u'Distribution', fontsize=30)
-plt.legend(loc='upper right', fontsize=30);
+plt.xticks(fontsize=15)
+plt.yticks(fontsize=15)
+plt.xlabel(u'IET for Root', fontsize=20)
+plt.ylabel(u'Distribution', fontsize=20)
+plt.legend(loc='upper right', fontsize=20);
 if not single:
 	filename = 'all' 
 plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_IETRoot.eps', dpi=300)
@@ -265,13 +265,13 @@ sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 #plt.xscale('log')
 plt.yscale('log')
-plt.xticks(fontsize=20)
-plt.yticks(fontsize=20)
+plt.xticks(fontsize=15)
+plt.yticks(fontsize=15)
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
-plt.xlabel(u'IET for Retweet', fontsize=30)
-plt.ylabel(u'Distribution', fontsize=30)
-plt.legend(loc='upper right', fontsize=30);
+plt.xlabel(u'IET for Retweet', fontsize=20)
+plt.ylabel(u'Distribution', fontsize=20)
+plt.legend(loc='upper right', fontsize=20);
 if not single:
 	filename = 'all' 
 plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_IETRetweet.eps',dpi=300)
