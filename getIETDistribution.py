@@ -223,10 +223,10 @@ sn = np.array(simcum[start:]) * 1.0 / simsum
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
-plt.xlabel(u'IET for Root', fontsize=15)
-plt.ylabel(u'Distribution', fontsize=15)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.xlabel(u'IET for Root', fontsize=14)
+plt.ylabel(u'CDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
 if not single:
 	filename = 'all' 
@@ -265,12 +265,12 @@ sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 #plt.xscale('log')
 plt.yscale('log')
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
-plt.xlabel(u'IET for Retweet', fontsize=15)
-plt.ylabel(u'Distribution', fontsize=15)
+plt.xlabel(u'IET for Retweet', fontsize=14)
+plt.ylabel(u'CDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
 if not single:
 	filename = 'all' 
