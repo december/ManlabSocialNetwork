@@ -194,8 +194,8 @@ if not single:
 plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_width.png')
 plt.cla()
 
-binrx, binry = GetBin(1.3, realsize, realnum) 
-binsx, binsy = GetBin(1.3, simsize, simnum)
+binrx, binry = GetBin(1.1, realsize, realnum) 
+binsx, binsy = GetBin(1.1, simsize, simnum)
 rs = np.array(binrx)
 rn = np.array(binry) * 1.0 / realsum
 ss = np.array(binsx)
@@ -214,8 +214,8 @@ plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_width_bin.png')
 plt.cla()
 
 
-binrx, binry = GetBin(1.3, realsize, realcum) 
-binsx, binsy = GetBin(1.3, simsize, simcum)
+binrx, binry = GetBin(1.1, realsize, realcum) 
+binsx, binsy = GetBin(1.1, simsize, simcum)
 rs = np.array(binrx)
 rn = np.array(binry) * 1.0 / realsum
 ss = np.array(binsx)
