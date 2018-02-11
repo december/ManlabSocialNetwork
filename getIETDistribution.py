@@ -12,6 +12,29 @@ filename = int(sys.argv[1])
 if filename < 0:
 	single = False
 
+def GetBin(a, x, y):
+	newx = list()
+	newy = list()
+	length = len(x)
+	binnum = 1
+	pos = 0
+	s = 0
+	tempy = 0
+	tempx = 0
+	while pos < length:
+		s += a
+		tempx = s - a / 2
+		while x[pos] <= s:
+			tempy += y[pos]
+			pos += 1
+			if pos >= length:
+				break
+		newx.append(tempx)
+		newy.append(tempy)
+		binnum += 1
+		tempy = 0
+	return newx, newy
+
 prefix = '../../cascading_generation_model/simulation/'
 if int(sys.argv[2]) == 0:
 	prefix = '../../cascading_generation_model/simulation_notopic/'
@@ -214,14 +237,18 @@ for i in range(n):
 realsum = sum(realnum)
 simsum = sum(simnum)
 
-rs = np.array(realsize[start:])
-rn = np.array(realcum[start:]) * 1.0 / realsum
+binrx, binry = GetBin(1000, realsize, realnum) 
+rs = np.array(binrx)
+rn = np.array(binry) * 1.0 / realsum
+
+#rs = np.array(realsize[start:])
+#rn = np.array(realcum[start:]) * 1.0 / realsum
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 #plt.xscale('log')
 plt.yscale('log')
-plt.plot(rs, rn, 'ro', s=0.1, label='Real')
+plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
@@ -258,8 +285,12 @@ for i in range(n):
 realsum = sum(realnum)
 simsum = sum(simnum)
 
-rs = np.array(realsize[start:])
-rn = np.array(realcum[start:]) * 1.0 / realsum
+binrx, binry = GetBin(1000, realsize, realnum) 
+rs = np.array(binrx)
+rn = np.array(binry) * 1.0 / realsum
+
+#rs = np.array(realsize[start:])
+#rn = np.array(realcum[start:]) * 1.0 / realsum
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
@@ -267,7 +298,7 @@ sn = np.array(simcum[start:]) * 1.0 / simsum
 plt.yscale('log')
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
-plt.plot(rs, rn, 'ro', s=0.1, label='Real')
+plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'IET for Retweet', fontsize=14)
 plt.ylabel(u'CDF', fontsize=14)
