@@ -2,6 +2,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
+sns.set()
+sns.set_style('white')
 import numpy as np
 import sys
 import os
@@ -139,6 +141,8 @@ realsize = sorted(real.keys())
 realnum = list()
 for size in realsize:
 	realnum.append(real[size])
+realsize, realnum = GetBin(1.1, realsize, realnum) 
+
 n = len(realnum)
 s = sum(realnum)
 realcum = [sum(realnum)]
@@ -152,6 +156,7 @@ simsize = sorted(sim.keys())
 simnum = list()
 for size in simsize:
 	simnum.append(sim[size] * 1.0 / m)
+simsize, simnum = GetBin(1.1, simsize, simnum)
 n = len(simnum)
 s = sum(simnum)
 simcum = [sum(simnum)]
@@ -164,6 +169,7 @@ simsize1 = sorted(sim1.keys())
 simnum1 = list()
 for size in simsize1:
 	simnum1.append(sim1[size] * 1.0 / m)
+simsize1, simnum1 = GetBin(1.1, simsize1, simnum1)
 n = len(simnum1)
 s = sum(simnum1)
 simcum1 = [sum(simnum1)]
@@ -176,6 +182,7 @@ simsize2 = sorted(sim2.keys())
 simnum2 = list()
 for size in simsize2:
 	simnum2.append(sim2[size] * 1.0 / m)
+simsize2, simnum2 = GetBin(1.1, simsize2, simnum2)
 n = len(simnum2)
 s = sum(simnum2)
 simcum2 = [sum(simnum2)]
@@ -188,6 +195,7 @@ simsize3 = sorted(sim3.keys())
 simnum3 = list()
 for size in simsize3:
 	simnum3.append(sim3[size] * 1.0 / m)
+simsize3, simnum3 = GetBin(1.1, simsize3, simnum3)
 n = len(simnum3)
 s = sum(simnum3)
 simcum3 = [sum(simnum3)]
