@@ -2,8 +2,6 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
-sns.set()
-sns.set_style('white')
 import numpy as np
 import sys
 import os
@@ -223,15 +221,18 @@ sn2 = np.array(simnum2) * 1.0 / simsum2
 ss3 = np.array(simsize3)
 sn3 = np.array(simnum3) * 1.0 / simsum3
 
+sns.set()
+sns.set_style('white')
+
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, '#4876ff', label='Our framework')
-plt.plot(ss1, sn1, '#8c8c8c', label='BP')
-plt.plot(ss2, sn2, '#ffa500', label='EP')
-plt.plot(ss3, sn3, '#458b00', label='Base')
-plt.xlabel(u'Size')
-plt.ylabel(u'Distribution')
+plt.plot(ss1, sn1, '#8c8c8c', linestyle='--', label='BP')
+plt.plot(ss2, sn2, '#ffa500', linestyle='--', label='EP')
+plt.plot(ss3, sn3, '#458b00', linestyle='--', label='Base')
+plt.xlabel(u'Popularity')
+plt.ylabel(u'PDF')
 plt.legend(loc='upper right');  
 filename = 'all_size'
 plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_num.png', dpi=600)
@@ -257,8 +258,8 @@ plt.plot(ss, sn, '#4876ff', label='Our framework')
 plt.plot(ss1, sn1, '#8c8c8c', label='BP')
 plt.plot(ss2, sn2, '#ffa500', label='EP')
 plt.plot(ss3, sn3, '#458b00', label='Base')
-plt.xlabel(u'Size')
-plt.ylabel(u'Distribution')
+plt.xlabel(u'Popularity')
+plt.ylabel(u'CDF')
 plt.legend(loc='upper right');  
 filename = 'all_size'
 plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png', dpi=600)
