@@ -71,7 +71,7 @@ for i in range(1, bins):
 	pdb_cum[i] = temps
 
 
-filename = 'All_parameter_500'
+filename = 'EpidemicModel'
 fr1 = open(prefix+'similarity/'+filename+'_pearson_point.detail', 'r')
 data = fr1.readlines()
 for line in data:
@@ -155,6 +155,7 @@ plt.plot(px, ps, '#4876ff', label='Our Framework', linewidth=2.5)
 plt.plot(px, ps1, '#8c8c8c',linestyle='--',label='BP', linewidth=2.5)
 plt.plot(px, ps2, '#458b00',linestyle='--',label='Base', linewidth=2.5)
 plt.plot([0.2, 0.2,], [0, py[9]], 'k:', linewidth=2.5)
+plt.plot([0.4, 0.4,], [0, py[19]], 'k:', linewidth=2.5)
 plt.ylim((0,1.02))
 plt.xlim((0,1.02))
 plt.xlabel(u'Collectivity', fontsize=14)
