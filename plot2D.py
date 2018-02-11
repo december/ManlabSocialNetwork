@@ -11,13 +11,13 @@ import matplotlib.colors as colors
 np.seterr(divide='ignore', invalid='ignore')
 
 # 设置最大的范围，保证画图的坐标轴一致性
-REAL_MAX = {'size': 160, 'depth': 20, 'width': 140, 'wienerIndex': 35000, 'Diameter': 23}
+REAL_MAX = {'size': 160, 'depth': 20, 'width': 140, 'Diameter': 23}
 
 def showtime(s=''):
     print time.strftime('time: %Y-%m-%d %H:%M:%S', time.localtime(time.time())) + ' ' + str(s)
 
 
-col_names = ['cascade_id', 'size', 'depth', 'width', 'wienerIndex', 'Diameter']
+col_names = ['cascade_id', 'size', 'depth', 'width', 'Diameter']
 input_folder = '/home/luyunfei/cascading_generation_model/simulation/info'  # 指定数据文件夹
 # input_folder = '/home/hli/lyf_info'  # 指定数据文件夹
 output_tmp_data = input_folder + '/col_data'
