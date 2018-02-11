@@ -222,7 +222,7 @@ realsize, realnum = GetBin(1.1, realsize, realnum)
 simsize, simnum = GetBin(1.1, simsize, simnum)
 simsize1, simnum1 = GetBin(1.1, simsize1, simnum1)
 simsize2, simnum2 = GetBin(1.1, simsize2, simnum2)
-simsize3, simnum3 = GetBin(1.1, simsiz3e, simnum3)
+simsize3, simnum3 = GetBin(1.1, simsize3, simnum3)
 
 realsum = sum(realnum)
 simsum = sum(simnum)
