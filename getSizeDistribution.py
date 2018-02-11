@@ -103,7 +103,7 @@ for size in realsize:
 	realnum.append(real[size])
 n = len(realnum)
 s = sum(realnum)
-for i in range(n):
+for i in range(n-1):
 	s -= realnum[i]
 	realcum.append(s)
 
@@ -115,7 +115,7 @@ for size in simsize:
 	simnum.append(sim[size] * 1.0 / m)
 n = len(simnum)
 s = sum(simnum)
-for i in range(n):
+for i in range(n-1):
 	s -= simnum[i]
 	simcum.append(s)
 
