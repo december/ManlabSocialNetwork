@@ -154,7 +154,7 @@ plt.plot(px, py, '#ff6347', label='Real', linewidth=2.5)
 plt.plot(px, ps, '#4876ff', label='Our Framework', linewidth=2.5)
 plt.plot(px, ps1, '#8c8c8c',linestyle='--',label='BP', linewidth=2.5)
 plt.plot(px, ps2, '#458b00',linestyle='--',label='Base', linewidth=2.5)
-plt.plot([0.19, 0.19,], [0, py[9]], 'k.')
+plt.plot([0.2, 0.2,], [0, py[9]], 'k:')
 plt.xlabel(u'Collectivity', fontsize=14)
 plt.ylabel(u'CDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=15);
