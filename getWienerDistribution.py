@@ -156,6 +156,9 @@ simnum = list()
 for size in simsize:
 	simnum.append(sim[size] * 1.0 / num)
 
+realsize, realnum = GetBin(1.4, realsize, realnum) 
+simsize, simnum = GetBin(1.4, simsize, simnum)
+
 realsum = sum(realnum)
 simsum = sum(simnum)
 
@@ -192,24 +195,6 @@ rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
 
-logmae = [0,0]
-m = max(ss) + 1
-pos1 = 0
-pos2 = 0
-cr = 0
-cs = 0
-for i in range(1, m):
-	while pos1 < len(rs) and rs[pos1] < i:
-		pos1 += 1
-	while pos2 < len(ss) and ss[pos2] < i:
-		pos2 += 1
-	if pos1 < len(rs) and rs[pos1] == i:
-		cr += rn[pos1]
-	if pos2 < len(ss) and ss[pos2] == i:
-		cs += sn[pos2]
-	logmae[0] += abs(np.log(cr) - np.log(cs))
-logmae[0] = logmae[0] / m
-
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
@@ -222,8 +207,7 @@ if not single:
 plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_wiener.png')
 plt.cla()
 
-binrx, binry = GetBin(1.4, realsize, realnum) 
-binsx, binsy = GetBin(1.4, simsize, simnum)
+'''
 rs = np.array(binrx)
 rn = np.array(binry) * 1.0 / realsum
 ss = np.array(binsx)
@@ -257,8 +241,6 @@ if not single:
 plt.savefig(prefix+'WienerDistribution/'+str(filename)+'_bin.png')
 plt.cla()
 
-binrx, binry = GetBin(1.4, realsize, realcum) 
-binsx, binsy = GetBin(1.4, simsize, simcum)
 rs = np.array(binrx)
 rn = np.array(binry) * 1.0 / realsum
 ss = np.array(binsx)
@@ -275,4 +257,4 @@ if not single:
 	filename = 'all'
 plt.savefig(prefix+'WienerDistribution/'+str(filename)+'wiener_cum_bin.png')
 plt.cla()
-
+'''

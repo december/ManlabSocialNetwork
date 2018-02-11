@@ -128,6 +128,9 @@ for size in simsize:
 print simsize
 print simnum
 
+realsize, realnum = GetBin(1.1, realsize, realcum) 
+simsize, simnum = GetBin(1.1, simsize, simcum)
+
 realsum = sum(realnum)
 simsum = sum(simnum)
 
@@ -194,6 +197,7 @@ if not single:
 plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_width.png')
 plt.cla()
 
+'''
 binrx, binry = GetBin(1.1, realsize, realnum) 
 binsx, binsy = GetBin(1.1, simsize, simnum)
 rs = np.array(binrx)
@@ -232,4 +236,4 @@ if not single:
 	filename = 'all'
 plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_width_cum_bin.png')
 plt.cla()
-
+'''
