@@ -127,7 +127,7 @@ plt.xlabel(u'Pearson Coeffecient', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
 #plt.title('Distribution of Pearson Coeffecient', fontsize=20)
-plt.savefig(prefix+'similarity/'+filename+'_pearson_num.eps', dpi=300)
+plt.savefig(prefix+'similarity/'+filename+'_pearson_num.eps', dpi=1200)
 plt.cla()
 
 plt.yscale('log')
@@ -139,7 +139,7 @@ plt.plot(jx, js, '#4876ff', label='Our Framework', linewidth=2.5)
 plt.xlabel(u'Jaccard Index', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
-plt.savefig(prefix+'similarity/'+filename+'_jaccard_num.eps', dpi=300)
+plt.savefig(prefix+'similarity/'+filename+'_jaccard_num.eps', dpi=1200)
 plt.cla()
 
 px = np.array(ppos)
@@ -158,7 +158,7 @@ plt.plot(px, ps, '#4876ff', label='Our Framework', linewidth=2)
 plt.xlabel(u'Pearson Coeffecient', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
-plt.savefig(prefix+'similarity/'+filename+'_pearson_cum.eps', dpi=300)
+plt.savefig(prefix+'similarity/'+filename+'_pearson_cum.eps', dpi=1200)
 plt.cla()
 
 plt.yscale('log')
@@ -170,5 +170,5 @@ plt.plot(jx, js, '#4876ff', label='Our Framework', linewidth=2)
 plt.xlabel(u'Jaccard Index', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
-plt.savefig(prefix+'similarity/'+filename+'_jaccard_cum.eps', dpi=300)
+plt.savefig(prefix+'similarity/'+filename+'_jaccard_cum.eps', dpi=1200)
 plt.cla()
