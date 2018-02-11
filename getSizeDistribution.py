@@ -98,7 +98,7 @@ for name in namelist:
 realsize = sorted(real.keys())
 #print realsize
 realnum = list()
-realcum = [1]
+realcum = [sum(realnum)]
 for size in realsize:
 	realnum.append(real[size])
 n = len(realnum)
@@ -110,7 +110,7 @@ for i in range(n-1):
 simsize = sorted(sim.keys())
 #print simsize
 simnum = list()
-simcum = [1]
+simcum = [sum(realcum)]
 for size in simsize:
 	simnum.append(sim[size] * 1.0 / m)
 n = len(simnum)

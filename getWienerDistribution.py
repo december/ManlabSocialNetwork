@@ -159,13 +159,13 @@ for size in simsize:
 realsum = sum(realnum)
 simsum = sum(simnum)
 
-realcum = [1]
+realcum = [sum(realnum)]
 n = len(realnum)
 s = sum(realnum)
 for i in range(n-1):
 	s -= realnum[i]
 	realcum.append(s)
-simcum = [1]
+simcum = [sum(realcum)]
 n = len(simnum)
 s = sum(simnum)
 for i in range(n-1):

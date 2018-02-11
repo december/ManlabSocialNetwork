@@ -131,13 +131,13 @@ print simnum
 realsum = sum(realnum)
 simsum = sum(simnum)
 
-realcum = [1]
+realcum = [sum(realnum)]
 n = len(realnum)
 s = sum(realnum)
 for i in range(n-1):
 	s -= realnum[i]
 	realcum.append(s)
-simcum = [1]
+simcum = [sum(simnum)]
 n = len(simnum)
 s = sum(simnum)
 for i in range(n-1):
@@ -201,21 +201,25 @@ rn = np.array(binry) * 1.0 / realsum
 ss = np.array(binsx)
 sn = np.array(binsy) * 1.0 / simsum
 
-m = len(ss)
-cr = 0
-cs = 0
-square = 0
-for i in range(m):
-	if i < len(rs):
-		cr += rn[i]
-	if i < len(ss):
-		cs += sn[i]
-	logmae[1] += abs(np.log(cr) - np.log(cs))
-	square += abs(np.log(cr) - np.log(cs)) * 1.1 ** (i+1)
-logmae[1] = logmae[1] / m
-square = square / m
-print logmae
-print square
+plt.xscale('log')
+plt.yscale('log')
+plt.plot(rs, rn, 'ro', label='Real')
+plt.plot(ss, sn, 'b', label='Sim')
+plt.xlabel(u'Width')
+plt.ylabel(u'Distribution')
+plt.legend(loc='upper right');  
+if not single:
+	filename = 'all'
+plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_width_bin.png')
+plt.cla()
+
+
+binrx, binry = GetBin(1.1, realsize, realcum) 
+binsx, binsy = GetBin(1.1, simsize, simcum)
+rs = np.array(binrx)
+rn = np.array(binry) * 1.0 / realsum
+ss = np.array(binsx)
+sn = np.array(binsy) * 1.0 / simsum
 
 plt.xscale('log')
 plt.yscale('log')
@@ -226,18 +230,6 @@ plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');  
 if not single:
 	filename = 'all'
-plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_bin.png')
+plt.savefig(prefix+'WidthDistribution/'+str(filename)+'_width_cum_bin.png')
 plt.cla()
-
-fw = open(prefix+'WideRealCascades', 'w')
-for line in widereal:
-	fw.write(line)
-fw.close()
-
-fw = open(prefix+'WideSimCascades', 'w')
-for line in widesim:
-	fw.write(line)
-fw.close()
-
-
 
