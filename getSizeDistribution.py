@@ -96,7 +96,7 @@ for name in namelist:
 	fr.close()
 
 realsize = sorted(real.keys())
-print realsize
+#print realsize
 realnum = list()
 realcum = list()
 for size in realsize:
@@ -108,7 +108,7 @@ for i in range(n):
 	realcum.append(s)
 
 simsize = sorted(sim.keys())
-print simsize
+#print simsize
 simnum = list()
 simcum = list()
 for size in simsize:
@@ -121,8 +121,14 @@ for i in range(n):
 
 realsum = sum(realnum)
 simsum = sum(simnum)
-print simcum
-print realcum
+#print simcum
+#print realcum
+
+print realsize
+newcum = list()
+newnum = list()
+
+
 
 logmae = [0,0]
 rs = np.array(realsize)
@@ -162,6 +168,12 @@ if not single:
 	filename = 'all'
 plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png', dpi=600)
 plt.cla()
+
+
+
+
+print 
+
 
 rs = np.array(realsize)
 rn = np.array(realnum) * 1.0 / realsum
@@ -270,5 +282,5 @@ for line in bigreal:
 	fw.write(line)
 fw.close()
 
-print logmae
-print square
+#print logmae
+#print square
