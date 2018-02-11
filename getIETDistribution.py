@@ -17,9 +17,10 @@ def Select(a, x, y):
 	newx = [x[0]]
 	newy = [y[0]]
 	for i in range(1, length):
-		if i % a == 0:
+		if x[i] > a:
 			newx.append(x[i])
 			newy.append(y[i])
+			a += a
 	newx.append(x[-1])
 	newy.append(y[-1])
 	return np.array(newx), np.array(newy)
@@ -233,7 +234,7 @@ simsum = sum(simnum)
 
 rs = np.array(realsize[start:])
 rn = np.array(realcum[start:]) * 1.0 / realsum
-rs, rn = Select(5, rs, rn)
+rs, rn = Select(100, rs, rn)
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
@@ -282,7 +283,7 @@ simsum = sum(simnum)
 
 rs = np.array(realsize[start:])
 rn = np.array(realcum[start:]) * 1.0 / realsum
-rs, rn = Select(5, rs, rn)
+rs, rn = Select(100, rs, rn)
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
