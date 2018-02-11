@@ -175,7 +175,7 @@ simsize2 = sorted(sim2.keys())
 #print simsize
 simnum2 = list()
 simcum2 = [sum(simnum1)]
-for size in simsize1:
+for size in simsize2:
 	simnum2.append(sim1[size] * 1.0 / m)
 n = len(simnum2)
 s = sum(simnum2)
