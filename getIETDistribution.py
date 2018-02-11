@@ -267,7 +267,7 @@ sn = np.array(simcum[start:]) * 1.0 / simsum
 plt.yscale('log')
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
-plt.plot(rs, rn, 'ro' s=0.1, label='Real')
+plt.plot(rs, rn, 'ro', s=0.1, label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'IET for Retweet', fontsize=14)
 plt.ylabel(u'CDF', fontsize=14)
