@@ -11,7 +11,7 @@ import matplotlib.colors as colors
 np.seterr(divide='ignore', invalid='ignore')
 
 # 设置最大的范围，保证画图的坐标轴一致性
-REAL_MAX = {'size': 160, 'depth': 20, 'width': 140, 'Diameter': 23}
+REAL_MAX = {'size': 120, 'depth': 20, 'width': 60, 'Diameter': 23}
 
 def showtime(s=''):
     print time.strftime('time: %Y-%m-%d %H:%M:%S', time.localtime(time.time())) + ' ' + str(s)
@@ -96,7 +96,7 @@ def plot_by_x_y(x_list, y_list, xy_f_name):
 
     # pcolor(data)
     print data.max(), data.min()
-    pcolor(data, norm=colors.LogNorm(vmin=data.min(), vmax=data.max()), cmap='viridis')
+    pcolor(data, norm=colors.LogNorm(vmin=data.min(), vmax=data.max()), cmap='afhot')
     global First
     if First:
         colorbar()
