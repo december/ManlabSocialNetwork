@@ -92,10 +92,11 @@ def plot_by_x_y(x_list, y_list, xy_f_name):
             data[i][j] /= cnt
             data[i][j] = max(data[i][j], 1e-7)
     data = np.array(data)
+    figure(figsize=(20,10))
 
     # pcolor(data)
     print data.max(), data.min()
-    pcolor(data, norm=colors.LogNorm(vmin=data.min(), vmax=data.max()), cmap='magma')
+    pcolor(data, norm=colors.LogNorm(vmin=data.min(), vmax=data.max()), cmap='viridis')
     global First
     if First:
         colorbar()
