@@ -12,18 +12,32 @@ filename = int(sys.argv[1])
 if filename < 0:
 	single = False
 
-def Select(a, x, y):
+def GetBin(a, x, y):
+	newx = list()
+	newy = list()
 	length = len(x)
-	newx = [x[0]]
-	newy = [y[0]]
-	for i in range(1, length):
-		if x[i] > a:
-			newx.append(x[i])
-			newy.append(y[i])
-			a += a
-	newx.append(x[-1])
-	newy.append(y[-1])
-	return np.array(newx), np.array(newy)
+	binnum = 1
+	pos = 0
+	s = 0
+	tempy = 0
+	tempx = 0
+	tempz = 0
+	while pos < length:
+		s += a
+		tempx = s - a / 2
+		while x[pos] <= s:
+			tempy += y[pos]
+			tempz += 1
+			pos += 1
+			if pos >= length:
+				break
+		if tempy > 0:
+			newx.append(tempx)
+			newy.append(tempy / tempz)
+		binnum += 1
+		tempy = 0
+		tempz = 0
+	return newx, newy
 
 
 prefix = '../../cascading_generation_model/simulation/'
@@ -234,7 +248,7 @@ simsum = sum(simnum)
 
 rs = np.array(realsize[start:])
 rn = np.array(realcum[start:]) * 1.0 / realsum
-#rs, rn = Select(100, rs, rn)
+rs, rn = GetBin(100, rs, rn)
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
@@ -283,7 +297,7 @@ simsum = sum(simnum)
 
 rs = np.array(realsize[start:])
 rn = np.array(realcum[start:]) * 1.0 / realsum
-#rs, rn = Select(100, rs, rn)
+rs, rn = GetBin(100, rs, rn)
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
