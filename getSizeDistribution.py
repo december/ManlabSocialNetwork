@@ -137,11 +137,11 @@ fr.close()
 realsize = sorted(real.keys())
 #print realsize
 realnum = list()
-realcum = [sum(realnum)]
 for size in realsize:
 	realnum.append(real[size])
 n = len(realnum)
 s = sum(realnum)
+realcum = [sum(realnum)]
 for i in range(n-1):
 	s -= realnum[i]
 	realcum.append(s)
@@ -150,11 +150,11 @@ m=1
 simsize = sorted(sim.keys())
 #print simsize
 simnum = list()
-simcum = [sum(simnum)]
 for size in simsize:
 	simnum.append(sim[size] * 1.0 / m)
 n = len(simnum)
 s = sum(simnum)
+simcum = [sum(simnum)]
 for i in range(n-1):
 	s -= simnum[i]
 	simcum.append(s)
@@ -162,11 +162,11 @@ for i in range(n-1):
 simsize1 = sorted(sim1.keys())
 #print simsize
 simnum1 = list()
-simcum1 = [sum(simnum1)]
 for size in simsize1:
 	simnum1.append(sim1[size] * 1.0 / m)
 n = len(simnum1)
 s = sum(simnum1)
+simcum1 = [sum(simnum1)]
 for i in range(n-1):
 	s -= simnum1[i]
 	simcum1.append(s)
@@ -174,11 +174,11 @@ for i in range(n-1):
 simsize2 = sorted(sim2.keys())
 #print simsize
 simnum2 = list()
-simcum2 = [sum(simnum2)]
 for size in simsize2:
 	simnum2.append(sim2[size] * 1.0 / m)
 n = len(simnum2)
 s = sum(simnum2)
+simcum2 = [sum(simnum2)]
 for i in range(n-1):
 	s -= simnum2[i]
 	simcum2.append(s)
