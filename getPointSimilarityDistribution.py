@@ -163,6 +163,9 @@ jy = np.array(jdb_cum) * 1.0 / jsum
 js = np.array(jdb_sim_cum) * 1.0 / jsum_sim
 
 #plt.yscale('log')
+print px
+print py
+print ps
 plt.plot(px, py, 'r')
 plt.plot(px, ps, 'b')
 plt.xlabel(u'Pearson')
