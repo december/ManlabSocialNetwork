@@ -50,7 +50,7 @@ for f_name in files_name:  # 3
                     info = line.split()
                     x = np.log(int(info[i]))
                     y = np.log(int(info[j]))
-                    print >> fout, '%d,%d' % (x, y)
+                    print >> fout, '%f,%f' % (x, y)
             fout.close()
 
 showtime('Finish pre data')
