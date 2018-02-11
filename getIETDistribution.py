@@ -1,9 +1,12 @@
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import seaborn as sns
 import numpy as np
 import sys
 import os
+sns.set()
+sns.set_style('white')
 
 filename = int(sys.argv[1])
 if filename < 0:
@@ -218,14 +221,14 @@ sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 #plt.xscale('log')
 plt.yscale('log')
-plt.plot(rs, rn, 'r', label='Real')
+plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'IET for Root')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');
 if not single:
 	filename = 'all' 
-plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_IETRoot.png')
+plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_IETRoot.eps', dpi=300)
 plt.cla()
 
 realsize = sorted(real_rt.keys())
@@ -260,12 +263,12 @@ sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 #plt.xscale('log')
 plt.yscale('log')
-plt.plot(rs, rn, 'r', label='Real')
+plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'IET for Retweet')
 plt.ylabel(u'Distribution')
 plt.legend(loc='upper right');
 if not single:
 	filename = 'all' 
-plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_IETRetweet.png')
+plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_IETRetweet.eps',dpi=300)
 plt.cla()
