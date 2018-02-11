@@ -256,22 +256,22 @@ for size in realsize:
 simsize = sorted(sim.keys())
 simnum = list()
 for size in simsize:
-	simnum.append(sim[size] * 1.0 / m)
+	simnum.append(sim[size] * 1.0)
 
 simsize1 = sorted(sim1.keys())
 simnum1 = list()
 for size in simsize1:
-	simnum1.append(sim1[size] * 1.0 / m)
+	simnum1.append(sim1[size] * 1.0)
 
 simsize2 = sorted(sim2.keys())
 simnum2 = list()
 for size in simsize2:
-	simnum2.append(sim2[size] * 1.0 / m)
+	simnum2.append(sim2[size] * 1.0)
 
 simsize3 = sorted(sim3.keys())
 simnum3 = list()
 for size in simsize3:
-	simnum3.append(sim3[size] * 1.0 / m)
+	simnum3.append(sim3[size] * 1.0)
 
 realsize, realnum = GetBin(1.1, realsize, realnum) 
 simsize, simnum = GetBin(1.1, simsize, simnum)
