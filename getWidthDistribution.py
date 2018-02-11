@@ -167,24 +167,6 @@ rn = np.array(realnum) * 1.0 / realsum
 ss = np.array(simsize)
 sn = np.array(simnum) * 1.0 / simsum
 
-logmae = [0,0]
-m = max(ss) + 1
-pos1 = 0
-pos2 = 0
-cr = 0
-cs = 0
-for i in range(1, m):
-	while pos1 < len(rs) and rs[pos1] < i:
-		pos1 += 1
-	while pos2 < len(ss) and ss[pos2] < i:
-		pos2 += 1
-	if pos1 < len(rs) and rs[pos1] == i:
-		cr += rn[pos1]
-	if pos2 < len(ss) and ss[pos2] == i:
-		cs += sn[pos2]
-	logmae[0] += abs(np.log(cr) - np.log(cs))
-logmae[0] = logmae[0] / m
-
 plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
