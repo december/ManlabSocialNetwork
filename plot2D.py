@@ -90,13 +90,13 @@ def plot_by_x_y(x_list, y_list, xy_f_name):
     for i in range(len(data)):
         for j in range(len(data[i])):
             data[i][j] /= cnt
-            data[i][j] = max(data[i][j], 1e-7)
+            #data[i][j] = max(data[i][j], 1e-7)
     data = np.array(data)
     figure(figsize=(20,15))
 
     # pcolor(data)
     print data.max(), data.min()
-    pcolor(data, norm=colors.LogNorm(vmin=data.min() / 1000, vmax=data.max()), cmap='afmhot')
+    pcolor(data, norm=colors.LogNorm(vmin=data.min(), vmax=data.max()), cmap='afmhot')
     #pcolor(data, norm=colors.Norm(vmin=data.min(), vmax=data.max()), cmap='coolwarm')
     global First
     if First:
