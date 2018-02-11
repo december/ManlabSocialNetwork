@@ -6,6 +6,9 @@ import math
 import random
 import sys
 import os
+import seaborn as sns
+sns.set()
+sns.set_style('white')
 
 realdic = {} #from id to its cascade dic
 relation = {} #from id to follower id
@@ -116,20 +119,26 @@ js = np.array(jdb_sim) * 1.0 / jsum_sim
 
 plt.yscale('log')
 plt.style.use("ggplot")
-plt.plot(px, py, 'r')
-plt.plot(px, ps, 'b')
-plt.xlabel(u'Pearson')
-plt.ylabel(u'Distribution')
-plt.savefig(prefix+'similarity/'+filename+'_pearson_num.png')
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.plot(px, py, 'r', label='Real')
+plt.plot(px, ps, 'b', label='User Interest Framework')
+plt.xlabel(u'Pearson Coeffecient', fontsize=14)
+plt.ylabel(u'PDF', fontsize=14)
+plt.legend(loc='upper right', fontsize=20);
+plt.savefig(prefix+'similarity/'+filename+'_pearson_num.eps', dpi=300)
 plt.cla()
 
 plt.yscale('log')
 plt.style.use("ggplot")
-plt.plot(jx, jy, 'r')
-plt.plot(jx, js, 'b')
-plt.xlabel(u'Jaccard')
-plt.ylabel(u'Distribution')
-plt.savefig(prefix+'similarity/'+filename+'_jaccard_num.png')
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.plot(jx, jy, 'r', label='Real')
+plt.plot(jx, js, 'b', label='User Interest Framework')
+plt.xlabel(u'Jaccard Index', fontsize=14)
+plt.ylabel(u'PDF', fontsize=14)
+plt.legend(loc='upper right', fontsize=20);
+plt.savefig(prefix+'similarity/'+filename+'_jaccard_num.eps', dpi=300)
 plt.cla()
 
 px = np.array(ppos)
@@ -141,18 +150,24 @@ js = np.array(jdb_sim_cum) * 1.0 / jsum_sim
 
 plt.yscale('log')
 plt.style.use("ggplot")
-plt.plot(px, py, 'r')
-plt.plot(px, ps, 'b')
-plt.xlabel(u'Pearson')
-plt.ylabel(u'Distribution')
-plt.savefig(prefix+'similarity/'+filename+'_pearson_cum.png')
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.plot(px, py, 'r', label='Real')
+plt.plot(px, ps, 'b', label='User Interest Framework')
+plt.xlabel(u'Pearson Coeffecient', fontsize=14)
+plt.ylabel(u'PDF', fontsize=14)
+plt.legend(loc='upper right', fontsize=20);
+plt.savefig(prefix+'similarity/'+filename+'_pearson_cum.eps', dpi=300)
 plt.cla()
 
 plt.yscale('log')
 plt.style.use("ggplot")
-plt.plot(jx, jy, 'r')
-plt.plot(jx, js, 'b')
-plt.xlabel(u'Jaccard')
-plt.ylabel(u'Distribution')
-plt.savefig(prefix+'similarity/'+filename+'_jaccard_cum.png')
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.plot(jx, jy, 'r', label='Real')
+plt.plot(jx, js, 'b', label='User Interest Framework')
+plt.xlabel(u'Jaccard Index', fontsize=14)
+plt.ylabel(u'PDF', fontsize=14)
+plt.legend(loc='upper right', fontsize=20);
+plt.savefig(prefix+'similarity/'+filename+'_jaccard_cum.eps', dpi=300)
 plt.cla()
