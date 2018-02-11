@@ -127,6 +127,22 @@ simsum = sum(simnum)
 print realsize
 newcum = list()
 newnum = list()
+num = len(realsize)
+for i in range(num):
+	newcum.append(realcum[i] * 1.0 / realsum)
+	newnum.append(realnum[i] * 1.0 / realsum)
+print newcum
+print newnum	 
+
+print simsize
+newcum = list()
+newnum = list()
+num = len(simsize)
+for i in range(num):
+	newcum.append(simcum[i] * 1.0 / simsum)
+	newnum.append(simnum[i] * 1.0 / simsum)
+print newcum
+print newnum	 
 
 
 
@@ -168,11 +184,6 @@ if not single:
 	filename = 'all'
 plt.savefig(prefix+'SizeDistribution/'+str(filename)+'_cum.png', dpi=600)
 plt.cla()
-
-
-
-
-print 
 
 
 rs = np.array(realsize)
