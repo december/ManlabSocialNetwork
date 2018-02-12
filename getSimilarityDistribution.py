@@ -147,7 +147,7 @@ js = np.array(jdb_sim) * 1.0 / jsum_sim
 px1, py = GetBin(0.1, px, py) 
 px2, ps = GetBin(0.1, px, ps) 
 jx1, jy = GetBin(0.1, jx, jy) 
-jx2, jy = GetBin(0.1, jx, jy) 
+jx2, js = GetBin(0.1, jx, js) 
 
 
 plt.yscale('log')
