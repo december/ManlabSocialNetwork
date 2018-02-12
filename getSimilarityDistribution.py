@@ -144,12 +144,12 @@ jx = np.array(jpos)
 jy = np.array(jdb) * 1.0 / jsum
 js = np.array(jdb_sim) * 1.0 / jsum_sim
 
-px1, py = GetBin(0.1, px, py) 
-px2, ps = GetBin(0.1, px, ps) 
-jx1, jy = GetBin(0.1, jx, jy) 
-jx2, js = GetBin(0.1, jx, js) 
+#px1, py = GetBin(0.1, px, py) 
+#px2, ps = GetBin(0.1, px, ps) 
+#jx1, jy = GetBin(0.1, jx, jy) 
+#jx2, js = GetBin(0.1, jx, js) 
 
-
+plt.xscale('log')
 plt.yscale('log')
 plt.style.use("ggplot")
 plt.xticks(fontsize=14)
@@ -163,6 +163,7 @@ plt.legend(loc='upper right', fontsize=20);
 plt.savefig(prefix+'similarity/'+filename+'_pearson_num.eps', dpi=1200)
 plt.cla()
 
+plt.xscale('log')
 plt.yscale('log')
 plt.style.use("ggplot")
 plt.xticks(fontsize=14)
