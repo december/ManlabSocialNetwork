@@ -10,6 +10,33 @@ import seaborn as sns
 sns.set()
 sns.set_style('white')
 
+def GetBin(a, x, y):
+	newx = list()
+	newy = list()
+	length = len(x)
+	binnum = 1
+	pos = 0
+	s = 0
+	tempy = 0
+	tempx = 0
+	tempz = 0
+	while pos < length:
+		s += a
+		tempx = s - a / 2
+		while x[pos] <= s:
+			tempy += y[pos]
+			tempz += 1
+			pos += 1
+			if pos >= length:
+				break
+		if tempy > 0:
+			newx.append(tempx)
+			newy.append(tempy / tempz)
+		binnum += 1
+		tempy = 0
+		tempz = 0
+	return newx, newy
+
 realdic = {} #from id to its cascade dic
 relation = {} #from id to follower id
 authordic = {} #from tweet id to author id
@@ -117,12 +144,18 @@ jx = np.array(jpos)
 jy = np.array(jdb) * 1.0 / jsum
 js = np.array(jdb_sim) * 1.0 / jsum_sim
 
+px1, py = GetBin(0.1, px, py) 
+px2, ps = GetBin(0.1, px, ps) 
+jx1, jy = GetBin(0.1, jx, jy) 
+jx2, jy = GetBin(0.1, jx, jy) 
+
+
 plt.yscale('log')
 plt.style.use("ggplot")
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
-plt.plot(px, py, '#ff6347', label='Real', linewidth=2.5)
-plt.plot(px, ps, '#4876ff', label='Base', linewidth=2.5)
+plt.plot(px1, py, '#ff6347', label='Real', linewidth=2.5)
+plt.plot(px2, ps, '#4876ff', label='Base', linewidth=2.5)
 plt.xlabel(u'Pearson Coeffecient', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
@@ -134,13 +167,15 @@ plt.yscale('log')
 plt.style.use("ggplot")
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
-plt.plot(jx, jy, '#ff6347', label='Real', linewidth=2.5)
-plt.plot(jx, js, '#4876ff', label='Base', linewidth=2.5)
+plt.plot(jx1, jy, '#ff6347', label='Real', linewidth=2.5)
+plt.plot(jx2, js, '#4876ff', label='Base', linewidth=2.5)
 plt.xlabel(u'Jaccard Index', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
 plt.savefig(prefix+'similarity/'+filename+'_jaccard_num.eps', dpi=1200)
 plt.cla()
+
+'''
 
 px = np.array(ppos)
 py = np.array(pdb_cum) * 1.0 / psum
@@ -172,3 +207,4 @@ plt.ylabel(u'PDF', fontsize=14)
 plt.legend(loc='upper right', fontsize=20);
 plt.savefig(prefix+'similarity/'+filename+'_jaccard_cum.eps', dpi=1200)
 plt.cla()
+'''
