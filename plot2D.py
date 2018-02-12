@@ -109,6 +109,7 @@ def plot_by_x_y(x_list, y_list, xy_f_name):
     # yticks(arange(y_min, y_max))
     # ylim(x_min, x_max)
     # xlim(y_min, y_max)
+    tight_layout()
     ylim(x_min, REAL_MAX[x_name])
     xlim(y_min, REAL_MAX[y_name])
     xticks(fontsize=50)
