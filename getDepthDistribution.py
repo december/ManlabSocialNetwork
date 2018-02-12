@@ -102,7 +102,7 @@ else:
 	position = prefix
 m = 1
 
-fr = open('/home/luyunfei/cascading_generation_model/simulation/result/All_parameter_500.detail', 'r')
+fr = open('/home/luyunfei/cascading_generation_model/simulation/result/All_parameter_10.detail', 'r')
 simdata = fr.readlines()
 n = len(simdata)
 i = 0
