@@ -154,7 +154,7 @@ plt.yscale('log')
 plt.style.use("ggplot")
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
-plt.plot(px, py, '#ff6347', label='Real', linewidth=2.5)
+plt.plot(px, py, '#ff6347', linestyle='o', label='Real', linewidth=2.5)
 plt.plot(px, ps, '#4876ff', label='Base', linewidth=2.5)
 plt.xlabel(u'Pearson Coeffecient', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
@@ -168,7 +168,7 @@ plt.yscale('log')
 plt.style.use("ggplot")
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
-plt.plot(jx, jy, '#ff6347', label='Real', linewidth=2.5)
+plt.plot(jx, jy, '#ff6347', linestyle='o', label='Real', linewidth=2.5)
 plt.plot(jx, js, '#4876ff', label='Base', linewidth=2.5)
 plt.xlabel(u'Jaccard Index', fontsize=14)
 plt.ylabel(u'PDF', fontsize=14)
@@ -176,10 +176,12 @@ plt.legend(loc='upper right', fontsize=20);
 plt.savefig(prefix+'similarity/'+filename+'_jaccard_num.eps', dpi=1200)
 plt.cla()
 
+'''
 print py[0]
 print ps[0]
 print jy[0]
 print js[0]
+'''
 
 '''
 
