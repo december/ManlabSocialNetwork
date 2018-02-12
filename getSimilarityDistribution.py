@@ -176,6 +176,11 @@ plt.legend(loc='upper right', fontsize=20);
 plt.savefig(prefix+'similarity/'+filename+'_jaccard_num.eps', dpi=1200)
 plt.cla()
 
+print py[0]
+print ps[0]
+print jy[0]
+print js[0]
+
 '''
 
 px = np.array(ppos)
