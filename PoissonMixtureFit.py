@@ -30,7 +30,7 @@ t4 = np.zeros(users) + 0.75
 t5 = np.zeros(users) + 23.0 / 24
 sum_iet = np.zeros(users) #sum of inter envet time
 posts = np.zeros(users) #total posts of users
-lnorderlist = np.array(7000) #ln result of order to int
+lnorderlist = np.zeros(7000) #ln result of order to int
 indexlist = np.linspace(0, users-1, users, dtype=int)
 lastlist = np.linspace(86439, 86400 * users - 1, users, dtype=int)
 delta = 0.000000001 #when will the algorithm stop
