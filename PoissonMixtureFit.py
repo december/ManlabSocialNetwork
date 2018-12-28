@@ -18,16 +18,13 @@ for i in range(10):
 	postlist.append(temp1)
 	nummarix.append(temp2)
 
-s1 = np.zeros(users) #parameter scaler list
-s2 = np.zeros(users) #parameter scaler list
-s3 = np.zeros(users) #parameter scaler list
-s4 = np.zeros(users) #parameter scaler list
-s5 = np.zeros(users) #parameter scaler list
-t1 = np.zeros(users) + 0.25
-t2 = np.zeros(users) + 0.375
-t3 = np.zeros(users) + 0.5625
-t4 = np.zeros(users) + 0.75
-t5 = np.zeros(users) + 23.0 / 24
+s = np.zeros(5) #parameter scaler list
+t = np.zeros(5) #parameter timecut list
+t[0] = 0.25
+t[1] = 0.375
+t[2] = 0.5625
+t[3] = 0.75
+t[4] = 23.0 / 24
 sum_iet = np.zeros(users) #sum of inter envet time
 posts = np.zeros(users) #total posts of users
 lnorderlist = np.zeros(7000) #ln result of order to int
@@ -58,14 +55,24 @@ def Resolver(param):
 		timecut.append(param[(i+5)*users:(i+6)*users])
 	return scaler, timecut
 
-def ObjLnPiQ(p):
-	global nummarix
-	scaler = p[:5*users]
-	timerate = p[5*users:]
+def ObjLnPiQ(p, nm):
+	scaler = p[:5]
+	timerate = p[5:]
 	timepoint = tf.cast(timerate * 86400, tf.int32)
+	ietlist = np.zeros(5)
+	kmatrix = np.array([])
+	for j in range(5):
+		if j == 0:
+			ietlist[j] = timepoint[0] + 86400 - timepoint[-1]
+			kmatrix.append(tf.gather(nm, timepoint[j], axis=1) + tf.gather(nm, 86399, axis=1) - tf.gather(nm, timepoint[-1], axis=1))
+		else:
+			ietlist[j] = timepoint[j] - timepoint[j-1]
+			kmatrix.append(tf.gather(nm, timepoint[j], axis=1) - tf.gather(nm, timepoint[j-1], axis=1))
+	lomatrix = tf.gather(lnorderlist, kmatrix)
+	'''
 	before = list()
 	kmatrix = list()
-	ietlist = list()
+	ietlist = np.zeros(5)
 	scalerlist = list()
 	for j in range(5):
 		fixtp = timepoint[j*users:(j+1)*users] + indexlist * 86400
@@ -80,8 +87,9 @@ def ObjLnPiQ(p):
 	kmatrix[0] += tf.gather(nummarix, lastlist, axis=1) - kmatrix[-1]
 	ietlist[0] += 86400 - timepoint[4*users:]
 	lomatrix = tf.gather(lnorderlist, kmatrix)
-	r = scalerlist * ietlist + lomatrix - kmatrix * (tf.log(scalerlist) + tf.log(ietlist))
-	return tf.reduce_sum(r)
+	'''
+	r = tf.reduce_sum(scaler * ietlist) * 10 + tf.reduce_sum(lomatrix) - tf.reduce_sum(tf.transpose(kmatrix) * (tf.log(scalerlist) + tf.log(ietlist)))
+	return r
 
 def Derivative():
 	return sum_iet - posts / lbd - gamma / lbd + gamma / (1 - lbd)
@@ -94,11 +102,18 @@ def DeltaSum():
 				nummarix[i][j][item] += 1
 	nummarix = np.array(nummarix)
 	nummarix = np.cumsum(nummarix, axis=2)
-	tempnum = list()
-	for i in range(10):
-		tempnum.append(nummarix[i].flatten())
-	nummarix = np.array(tempnum)
+	#tempnum = list()
+	#for i in range(10):
+	#	tempnum.append(nummarix[i].flatten())
+	#nummarix = np.array(tempnum)
 	return
+
+def GiveMatrix(i):
+	global nummarix
+	temp = list()
+	for j in range(10):
+		temp.append(nummarix[j][i])
+	return np.array(temp)
 
 prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 suffix = '.detail'
@@ -110,11 +125,7 @@ for i in range(7268):
 	posts[i] = int(temp[1])
 fr.close()
 #lbd += sum(posts) * 1.0 / 7268 / 86400 / 10
-s1 += posts * 1.0 / 7268 / 86400 / 10
-s2 += posts * 1.0 / 7268 / 86400 / 10
-s3 += posts * 1.0 / 7268 / 86400 / 10
-s4 += posts * 1.0 / 7268 / 86400 / 10
-s5 += posts * 1.0 / 7268 / 86400 / 10
+s += posts * 1.0 / 7268 / 86400 / 10
 #print lnorder
 
 cascades = list()
@@ -168,43 +179,49 @@ while cnt < 100000:
 print lastobj
 '''
 #Optimize with tensorflow
+scaler = list()
+timecut = list()
 cnt = 0
 lastobj = 10000000000
-param = Joint(s1, s2, s3, s4, s5, t1, t2, t3, t4, t5)
+param = np.append(s, t)
 p = tf.Variable(param, name='p')
-nummarix = tf.constant(nummarix, dtype=tf.int32)
+nm = tf.placeholder(tf.int32, name='nm', shape=(10, 86400))
+#nummarix = tf.constant(nummarix, dtype=tf.int32)
 #alpha = tf.Variable(alpha, dtype=tf.float64)
 optimizer = tf.train.GradientDescentOptimizer(alpha)
-target = ObjLnPiQ(p)
+target = ObjLnPiQ(p, nm)
 train = optimizer.minimize(target)
 init = tf.global_variables_initializer()
 print 'Begin to train.'
 with tf.Session() as session:
 	session.run(init)
-	while cnt < 100000000:
-		obj, p, _ = session.run([target, p, train])
-		#lbd = session.run(l)
-		#obj = session.run(train)
-		if lastobj - obj < 0.0000001:
-			break
-		cnt += 1
-		if cnt % 10000 == 0:
-			print obj
-		lastobj = obj
-	print lastobj - obj / users
-	print cnt
-
-print lastobj
+	for i in range(users):
+		while cnt < 100000000:
+			obj, p, _ = session.run([target, p, train], feed_dict={nm:GiveMatrix(i)})
+			#lbd = session.run(l)
+			#obj = session.run(train)
+			if lastobj - obj < 0.0000001:
+				break
+			cnt += 1
+			if cnt % 10000 == 0:
+				print str(cnt) + ' : ' + obj
+			lastobj = obj
+		print lastobj - obj / users
+		print cnt
+		print 'No. ' + str(i) + ' user learned.'
+	scaler.append(p[:5])
+	timecut.append(p[5:])
+	print lastobj
 
 print 'Begin to write.'
-scaler, timecut = Resolver(p)
+#scaler, timecut = Resolver(p)
 
 fw = open(prefix+'lambda_Mixture'+suffix, 'w')
 for i in range(users):
 	fw.write(uid[i])
 	for j in range(5):
 		fw.write('\t')
-		fw.write(str(scaler[j][i]))
+		fw.write(str(scaler[i][j]))
 	fw.write('\n')
 fw.close()
 
@@ -213,7 +230,7 @@ for i in range(users):
 	fw.write(uid[i])
 	for j in range(5):
 		fw.write('\t')
-		fw.write(str(int(timecut[j][i] * 86400)))
+		fw.write(str(int(timecut[i][j] * 86400)))
 	fw.write('\n')
 fw.close()
 
