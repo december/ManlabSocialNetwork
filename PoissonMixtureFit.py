@@ -80,7 +80,8 @@ def ObjLnPiQ(p, nm):
 	for j in range(5):
 		r += tf.reduce_sum(tf.gather(lnorderlist, kmatrix[j]))
 		r += scaler[j] * tf.cast(ietlist[j], tf.float64) * 10
-		r -= tf.reduce_sum((tf.log(scaler[j]) + tf.log(tf.cast(ietlist[j], tf.float64))) * tf.transpose(kmatrix)[j])
+		tempr = tf.log(scaler[j]) + tf.log(tf.cast(ietlist[j], tf.float64))
+		r -= tf.reduce_sum(tempr * tf.transpose(kmatrix)[j])
 	'''
 	before = list()
 	kmatrix = list()
