@@ -52,33 +52,33 @@ def Joint(s1, s2, s3, s4, s5, t1, t2, t3, t4, t5):
 def Resolver(param):
 	scaler = list()
 	for i in range(5):
-		scaler.append(param[i*allusers:(i+1)*allusers])
+		scaler.append(param[i*users:(i+1)*users])
 	timecut = list()
 	for i in range(5):
-		timecut.append(param[(i+5)*allusers:(i+6)*allusers])
+		timecut.append(param[(i+5)*users:(i+6)*users])
 	return scaler, timecut
 
 def ObjLnPiQ(p):
 	global nummarix
-	scaler = p[:5*allusers]
-	timerate = p[5*allusers:]
+	scaler = p[:5*users]
+	timerate = p[5*users:]
 	timepoint = tf.cast(timerate * 86400, tf.int32)
 	before = list()
 	kmatrix = list()
 	ietlist = list()
 	scalerlist = list()
 	for j in range(5):
-		fixtp = timepoint[j*allusers:(j+1)*allusers] + indexlist * 86400
+		fixtp = timepoint[j*users:(j+1)*users] + indexlist * 86400
 		before.append(tf.gather(nummarix, fixtp, axis=1))
 		if j == 0:
 			kmatrix.append(before[j])
-			ietlist.append(timepoint[:allusers])
+			ietlist.append(timepoint[:users])
 		else:
 			kmatrix.append(before[j] - before[j-1])
-			ietlist.append(timepoint[j*allusers:(j+1)*allusers] - timepoint[(j-1)*allusers:j*allusers])
-		scalerlist.append(scaler[j*allusers:(j+1)*allusers])
+			ietlist.append(timepoint[j*users:(j+1)*users] - timepoint[(j-1)*users:j*users])
+		scalerlist.append(scaler[j*users:(j+1)*users])
 	kmatrix[0] += tf.gather(nummarix, lastlist, axis=1) - kmatrix[-1]
-	ietlist[0] += 86400 - timepoint[4*allusers:]
+	ietlist[0] += 86400 - timepoint[4*users:]
 	lomatrix = tf.gather(lnorderlist, kmatrix)
 	r = scalerlist * ietlist + lomatrix - kmatrix * (tf.log(scalerlist) + tf.log(ietlist))
 	return tf.reduce_sum(r)
