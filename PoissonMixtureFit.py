@@ -221,7 +221,7 @@ with tf.Session() as session:
 				break
 			cnt += 1
 			if cnt % 10000 == 0:
-				print str(cnt) + ' : ' + obj
+				print obj
 			lastobj = obj
 		print lastobj - obj / users
 		print cnt
