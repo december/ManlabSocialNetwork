@@ -214,7 +214,7 @@ with tf.Session() as session:
 	session.run(init)
 	for i in range(users):
 		while cnt < 100000000:
-			obj, p, _ = session.run([target, p, train], feed_dict={nm:GiveMatrix(i)})
+			obj, newp, _ = session.run([target, p, train], feed_dict={nm:GiveMatrix(i)})
 			#lbd = session.run(l)
 			#obj = session.run(train)
 			if lastobj - obj < 0.0000001:
@@ -226,8 +226,8 @@ with tf.Session() as session:
 		print lastobj - obj / users
 		print cnt
 		print 'No. ' + str(i) + ' user learned.'
-	scaler.append(p[:5])
-	timecut.append(p[5:])
+	scaler.append(newp[:5])
+	timecut.append(newp[5:])
 	print lastobj
 
 print 'Begin to write.'
