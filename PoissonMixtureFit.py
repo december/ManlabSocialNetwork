@@ -101,7 +101,7 @@ prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 suffix = '.detail'
 fr = open(prefix+'posttimes'+suffix, 'r')
 post = fr.readlines()
-for i in range(users):
+for i in range(7268):
 	temp = post[i].split('\t')
 	uid.append(temp[0])
 	posts[i] = int(temp[1])
