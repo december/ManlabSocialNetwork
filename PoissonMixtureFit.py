@@ -172,6 +172,7 @@ cnt = 0
 lastobj = 10000000000
 param = Joint(s1, s2, s3, s4, s5, t1, t2, t3, t4, t5)
 p = tf.Variable(param, name='p')
+nummarix = tf.constant(nummarix, dtype=tf.int32)
 #alpha = tf.Variable(alpha, dtype=tf.float64)
 optimizer = tf.train.GradientDescentOptimizer(alpha)
 target = ObjLnPiQ(p)
