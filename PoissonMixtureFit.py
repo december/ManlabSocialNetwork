@@ -59,16 +59,17 @@ def ObjLnPiQ(p, nm):
 	scaler = p[:5]
 	timerate = p[5:]
 	timepoint = tf.cast(timerate * 86400, tf.int32)
-	ietlist = np.zeros(5)
+	ietlist = np.array([])
 	kmatrix = np.array([])
+	oneday = tf.constant(86400)
 	for j in range(5):
 		if j == 0:
-			print ietlist[j]
-			print timepoint[j].get_shape()
-			ietlist[j] = timepoint[0] + 86400 - timepoint[-1]
+			#print ietlist[j]
+			#print timepoint[j].eval()
+			ietlist.append(timepoint[0] + oneday - timepoint[-1])
 			kmatrix.append(tf.gather(nm, timepoint[j], axis=1) + tf.gather(nm, 86399, axis=1) - tf.gather(nm, timepoint[-1], axis=1))
 		else:
-			ietlist[j] = timepoint[j] - timepoint[j-1]
+			ietlist.append(timepoint[j] - timepoint[j-1])
 			kmatrix.append(tf.gather(nm, timepoint[j], axis=1) - tf.gather(nm, timepoint[j-1], axis=1))
 	lomatrix = tf.gather(lnorderlist, kmatrix)
 	'''
