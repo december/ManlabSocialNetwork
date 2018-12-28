@@ -3,7 +3,7 @@ import scipy as sp
 import numpy as np
 import tensorflow as tf
 
-users = 7582 #total number of users 
+users = 10000 #total number of users 
 ts = 1321286400 #starting timestamps
 uid = list() #id of the user
 iddic = {} #from user id to user index
@@ -135,10 +135,11 @@ while i < n:
 			allusers += 1
 		day = (posttime - ts) / 86400
 		#print str(day) + ' ' + str(iddic[userid]) + str(i * 1.0 / n)
-		print iddic
+		#print iddic
 		second = posttime % 86400
 		postlist[day][iddic[userid]].append(second)
 	i += size
+print allusers	
 DeltaSum()
 lnorder = 0
 for k in range(1, 7000):
