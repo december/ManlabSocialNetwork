@@ -63,12 +63,12 @@ def ObjLnPiQ(p, nm):
 	kmatrix = np.array([])
 	for j in range(5):
 		if j == 0:
-			print ietlist[j]
-			print timepoint[j][0]
-			ietlist[j] = timepoint[0] + 86400 - timepoint[-1]
+			#print ietlist[j]
+			#print timepoint[j][0]
+			ietlist[j] = tf.reduce_sum(timepoint[0]) + 86400 - tf.reduce_sum(timepoint[-1])
 			kmatrix.append(tf.gather(nm, timepoint[j], axis=1) + tf.gather(nm, 86399, axis=1) - tf.gather(nm, timepoint[-1], axis=1))
 		else:
-			ietlist[j] = timepoint[j] - timepoint[j-1]
+			ietlist[j] = tf.reduce_sum(timepoint[j]) - tf.reduce_sum(timepoint[j-1])
 			kmatrix.append(tf.gather(nm, timepoint[j], axis=1) - tf.gather(nm, timepoint[j-1], axis=1))
 	lomatrix = tf.gather(lnorderlist, kmatrix)
 	'''
