@@ -76,8 +76,10 @@ def ObjLnPiQ(p, nm):
 	kmatrix = np.array(kmatrix)
 	#print kmatrix
 	r1 = 0
+	r2 = 0
 	for j in range(5):
 		r1 += tf.reduce_sum(tf.gather(lnorderlist, kmatrix[j]))
+		r2 += scaler[j] * ietlist[j] * 10
 	'''
 	before = list()
 	kmatrix = list()
@@ -98,7 +100,7 @@ def ObjLnPiQ(p, nm):
 	lomatrix = tf.gather(lnorderlist, kmatrix)
 	'''
 	r3 = tf.reduce_sum(tf.transpose(kmatrix) * (tf.log(scalerlist) + tf.log(ietlist)))
-	r2 = tf.reduce_sum(scaler * ietlist) * 10
+	
 	return r1 + r2 - r3
 
 def Derivative():
