@@ -75,11 +75,12 @@ def ObjLnPiQ(p, nm):
 	ietlist = np.array(ietlist)
 	kmatrix = np.array(kmatrix)
 	#print kmatrix
-	r1 = 0
-	r2 = 0
+	r = 0
+
 	for j in range(5):
-		r1 += tf.reduce_sum(tf.gather(lnorderlist, kmatrix[j]))
-		r2 += scaler[j] * tf.cast(ietlist[j], tf.float64) * 10
+		r += tf.reduce_sum(tf.gather(lnorderlist, kmatrix[j]))
+		r += scaler[j] * tf.cast(ietlist[j], tf.float64) * 10
+		r -= tf.reduce_sum((tf.log(scaler[j]) + tf.log(tf.cast(ietlist[j], tf.float64))) * tf.transpose(kmatrix)[j])
 	'''
 	before = list()
 	kmatrix = list()
@@ -99,9 +100,9 @@ def ObjLnPiQ(p, nm):
 	ietlist[0] += 86400 - timepoint[4*users:]
 	lomatrix = tf.gather(lnorderlist, kmatrix)
 	'''
-	r3 = tf.reduce_sum(tf.transpose(kmatrix) * (tf.log(scalerlist) + tf.log(ietlist)))
+	#r -= tf.reduce_sum(tf.transpose(kmatrix) * (tf.log(scaler) + tf.log(ietlist)))
 	
-	return r1 + r2 - r3
+	return r
 
 def Derivative():
 	return sum_iet - posts / lbd - gamma / lbd + gamma / (1 - lbd)
