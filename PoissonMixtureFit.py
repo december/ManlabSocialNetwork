@@ -72,7 +72,7 @@ def ObjLnPiQ(p, nm):
 		else:
 			ietlist.append(timepoint[j] - timepoint[j-1])
 			kmatrix.append(tf.gather(nm, timepoint[j], axis=1) - tf.gather(nm, timepoint[j-1], axis=1))
-	ietlist = np.array(ietlist)
+	ietlist = tf.convert_to_tensor(np.array(ietlist))
 	kmatrix = np.array(kmatrix)
 	#print kmatrix
 	lomatrix = tf.gather(lnorderlist, kmatrix[0])
