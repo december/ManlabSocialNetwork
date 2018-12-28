@@ -213,11 +213,11 @@ print 'Begin to train.'
 with tf.Session() as session:
 	session.run(init)
 	for i in range(users):
-		while cnt < 100000000:
+		while cnt < 1000000:
 			obj, newp, _ = session.run([target, p, train], feed_dict={nm:GiveMatrix(i)})
 			#lbd = session.run(l)
 			#obj = session.run(train)
-			if lastobj - obj < 0.00001:
+			if abs(lastobj - obj) < 0.00001:
 				break
 			cnt += 1
 			if cnt % 10000 == 0:
