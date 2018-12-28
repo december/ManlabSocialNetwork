@@ -125,7 +125,7 @@ for i in range(7268):
 	posts[i] = int(temp[1])
 fr.close()
 #lbd += sum(posts) * 1.0 / 7268 / 86400 / 10
-s += posts * 1.0 / 7268 / 86400 / 10
+s += sum(posts) * 1.0 / 7268 / 86400 / 10
 #print lnorder
 
 cascades = list()
