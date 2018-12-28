@@ -170,7 +170,7 @@ for name in namelist:
 				sim_rt[tempiet] += 1
 			else:
 				sim_rt[tempiet] = 1
-		fr.close()
+	fr.close()
 
 realsize = sorted(real.keys())
 realnum = list()
