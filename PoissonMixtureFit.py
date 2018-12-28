@@ -62,7 +62,7 @@ def ObjLnPiQ(p):
 	global nummarix
 	scaler = p[:5*allusers]
 	timerate = p[5*allusers:]
-	timepoint = int(timerate * 86400)
+	timepoint = tf.cast(timerate * 86400, tf.int32)
 	before = list()
 	kmatrix = list()
 	ietlist = list()
