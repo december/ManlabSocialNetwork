@@ -94,8 +94,10 @@ def DeltaSum():
 				nummarix[i][j][item] += 1
 	nummarix = np.array(nummarix)
 	nummarix = np.cumsum(nummarix, axis=2)
+	tempnum = list()
 	for i in range(10):
-		nummarix [i] = nummarix[i].flatten()
+		tempnum.append(nummarix[i].flatten())
+	nummarix = np.array(tempnum)
 	return
 
 prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
@@ -141,13 +143,14 @@ while i < n:
 		postlist[day][iddic[userid]].append(second)
 	i += size
 #print allusers	
+print 'Finish reading.'
 DeltaSum()
 lnorder = 0
 for k in range(1, 7000):
 	lnorder += np.log(k)
 	lnorderlist[k] = lnorder
 #print min(sum_iet)
-
+print 'Finish calculating.'
 '''
 #Optimize manually
 cnt = 0
@@ -174,6 +177,7 @@ optimizer = tf.train.GradientDescentOptimizer(alpha)
 target = ObjLnPiQ(p)
 train = optimizer.minimize(target)
 init = tf.global_variables_initializer()
+print 'Begin to train.'
 with tf.Session() as session:
 	session.run(init)
 	while cnt < 100000000:
@@ -191,6 +195,7 @@ with tf.Session() as session:
 
 print lastobj
 
+print 'Begin to write.'
 scaler, timecut = Resolver(p)
 
 fw = open(prefix+'lambda_Mixture'+suffix, 'w')
