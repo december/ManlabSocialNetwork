@@ -97,8 +97,10 @@ def ObjLnPiQ(p, nm):
 	ietlist[0] += 86400 - timepoint[4*users:]
 	lomatrix = tf.gather(lnorderlist, kmatrix)
 	'''
-	r = tf.reduce_sum(scaler * ietlist) * 10 + tf.reduce_sum(lomatrix) - tf.reduce_sum(tf.transpose(kmatrix) * (tf.log(scalerlist) + tf.log(ietlist)))
-	return r
+	r1 = tf.reduce_sum(scaler * ietlist) * 10
+	r2 = tf.reduce_sum(lomatrix)
+	r3 = tf.reduce_sum(tf.transpose(kmatrix) * (tf.log(scalerlist) + tf.log(ietlist)))
+	return r1 + r2 - r3
 
 def Derivative():
 	return sum_iet - posts / lbd - gamma / lbd + gamma / (1 - lbd)
