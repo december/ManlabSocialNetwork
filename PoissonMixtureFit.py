@@ -134,7 +134,7 @@ while i < n:
 			uid.append(userid)
 			allusers += 1
 		day = (posttime - ts) / 86400
-		#print day
+		print str(day) + ' ' + str(iddic[userid])
 		second = posttime % 86400
 		postlist[day][iddic[userid]].append(second)
 	i += size
