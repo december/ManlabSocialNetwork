@@ -14,7 +14,7 @@ for i in range(users):
 	temp2 = list()
 	for j in range(10):
 		temp1.append([])
-		temp2.append(np,zeros(86400))
+		temp2.append(np.zeros(86400))
 	postlist.append(temp1)
 	nummarix.append(temp2)
 
