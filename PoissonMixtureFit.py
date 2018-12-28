@@ -75,9 +75,9 @@ def ObjLnPiQ(p, nm):
 	ietlist = np.array(ietlist)
 	kmatrix = np.array(kmatrix)
 	#print kmatrix
-	lomatrix = tf.gather(lnorderlist, kmatrix[0])
-	for j in range(1, 5):
-		lomatrix = np.append(lomatrix, tf.gather(lnorderlist, kmatrix[j]))
+	r1 = 0
+	for j in range(5):
+		r1 += tf.reduce_sum(tf.gather(lnorderlist, kmatrix[j]))
 	'''
 	before = list()
 	kmatrix = list()
@@ -97,7 +97,6 @@ def ObjLnPiQ(p, nm):
 	ietlist[0] += 86400 - timepoint[4*users:]
 	lomatrix = tf.gather(lnorderlist, kmatrix)
 	'''
-	r1 = tf.reduce_sum(lomatrix)
 	r3 = tf.reduce_sum(tf.transpose(kmatrix) * (tf.log(scalerlist) + tf.log(ietlist)))
 	r2 = tf.reduce_sum(scaler * ietlist) * 10
 	return r1 + r2 - r3
