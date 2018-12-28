@@ -3,7 +3,7 @@ import scipy as sp
 import numpy as np
 import tensorflow as tf
 
-users = 10000 #total number of users 
+users = 7625 #total number of users 
 ts = 1321286400 #starting timestamps
 uid = list() #id of the user
 iddic = {} #from user id to user index
@@ -59,7 +59,7 @@ def Resolver(param):
 	return scaler, timecut
 
 def ObjLnPiQ(p):
-	global gamma
+	global nummarix
 	scaler = p[:5*allusers]
 	timerate = p[5*allusers:]
 	timepoint = int(timerate * 86400)
@@ -87,6 +87,7 @@ def Derivative():
 	return sum_iet - posts / lbd - gamma / lbd + gamma / (1 - lbd)
 
 def DeltaSum():
+	global nummarix
 	for i in range(10):
 		for j in range(users):
 			for item in postlist[i][j]:
@@ -139,7 +140,7 @@ while i < n:
 		second = posttime % 86400
 		postlist[day][iddic[userid]].append(second)
 	i += size
-print allusers	
+#print allusers	
 DeltaSum()
 lnorder = 0
 for k in range(1, 7000):
