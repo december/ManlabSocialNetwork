@@ -64,6 +64,8 @@ def ObjLnPiQ(p, nm):
 	for j in range(5):
 		if j == 0:
 			ietlist[j] = timepoint[0] + 86400 - timepoint[-1]
+			print ietlist[j]
+			print timepoint
 			kmatrix.append(tf.gather(nm, timepoint[j], axis=1) + tf.gather(nm, 86399, axis=1) - tf.gather(nm, timepoint[-1], axis=1))
 		else:
 			ietlist[j] = timepoint[j] - timepoint[j-1]
