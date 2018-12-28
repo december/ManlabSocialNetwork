@@ -97,7 +97,7 @@ def DeltaSum():
 		nummarix [i] = nummarix[i].flatten()
 	return
 
-prefix = '../../collective/cascading_generation_model/722911_twolevel_neighbor_cascades/'
+prefix = '../../cascading_generation_model/722911_twolevel_neighbor_cascades/'
 suffix = '.detail'
 fr = open(prefix+'posttimes'+suffix, 'r')
 post = fr.readlines()
