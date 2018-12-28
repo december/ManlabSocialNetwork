@@ -72,7 +72,7 @@ def ObjLnPiQ(p, nm):
 		else:
 			ietlist.append(timepoint[j] - timepoint[j-1])
 			kmatrix.append(tf.gather(nm, timepoint[j], axis=1) - tf.gather(nm, timepoint[j-1], axis=1))
-	ietlist = tf.convert_to_tensor(np.array(ietlist))
+	ietlist = np.array(ietlist)
 	kmatrix = np.array(kmatrix)
 	#print kmatrix
 	lomatrix = tf.gather(lnorderlist, kmatrix[0])
@@ -97,9 +97,9 @@ def ObjLnPiQ(p, nm):
 	ietlist[0] += 86400 - timepoint[4*users:]
 	lomatrix = tf.gather(lnorderlist, kmatrix)
 	'''
-	r1 = tf.reduce_sum(scaler * ietlist) * 10
-	r2 = tf.reduce_sum(lomatrix)
+	r1 = tf.reduce_sum(lomatrix)
 	r3 = tf.reduce_sum(tf.transpose(kmatrix) * (tf.log(scalerlist) + tf.log(ietlist)))
+	r2 = tf.reduce_sum(scaler * ietlist) * 10
 	return r1 + r2 - r3
 
 def Derivative():
