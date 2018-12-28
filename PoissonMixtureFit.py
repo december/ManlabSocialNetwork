@@ -3,7 +3,7 @@ import scipy as sp
 import numpy as np
 import tensorflow as tf
 
-users = 7268 #total number of users 
+users = 7582 #total number of users 
 ts = 1321286400 #starting timestamps
 uid = list() #id of the user
 iddic = {} #from user id to user index
@@ -31,8 +31,8 @@ t5 = np.zeros(users) + 23.0 / 24
 sum_iet = np.zeros(users) #sum of inter envet time
 posts = np.zeros(users) #total posts of users
 lnorderlist = np.array(7000) #ln result of order to int
-indexlist = np.linspace(0, 7267, 7268, dtype=int)
-lastlist = np.linspace(86439, 86400 * 7268 - 1, 7268, dtype=int)
+indexlist = np.linspace(0, users-1, users, dtype=int)
+lastlist = np.linspace(86439, 86400 * users - 1, users, dtype=int)
 delta = 0.000000001 #when will the algorithm stop
 alpha = float(sys.argv[1]) #learning rate
 gamma = 1 #log barrier function
@@ -134,7 +134,7 @@ while i < n:
 			uid.append(userid)
 			allusers += 1
 		day = (posttime - ts) / 86400
-		print str(day) + ' ' + str(iddic[userid])
+		#print str(day) + ' ' + str(iddic[userid])
 		second = posttime % 86400
 		postlist[day][iddic[userid]].append(second)
 	i += size
