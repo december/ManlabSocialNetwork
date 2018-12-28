@@ -56,6 +56,7 @@ def Resolver(param):
 	return scaler, timecut
 
 def ObjLnPiQ(p, nm):
+	global lnorderlist
 	scaler = p[:5]
 	timerate = p[5:]
 	timepoint = tf.cast(timerate * 86400, tf.int32)
@@ -73,7 +74,7 @@ def ObjLnPiQ(p, nm):
 			kmatrix.append(tf.gather(nm, timepoint[j], axis=1) - tf.gather(nm, timepoint[j-1], axis=1))
 	ietlist = np.array(ietlist)
 	kmatrix = np.array(kmatrix)
-	lomatrix = tf.gather(lnorderlist, kmatrix.eval())
+	lomatrix = tf.gather(lnorderlist, kmatrix)
 	'''
 	before = list()
 	kmatrix = list()
