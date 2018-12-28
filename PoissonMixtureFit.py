@@ -9,10 +9,10 @@ uid = list() #id of the user
 iddic = {} #from user id to user index
 postlist = list() #from date to user index to post time
 nummarix = list() #form date tp user index to number before time
-for i in range(users):
+for i in range(10):
 	temp1 = list()
 	temp2 = list()
-	for j in range(10):
+	for j in range(users):
 		temp1.append([])
 		temp2.append(np.zeros(86400))
 	postlist.append(temp1)
@@ -134,7 +134,7 @@ while i < n:
 			uid.append(userid)
 			allusers += 1
 		day = (posttime - ts) / 86400
-		print day
+		#print day
 		second = posttime % 86400
 		postlist[day][iddic[userid]].append(second)
 	i += size
