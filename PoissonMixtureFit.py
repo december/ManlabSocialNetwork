@@ -226,8 +226,8 @@ with tf.Session() as session:
 		print lastobj - obj
 		print cnt
 		print 'No. ' + str(i) + ' user learned.'
-	scaler.append(newp[:5])
-	timecut.append(newp[5:])
+		scaler.append(newp[:5])
+		timecut.append(newp[5:])
 	print lastobj
 
 print 'Begin to write.'
