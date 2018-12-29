@@ -125,6 +125,28 @@ def DeltaSum():
 	#nummarix = np.array(tempnum)
 	return
 
+def CalcInitial(t):
+	global nummarix
+	timepoint = t * 86400
+	timepoint = [int(k) for k in timepoint]
+	inits = list()
+	for i in range(users):
+		inits.append(np.zeros(5))
+		for j in range(5):
+			totalk = 0
+			for k in range(10):
+				if j == 0:
+					totalk += nummarix[k][i][timepoint[j]] + nummarix[k][i][-1] - nummarix[k][i][timepoint[-1]]
+				else:
+					totalk += nummarix[k][i][timepoint[j]] - nummarix[k][i][timepoint[j-1]]
+			if j == 0:
+				deltat = timepoint[j] + 86400 - timepoint[-1]
+			else:
+				deltat = timepoint[j] - timepoint[j-1]
+			inits[i][j] = totalk * 1.0 / 10 / deltat
+	return inits
+
+
 def GiveMatrix(i):
 	global nummarix
 	temp = list()
@@ -198,6 +220,15 @@ print lastobj
 #Optimize with tensorflow
 scaler = list()
 timecut = list()
+origins = CalcInitial(t)
+fw = open(prefix+'lambda_Origin'+suffix, 'w')
+for i in range(users):
+	fw.write(uid[i])
+	for j in range(5):
+		fw.write('\t')
+		fw.write(str(origins[i][j]))
+	fw.write('\n')
+fw.close()
 cnt = 0
 lastobj = 10000000000
 param = np.append(s, t)
