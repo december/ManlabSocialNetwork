@@ -244,7 +244,8 @@ print 'Begin to train.'
 with tf.Session() as session:
 	session.run(init)
 	for i in range(users):
-		p = tf.concat(tf.constant(origins[i], dtype=tf.float64), tf.constant(t, dtype=tf.float64))
+		param = tf.concat(tf.constant(origins[i], dtype=tf.float64), tf.constant(t, dtype=tf.float64))
+		p = tf.Variable(param, name='p', dtype=tf.float64)
 		while cnt < 1000000:
 			obj, newp, _ = session.run([target, p, train], feed_dict={nm:GiveMatrix(i)})
 			#lbd = session.run(l)
