@@ -229,23 +229,23 @@ for i in range(users):
 		fw.write(str(origins[i][j]))
 	fw.write('\n')
 fw.close()
-cnt = 0
-lastobj = 10000000000
-param = np.append(s, t)
-p = tf.Variable(param, name='p', dtype=tf.float64)
-nm = tf.placeholder(tf.int32, name='nm', shape=(10, 86400))
-#nummarix = tf.constant(nummarix, dtype=tf.int32)
-#alpha = tf.Variable(alpha, dtype=tf.float64)
-optimizer = tf.train.GradientDescentOptimizer(alpha)
-target = ObjLnPiQ(p, nm)
-train = optimizer.minimize(target)
-init = tf.global_variables_initializer()
 print 'Begin to train.'
-with tf.Session() as session:
-	session.run(init)
-	for i in range(users):
-		param = tf.concat(tf.constant(origins[i], dtype=tf.float64), tf.constant(t, dtype=tf.float64))
-		p = tf.Variable(param, name='p', dtype=tf.float64)
+for i in range(users):
+	cnt = 0
+	lastobj = 10000000000
+	param = np.append(origins[i], t)
+	p = tf.Variable(param, name='p', dtype=tf.float64)
+	nm = tf.placeholder(tf.int32, name='nm', shape=(10, 86400))
+	#nummarix = tf.constant(nummarix, dtype=tf.int32)
+	#alpha = tf.Variable(alpha, dtype=tf.float64)
+	optimizer = tf.train.GradientDescentOptimizer(alpha)
+	target = ObjLnPiQ(p, nm)
+	train = optimizer.minimize(target)
+	init = tf.global_variables_initializer()
+	with tf.Session() as session:
+		session.run(init)
+		#param = tf.concat(tf.constant(origins[i], dtype=tf.float64), tf.constant(t, dtype=tf.float64))
+		#p = tf.Variable(param, name='p', dtype=tf.float64)
 		while cnt < 1000000:
 			obj, newp, _ = session.run([target, p, train], feed_dict={nm:GiveMatrix(i)})
 			#lbd = session.run(l)
