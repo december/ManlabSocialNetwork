@@ -232,7 +232,7 @@ fw.close()
 cnt = 0
 lastobj = 10000000000
 param = np.append(s, t)
-p = tf.Variable(param, name='p')
+p = tf.Variable(param, name='p', dtype=tf.float64)
 nm = tf.placeholder(tf.int32, name='nm', shape=(10, 86400))
 #nummarix = tf.constant(nummarix, dtype=tf.int32)
 #alpha = tf.Variable(alpha, dtype=tf.float64)
