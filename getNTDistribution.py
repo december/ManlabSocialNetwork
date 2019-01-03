@@ -111,7 +111,7 @@ for name in namelist:
 		number = int(temp[1]) + 1
 		for j in range(i+1, i+number):
 			info = simdata[j].split('\t')
-			nt = float(info[2]) - ts
+			nt = float(info[2])
 			if info[3] != '-1':
 				if sim_post.has_key(nt):
 					sim_post[nt] += 1
@@ -124,6 +124,8 @@ for name in namelist:
 					sim_rt[nt] = 1
 		i += number
 	fr.close()
+
+start = 0
 
 realsize = sorted(real_post.keys())
 realnum = list()
