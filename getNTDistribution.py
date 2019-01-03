@@ -99,7 +99,7 @@ cnt = 0
 for name in namelist:
 	if not name.endswith('.detail'):
 		continue
-	cnt += 1
+	cnt = 1
 	last_post = {}
 	last_retweet = {}
 	fr = open(position+name, 'r')
