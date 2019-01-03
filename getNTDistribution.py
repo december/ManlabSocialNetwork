@@ -125,8 +125,8 @@ for name in namelist:
 		i += number
 	fr.close()
 
-print sim_post
-print sim_rt
+#print sim_post
+#print sim_rt
 
 start = 0
 
@@ -163,6 +163,7 @@ simsum = sum(simnum)
 rs = np.array(realsize[start:])
 rn = np.array(realnum[start:])
 rs, rn = GetBin(3600, rs, rn)
+print rn
 ss = np.array(simsize[start:])
 sn = np.array(simnum[start:])
 ss, sn = GetBin(3600, ss, sn)
