@@ -75,7 +75,7 @@ while i < n:
 	for j in range(i+1, i+number):
 		info = realdata[j].split('\t')
 		nt = float(info[2]) - ts
-		if info[3] != '-1':
+		if info[3] == '-1':
 			if real_post.has_key(nt):
 				real_post[nt] += 1
 			else:
@@ -112,7 +112,7 @@ for name in namelist:
 		for j in range(i+1, i+number):
 			info = simdata[j].split('\t')
 			nt = float(info[2])
-			if info[3] != '-1':
+			if info[3] == '-1':
 				if sim_post.has_key(nt):
 					sim_post[nt] += 1
 				else:
@@ -158,10 +158,10 @@ simsum = sum(simnum)
 #rn = np.array(binry) * 1.0 / realsum
 
 rs = np.array(realsize[start:])
-rn = np.array(realcum[start:]) * 1.0 / realsum
-rs, rn = GetBin(120, rs, rn)
+rn = np.array(realnum[start:])
+rs, rn = GetBin(3600, rs, rn)
 ss = np.array(simsize[start:])
-sn = np.array(simcum[start:]) * 1.0 / simsum
+sn = np.array(simnum[start:])
 #plt.xlim(xmin=1000)
 #plt.xscale('log')
 plt.yscale('log')
@@ -171,9 +171,9 @@ plt.xticks(fontsize=14)
 plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
 #plt.set_xticks([0, 20000, 40000, 60000, 80000])
 plt.yticks(fontsize=14)
-plt.xlabel(u'Interevent time', fontsize=14)
-plt.ylabel(u'CDF', fontsize=14)
-plt.title('IET Distribution for Posting Roots', fontsize=20)
+plt.xlabel(u'Natural time', fontsize=14)
+plt.ylabel(u'Number of Messages', fontsize=14)
+plt.title('Messages per Hour for Posting', fontsize=20)
 plt.legend(loc='upper right', fontsize=20);
 if not single:
 	filename = 'all' 
@@ -210,10 +210,10 @@ simsum = sum(simnum)
 #rn = np.array(binry) * 1.0 / realsum
 
 rs = np.array(realsize[start:])
-rn = np.array(realcum[start:]) * 1.0 / realsum
-rs, rn = GetBin(120, rs, rn)
+rn = np.array(realnum[start:])
+rs, rn = GetBin(3600, rs, rn)
 ss = np.array(simsize[start:])
-sn = np.array(simcum[start:]) * 1.0 / simsum
+sn = np.array(simnum[start:])
 #plt.xlim(xmin=1000)
 #plt.xscale('log')
 plt.yscale('log')
@@ -221,11 +221,11 @@ plt.xticks(fontsize=14)
 plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
 #plt.set_xticks([0, 20000, 40000, 60000, 80000])
 plt.yticks(fontsize=14)
-plt.plot(rs, rn, 'ro', label='Real', linewidth=2.5)
+plt.plot(rs, rn, 'r', label='Real', linewidth=2.5)
 plt.plot(ss, sn, 'b', label='Our method', linewidth=2.5)
-plt.xlabel(u'Interevent time', fontsize=14)
-plt.ylabel(u'CDF', fontsize=14)
-plt.title('IET Distribution for Retweeting', fontsize=20)
+plt.xlabel(u'Natural time', fontsize=14)
+plt.ylabel(u'Number of Messages', fontsize=14)
+plt.title('Messages per Hour for Retweeting', fontsize=20)
 plt.legend(loc='upper right', fontsize=20);
 if not single:
 	filename = 'all' 
