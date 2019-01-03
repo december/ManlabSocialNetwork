@@ -81,7 +81,7 @@ while i < n:
 			else:
 				real_post[nt] = 1
 		else:
-			if real_rt[nt].has_key(nt):
+			if real_rt.has_key(nt):
 				real_rt[nt] += 1
 			else:
 				real_rt[nt] = 1
@@ -118,7 +118,7 @@ for name in namelist:
 				else:
 					sim_post[nt] = 1
 			else:
-				if sim_rt[nt].has_key(nt):
+				if sim_rt.has_key(nt):
 					sim_rt[nt] += 1
 				else:
 					sim_rt[nt] = 1
