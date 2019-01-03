@@ -87,9 +87,6 @@ while i < n:
 				real_rt[nt] = 1
 	i += number
 
-print real_post
-print real_rt
-
 if single:
 	namelist = os.listdir(prefix+str(filename)+'/')
 	position = prefix+str(filename)+'/'
@@ -127,6 +124,9 @@ for name in namelist:
 					sim_rt[nt] = 1
 		i += number
 	fr.close()
+
+print sim_post
+print sim_rt
 
 start = 0
 
