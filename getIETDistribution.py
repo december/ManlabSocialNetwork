@@ -116,10 +116,10 @@ if single:
 	namelist = os.listdir(prefix+str(filename)+'/')
 	position = prefix+str(filename)+'/'
 else:
-	namelist = os.listdir(prefix)
-	position = prefix
-	#namelist = os.listdir(prefix+'722911_twolevel_neighbor_cascades_simulation_10/')
-	#position = prefix+'722911_twolevel_neighbor_cascades_simulation_10/'	
+	#namelist = os.listdir(prefix)
+	#position = prefix
+	namelist = os.listdir(prefix+'722911_twolevel_neighbor_cascades_simulation_10/')
+	position = prefix+'722911_twolevel_neighbor_cascades_simulation_10/'	
 cnt = 0
 for name in namelist:
 	if not name.endswith('.detail'):
@@ -203,7 +203,7 @@ start = 0
 
 rs = np.array(realsize[start:])
 rn = np.array(realcum[start:]) * 1.0 / realsum
-rs, rn = GetBin(20000, rs, rn)
+rs, rn = GetBin(100, rs, rn)
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
