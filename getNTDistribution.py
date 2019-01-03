@@ -79,10 +79,10 @@ while i < n:
 		nt = float(info[2]) - ts - delta
 		if nt <= 0 or nt >= end:
 			continue
-		#if nt > 3 * 86400 and nt <= 6 * 86400:
-		#	continue
-		#if nt > 6 * 86400:
-		#	nt -= 3 * 86400		
+		if nt > 3 * 86400 and nt <= 6 * 86400:
+			continue
+		if nt > 6 * 86400:
+			nt -= 3 * 86400		
 		if info[3] == '-1':
 			if real_post.has_key(nt):
 				real_post[nt] += 1
@@ -122,10 +122,10 @@ for name in namelist:
 			nt = float(info[2]) + 28800 - delta
 			if nt <= 0 or nt >= end:
 				continue
-			#if nt > 3 * 86400 and nt <= 6 * 86400:
-			#	continue
-			#if nt > 6 * 86400:
-			#	nt -= 3 * 86400
+			if nt > 3 * 86400 and nt <= 6 * 86400:
+				continue
+			if nt > 6 * 86400:
+				nt -= 3 * 86400
 			if info[3] == '-1':
 				if sim_post.has_key(nt):
 					sim_post[nt] += 1
