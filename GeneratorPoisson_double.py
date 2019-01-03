@@ -79,7 +79,7 @@ def GetLog(r, p, u, t, tau, c, d): #root_tweet, parent_tweet, parent_user, paren
 		#p = np.random.rand()
 		realpi = pi[edgemap[u][f]]
 		if d > 1:
-			realpi = x[edgemap[u][f]] * k ** -(d - 1)
+			realpi *= x[edgemap[u][f]] * k ** -(d - 1)
 		thres = realpi * GetPhi(phi1, phi2, phi3, phi4, phi5, tau, f)
 		prob = np.random.rand()
 		#prob = normal_rand[nrpos]
@@ -208,7 +208,7 @@ for i in range(enum):
 	temp = xlist[i].split('\t')
 	x[i] = float(temp[2])
 fr.close()
-x += 1
+#x += 1
 
 print 'Finished reading..'
 prefix = '../../cascading_generation_model/simulation/'
