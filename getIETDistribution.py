@@ -207,7 +207,7 @@ rs, rn = GetBin(100, rs, rn)
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
-plt.xscale('log')
+#plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
