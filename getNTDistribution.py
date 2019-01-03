@@ -111,7 +111,7 @@ for name in namelist:
 		number = int(temp[1]) + 1
 		for j in range(i+1, i+number):
 			info = simdata[j].split('\t')
-			nt = float(info[2]) - 5000
+			nt = float(info[2]) + 18000
 			if info[3] == '-1':
 				if sim_post.has_key(nt):
 					sim_post[nt] += 1
