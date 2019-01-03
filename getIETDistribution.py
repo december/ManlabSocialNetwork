@@ -116,7 +116,7 @@ if single:
 	namelist = os.listdir(prefix+str(filename)+'/')
 	position = prefix+str(filename)+'/'
 else:
-	namelist = os.listdir(prefix)
+	namelist = os.listdir(prefix+'722911_twolevel_neighbor_cascades_simulation_10/')
 	position = prefix
 cnt = 0
 for name in namelist:
