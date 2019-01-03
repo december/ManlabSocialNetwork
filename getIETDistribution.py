@@ -116,8 +116,10 @@ if single:
 	namelist = os.listdir(prefix+str(filename)+'/')
 	position = prefix+str(filename)+'/'
 else:
-	namelist = os.listdir(prefix)
-	position = prefix
+	#namelist = os.listdir(prefix)
+	#position = prefix
+	namelist = os.listdir(prefix+'722911_twolevel_neighbor_cascades_simulation_10/')
+	position = prefix+'722911_twolevel_neighbor_cascades_simulation_10/'	
 cnt = 0
 for name in namelist:
 	if not name.endswith('.detail'):
@@ -201,12 +203,13 @@ start = 0
 
 rs = np.array(realsize[start:])
 rn = np.array(realcum[start:]) * 1.0 / realsum
+rs, rn = GetBin(20000, rs, rn)
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 plt.xscale('log')
 plt.yscale('log')
-plt.plot(rs, rn, 'r', label='Real')
+plt.plot(rs, rn, 'ro', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
 plt.xlabel(u'Response Time')
 plt.ylabel(u'Distribution')
@@ -312,7 +315,7 @@ plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
 plt.yticks(fontsize=14)
 plt.plot(rs, rn, 'ro', label='Real', linewidth=2.5)
 plt.plot(ss, sn, 'b', label='Our method', linewidth=2.5)
-plt.xlabel(u'IET for Retweet', fontsize=14)
+plt.xlabel(u'Interevent time', fontsize=14)
 plt.ylabel(u'CDF', fontsize=14)
 plt.title('IET Distribution for Retweeting', fontsize=20)
 plt.legend(loc='upper right', fontsize=20);
