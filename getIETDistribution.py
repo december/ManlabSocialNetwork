@@ -117,7 +117,7 @@ if single:
 	position = prefix+str(filename)+'/'
 else:
 	namelist = os.listdir(prefix+'722911_twolevel_neighbor_cascades_simulation_10/')
-	position = prefix
+	position = prefix+'722911_twolevel_neighbor_cascades_simulation_10/'
 cnt = 0
 for name in namelist:
 	if not name.endswith('.detail'):
