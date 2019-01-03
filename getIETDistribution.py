@@ -116,8 +116,8 @@ if single:
 	namelist = os.listdir(prefix+str(filename)+'/')
 	position = prefix+str(filename)+'/'
 else:
-	namelist = os.listdir(prefix+'722911_twolevel_neighbor_cascades_simulation_10/')
-	position = prefix+'722911_twolevel_neighbor_cascades_simulation_10/'
+	namelist = os.listdir(prefix)
+	position = prefix
 cnt = 0
 for name in namelist:
 	if not name.endswith('.detail'):
@@ -204,7 +204,7 @@ rn = np.array(realcum[start:]) * 1.0 / realsum
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
-#plt.xscale('log')
+plt.xscale('log')
 plt.yscale('log')
 plt.plot(rs, rn, 'r', label='Real')
 plt.plot(ss, sn, 'b', label='Sim')
