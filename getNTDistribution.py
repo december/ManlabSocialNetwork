@@ -69,12 +69,16 @@ for name in namelist:
 
 n = len(realdata)
 i = 0
+delta = 100800
+end = 702000
 while i < n:
 	temp = realdata[i].split('\t')
 	number = int(temp[1]) + 1
 	for j in range(i+1, i+number):
 		info = realdata[j].split('\t')
-		nt = float(info[2]) - ts
+		nt = float(info[2]) - ts - delta
+		if nt <= 0 or nt >= end:
+			continue
 		if info[3] == '-1':
 			if real_post.has_key(nt):
 				real_post[nt] += 1
@@ -112,6 +116,8 @@ for name in namelist:
 		for j in range(i+1, i+number):
 			info = simdata[j].split('\t')
 			nt = float(info[2]) + 25200
+			if nt <= 0 or nt >= end:
+				continue	
 			if info[3] == '-1':
 				if sim_post.has_key(nt):
 					sim_post[nt] += 1
