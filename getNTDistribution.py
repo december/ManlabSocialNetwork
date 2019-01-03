@@ -115,7 +115,7 @@ for name in namelist:
 		number = int(temp[1]) + 1
 		for j in range(i+1, i+number):
 			info = simdata[j].split('\t')
-			nt = float(info[2]) + 25200
+			nt = float(info[2]) + 28800
 			if nt <= 0 or nt >= end:
 				continue	
 			if info[3] == '-1':
