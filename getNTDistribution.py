@@ -79,10 +79,10 @@ while i < n:
 		nt = float(info[2]) - ts - delta
 		if nt <= 0 or nt >= end:
 			continue
-		if nt > 3 * 86400 and nt <= 6 * 86400:
-			continue
-		if nt > 6 * 86400:
-			nt -= 3 * 86400		
+		#if nt > 3 * 86400 and nt <= 6 * 86400:
+		#	continue
+		#if nt > 6 * 86400:
+		#	nt -= 3 * 86400		
 		if info[3] == '-1':
 			if real_post.has_key(nt):
 				real_post[nt] += 1
@@ -122,10 +122,10 @@ for name in namelist:
 			nt = float(info[2]) + 28800 - delta
 			if nt <= 0 or nt >= end:
 				continue
-			if nt > 3 * 86400 and nt <= 6 * 86400:
-				continue
-			if nt > 6 * 86400:
-				nt -= 3 * 86400
+			#if nt > 3 * 86400 and nt <= 6 * 86400:
+			#	continue
+			#if nt > 6 * 86400:
+			#	nt -= 3 * 86400
 			if info[3] == '-1':
 				if sim_post.has_key(nt):
 					sim_post[nt] += 1
@@ -191,8 +191,8 @@ plt.xticks(fontsize=14)
 #plt.set_xticks([0, 20000, 40000, 60000, 80000])
 plt.yticks(fontsize=14)
 plt.xlabel(u'Natural time', fontsize=14)
-plt.ylabel(u'Number of Messages', fontsize=14)
-plt.title('Messages per Hour for Posting', fontsize=20)
+plt.ylabel(u'Number of Roots', fontsize=14)
+plt.title('Roots in Every Three Hours', fontsize=20)
 #plt.legend(loc='upper right', fontsize=20);
 if not single:
 	filename = 'all' 
@@ -244,8 +244,8 @@ plt.yticks(fontsize=14)
 plt.plot(rs, rn, 'r', label='Real', linewidth=2.5)
 plt.plot(ss, sn, 'b', label='Our method', linewidth=2.5)
 plt.xlabel(u'Natural time', fontsize=14)
-plt.ylabel(u'Number of Messages', fontsize=14)
-plt.title('Messages per Hour for Retweeting', fontsize=20)
+plt.ylabel(u'Number of Retweets', fontsize=14)
+plt.title('Retweets in Every Three Hours', fontsize=20)
 #plt.legend(loc='upper right', fontsize=20);
 if not single:
 	filename = 'all' 
