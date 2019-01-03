@@ -209,14 +209,16 @@ sn = np.array(simcum[start:]) * 1.0 / simsum
 #plt.xlim(xmin=1000)
 plt.xscale('log')
 plt.yscale('log')
-plt.plot(rs, rn, 'ro', label='Real')
-plt.plot(ss, sn, 'b', label='Sim')
-plt.xlabel(u'Response Time')
-plt.ylabel(u'Distribution')
-plt.legend(loc='upper right');
+plt.plot(rs, rn, 'ro', label='Real', linewidth=2.5)
+plt.plot(ss, sn, 'b', label='Our method', linewidth=2.5)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.xlabel(u'Response Time', fontsize=14)
+plt.ylabel(u'Distribution', fontsize=14)
+plt.legend(loc='lower left', fontsize=20);
 if not single:
 	filename = 'all' 
-plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_RT.png')
+plt.savefig(prefix+'DepthDistribution/'+str(filename)+'_RT.eps', dpi=1200)
 plt.cla()
 
 realsize = sorted(real_post.keys())
