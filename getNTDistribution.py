@@ -33,7 +33,7 @@ def GetBin(a, x, y):
 				break
 		if tempy > 0:
 			newx.append(tempx)
-			newy.append(tempy / tempz)
+			newy.append(tempy)
 		binnum += 1
 		tempy = 0
 		tempz = 0
