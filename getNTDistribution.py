@@ -77,8 +77,8 @@ while i < n:
 	for j in range(i+1, i+number):
 		info = realdata[j].split('\t')
 		nt = float(info[2]) - ts - delta
-		if nt <= 0 or nt >= end:
-			continue
+		#if nt <= 0 or nt >= end:
+		#	continue
 		if info[3] == '-1':
 			if real_post.has_key(nt):
 				real_post[nt] += 1
@@ -116,8 +116,8 @@ for name in namelist:
 		for j in range(i+1, i+number):
 			info = simdata[j].split('\t')
 			nt = float(info[2]) + 28800
-			if nt <= 0 or nt >= end:
-				continue	
+			#if nt <= 0 or nt >= end:
+			#	continue	
 			if info[3] == '-1':
 				if sim_post.has_key(nt):
 					sim_post[nt] += 1
