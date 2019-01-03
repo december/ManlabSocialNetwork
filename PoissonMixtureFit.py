@@ -221,12 +221,13 @@ print lastobj
 scaler = list()
 timecut = list()
 origins = CalcInitial(t)
-fw = open(prefix+'lambda_Origin'+suffix, 'w')
+fw = open(prefix+'scaler_Origin'+suffix, 'w')
 for i in range(users):
+	average = origins[i][0] * (0.25 + 1.0 / 24) + origins[i][1] * 0.125 + origins[i][2] * 0.1875 + origins[i][3] * 0.1875 + origins[i][4] * (23.0 / 24 - 0.75)
 	fw.write(uid[i])
 	for j in range(5):
 		fw.write('\t')
-		fw.write(str(origins[i][j]))
+		fw.write(str(origins[i][j] / average))
 	fw.write('\n')
 fw.close()
 print 'Begin to train.'
