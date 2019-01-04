@@ -411,6 +411,8 @@ rn = np.array(realcum[start:]) * 1.0 / realsum
 rs, rn = GetBin(20000, rs, rn)
 ss = np.array(simsize[start:])
 sn = np.array(simcum[start:]) * 1.0 / simsum
+bs = np.array(basesize[start:])
+bn = np.array(basecum[start:]) * 1.0 / basesum
 #plt.xlim(xmin=1000)
 #plt.xscale('log')
 plt.yscale('log')
