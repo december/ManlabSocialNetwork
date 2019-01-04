@@ -191,7 +191,7 @@ for name in namelist:
 	last_retweet = {}
 	fr = open(position+name, 'r')
 	basedata = fr.readlines()
-	n = len(simdata)
+	n = len(basedata)
 	i = 0
 	while i < n:
 		temp = basedata[i].split('\t')
